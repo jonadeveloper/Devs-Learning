@@ -7,4 +7,5 @@
   <li>Una vez que el usuario se registre debe recibir un email de confirmación</li>
   <li>En caso de estar registrado debe haber un link de login que facilite el acceso al usuario</li>
   <li>Se debe implementar la autenticación de terceros para que el usuario tenga la opción de registrarse mediante ella ahorrando tiempo.</li>
+  <li>Se sugiere utilizar la autenticación de GOOGLE y/o GITHUB 
 </ul>
