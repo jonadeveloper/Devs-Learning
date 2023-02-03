@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+client/devs-learning/package-lock.json
 
 # testing
 /coverage
