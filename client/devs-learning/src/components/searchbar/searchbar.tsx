@@ -1,9 +1,14 @@
 import React, { useState, ChangeEvent } from "react";
+import SearchIcon from "@mui/icons-material/Search";
+import IconButton from "@mui/material/IconButton";
+import TextField from "@mui/material/TextField";
 
 export default function SearchBar() {
   const [search, setSearch] = useState("");
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     setSearch(event.target.value);
   };
 
@@ -17,14 +22,18 @@ export default function SearchBar() {
     <div className="searchBar">
       searchbar
       <form onSubmit={handleSubmit}>
-        <input
+        <TextField
+          id="outlined-basic"
+          label="Search..."
+          variant="outlined"
           type="text"
-          placeholder="Search..."
           value={search}
           onChange={(event) => handleChange(event)}
         />
 
-        <input type="submit" />
+        <IconButton type="submit">
+          <SearchIcon />
+        </IconButton>
       </form>
     </div>
   );
