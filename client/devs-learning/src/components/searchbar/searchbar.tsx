@@ -2,7 +2,8 @@ import React, { useState, ChangeEvent, useRef } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
-import Collapse from "@mui/material/Collapse";
+import Zoom from "@mui/material/Zoom";
+// import Collapse from "@mui/material/Collapse";
 
 import { Box } from "@mui/system";
 
@@ -31,8 +32,9 @@ export default function SearchBar() {
   return (
     <div className="searchBar">
       <form onSubmit={handleSubmit}>
-        <Box sx={{ display: "flex" }}>
-          <Collapse orientation="horizontal" in={checked}>
+        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+          {/* <Collapse orientation="horizontal" in={checked}></Collapse> */}
+          <Zoom in={checked}>
             <TextField
               id="outlined-basic"
               label="Search..."
@@ -41,7 +43,7 @@ export default function SearchBar() {
               value={search}
               onChange={(event) => handleChange(event)}
             />
-          </Collapse>
+          </Zoom>
 
           <IconButton type="submit" onClick={checkClick}>
             <SearchIcon sx={{ display: "flex" }} />
