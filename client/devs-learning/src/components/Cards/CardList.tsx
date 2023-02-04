@@ -1,14 +1,15 @@
-import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Chip, Divider, Grid, Pagination, Typography } from '@mui/material'
+import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
+import Pagination from '@mui/material/Pagination'
 import React, { useState } from 'react'
+import { CardComponent, Course } from './Card'
 
-export const Test = () => {
-    const [page, setPage] = useState(0)
+export const CardList = () => {
+    const [page, setPage] = useState(1)
     const onPagination = (event: React.ChangeEvent<unknown>, page: number) => {
-        console.log(page);
-
         setPage(page)
     }
-    const cards = [
+    const cards: Course[] = [
         {
             "categoria": 1,
             "nombre": "PosgreSQL",
@@ -142,64 +143,18 @@ export const Test = () => {
             gap: 4,
             p: 5
         }}>
-            {cards.length}
             <Grid container spacing={4}>
                 {
                     cards.map((card, index) => {
-                        if ((page) - 1 * 6 <= index &&
-                            index < page * 6) {
+                        if ((page - 1) * 8 <= index && page * 8 > index) {
                             return (
-                                <Grid key={index} item xl={3} lg={4} sx={{ display: 'flex', justifyContent: 'center' }} >
-                                    <Card sx={{ maxWidth: 345, minHeight: 500, borderRadius: 2, display: 'flex' }}>
-                                        <CardActionArea sx={{ display: 'grid', gridTemplateRows: 'auto 1fr' }}>
-
-                                            {/* Course Name */}
-                                            <CardMedia
-                                                component="img"
-                                                height="200"
-                                                alt="Course Name"
-                                                image={card.image}
-                                            />
-                                            <CardContent sx={{ justifySelf: 'flex-start' }}>
-                                                <Box>
-                                                    {/* Course Title */}
-                                                    <Typography gutterBottom variant="h3" component="div" sx={{ fontSize: 30, fontWeight: 700 }}>
-                                                        {card.nombre} {index}
-                                                    </Typography>
-                                                    {/* Course Price */}
-                                                    <Typography gutterBottom variant="h4" component="div" sx={{ fontSize: 25, fontWeight: 700 }}>
-                                                        ${card.precio}
-                                                    </Typography>
-                                                    {/* Category */}
-                                                    <Box my={2}>
-                                                        <Chip label="Development" sx={{ backgroundColor: "greenyellow" }} />
-                                                    </Box>
-                                                    {/* Course sumary */}
-                                                    <Typography variant="body2" color="text.secondary">
-                                                        {card.summary}
-                                                    </Typography>
-                                                </Box>
-                                                <Divider sx={{ my: 2 }} />
-                                                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                    <Typography sx={{ display: 'flex', fontWeight: "600", gap: 1 }}>Duration: <span style={{ color: "grey" }}> {card.duracion} hours</span></Typography>
-                                                    <Typography sx={{ display: 'flex', fontWeight: "600", gap: 1 }}>Difficulty: <span style={{ color: "grey" }}> {card.dificultad}</span></Typography>
-                                                </Box>
-
-                                            </CardContent>
-                                            {/* <Button size="small" color="primary">
-                            Share
-                        </Button> */}
-                                        </CardActionArea>
-                                    </Card>
-                                </Grid>
+                                <CardComponent card={card} index={index} />
                             )
                         }
-
                     })
                 }
             </Grid >
             <Pagination count={cards.length / 6} variant="outlined" onChange={onPagination} />
         </Box>
-
     )
 }
