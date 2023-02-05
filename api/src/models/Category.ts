@@ -9,10 +9,10 @@ module.exports = (sequelize: any) => {
             primaryKey: true
         },
         name: {
-            type: DataTypes.ENUM("Web Development","Front End","Back End",
-            "Digital marketing","Community Manager","Copywriting","Funnels",
+            type: DataTypes.ENUM("Web Development","Front End","Back End","Data Base",
+            "Digital marketing","social networks","advertising","Copywriting","Seo",
             "Web Design","Graphic Design","UX Design","UI Design",
-            "Data Science","Data Engineer","Data Analytics","machine Learning"),
+            "Data Science","Big Data","Data Analytics","machine Learning"),
             allowNull: false
         }
     })}
