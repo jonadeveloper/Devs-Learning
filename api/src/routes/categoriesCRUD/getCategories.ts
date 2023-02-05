@@ -1,6 +1,13 @@
-export async function getCategories(_req: any, res: any){
+const {Category} = require('../../db');
+
+export async function getCategories(req: any, res: any){
     try {
-        return res.status(200).send("Get Categorie");
+        const { name } = req.query;
+        let category = name ? await Category.findAll({
+            where: {"name": name}
+        }) :
+        await Category.findAll();
+        return res.status(200).send(category);
     } catch (err) {
         return res.status(404).send(err);
     }

@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
             primaryKey: true
         },
         name: {
-            type: sequelize_1.DataTypes.ENUM("Web development", "digital marketing", "ux/ui design", "data science"),
+            type: sequelize_1.DataTypes.ENUM("web-development", "digital-marketing", "ux-ui-design", "data-science"),
             allowNull: false
         }
     });

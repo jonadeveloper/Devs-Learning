@@ -10,10 +10,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCourses = void 0;
-function getCourses(_req, res) {
+const { Course } = require('../../db');
+function getCourses(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            return res.status(200).send("Get Course");
+            const { name } = req.query;
+            let course = name ? yield Course.findAll({
+                where: { "name": name }
+            }) :
+                yield Course.findAll();
+            return res.status(200).send(course);
         }
         catch (err) {
             return res.status(404).send(err);

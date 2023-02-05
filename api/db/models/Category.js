@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
             allowNull: false
         },
         name: {
-            type: DataTypes.ENUM("Web development","digital marketing","ux/ui design","data science"),
+            type: DataTypes.ENUM("web development","digital marketing","ui/ux design","data science"),
             allowNull: false
         }
     })}
