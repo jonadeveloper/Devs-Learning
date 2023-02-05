@@ -9,5 +9,5 @@ const router = (0, express_1.Router)();
 router.get("/", getCategories_1.getCategories);
 router.post("/", postCategorie_1.postCategorie);
 router.put("/", putCategorie_1.putCategorie);
-router.delete("/", deleteCategorie_1.deleteCategorie);
+router.delete("/:name", deleteCategorie_1.deleteCategorie);
 module.exports = router;

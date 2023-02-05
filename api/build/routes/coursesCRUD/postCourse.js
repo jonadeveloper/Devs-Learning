@@ -10,10 +10,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postCourse = void 0;
-function postCourse(_req, res) {
+const { Course } = require('../../db');
+function postCourse(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            return res.status(200).send("Post Course");
+            const { name, level, description, price } = req.body;
+            let courseExist = yield Course.findOne({
+                where: { "name": name }
+            });
+            if (courseExist)
+                return res.status(404).send("El curso ya existe");
+            yield Course.create({ name, level, description, price });
+            return res.status(200).send(`The Course ${name} has been created`);
         }
         catch (err) {
             return res.status(404).send(err);
