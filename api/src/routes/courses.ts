@@ -8,6 +8,6 @@ const router = Router();
 router.get("/", getCourses);
 router.post("/", postCourse);
 router.put("/", putCourse);
-router.delete("/",deleteCourse);
+router.delete("/:name",deleteCourse);
 
 module.exports = router;

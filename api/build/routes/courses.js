@@ -9,5 +9,5 @@ const router = (0, express_1.Router)();
 router.get("/", getCourses_1.getCourses);
 router.post("/", postCourse_1.postCourse);
 router.put("/", putCourse_1.putCourse);
-router.delete("/", deleteCourse_1.deleteCourse);
+router.delete("/:name", deleteCourse_1.deleteCourse);
 module.exports = router;
