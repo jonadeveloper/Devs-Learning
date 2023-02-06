@@ -13,7 +13,7 @@ exports.putCategorie = void 0;
 function putCategorie(_req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            return res.status(200).send("Pull Categorie");
+            return res.status(200).send("Put Category");
         }
         catch (err) {
             return res.status(404).send(err);

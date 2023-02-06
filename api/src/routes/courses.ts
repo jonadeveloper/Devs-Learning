@@ -5,7 +5,7 @@ import {deleteCourse} from './coursesCRUD/deleteCourse';
 import { Router } from 'express';
 const router = Router();
 
-router.get("/", getCourses);
+router.get("/:name", getCourses);
 router.post("/", postCourse);
 router.put("/", putCourse);
 router.delete("/:name",deleteCourse);
