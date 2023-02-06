@@ -10,10 +10,27 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postCategorie = void 0;
-function postCategorie(_req, res) {
+const { Category, Course } = require('../../db');
+function postCategorie(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            return res.status(200).send("Post Categorie");
+            const { name, courses } = req.body;
+            let categoryExist = yield Category.findOne({
+                where: { "name": name }
+            });
+            if (categoryExist)
+                return res.status(404).send("La categoria ya existe");
+            let coursesArr = courses.map((el) => {
+                return el.split(" ").join("-").toLowerCase();
+            });
+            let categoryCreated = yield Category.create({ name });
+            let coursesDB = yield Course.findAll({
+                where: { "name": coursesArr }
+            });
+            coursesDB.forEach((el) => {
+                categoryCreated.addCourse(el);
+            });
+            return res.status(200).send(`The Category ${name} has been created`);
         }
         catch (err) {
             return res.status(404).send(err);
