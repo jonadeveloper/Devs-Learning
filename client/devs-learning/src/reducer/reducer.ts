@@ -1,3 +1,5 @@
+import { AnyAction } from "redux";
+
 const initialState = {
     courses: [],
     categories: [],
@@ -5,13 +7,8 @@ const initialState = {
     currentPage: 1
 };
 
-interface action {
-    type: string
-    payload: any
-}
 
-
-const theReducer = (state = initialState, action: action) => {
+const theReducer = (state = initialState, action: AnyAction) => {
     
     switch(action.type) {
 
