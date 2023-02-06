@@ -10,10 +10,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCategories = void 0;
-function getCategories(_req, res) {
+const { Category, Course } = require('../../db');
+function getCategories(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            return res.status(200).send("Get Categorie");
+            let { name } = req.params;
+            name = name.split(" ").join("-").toLowerCase();
+            let category = yield Category.findAll({
+                where: { "name": name },
+                include: {
+                    model: Course,
+                    attributes: ['name'],
+                    through: {
+                        attributes: []
+                    }
+                }
+            });
+            return res.status(200).send(category);
         }
         catch (err) {
             return res.status(404).send(err);

@@ -10,10 +10,39 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.putCourse = void 0;
-function putCourse(_req, res) {
+const { Course, Category } = require('../../db');
+function putCourse(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            return res.status(200).send("Pull Course");
+            let { name, level, description, price, category } = req.body;
+            let nameDB = name.split(" ").join("-").toLowerCase();
+            yield Course.update({
+                "level": level,
+                "description": description,
+                "price": price,
+            }, {
+                where: {
+                    "name": nameDB
+                }
+            });
+            let course = yield Course.findOne({
+                where: { "name": nameDB }
+            });
+            let categoryArr = category.map((el) => {
+                return el.split(" ").join("-").toLowerCase();
+            });
+            categoryArr.forEach((cat) => {
+                Category.findOrCreate({
+                    where: { "name": cat }
+                });
+            });
+            let categoryDB = yield Category.findAll({
+                where: { "name": categoryArr }
+            });
+            categoryDB.forEach((el) => {
+                course.addCategory(el);
+            });
+            return res.status(200).send(course);
         }
         catch (err) {
             return res.status(404).send(err);

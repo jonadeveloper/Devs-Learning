@@ -10,10 +10,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteCourse = void 0;
-function deleteCourse(_req, res) {
+const { Course } = require('../../db');
+function deleteCourse(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            return res.status(200).send("Delete Course");
+            const { name } = req.params;
+            Course.destroy({
+                where: { "name": name }
+            });
+            return res.status(200).send(`The course ${name} has been deleted`);
         }
         catch (err) {
             return res.status(404).send(err);
