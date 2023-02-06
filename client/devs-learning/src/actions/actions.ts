@@ -29,5 +29,5 @@ export const GetCourses = (cards: Course[]) => {
   }
 
 export const GetCourseDetail = (data: Course) => {
-    return {type: 'GET_COURSE_DETAIL', payload: cards}
+    return {type: 'GET_COURSE_DETAIL', payload: data}
 }
