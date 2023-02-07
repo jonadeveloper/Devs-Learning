@@ -6,7 +6,7 @@
             "level": "beginner",
             "description":"Master the native markup language of the internet and enter the world of the web.",
             "price":"2500",
-            "category": ["Web Development","Front End"]
+            "category": ["web-development","front-end"]
         },
         {
             "id": 2,
@@ -14,7 +14,7 @@
             "level": "intermediate",
             "description":"Learn to create web interfaces with the two languages that constitute the essence of the network.",
             "price":"4500",
-            "category": ["Web Development","Front End"]
+            "category": ["web-development","front-end"]
         },
         {
             "id": 3,
@@ -22,7 +22,7 @@
             "level": "advanced",
             "description":"Master the last level of layout incorporating effects, animations and styles.",
             "price":"7900",
-            "category": ["Web Development","Front End"]
+            "category": ["web-development","front-end"]
         },
         {
             "id": 4,
@@ -30,7 +30,7 @@
             "level": "intermediate",
             "description":"Learn to develop dynamic websites and use all the benefits of the framework.",
             "price":"4900",
-            "category": ["Web Development","Front End"]
+            "category": ["web-development","front-end"]
         },
         {
             "id": 5,
@@ -38,7 +38,7 @@
             "level": "beginner",
             "description":"Master the fundamentals of programming knowing the scope of this language.",
             "price":"2900",
-            "category": ["Web Development","Front End"]
+            "category": ["web-development","front-end"]
         },
         {
             "id": 6,
@@ -46,7 +46,7 @@
             "level": "intermediate",
             "description":"Master client-side development and become a front end developer.",
             "price":"4500",
-            "category": ["Web Development","Front End"]
+            "category": ["web-development","front-end"]
         },
         {
             "id": 7,
@@ -54,7 +54,7 @@
             "level": "advanced",
             "description":"Learn how to develop progressive web apps with javascript.",
             "price":"2900",
-            "category": ["Web Development","Front End"]
+            "category": ["web-development","front-end"]
         },
         {
             "id": 8,
@@ -62,7 +62,7 @@
             "level": "beginner",
             "description":"Master the fundamentals for data management and manipulation.",
             "price":"2700",
-            "category": ["Web Development","Data Base"]
+            "category": ["web-development","data-base"]
         },
         {
             "id": 9,
@@ -70,7 +70,7 @@
             "level": "intermediate",
             "description":"Develop and implement large databases based on real cases.",
             "price":"2900",
-            "category": ["Web Development","Data Base"]
+            "category": ["web-development","data-base"]
         },
         {
             "id": 10,
@@ -78,7 +78,7 @@
             "level": "advanced",
             "description":"It uses the latest stable technology from Microsoft to design and use data objects.",
             "price":"9500",
-            "category": ["Web Development","Data Base"]
+            "category": ["web-development","data-base"]
         },
         {
             "id": 11,
@@ -86,7 +86,7 @@
             "level": "intermediate",
             "description":"Enter the world of Node.js, the language that offers the highest processing speed to your applications.",
             "price":"3900",
-            "category": ["Web Development","Back End"]
+            "category": ["web-development","back-end"]
         },
         {
             "id": 12,
@@ -94,7 +94,7 @@
             "level": "advanced",
             "description":"Master one of the tools most in demand by the labor market for the development of web interfaces.",
             "price":"5700",
-            "category": ["Web Development","Front End"]
+            "category": ["web-development","front-end"]
         },
         {
             "id": 13,
@@ -102,7 +102,7 @@
             "level": "beginner",
             "description":"Master the latest tools to present data professionally.",
             "price":"2750",
-            "category": ["Data Science","Data Analytics"]
+            "category": ["data-science","data-analytics"]
         },
         {
             "id": 14,
@@ -110,7 +110,7 @@
             "level": "intermediate",
             "description":"Master the fundamentals to create data analytics solutions in Azure.",
             "price":"6900",
-            "category": ["Data Science","Data Analytics"]
+            "category": ["data-science","data-analytics"]
         },
         {
             "id": 15,
@@ -118,7 +118,7 @@
             "level": "advanced",
             "description":"Master the language with the greatest projection in the world of data.",
             "price":"8900",
-            "category": ["Data Science","Data Analytics"]
+            "category": ["data-science","data-analytics"]
         },
         {
             "id": 16,
@@ -126,7 +126,7 @@
             "level": "advanced",
             "description":"Master the world of machine learning and manage data professionally.",
             "price":"9500",
-            "category": ["Data Science","machine Learning"]
+            "category": ["data-science","machine-learning"]
         },
         {
             "id": 17,
@@ -134,7 +134,7 @@
             "level": "advanced",
             "description":"Begin your journey in the R language and become a data scientist.",
             "price":"10300",
-            "category": ["Data Science","Data Analytics"]
+            "category": ["data-science","data-analytics"]
         },
         {
             "id": 18,
@@ -142,14 +142,14 @@
             "level": "intermediate",
             "description":"Master the fundamentals to create data analytics solutions in Azure.",
             "price":"6900",
-            "category": ["Data Science","Data Analytics"]
+            "category": ["data-science","data-analytics"]
         },{
             "id": 19,
             "name":"Big data con hadoop y spark",
             "level": "advanced",
             "description":"Master the latest open source tools for big data management.",
             "price":"9300",
-            "category": ["Data Science","Big Data"]
+            "category": ["data-science","big-data"]
         },
         {
             "id": 20,
@@ -157,7 +157,7 @@
             "level": "beginner",
             "description":"Know the main concepts and methods used in user experience in web design.",
             "price":"4900",
-            "category": ["Web Design","UX Design"]
+            "category": ["web-design","ux-design"]
         },
         {
             "id": 21,
@@ -165,7 +165,7 @@
             "level": "intermediate",
             "description":"Know the power of words in digital products.",
             "price":"6900",
-            "category": ["Web Design","UX Design"]
+            "category": ["web-design","ux-design"]
         },
         {
             "id": 22,
@@ -173,7 +173,7 @@
             "level": "intermediate",
             "description":"Master an approach to user research.",
             "price":"8700",
-            "category": ["Web Design","UX Design"]
+            "category": ["web-design","ux-design"]
         },
         {
             "id": 23,
@@ -181,7 +181,7 @@
             "level": "intermediate",
             "description":"This course provides an approach focused on the correct process of creating a user interface.",
             "price":"7900",
-            "category": ["Web Design","UI Design"]
+            "category": ["web-design","ui-design"]
         },
         {
             "id": 24,
@@ -189,7 +189,7 @@
             "level": "intermediate",
             "description":"Create quality content and learn how to viralize it on social networks.",
             "price":"9900",
-            "category": ["Digital marketing","social networks"]
+            "category": ["digital-marketing","social-networks"]
         },
         {
             "id": 25,
@@ -197,7 +197,7 @@
             "level": "intermediate",
             "description":"Master the techniques to advertise efficiently on the networks.",
             "price":"6400",
-            "category": ["Digital marketing","social networks"]
+            "category": ["digital-marketing","social-networks"]
         },
         {
             "id": 26,
@@ -205,7 +205,7 @@
             "level": "advanced",
             "description":"Certificate as an expert in campaign management with google ads.",
             "price":"10900",
-            "category": ["Digital marketing","advertising"]
+            "category": ["digital-marketing","advertising"]
         },
         {
             "id": 27,
@@ -213,7 +213,7 @@
             "level": "intermediate",
             "description":"I discovered persuasive writing formulas and techniques to sell more on your website, social networks and ads.",
             "price":"7900",
-            "category": ["Digital marketing","Copywriting"]
+            "category": ["digital-marketing","copywriting"]
         },
         {
             "id": 28,
@@ -221,7 +221,7 @@
             "level": "advanced",
             "description":"Learn an email marketing strategy to retain customers.",
             "price":"6300",
-            "category": ["Digital marketing","advertising"]
+            "category": ["digital-marketing","advertising"]
         },
         {
             "id": 29,
@@ -229,7 +229,7 @@
             "level": "beginner",
             "description":"Learn to master the main concepts of digital marketing.",
             "price":"3900",
-            "category": ["Digital marketing","social networks"]
+            "category": ["digital-marketing","social-networks"]
         },
         {
             "id": 30,
@@ -237,7 +237,7 @@
             "level": "advanced",
             "description":"Master the techniques to position your site in google professionally. Work with algorithms and search engines.",
             "price":"7900",
-            "category": ["Digital marketing","Search Engine ptimization","Seo"]
+            "category": ["digital-marketing","seo"]
         }
     ]
 }
