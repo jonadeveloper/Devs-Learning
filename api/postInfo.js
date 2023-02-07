@@ -9,7 +9,7 @@ module.exports.postInfo = async function (course) {
         category: course.category
     };
     await axios.post("http://localhost:3001/courses", courseDB).then(function (response) {
-        console.log(response);
+        // console.log(response);
     }).catch(function (error) {
         console.log(error);
     });
