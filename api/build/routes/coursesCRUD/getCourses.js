@@ -14,19 +14,26 @@ const { Course, Category } = require('../../db');
 function getCourses(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            let { name } = req.params;
-            name = name.split(" ").join("-").toLowerCase();
-            let course = yield Course.findAll({
-                where: { "name": name },
-                include: {
-                    model: Category,
-                    attributes: ['name'],
-                    through: {
-                        attributes: []
+            let { name } = req.query;
+            console.log(name);
+            if (name) {
+                name = name.split(" ").join("-").toLowerCase();
+                let course = yield Course.findAll({
+                    where: { "name": name },
+                    include: {
+                        model: Category,
+                        attributes: ['name'],
+                        through: {
+                            attributes: []
+                        }
                     }
-                }
-            });
-            return res.status(200).send(course);
+                });
+                return res.status(200).send(course);
+            }
+            else {
+                let course = yield Course.findAll({});
+                return res.status(200).send(course);
+            }
         }
         catch (err) {
             return res.status(404).send(err);
