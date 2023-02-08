@@ -13,10 +13,10 @@ import {
 import { AccountCircle, Email, Lock, Person } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { CreateUserInterface } from "../../interfaces/CreateUserInterface";
+// import { CreateUserInterface } from "../../interfaces/CreateUserInterface";
 
 export default function Register() {
-  const initialState: CreateUserInterface = {
+  const initialState = {
     fullname: "",
     username: "",
     password: "",
@@ -28,7 +28,7 @@ export default function Register() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [input, setInput] = useState<CreateUserInterface>(initialState);
+  const [input, setInput] = useState(initialState);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput({
@@ -116,7 +116,7 @@ export default function Register() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center"
-        
+
       }}
     >
       <Grid
@@ -131,7 +131,7 @@ export default function Register() {
           height: "70vh",
           maxHeight: "100%",
           backgroundColor: "white",
-          borderRadius:'20px'
+          borderRadius: '20px'
         }}
       >
         <Container
@@ -147,7 +147,7 @@ export default function Register() {
           container
           justifyContent="center"
           alignItems="center"
-          sx={{ height: "100%", width: "100%", backgroundColor:'white'}}
+          sx={{ height: "100%", width: "100%", backgroundColor: 'white' }}
         >
           <Typography variant="h3">Create Account</Typography>
           <Box

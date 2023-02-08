@@ -19,8 +19,15 @@ export interface Course {
     idProfesor: number
     dificultad: string
 }
+export interface CoursoBack {
+    description: string
+    id: string
+    level: string
+    name: string
+    price: string
+}
 interface Props {
-    card: Course
+    card: CoursoBack
     index: number
 }
 
@@ -35,17 +42,17 @@ export const CardComponent = ({ card, index }: Props) => {
                         component="img"
                         height="200"
                         alt="Course Name"
-                        image={card.image}
+                    // image={card.image}
                     />
                     <CardContent sx={{ justifySelf: 'flex-start' }}>
                         <Box>
                             {/* Course Title */}
                             <Typography gutterBottom variant="h3" component="div" sx={{ fontSize: 30, fontWeight: 700 }}>
-                                {card.nombre} {index}
+                                {card.name} {index}
                             </Typography>
                             {/* Course Price */}
                             <Typography gutterBottom variant="h4" component="div" sx={{ fontSize: 25, fontWeight: 700 }}>
-                                ${card.precio}
+                                ${card.price}
                             </Typography>
                             {/* Category */}
                             <Box my={2}>
@@ -53,13 +60,15 @@ export const CardComponent = ({ card, index }: Props) => {
                             </Box>
                             {/* Course sumary */}
                             <Typography variant="body2" color="text.secondary">
-                                {card.summary}
+                                {card.description}
                             </Typography>
                         </Box>
                         <Divider sx={{ my: 2 }} />
                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <Typography sx={{ display: 'flex', fontWeight: "600", gap: 1 }}>Duration: <span style={{ color: "grey" }}> {card.duracion} hours</span></Typography>
-                            <Typography sx={{ display: 'flex', fontWeight: "600", gap: 1 }}>Difficulty: <span style={{ color: "grey" }}> {card.dificultad}</span></Typography>
+                            {/* <Typography sx={{ display: 'flex', fontWeight: "600", gap: 1 }}>Duration: <span style={{ color: "grey" }}> {card.duracion} hours</span></Typography> */}
+                            <Typography sx={{ display: 'flex', fontWeight: "600", gap: 1 }}>Duration: <span style={{ color: "grey" }}> 1 hours</span></Typography>
+
+                            <Typography sx={{ display: 'flex', fontWeight: "600", gap: 1 }}>Difficulty: <span style={{ color: "grey" }}> {card.level}</span></Typography>
                         </Box>
 
                     </CardContent>
