@@ -12,11 +12,27 @@ module.exports = (sequelize: any) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        img:{
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         level: {
             type: DataTypes.ENUM("beginner","intermediate","advanced"),
             allowNull: false
         },
         description: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        descriptionComplete: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        duration: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        instructor:{
             type: DataTypes.STRING,
             allowNull: false
         },
