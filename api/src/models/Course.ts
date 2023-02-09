@@ -12,12 +12,12 @@ module.exports = (sequelize: any) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        img:{
+        img: {
             type: DataTypes.STRING,
             allowNull: false
         },
         level: {
-            type: DataTypes.ENUM("beginner","intermediate","advanced"),
+            type: DataTypes.ENUM("beginner", "intermediate", "advanced"),
             allowNull: false
         },
         description: {
@@ -25,14 +25,14 @@ module.exports = (sequelize: any) => {
             allowNull: false
         },
         descriptionComplete: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false
         },
         duration: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        instructor:{
+        instructor: {
             type: DataTypes.STRING,
             allowNull: false
         },
@@ -40,4 +40,5 @@ module.exports = (sequelize: any) => {
             type: DataTypes.STRING,
             allowNull: false
         }
-    })}
+    })
+}

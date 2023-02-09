@@ -1,14 +1,24 @@
-const {Course, Category} = require('../../db');
+const { Course, Category } = require('../../db');
 
-export async function postCourse (req: any, res: any) {
+export async function postCourse(req: any, res: any) {
     try {
-        const {name, level, description, price, category} = req.body;
+        const {
+            name,
+            img,
+            level,
+            description,
+            descriptionComplete,
+            duration,
+            instructor,
+            price,
+            category
+        } = req.body;
         let nameDB = name.split(" ").join("-").toLowerCase();
         let courseExist = await Course.findOne({
-            where: {"name": nameDB}
+            where: { "name": nameDB }
         });
         if (courseExist) return res.status(404).send("El curso ya existe");
-        let categoriesArr = category.map((el: string)=>{
+        let categoriesArr = category.map((el: string) => {
             return el.split(" ").join("-").toLowerCase();
         });
         categoriesArr.forEach((cat: string) => {
@@ -16,7 +26,16 @@ export async function postCourse (req: any, res: any) {
                 where: { "name": cat }
             })
         });
-        let courseCreated = await Course.create({name: nameDB, level, description, price});
+        let courseCreated = await Course.create({
+            name: nameDB,
+            img,
+            level,
+            description,
+            descriptionComplete,
+            duration,
+            instructor,
+            price
+        });
         let categoriesDB = await Category.findAll({
             where: { "name": categoriesArr }
         });
