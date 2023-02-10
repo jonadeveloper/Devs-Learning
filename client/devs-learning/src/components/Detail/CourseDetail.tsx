@@ -63,7 +63,7 @@ const CourseDetail: React.FC = () => {
     }
 
     const handleClick = () => {
-        console.log('Redireccionar al filtro por categoria')
+        console.log(`Redireccionar al filtro por categoria ${CursoActual.categoria}`)
     }
   return(
 <div>
@@ -88,7 +88,7 @@ const CourseDetail: React.FC = () => {
                 justifyContent="center">
                 <Box>
                     <Stack direction="row">
-                            <Chip label="Development" sx={{ backgroundColor: "greenyellow" }} onClick={handleClick}/>
+                            <Chip label={CursoActual.categoria} sx={{ backgroundColor: "greenyellow" }} onClick={handleClick}/>
                     </Stack>
                     
                 </Box>
