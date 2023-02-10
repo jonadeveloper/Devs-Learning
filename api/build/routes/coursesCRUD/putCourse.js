@@ -14,17 +14,50 @@ const { Course, Category } = require('../../db');
 function putCourse(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+<<<<<<< HEAD
+            let { name, img, level, description, descriptionComplete, duration, instructor, price, category } = req.body;
+            let nameDB = name.split(" ").join("-").toLowerCase();
+            let course = yield Course.findOne({
+                where: { "name": nameDB }
+            });
+            yield Course.update({
+                "level": level ? level : course.level,
+                "img": img ? img : course.img,
+                "descriptionComplete": descriptionComplete ? descriptionComplete : course.descriptionComplete,
+                "duration": duration ? duration : course.duration,
+                "instructor": instructor ? instructor : course.instructor,
+                "description": description ? description : course.description,
+=======
             let { name, level, description, price, category } = req.body;
             let nameDB = name.split(" ").join("-").toLowerCase();
             yield Course.update({
                 "level": level,
                 "description": description,
+>>>>>>> development
                 "price": price,
             }, {
                 where: {
                     "name": nameDB
                 }
             });
+<<<<<<< HEAD
+            if (category) {
+                let categoryArr = category.map((el) => {
+                    return el.split(" ").join("-").toLowerCase();
+                });
+                categoryArr.forEach((cat) => {
+                    Category.findOrCreate({
+                        where: { "name": cat }
+                    });
+                });
+                let categoryDB = yield Category.findAll({
+                    where: { "name": categoryArr }
+                });
+                categoryDB.forEach((el) => {
+                    course.addCategory(el);
+                });
+            }
+=======
             let course = yield Course.findOne({
                 where: { "name": nameDB }
             });
@@ -42,6 +75,7 @@ function putCourse(req, res) {
             categoryDB.forEach((el) => {
                 course.addCategory(el);
             });
+>>>>>>> development
             return res.status(200).send(course);
         }
         catch (err) {

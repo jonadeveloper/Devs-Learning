@@ -19,7 +19,23 @@ export async function getCourses(req: any, res: any) {
             return res.status(200).send(course);
         }
         else {
+<<<<<<< HEAD
             let course = await Course.findAll({});
+=======
+<<<<<<< HEAD
+            let course = await Course.findAll({
+                includes : {
+                    Category,
+                    attributes: ['name'],
+                    through: {
+                        attributes: []
+                    }
+                }
+            });
+=======
+            let course = await Course.findAll({});
+>>>>>>> development
+>>>>>>> dataBase
             return res.status(200).send(course);
         }
     } catch (err) {
