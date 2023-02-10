@@ -5,7 +5,7 @@ import {deleteCategorie} from './categoriesCRUD/deleteCategorie';
 import { Router } from 'express';
 const router = Router();
 
-router.get("/:name", getCategories);
+router.get("/", getCategories);
 router.post("/", postCategorie);
 router.put("/", putCategorie);
 router.delete("/:name",deleteCategorie);

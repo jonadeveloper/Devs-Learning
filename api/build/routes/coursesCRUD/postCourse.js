@@ -14,7 +14,7 @@ const { Course, Category } = require('../../db');
 function postCourse(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { name, level, description, price, category } = req.body;
+            const { name, img, level, description, descriptionComplete, duration, instructor, price, category } = req.body;
             let nameDB = name.split(" ").join("-").toLowerCase();
             let courseExist = yield Course.findOne({
                 where: { "name": nameDB }
@@ -29,7 +29,16 @@ function postCourse(req, res) {
                     where: { "name": cat }
                 });
             });
-            let courseCreated = yield Course.create({ name: nameDB, level, description, price });
+            let courseCreated = yield Course.create({
+                name: nameDB,
+                img,
+                level,
+                description,
+                descriptionComplete,
+                duration,
+                instructor,
+                price
+            });
             let categoriesDB = yield Category.findAll({
                 where: { "name": categoriesArr }
             });

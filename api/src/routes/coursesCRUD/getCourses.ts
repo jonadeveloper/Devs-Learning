@@ -19,7 +19,15 @@ export async function getCourses(req: any, res: any) {
             return res.status(200).send(course);
         }
         else {
-            let course = await Course.findAll({});
+            let course = await Course.findAll({
+                includes : {
+                    Category,
+                    attributes: ['name'],
+                    through: {
+                        attributes: []
+                    }
+                }
+            });
             return res.status(200).send(course);
         }
     } catch (err) {
