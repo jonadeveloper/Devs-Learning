@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography'
 import { Box } from '@mui/system'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { setCurrentCourse } from '../../redux/courses/actions'
 
 export interface Course {
     categoria: number
@@ -37,8 +38,9 @@ export const CardComponent = ({ card, index }: Props) => {
 
     return (
         <Grid key={index} item xl={3} lg={4} sx={{ display: 'flex', justifyContent: 'center' }} >
-            <Link style={{textDecoration: 'none'}} to = {PATH}>
-            <Card sx={{ maxWidth: 345, minHeight: 500, borderRadius: 2, display: 'flex' }}>
+            <Link style={{textDecoration: 'none'}} to = {PATH} >
+            <Card sx={{ maxWidth: 345, minHeight: 500, borderRadius: 2, display: 'flex' }}
+            onClick={() => setCurrentCourse(card)}>
                 <CardActionArea sx={{ display: 'grid', gridTemplateRows: 'auto 1fr' }}>
 
                     {/* Course Name */}

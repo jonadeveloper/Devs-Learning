@@ -4,14 +4,20 @@ import { Course, CoursoBack } from '../../components/Cards/Card'
 interface CoursesState {
     courses: CoursoBack[]
     categories: Array<unknown>
-    currentCourse: {}
+    currentCourse: CoursoBack
     currentPage: number
 }
 
 const initialState: CoursesState = {
     courses: [],
     categories: [],
-    currentCourse: {},
+    currentCourse: {
+        description: '',
+        id: '',
+        level: '',
+        name: '',
+        price: '',
+    },
     currentPage: 1
 }
 
@@ -22,7 +28,7 @@ export const courses = createSlice({
         allCourses: (state, { payload }) => {
             state.courses = payload;
         },
-        setCurrent: (state, { payload }) => {
+        currentCourse: (state, { payload }) => {
             state.currentCourse = payload;
         }
     }
