@@ -17,10 +17,7 @@ module.exports = (sequelize: any) => {
         defaultValue: "student",
       },
       cart: {
-        type: DataTypes.ARRAY,
-      },
-      courses: {
-        type: DataTypes.ARRAY,
+        type: DataTypes.ARRAY(DataTypes.JSON),
       },
       fullname: {
         type: DataTypes.STRING,
