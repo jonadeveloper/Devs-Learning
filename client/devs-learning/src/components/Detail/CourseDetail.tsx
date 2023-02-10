@@ -2,10 +2,12 @@ import React from "react";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 
-
+//MUI
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
+import { Button } from "@mui/material";
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 import { useParams } from 'react-router-dom';
 
@@ -52,22 +54,49 @@ const CourseDetail: React.FC = () => {
             spacing={5}
             direction="row"
              >
-        <Grid item border={1} xs={12} sm={8} md={10} lg={10}>
-        <Typography>  TITULO, CATEGORIA Y AUTOR {CursoActual.name}
-         {CursoActual.profesor} {CursoActual.categoria}</Typography>
+        <Grid   item border={1} xs={12} sm={8} md={10} lg={10}
+                display="flex"
+                flexDirection="column"
+                justifyContent="center">
+                <Typography variant="overline"> {CursoActual.categoria} </Typography>
+                <Typography gutterBottom variant="h2"> {CursoActual.name} </Typography>
+                <Typography variant="subtitle1"> Creado por {CursoActual.profesor}</Typography>
         </Grid>
-        <Grid item border={1} borderRadius={1}  xs={12} sm={4} md={2} lg={2}>
-        <Typography>  PRECIO Y BOTONES PARA PAGAR {CursoActual.price} </Typography>
+        <Grid   item border={1} borderRadius={1}  
+                xs={12} sm={4} md={2} lg={2}
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+        >
+                <Box display="flex" justifyContent="space-around">
+                <Typography variant="h4" p={2}>  $ {CursoActual.price} ARS </Typography>
+                </Box>    
+                
+                <Box display="flex" justifyContent="space-around">
+                <Button size="medium" variant="contained">
+                        <Typography  variant="button" p={0.5}>Buy now</Typography>
+                </Button>
+                <Button size="medium" color="secondary" variant="outlined" endIcon={<AddShoppingCartIcon />}>
+                        <Typography  variant="button" p={0.5}>Add to Cart</Typography>
+                </Button>
+                </Box>
         </Grid>
-        <Grid item border={1} borderRadius={1}  xs={12} md={10} lg={10}>
-        <Typography>  IMAGEN DEL CURSO {CursoActual.name} </Typography>
-        <img src={CursoActual.img} alt="CourseIMG" width="100%"/>
+        <Grid   item border={1} borderRadius={1}  
+                xs={12} md={10} lg={10}
+                p={1}>
+                <img src={CursoActual.img} alt="CourseIMG" width="100%"/>
         </Grid>
-        <Grid item border={1} borderRadius={1}  xs={12} md={2} lg={2}>
-        <Typography>  DURACION NIVEL {CursoActual.duration} {CursoActual.level} </Typography>
+        <Grid   item border={1} borderRadius={1}  
+                xs={12} md={2} lg={2}
+                display="flex"
+                flexDirection="column">
+                <Typography variant="caption"> Duración: {CursoActual.duration} </Typography>
+                <Typography variant="caption"> Nivel: {CursoActual.level} </Typography>
         </Grid>
-        <Grid item border={1} borderRadius={1}  xs={12} md={10} lg={10}>
-        <Typography>  DESCRIPCION COMPLETA DEL CURSO {CursoActual.descriptionComplete} </Typography>
+        <Grid   item border={1} borderRadius={1}
+                xs={12} md={10} lg={10}
+                p={1}>
+                <Typography variant="body1"> {CursoActual.descriptionComplete} </Typography>
         </Grid>
         
     </Grid>
