@@ -15,6 +15,10 @@ function getCourses(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             let { name } = req.query;
+<<<<<<< HEAD
+=======
+            console.log(name);
+>>>>>>> development
             if (name) {
                 name = name.split(" ").join("-").toLowerCase();
                 let course = yield Course.findAll({
@@ -30,6 +34,7 @@ function getCourses(req, res) {
                 return res.status(200).send(course);
             }
             else {
+<<<<<<< HEAD
                 let course = yield Course.findAll({
                     includes: {
                         Category,
@@ -39,6 +44,9 @@ function getCourses(req, res) {
                         }
                     }
                 });
+=======
+                let course = yield Course.findAll({});
+>>>>>>> development
                 return res.status(200).send(course);
             }
         }

@@ -13,10 +13,13 @@ module.exports = (sequelize) => {
             type: sequelize_1.DataTypes.STRING,
             allowNull: false
         },
+<<<<<<< HEAD
         img: {
             type: sequelize_1.DataTypes.STRING,
             allowNull: false
         },
+=======
+>>>>>>> development
         level: {
             type: sequelize_1.DataTypes.ENUM("beginner", "intermediate", "advanced"),
             allowNull: false
@@ -25,6 +28,7 @@ module.exports = (sequelize) => {
             type: sequelize_1.DataTypes.STRING,
             allowNull: false
         },
+<<<<<<< HEAD
         descriptionComplete: {
             type: sequelize_1.DataTypes.TEXT,
             allowNull: false
@@ -37,6 +41,8 @@ module.exports = (sequelize) => {
             type: sequelize_1.DataTypes.STRING,
             allowNull: false
         },
+=======
+>>>>>>> development
         price: {
             type: sequelize_1.DataTypes.STRING,
             allowNull: false

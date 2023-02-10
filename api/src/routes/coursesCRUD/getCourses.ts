@@ -19,6 +19,7 @@ export async function getCourses(req: any, res: any) {
             return res.status(200).send(course);
         }
         else {
+<<<<<<< HEAD
             let course = await Course.findAll({
                 includes : {
                     Category,
@@ -28,6 +29,9 @@ export async function getCourses(req: any, res: any) {
                     }
                 }
             });
+=======
+            let course = await Course.findAll({});
+>>>>>>> development
             return res.status(200).send(course);
         }
     } catch (err) {
