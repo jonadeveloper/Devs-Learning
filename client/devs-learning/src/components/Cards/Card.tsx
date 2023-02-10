@@ -10,6 +10,7 @@ import { Box } from '@mui/system'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { setCurrentCourse } from '../../redux/courses/actions'
+import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 
 export interface Course {
     categoria: number
@@ -35,12 +36,12 @@ interface Props {
 
 export const CardComponent = ({ card, index }: Props) => {
     const PATH : string = `/courseDetail/${card.id}`;
+    const dispatch = useAppDispatch();
 
     return (
         <Grid key={index} item xl={3} lg={4} sx={{ display: 'flex', justifyContent: 'center' }} >
-            <Link style={{textDecoration: 'none'}} to = {PATH} >
-            <Card sx={{ maxWidth: 345, minHeight: 500, borderRadius: 2, display: 'flex' }}
-            onClick={() => setCurrentCourse(card)}>
+            <Link style={{textDecoration: 'none'}} to = {PATH} onClick={() => dispatch(setCurrentCourse(card))}>
+            <Card sx={{ maxWidth: 345, minHeight: 500, borderRadius: 2, display: 'flex' }}>
                 <CardActionArea sx={{ display: 'grid', gridTemplateRows: 'auto 1fr' }}>
 
                     {/* Course Name */}

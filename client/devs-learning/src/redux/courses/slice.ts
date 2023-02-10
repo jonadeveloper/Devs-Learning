@@ -1,15 +1,17 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Course, CoursoBack } from '../../components/Cards/Card'
 
 interface CoursesState {
-    courses: CoursoBack[]
-    categories: Array<unknown>
+    courses: CoursoBack[];
+    coursesFiltered: CoursoBack[];
+    categories: Array<unknown>;
+    currentPage: number;
     currentCourse: CoursoBack
-    currentPage: number
 }
 
 const initialState: CoursesState = {
     courses: [],
+    coursesFiltered: [],
     categories: [],
     currentCourse: {
         description: '',
@@ -28,9 +30,12 @@ export const courses = createSlice({
         allCourses: (state, { payload }) => {
             state.courses = payload;
         },
-        currentCourse: (state, { payload }) => {
-            state.currentCourse = payload;
-        }
+        currentCourse: (state, action: PayloadAction<CoursoBack>) => {
+            state.currentCourse = action.payload;
+        },
+        searched: (state, { payload }) => {
+            state.coursesFiltered = payload;
+          },
     }
 })
 
