@@ -77,7 +77,7 @@ const CourseDetail: React.FC = () => {
             <Link underline="hover" color="inherit" href="/">
                 Home
             </Link>
-             <Typography color="text.primary">{CursoActual.name}</Typography>
+             <Typography color="text.primary">{TheCourse.name}</Typography>
         </Breadcrumbs>
         </Grid>
 
@@ -101,7 +101,7 @@ const CourseDetail: React.FC = () => {
                 justifyContent="center"
         >
                 <Box display="flex" justifyContent="space-around">
-                <Typography variant="h4" p={2}>  $ {CursoActual.price} ARS </Typography>
+                <Typography variant="h4" p={2}>  $ {TheCourse.price} ARS </Typography>
                 </Box>    
                 
                 <Box display="flex" justifyContent="space-around">
@@ -129,7 +129,7 @@ const CourseDetail: React.FC = () => {
                             </ListItem>
                             <Divider />
                             <ListItem button divider>
-                                <ListItemText primary={`Nivel: ${CursoActual.level}`} />
+                                <ListItemText primary={`Nivel: ${TheCourse.level}`} />
                             </ListItem>
                             <Divider light />
                     </List>
