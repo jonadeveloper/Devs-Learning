@@ -16,6 +16,12 @@ module.exports = (sequelize: any) => {
         allowNull: false,
         defaultValue: "student",
       },
+      cart: {
+        type: DataTypes.ARRAY,
+      },
+      courses: {
+        type: DataTypes.ARRAY,
+      },
       fullname: {
         type: DataTypes.STRING,
         allowNull: false,
