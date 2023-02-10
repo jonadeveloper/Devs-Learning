@@ -8,6 +8,14 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { Button } from "@mui/material";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import Chip from '@mui/material/Chip'
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import {Link} from "@mui/material";
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
+import Stack from '@mui/material/Stack';
 
 import { useParams } from 'react-router-dom';
 
@@ -15,12 +23,18 @@ interface UserParams {
     id: string;
     [key: string]: string;
   }
+
+const ListStyle = {
+    width: '100%',
+    maxWidth: 360,
+    bgcolor: 'background.paper',
+  };
   
 
 const CourseDetail: React.FC = () => {
     const { id } = useParams<Record<string, string>>();
     const dispatch = useAppDispatch();
-    const currentCourses = useAppSelector((state)=> state.courses);
+    const currentCourses = useAppSelector((state)=> state.courses.currentCourse);
 
     //para obtener el curso sin la action y poder avanzar con el diseño
     //harcodeo un curso
@@ -48,22 +62,41 @@ const CourseDetail: React.FC = () => {
         price: 2750
     }
 
+    const handleClick = () => {
+        console.log('Redireccionar al filtro por categoria')
+    }
   return(
 <div>
+
+
     <Grid   container 
             spacing={5}
             direction="row"
              >
-        <Grid   item border={1} xs={12} sm={8} md={10} lg={10}
+        <Grid  item xs={12}>
+        <Breadcrumbs aria-label="breadcrumb">
+            <Link underline="hover" color="inherit" href="/">
+                Home
+            </Link>
+             <Typography color="text.primary">{CursoActual.name}</Typography>
+        </Breadcrumbs>
+        </Grid>
+
+        <Grid   item  xs={12} sm={8} lg={9}
                 display="flex"
                 flexDirection="column"
                 justifyContent="center">
-                <Typography variant="overline"> {CursoActual.categoria} </Typography>
+                <Box>
+                    <Stack direction="row">
+                            <Chip label="Development" sx={{ backgroundColor: "greenyellow" }} onClick={handleClick}/>
+                    </Stack>
+                    
+                </Box>
                 <Typography gutterBottom variant="h2"> {CursoActual.name} </Typography>
                 <Typography variant="subtitle1"> Creado por {CursoActual.profesor}</Typography>
         </Grid>
-        <Grid   item border={1} borderRadius={1}  
-                xs={12} sm={4} md={2} lg={2}
+        <Grid   item   
+                xs={12} sm={4}  lg={3}
                 display="flex"
                 flexDirection="column"
                 justifyContent="center"
@@ -81,20 +114,29 @@ const CourseDetail: React.FC = () => {
                 </Button>
                 </Box>
         </Grid>
-        <Grid   item border={1} borderRadius={1}  
-                xs={12} md={10} lg={10}
+        <Divider />
+        <Grid   item  
+                xs={12} md={9} lg={9}
                 p={1}>
                 <img src={CursoActual.img} alt="CourseIMG" width="100%"/>
         </Grid>
-        <Grid   item border={1} borderRadius={1}  
-                xs={12} md={2} lg={2}
+        <Grid   item   
+                xs={12} md={2} lg={3}
                 display="flex"
                 flexDirection="column">
-                <Typography variant="caption"> Duración: {CursoActual.duration} </Typography>
-                <Typography variant="caption"> Nivel: {CursoActual.level} </Typography>
+                    <List sx={ListStyle} component="nav" aria-label="mailbox folders">
+                            <ListItem button>
+                                <ListItemText primary={`Duración: ${CursoActual.duration}`} />
+                            </ListItem>
+                            <Divider />
+                            <ListItem button divider>
+                                <ListItemText primary={`Nivel: ${CursoActual.level}`} />
+                            </ListItem>
+                            <Divider light />
+                    </List>
         </Grid>
-        <Grid   item border={1} borderRadius={1}
-                xs={12} md={10} lg={10}
+        <Grid   item
+                xs={12} md={9} lg={9}
                 p={1}>
                 <Typography variant="body1"> {CursoActual.descriptionComplete} </Typography>
         </Grid>
