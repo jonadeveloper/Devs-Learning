@@ -26,7 +26,6 @@ interface UserParams {
 
 const ListStyle = {
     width: '100%',
-    maxWidth: 360,
     bgcolor: 'background.paper',
   };
   
@@ -121,7 +120,7 @@ const CourseDetail: React.FC = () => {
                 <img src={CursoActual.img} alt="CourseIMG" width="100%"/>
         </Grid>
         <Grid   item   
-                xs={12} md={2} lg={3}
+                xs={12} md={3} lg={3}
                 display="flex"
                 flexDirection="column">
                     <List sx={ListStyle} component="nav" aria-label="mailbox folders">
