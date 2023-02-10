@@ -1,15 +1,19 @@
-import React, { useState, ChangeEvent, useRef } from "react";
+import React, { useState, ChangeEvent } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 import Zoom from "@mui/material/Zoom";
-// import Collapse from "@mui/material/Collapse";
 
 import { Box } from "@mui/system";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
+import { searchCourses } from "../../redux/courses/actions";
 
 export default function SearchBar() {
   const [search, setSearch] = useState("");
   const [checked, setChecked] = useState(false);
+
+  const dispatch = useAppDispatch();
+  const { courses } = useAppSelector((state) => state.courses);
 
   const checkClick = () => {
     if (search == "") {
@@ -25,6 +29,7 @@ export default function SearchBar() {
 
   const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
+    dispatch(searchCourses(courses, search));
 
     setSearch("");
   };
@@ -33,7 +38,6 @@ export default function SearchBar() {
     <div className="searchBar">
       <form onSubmit={handleSubmit}>
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-          {/* <Collapse orientation="horizontal" in={checked}></Collapse> */}
           <Zoom in={checked}>
             <TextField
               id="outlined-basic"

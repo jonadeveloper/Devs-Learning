@@ -2,21 +2,23 @@ import React, { useEffect } from "react";
 import { Box } from "@mui/system";
 import { CardList } from "../components/Cards/CardList";
 import NavBar from "../components/navBar/NavBar";
-import { useDispatch, useSelector } from "react-redux";
 import { useAppDispatch, useAppSelector } from "../hooks/hooksRedux";
 import { getCourses } from "../redux/courses/actions";
+
 export const Home = () => {
   const dispatch = useAppDispatch();
-  const { courses } = useAppSelector((state) => state.courses)
+  const { coursesFiltered } = useAppSelector((state) => state.courses);
   useEffect(() => {
-    dispatch(getCourses())
-  }, [])
+    if (coursesFiltered.length < 1) {
+      dispatch(getCourses());
+    }
+  }, [coursesFiltered]);
 
   return (
     <div>
       <Box>
         <NavBar />
-        <CardList cards={courses} />
+        <CardList cards={coursesFiltered} />
       </Box>
     </div>
   );

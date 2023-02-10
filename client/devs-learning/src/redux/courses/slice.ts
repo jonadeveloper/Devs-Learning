@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Course, CoursoBack } from '../../components/Cards/Card'
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Course, CoursoBack } from "../../components/Cards/Card";
 
 interface CoursesState {
     courses: CoursoBack[];

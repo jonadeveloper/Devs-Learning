@@ -2,7 +2,7 @@ import { AnyAction, ThunkAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { CoursoBack } from "../../components/Cards/Card";
 import { RootState } from "../store";
-import { reducer } from "./slice"
+import { reducer } from "./slice";
 
 const BACK = "http://181.127.189.247:3001";
 
@@ -51,4 +51,5 @@ export const searchCourses = (
         console.log(card)
        return dispatch(reducer.currentCourse(card))
     }
-}
+  };
+
