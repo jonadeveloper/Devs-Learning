@@ -20,12 +20,6 @@ export const getCourses = (): ThunkAction<
   };
 };
 
-export const setCurrentCourse = (card: CoursoBack): ThunkAction<void, RootState, unknown, AnyAction> => {
-    return (dispatch) => {
-        console.log(card)
-       return dispatch(reducer.currentCourse(card))
-    }
-}
 
 export const searchCourses = (
     courses: Array<CoursoBack>,
@@ -51,3 +45,10 @@ export const searchCourses = (
       }
     };
   };
+
+  export const setCurrentCourse = (card: CoursoBack): ThunkAction<void, RootState, unknown, AnyAction> => {
+    return (dispatch) => {
+        console.log(card)
+       return dispatch(reducer.currentCourse(card))
+    }
+}
