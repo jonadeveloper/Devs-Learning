@@ -26,14 +26,4 @@ server.use((err: any, _req: any, res: any, _next: any) => {
   res.status(status).send(message);
 });
 
-//Para correr sólo el servidor => ./package.json:   "start": "node build/app.js""
-
-/*const PORT = 3001;
-server.listen(PORT, () => {
-    console.log('%s listening at', PORT);
-});*/
-
-//Para correr el servidor y la Db conectados desde index.js => "start": "node index.js"
-//Descomentamos la linea de abajo y comentamos la función de arriba
-
 module.exports = server;

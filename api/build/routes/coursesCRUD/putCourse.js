@@ -19,6 +19,8 @@ function putCourse(req, res) {
             let course = yield Course.findOne({
                 where: { name: nameDB },
             });
+            if (course === undefined)
+                return res.status(404).send(`El curso ${name} no existe`);
             yield Course.update({
                 level: level ? level : course.level,
                 img: img ? img : course.img,
@@ -38,11 +40,6 @@ function putCourse(req, res) {
                 let categoryArr = category.map((el) => {
                     return el.split(" ").join("-").toLowerCase();
                 });
-                categoryArr.forEach((cat) => {
-                    Category.findOrCreate({
-                        where: { name: cat },
-                    });
-                });
                 let categoryDB = yield Category.findAll({
                     where: { name: categoryArr },
                 });
@@ -50,7 +47,8 @@ function putCourse(req, res) {
                     course.addCategory(el);
                 });
             }
-            return res.status(200).send(course);
+            ;
+            return res.status(200).send(`The course ${name} has been updated`);
         }
         catch (err) {
             return res.status(404).send(err);

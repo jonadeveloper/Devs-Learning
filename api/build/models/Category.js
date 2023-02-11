@@ -10,8 +10,16 @@ module.exports = (sequelize) => {
             primaryKey: true,
         },
         name: {
-            type: sequelize_1.DataTypes.ENUM("web-development", "front-end", "back-end", "data-base", "digital-marketing", "social-networks", "advertising", "copywriting", "seo", "web-design", "graphic-design", "ux-design", "ui-design", "data-science", "big-data", "data-analytics", "machine-learning", "search-engine-optimization"),
+            type: sequelize_1.DataTypes.ENUM("web-development", "front-end", "back-end", "data-base", "digital-marketing", "social-networks", "advertising", "copywriting", "web-design", "graphic-design", "ux-design", "ui-design", "data-science", "big-data", "data-analytics", "machine-learning", "search-engine-optimization-(seo)"),
             allowNull: false,
+        },
+        description: {
+            type: sequelize_1.DataTypes.TEXT,
+            allowNull: false
+        },
+        img: {
+            type: sequelize_1.DataTypes.STRING,
+            allowNull: false
         },
     });
 };

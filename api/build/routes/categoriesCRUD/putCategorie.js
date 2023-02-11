@@ -10,10 +10,38 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.putCategorie = void 0;
-function putCategorie(_req, res) {
+const { Course, Category } = require("../../db");
+function putCategorie(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            return res.status(200).send("Put Category");
+            let { name, img, description, course } = req.body;
+            let nameDB = name.split(" ").join("-").toLowerCase();
+            let category = yield Category.findOne({
+                where: { name: nameDB },
+            });
+            if (category === undefined)
+                return res.status(404).send(`La categoria ${name} no existe`);
+            yield Category.update({
+                img: img ? img : category.img,
+                description: description ? description : category.description
+            }, {
+                where: {
+                    name: nameDB,
+                },
+            });
+            if (course) {
+                let courseArr = course.map((el) => {
+                    return el.split(" ").join("-").toLowerCase();
+                });
+                let courseDB = yield Course.findAll({
+                    where: { name: courseArr },
+                });
+                courseDB.forEach((el) => {
+                    category.addCourse(el);
+                });
+            }
+            ;
+            return res.status(200).send(`The category ${name} has been updated`);
         }
         catch (err) {
             return res.status(404).send(err);
