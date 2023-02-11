@@ -23,9 +23,9 @@ const initialState: CoursesState = {
     price: "",
     duration: "",
     instructor: "",
-    categories: "",
+    categories: [],
     descriptionComplete: "",
-    img: ""
+    img: "",
   },
   currentPage: 1,
   searched: "",
