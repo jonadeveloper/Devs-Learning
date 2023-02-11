@@ -29,7 +29,9 @@ export default function SearchBar() {
 
   const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    dispatch(searchCourses(courses, search));
+    if (search !== "") {
+      dispatch(searchCourses(courses, search));
+    }
 
     setSearch("");
   };
