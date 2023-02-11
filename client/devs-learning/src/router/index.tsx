@@ -11,6 +11,7 @@ import { PrivateRoute } from "./PrivateRoute";
 import { LoggedRoutes } from "./LoggedRoutes";
 import { PublicRoute } from "./PublicRoute";
 import { AuthRouter } from "./AuthRoute";
+import { CreateCourse } from "../views/CreateCourse";
 
 
 export const AppRouter = () => {
@@ -28,6 +29,9 @@ export const AppRouter = () => {
         <Route path={`/courseDetail/:id`} element={<CourseDetail />} />
         <Route path={`/categories`} element={<Categories />} />
         <Route path={`/categories/:name`} element={<CoursePerCategories />} />
+
+        {/* Deberia ser private */}
+        <Route path={`/dashboard/create/course`} element={<CreateCourse />} />
 
         <Route path={`/auth/*`}
           element={
