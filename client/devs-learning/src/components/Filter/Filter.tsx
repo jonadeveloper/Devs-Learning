@@ -10,6 +10,7 @@ import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 import { getCourses, setFiltered } from "../../redux/courses/actions";
+import SearchBar from "../searchbar/searchbar";
 
 export default function () {
   const [order, setOrder] = useState("");
@@ -34,8 +35,8 @@ export default function () {
 
   return (
     <div className="filter">
-      <Box>
-        <FormControl>
+      <Box sx={{ display: "flex" }}>
+        <FormControl sx={{ display: "flex", flexDirection: "row" }}>
           <InputLabel id="order-label">Order</InputLabel>
           <Select
             sx={{ minWidth: 120 }}
@@ -51,8 +52,15 @@ export default function () {
             <MenuItem value={"- Duration"}>- Duration</MenuItem>
             <MenuItem value={"+ Duration"}>+ Duration</MenuItem>
           </Select>
+          <Box sx={{ marginLeft: 10 }}>
+            <SearchBar />
+          </Box>
 
-          <Button variant="outlined" onClick={handleClick}>
+          <Button
+            variant="outlined"
+            onClick={handleClick}
+            sx={{ marginLeft: 10 }}
+          >
             Refresh
           </Button>
         </FormControl>
