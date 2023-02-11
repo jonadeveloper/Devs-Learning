@@ -29,6 +29,8 @@ export const courses = createSlice({
   reducers: {
     allCourses: (state, { payload }) => {
       state.courses = payload;
+      state.coursesFiltered = payload;
+
     },
     allCategories: (state, { payload }) => {
       state.categories = payload;
