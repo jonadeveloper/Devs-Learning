@@ -87,7 +87,8 @@ export const setFiltered = (
   order: string,
   courses: Array<CoursoBack>,
   coursesFiltered: Array<CoursoBack>,
-  searched: string
+  searched: string,
+  category: string
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return (dispatch) => {
     let filteredCourses: Array<CoursoBack> = [];
@@ -97,6 +98,23 @@ export const setFiltered = (
     } else {
       filteredCourses = [...coursesFiltered];
     }
+
+    //categories
+
+    if (category !== "") {
+      filteredCourses = filteredCourses.filter((course) => {
+        if (
+          course.categories[0].name === category ||
+          course.categories[1].name === category
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+    }
+
+    ///////////////////////////
 
     //order
     if (order === "A-Z") {
