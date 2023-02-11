@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Course, CoursoBack } from "../../components/Cards/Card";
+import { Category } from "../../interfaces/Category";
 
 interface CoursesState {
   courses: CoursoBack[];
   coursesFiltered: CoursoBack[];
-  categories: Array<unknown>;
+  categories: Category[];
   currentPage: number;
   currentCourse: CoursoBack;
   searched: string;

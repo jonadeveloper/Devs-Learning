@@ -6,7 +6,7 @@ import { Home } from "../views/Home";
 import NavBar from "../components/navBar/NavBar";
 import { CoursePerCategories } from "../views/CoursePerCategories";
 import { useAppDispatch } from "../hooks/hooksRedux";
-import { getCourses } from "../redux/courses/actions";
+import { getCategories, getCourses } from "../redux/courses/actions";
 import { PrivateRoute } from "./PrivateRoute";
 import { LoggedRoutes } from "./LoggedRoutes";
 import { PublicRoute } from "./PublicRoute";
@@ -20,6 +20,8 @@ export const AppRouter = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getCourses());
+    dispatch(getCategories())
+
   }, [])
 
   return (
