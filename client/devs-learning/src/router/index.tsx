@@ -7,6 +7,10 @@ import NavBar from "../components/navBar/NavBar";
 import { CoursePerCategories } from "../views/CoursePerCategories";
 import { useAppDispatch } from "../hooks/hooksRedux";
 import { getCourses } from "../redux/courses/actions";
+import { PrivateRoute } from "./PrivateRoute";
+import { LoggedRoutes } from "./LoggedRoutes";
+import { PublicRoute } from "./PublicRoute";
+import { AuthRouter } from "./AuthRoute";
 
 
 export const AppRouter = () => {
@@ -24,6 +28,19 @@ export const AppRouter = () => {
         <Route path={`/courseDetail/:id`} element={<CourseDetail />} />
         <Route path={`/categories`} element={<Categories />} />
         <Route path={`/categories/:name`} element={<CoursePerCategories />} />
+
+        <Route path={`/auth/*`}
+          element={
+            <PublicRoute isLoggedin={"notLoggedIn"}>
+              <AuthRouter />
+            </PublicRoute>
+          } />
+        <Route path={`/*`}
+          element={
+            <PrivateRoute isLoggedin={"notLoggedIn"}>
+              <LoggedRoutes />
+            </PrivateRoute>
+          } />
       </Routes>
     </div>
   );
