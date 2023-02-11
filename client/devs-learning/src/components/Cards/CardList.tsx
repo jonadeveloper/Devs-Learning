@@ -1,39 +1,43 @@
-import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
-import Pagination from '@mui/material/Pagination'
-import React, { useState } from 'react'
-import { CardComponent, Course, CoursoBack } from './Card'
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Pagination from "@mui/material/Pagination";
+import React, { useState } from "react";
+import Filter from "../Filter/Filter";
+import { CardComponent, Course, CoursoBack } from "./Card";
 
 interface Props {
-    cards: CoursoBack[]
+  cards: CoursoBack[];
 }
 export const CardList = ({ cards }: Props) => {
-    const [page, setPage] = useState(1)
-    const onPagination = (event: React.ChangeEvent<unknown>, page: number) => {
-        setPage(page)
-    }
-    return (
-        <Box sx={{
-            // height: "100vh",
-            display: 'flex',
-            alignItems: 'center',
-            flexDirection: 'column',
-            flexGrow: 1,
-            gap: 4,
-            p: 5
-        }}>
-            <Grid container spacing={6}>
-                {
-                    cards.map((card, index) => {
-                        if ((page - 1) * 8 <= index && page * 8 > index) {
-                            return (
-                                <CardComponent key={index} card={card} index={index} />
-                            )
-                        }
-                    })
-                }
-            </Grid >
-            <Pagination count={~~(cards.length / 8)} variant="outlined" onChange={onPagination} />
-        </Box>
-    )
-}
+  const [page, setPage] = useState(1);
+  const onPagination = (event: React.ChangeEvent<unknown>, page: number) => {
+    setPage(page);
+  };
+  return (
+    <Box
+      sx={{
+        // height: "100vh",
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "column",
+        flexGrow: 1,
+        gap: 4,
+        p: 5,
+      }}
+    >
+      <Filter />
+      <Grid container spacing={6}>
+        {cards.map((card, index) => {
+          if ((page - 1) * 8 <= index && page * 8 > index) {
+            return <CardComponent key={index} card={card} index={index} />;
+          }
+        })}
+      </Grid>
+      <Pagination
+        count={~~(cards.length / 8)}
+        variant="outlined"
+        onChange={onPagination}
+      />
+    </Box>
+  );
+};
