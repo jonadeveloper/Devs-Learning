@@ -29,6 +29,10 @@ export interface CoursoBack {
   name: string;
   price: string;
   duration: string;
+  categories: any;
+  instructor: string;
+  descriptionComplete: string;
+  img: string;
 }
 interface Props {
   card: CoursoBack;
@@ -62,7 +66,7 @@ export const CardComponent = ({ card, index }: Props) => {
               component="img"
               height="200"
               alt="Course Name"
-              // image={card.image}
+              image={card.img}
             />
             <CardContent sx={{ justifySelf: "flex-start" }}>
               <Box>

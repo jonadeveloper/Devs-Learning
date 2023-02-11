@@ -22,6 +22,10 @@ const initialState: CoursesState = {
     name: "",
     price: "",
     duration: "",
+    instructor: "",
+    categories: "",
+    descriptionComplete: "",
+    img: ""
   },
   currentPage: 1,
   searched: "",
