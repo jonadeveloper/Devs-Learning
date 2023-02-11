@@ -64,3 +64,16 @@ export const setCurrentCourse = (
     return dispatch(reducer.currentCourse(card));
   };
 };
+
+export const createCourse = (): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  AnyAction
+> => {
+  return (dispatch) => {
+    axios.post("http://181.127.189.247:3001/categories").then((response) => {
+      // dispatch(reducer.allCategories(response.data));
+    });
+  };
+};
