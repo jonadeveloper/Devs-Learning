@@ -7,6 +7,7 @@ interface CoursesState {
   categories: Array<unknown>;
   currentPage: number;
   currentCourse: CoursoBack;
+  searched: string;
 }
 
 const initialState: CoursesState = {
@@ -19,8 +20,10 @@ const initialState: CoursesState = {
     level: "",
     name: "",
     price: "",
+    duration: "",
   },
   currentPage: 1,
+  searched: "",
 };
 
 export const courses = createSlice({
@@ -30,7 +33,6 @@ export const courses = createSlice({
     allCourses: (state, { payload }) => {
       state.courses = payload;
       state.coursesFiltered = payload;
-
     },
     allCategories: (state, { payload }) => {
       state.categories = payload;
@@ -40,9 +42,12 @@ export const courses = createSlice({
     },
     currentCourse: (state, action: PayloadAction<CoursoBack>) => {
       state.currentCourse = action.payload;
-
     },
     searched: (state, { payload }) => {
+      state.coursesFiltered = payload.allcourses;
+      state.searched = payload.search;
+    },
+    setFiltered: (state, { payload }) => {
       state.coursesFiltered = payload;
     },
   },

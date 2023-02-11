@@ -17,7 +17,7 @@ export interface Course {
   nombre: string;
   image: string;
   summary: string;
-  duracion: number;
+  duration: number;
   precio: number;
   idProfesor: number;
   dificultad: string;
@@ -28,6 +28,7 @@ export interface CoursoBack {
   level: string;
   name: string;
   price: string;
+  duration: string;
 }
 interface Props {
   card: CoursoBack;
@@ -35,53 +36,88 @@ interface Props {
 }
 
 export const CardComponent = ({ card, index }: Props) => {
-    const PATH: string = `/courseDetail/${card.id}`;
-    const dispatch = useAppDispatch();
+  const PATH: string = `/courseDetail/${card.id}`;
+  const dispatch = useAppDispatch();
 
-    return (
-        <Grid key={index} item xl={3} lg={4} sx={{ display: 'flex' }} >
-            <Link style={{ textDecoration: 'none', display: "flex" }} to={PATH} onClick={() => dispatch(setCurrentCourse(card))}>
-                <Card sx={{ minHeight: 500, borderRadius: 2, display: 'flex', alignItems: "stretch" }}>
-                    <CardActionArea sx={{ display: 'grid', gridTemplateRows: 'auto 1fr' }}>
+  return (
+    <Grid key={index} item xl={3} lg={4} sx={{ display: "flex" }}>
+      <Link
+        style={{ textDecoration: "none", display: "flex" }}
+        to={PATH}
+        onClick={() => dispatch(setCurrentCourse(card))}
+      >
+        <Card
+          sx={{
+            minHeight: 500,
+            borderRadius: 2,
+            display: "flex",
+            alignItems: "stretch",
+          }}
+        >
+          <CardActionArea
+            sx={{ display: "grid", gridTemplateRows: "auto 1fr" }}
+          >
+            {/* Course Name */}
+            <CardMedia
+              component="img"
+              height="200"
+              alt="Course Name"
+              // image={card.image}
+            />
+            <CardContent sx={{ justifySelf: "flex-start" }}>
+              <Box>
+                {/* Course Title */}
+                <Typography
+                  gutterBottom
+                  variant="h3"
+                  component="div"
+                  sx={{ fontSize: 30, fontWeight: 700 }}
+                >
+                  {card.name} {index}
+                </Typography>
+                {/* Course Price */}
+                <Typography
+                  gutterBottom
+                  variant="h4"
+                  component="div"
+                  sx={{ fontSize: 25, fontWeight: 700 }}
+                >
+                  ${card.price}
+                </Typography>
+                {/* Category */}
+                <Box my={2}>
+                  <Chip
+                    label="Development"
+                    sx={{ backgroundColor: "greenyellow" }}
+                  />
+                </Box>
+                {/* Course sumary */}
+                <Typography variant="body2" color="text.secondary">
+                  {card.description}
+                </Typography>
+              </Box>
+              <Divider sx={{ my: 2 }} />
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <Typography sx={{ display: "flex", fontWeight: "600", gap: 1 }}>
+                  Duration:{" "}
+                  <span style={{ color: "grey" }}> {card.duration} hours</span>
+                </Typography>
+                {/* <Typography sx={{ display: "flex", fontWeight: "600", gap: 1 }}>
+                  Duration: <span style={{ color: "grey" }}> 1 hours</span>
+                </Typography> */}
 
-                        {/* Course Name */}
-                        <CardMedia
-                            component="img"
-                            height="200"
-                            alt="Course Name"
-                        // image={card.image}
-                        />
-                        <CardContent sx={{ justifySelf: 'flex-start' }}>
-                            <Box>
-                                {/* Course Title */}
-                                <Typography gutterBottom variant="h3" component="div" sx={{ fontSize: 30, fontWeight: 700 }}>
-                                    {card.name} {index}
-                                </Typography>
-                                {/* Course Price */}
-                                <Typography gutterBottom variant="h4" component="div" sx={{ fontSize: 25, fontWeight: 700 }}>
-                                    ${card.price}
-                                </Typography>
-                                {/* Category */}
-                                <Box my={2}>
-                                    <Chip label="Development" sx={{ backgroundColor: "greenyellow" }} />
-                                </Box>
-                                {/* Course sumary */}
-                                <Typography variant="body2" color="text.secondary">
-                                    {card.description}
-                                </Typography>
-                            </Box>
-                            <Divider sx={{ my: 2 }} />
-                            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                {/* <Typography sx={{ display: 'flex', fontWeight: "600", gap: 1 }}>Duration: <span style={{ color: "grey" }}> {card.duracion} hours</span></Typography> */}
-                                <Typography sx={{ display: 'flex', fontWeight: "600", gap: 1 }}>Duration: <span style={{ color: "grey" }}> 1 hours</span></Typography>
-
-                                <Typography sx={{ display: 'flex', fontWeight: "600", gap: 1 }}>Difficulty: <span style={{ color: "grey" }}> {card.level.toUpperCase()}</span></Typography>
-                            </Box>
-
-                        </CardContent>
-                    </CardActionArea>
-                </Card>
-            </Link>
-        </Grid >
-    )
-}
+                <Typography sx={{ display: "flex", fontWeight: "600", gap: 1 }}>
+                  Difficulty:{" "}
+                  <span style={{ color: "grey" }}>
+                    {" "}
+                    {card.level.toUpperCase()}
+                  </span>
+                </Typography>
+              </Box>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      </Link>
+    </Grid>
+  );
+};
