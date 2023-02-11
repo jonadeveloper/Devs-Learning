@@ -18,7 +18,7 @@ export async function getCourses(req: any, res: any) {
       course.length===0 ? res.status(404).send(`The course ${name} has not been found`) : res.status(200).send(course);
     } else {
       let course = await Course.findAll({
-        includes: {
+        include: {
           model: Category,
           attributes: ["name"],
           through: {

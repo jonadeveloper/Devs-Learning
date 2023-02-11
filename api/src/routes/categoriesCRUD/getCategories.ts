@@ -19,7 +19,7 @@ export async function getCategories(req: any, res: any) {
     } else {
       let category = await Category.findAll({
         where: {},
-        includes: {
+        include: {
           model: Course,
           attributes: ["name"],
           through: {

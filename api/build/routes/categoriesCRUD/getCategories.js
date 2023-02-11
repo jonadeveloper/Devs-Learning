@@ -32,7 +32,7 @@ function getCategories(req, res) {
             else {
                 let category = yield Category.findAll({
                     where: {},
-                    includes: {
+                    include: {
                         model: Course,
                         attributes: ["name"],
                         through: {

@@ -31,7 +31,7 @@ function getCourses(req, res) {
             }
             else {
                 let course = yield Course.findAll({
-                    includes: {
+                    include: {
                         model: Category,
                         attributes: ["name"],
                         through: {
