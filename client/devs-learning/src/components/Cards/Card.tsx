@@ -29,6 +29,10 @@ export interface CoursoBack {
   name: string;
   price: string;
   duration: string;
+  categories: any;
+  instructor: string;
+  descriptionComplete: string;
+  img: string;
 }
 interface Props {
   card: CoursoBack;
