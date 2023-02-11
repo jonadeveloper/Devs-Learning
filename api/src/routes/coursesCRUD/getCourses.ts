@@ -18,8 +18,8 @@ export async function getCourses(req: any, res: any) {
       return res.status(200).send(course);
     } else {
       let course = await Course.findAll({
-        includes: {
-          Category,
+        include: {
+          model: Category,
           attributes: ["name"],
           through: {
             attributes: [],
