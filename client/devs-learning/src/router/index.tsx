@@ -12,6 +12,7 @@ import { LoggedRoutes } from "./LoggedRoutes";
 import { PublicRoute } from "./PublicRoute";
 import { AuthRouter } from "./AuthRoute";
 import { CreateCourse } from "../views/CreateCourse";
+import Footer from "../components/Footer/Footer";
 
 
 export const AppRouter = () => {
@@ -46,6 +47,7 @@ export const AppRouter = () => {
             </PrivateRoute>
           } />
       </Routes>
+      <Footer />
     </div>
   );
 };
