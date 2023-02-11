@@ -22,7 +22,13 @@ export interface Course {
   idProfesor: number;
   dificultad: string;
 }
+
+export interface Category {
+  name: string;
+}
+
 export interface CoursoBack {
+  categories: Category[];
   description: string;
   id: string;
   level: string;
