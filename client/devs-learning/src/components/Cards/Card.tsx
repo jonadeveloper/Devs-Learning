@@ -66,7 +66,7 @@ export const CardComponent = ({ card, index }: Props) => {
               component="img"
               height="200"
               alt="Course Name"
-              // image={card.image}
+              image={card.img}
             />
             <CardContent sx={{ justifySelf: "flex-start" }}>
               <Box>
