@@ -35,7 +35,7 @@ export const courses = createSlice({
     },
     setCurrent: (state, { payload }) => {
       state.currentCourse = payload;
-
+    },
     currentCourse: (state, action: PayloadAction<CoursoBack>) => {
       state.currentCourse = action.payload;
 
