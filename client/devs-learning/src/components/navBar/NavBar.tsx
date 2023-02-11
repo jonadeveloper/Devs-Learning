@@ -22,13 +22,13 @@ import { Link } from "react-router-dom";
 const pages = [
   {
     name: "Courses",
-    route: "/courses"
+    route: "/courses",
   },
   {
     name: "Categories",
-    route: "/categories"
-  }
-]
+    route: "/categories",
+  },
+];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 function ResponsiveAppBar() {
   let theme = createTheme({
@@ -135,7 +135,7 @@ function ResponsiveAppBar() {
                   </MenuItem>
                 ))}
               </Menu>
-              <SearchBar />
+              {/* <SearchBar /> */}
             </Box>
             {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} /> */}
             <Typography
@@ -163,12 +163,10 @@ function ResponsiveAppBar() {
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: "black", display: "block" }}
                 >
-                  <Link to={page.route}>
-                    {page.name}
-                  </Link>
+                  <Link to={page.route}>{page.name}</Link>
                 </Button>
               ))}
-              <SearchBar />
+              {/* <SearchBar /> */}
             </Box>
             <Stack spacing={2} direction="row" margin={2}>
               <Button color="secondary" variant="text">
