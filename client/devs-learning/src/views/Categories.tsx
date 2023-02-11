@@ -15,15 +15,15 @@ export const Categories = () => {
             image: "https://sigdeletras.com/images/blog/202004_react_leaflet/react.png"
         }
     ]
-    useEffect(() => {
-        dispatch(getCategories())
-    }, [])
+    // useEffect(() => {
+    //     dispatch(getCategories())
+    // }, [])
 
     return (
         <Box sx={{ px: { xl: 10, lg: 8, md: 6, sm: 4, xs: 2 }, mt: 3 }}>
-            <Box>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
                 {
-                    testCategories.map((category) => {
+                    categories.map((category) => {
                         return <CategoryCard category={category} />
                     })
                 }

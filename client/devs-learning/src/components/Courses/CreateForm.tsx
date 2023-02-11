@@ -1,22 +1,69 @@
-import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
+import { Button, Chip, FormControl, Grid, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField, Theme, Typography, useTheme } from '@mui/material'
 import { Box } from '@mui/system'
 import React, { ChangeEvent, useState } from 'react'
+import { useAppSelector } from '../../hooks/hooksRedux';
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 0;
+const MenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 250,
+        },
+    },
+};
+
+const names = [
+    'Oliver Hansen',
+    'Van Henry',
+    'April Tucker',
+    'Ralph Hubbard',
+    'Omar Alexander',
+    'Carlos Abbott',
+    'Miriam Wagner',
+    'Bradley Wilkerson',
+    'Virginia Andrews',
+    'Kelly Snyder',
+];
+
+function getStyles(name: string, personName: readonly string[], theme: Theme) {
+    return {
+        fontWeight:
+            personName.indexOf(name) === -1
+                ? theme.typography.fontWeightRegular
+                : theme.typography.fontWeightMedium,
+    };
+}
 export const CreateForm = () => {
+    const theme = useTheme();
     const [course, setCourse] = useState({
         name: "",
         price: "",
         duration: "",
         img: "",
         level: "",
-        category: "",
+        category: [],
         description: "",
         descriptionComplete: ""
     })
+    const [categoriesSelect, setCategoriesSelect] = useState<string[]>([])
+
+    const { categories } = useAppSelector((state) => state.courses)
+
     const handleChange = () => (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setCourse({ ...course, [name]: value })
     }
+    const handleChangeCategories = (event: SelectChangeEvent<typeof categoriesSelect>) => {
+        const {
+            target: { value },
+        } = event;
+        setCategoriesSelect(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+        );
+    };
     const handleSubmit = () => () => {
 
     }
@@ -97,7 +144,7 @@ export const CreateForm = () => {
 
                     </Grid>
                     <Grid item sm={6} xs={12} sx={{ '& .MuiTextField-root': { width: '100%' } }}>
-                        <FormControl fullWidth>
+                        {/* <FormControl fullWidth>
                             <InputLabel >Category</InputLabel>
                             <Select
                                 required
@@ -110,8 +157,34 @@ export const CreateForm = () => {
                                 <MenuItem value={20}>Intemediate</MenuItem>
                                 <MenuItem value={30}>Advanced</MenuItem>
                             </Select>
+                        </FormControl> */}
+                        <FormControl sx={{ width: "100%" }}>
+                            <InputLabel id="demo-multiple-chip-label">Categories</InputLabel>
+                            <Select
+                                multiple
+                                value={categoriesSelect}
+                                onChange={handleChangeCategories}
+                                input={<OutlinedInput id="select-multiple-chip" label="Categories" />}
+                                renderValue={(selected) => (
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                        {selected.map((value) => (
+                                            <Chip key={value} label={value} />
+                                        ))}
+                                    </Box>
+                                )}
+                                MenuProps={MenuProps}
+                            >
+                                {categories.map((category) => (
+                                    <MenuItem
+                                        key={category.name}
+                                        value={category.name}
+                                        style={getStyles(category.name, categoriesSelect, theme)}
+                                    >
+                                        {category.name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
                         </FormControl>
-
                     </Grid>
                     <Grid item xs={12} sx={{ '& .MuiTextField-root': { width: '100%' } }}>
                         <TextField
