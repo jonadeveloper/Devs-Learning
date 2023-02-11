@@ -30,8 +30,15 @@ export const courses = createSlice({
     allCourses: (state, { payload }) => {
       state.courses = payload;
     },
+    allCategories: (state, { payload }) => {
+      state.categories = payload;
+    },
+    setCurrent: (state, { payload }) => {
+      state.currentCourse = payload;
+
     currentCourse: (state, action: PayloadAction<CoursoBack>) => {
       state.currentCourse = action.payload;
+
     },
     searched: (state, { payload }) => {
       state.coursesFiltered = payload;
