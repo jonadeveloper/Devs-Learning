@@ -1,6 +1,6 @@
-import { CoursoBack } from "./../../components/Cards/Card";
 import { AnyAction, ThunkAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import { CoursoBack } from "../../components/Cards/Card";
 import { RootState } from "../store";
 import { reducer } from "./slice";
 
@@ -53,5 +53,14 @@ export const searchCourses = (
 
       dispatch(reducer.searched(error));
     }
+  };
+};
+
+export const setCurrentCourse = (
+  card: CoursoBack
+): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return (dispatch) => {
+    console.log(card);
+    return dispatch(reducer.currentCourse(card));
   };
 };

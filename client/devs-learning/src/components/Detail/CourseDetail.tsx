@@ -33,7 +33,7 @@ const ListStyle = {
 const CourseDetail: React.FC = () => {
     const { id } = useParams<Record<string, string>>();
     const dispatch = useAppDispatch();
-    const currentCourses = useAppSelector((state)=> state.courses.currentCourse);
+    const TheCourse = useAppSelector((state)=> state.courses.currentCourse);
 
     //para obtener el curso sin la action y poder avanzar con el diseño
     //harcodeo un curso
@@ -77,7 +77,7 @@ const CourseDetail: React.FC = () => {
             <Link underline="hover" color="inherit" href="/">
                 Home
             </Link>
-             <Typography color="text.primary">{CursoActual.name}</Typography>
+             <Typography color="text.primary">{TheCourse.name}</Typography>
         </Breadcrumbs>
         </Grid>
 
@@ -91,7 +91,7 @@ const CourseDetail: React.FC = () => {
                     </Stack>
                     
                 </Box>
-                <Typography gutterBottom variant="h2"> {CursoActual.name} </Typography>
+                <Typography gutterBottom variant="h2"> {TheCourse.name} </Typography>
                 <Typography variant="subtitle1"> Creado por {CursoActual.profesor}</Typography>
         </Grid>
         <Grid   item   
@@ -101,7 +101,7 @@ const CourseDetail: React.FC = () => {
                 justifyContent="center"
         >
                 <Box display="flex" justifyContent="space-around">
-                <Typography variant="h4" p={2}>  $ {CursoActual.price} ARS </Typography>
+                <Typography variant="h4" p={2}>  $ {TheCourse.price} ARS </Typography>
                 </Box>    
                 
                 <Box display="flex" justifyContent="space-around">
@@ -129,7 +129,7 @@ const CourseDetail: React.FC = () => {
                             </ListItem>
                             <Divider />
                             <ListItem button divider>
-                                <ListItemText primary={`Nivel: ${CursoActual.level}`} />
+                                <ListItemText primary={`Nivel: ${TheCourse.level}`} />
                             </ListItem>
                             <Divider light />
                     </List>

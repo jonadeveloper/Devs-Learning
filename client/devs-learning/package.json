@@ -19,7 +19,14 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.5",
+<<<<<<< HEAD
     "react-router-dom": "^6.3.0",
+=======
+<<<<<<< HEAD
+=======
+    "react-router-dom": "^6.3.0",
+>>>>>>> development
+>>>>>>> dataBase
     "react-scripts": "5.0.1",
     "redux": "^4.2.1",
     "redux-devtools-extension": "^2.13.9",
@@ -50,5 +57,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@redux-devtools/core": "^3.13.1"
   }
 }

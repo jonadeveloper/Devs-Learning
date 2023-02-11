@@ -1,43 +1,46 @@
-import Card from '@mui/material/Card'
-import CardActionArea from '@mui/material/CardActionArea'
-import CardContent from '@mui/material/CardContent'
-import CardMedia from '@mui/material/CardMedia'
-import Chip from '@mui/material/Chip'
-import Divider from '@mui/material/Divider'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
-import { Box } from '@mui/system'
-import React from 'react'
-import { Link } from 'react-router-dom'
+import Card from "@mui/material/Card";
+import CardActionArea from "@mui/material/CardActionArea";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Chip from "@mui/material/Chip";
+import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import { Box } from "@mui/system";
+import React from "react";
+import { Link } from "react-router-dom";
+import { setCurrentCourse } from "../../redux/courses/actions";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 
 export interface Course {
-    categoria: number
-    nombre: string
-    image: string
-    summary: string
-    duracion: number
-    precio: number
-    idProfesor: number
-    dificultad: string
+  categoria: number;
+  nombre: string;
+  image: string;
+  summary: string;
+  duracion: number;
+  precio: number;
+  idProfesor: number;
+  dificultad: string;
 }
 export interface CoursoBack {
-    description: string
-    id: string
-    level: string
-    name: string
-    price: string
+  description: string;
+  id: string;
+  level: string;
+  name: string;
+  price: string;
 }
 interface Props {
-    card: CoursoBack
-    index: number
+  card: CoursoBack;
+  index: number;
 }
 
 export const CardComponent = ({ card, index }: Props) => {
     const PATH: string = `/courseDetail/${card.id}`;
+    const dispatch = useAppDispatch();
 
     return (
         <Grid key={index} item xl={3} lg={4} sx={{ display: 'flex' }} >
-            <Link style={{ textDecoration: 'none', display: "flex" }} to={PATH}>
+            <Link style={{ textDecoration: 'none', display: "flex" }} to={PATH} onClick={() => dispatch(setCurrentCourse(card))}>
                 <Card sx={{ minHeight: 500, borderRadius: 2, display: 'flex', alignItems: "stretch" }}>
                     <CardActionArea sx={{ display: 'grid', gridTemplateRows: 'auto 1fr' }}>
 
