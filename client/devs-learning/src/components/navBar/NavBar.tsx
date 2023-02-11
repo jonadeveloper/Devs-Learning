@@ -15,9 +15,20 @@ import AdbIcon from "@mui/icons-material/Adb";
 import Stack from "@mui/material/Stack";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import SearchBar from "../searchbar/searchbar";
+import { Link } from "react-router-dom";
 // import img from "./img.png";
 
-const pages = ["Home", "Courses", "Categories"];
+// const pages = ["Home", "Courses", "Categories"];
+const pages = [
+  {
+    name: "Courses",
+    route: "/courses"
+  },
+  {
+    name: "Categories",
+    route: "/categories"
+  }
+]
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 function ResponsiveAppBar() {
   let theme = createTheme({
@@ -117,8 +128,10 @@ function ResponsiveAppBar() {
                 }}
               >
                 {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
+                  <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                    <Link to={page.route}>
+                      <Typography textAlign="center">{page.name}</Typography>
+                    </Link>
                   </MenuItem>
                 ))}
               </Menu>
@@ -146,11 +159,13 @@ function ResponsiveAppBar() {
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page) => (
                 <Button
-                  key={page}
+                  key={page.name}
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: "black", display: "block" }}
                 >
-                  {page}
+                  <Link to={page.route}>
+                    {page.name}
+                  </Link>
                 </Button>
               ))}
               <SearchBar />

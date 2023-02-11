@@ -4,7 +4,7 @@ import axios from "axios";
 import { RootState } from "../store";
 import { reducer } from "./slice";
 
-const BACK = "http://181.127.189.247:3001";
+const BACK = process.env.NODE_ENV === "production" ? "http://181.127.189.247:3001" : "localhost:3001";
 
 export const getCourses = (): ThunkAction<
   void,
@@ -14,8 +14,19 @@ export const getCourses = (): ThunkAction<
 > => {
   return (dispatch) => {
     axios.get("http://181.127.189.247:3001/courses").then((response) => {
-      console.log(response.data);
       dispatch(reducer.allCourses(response.data));
+    });
+  };
+};
+export const getCategories = (): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  AnyAction
+> => {
+  return (dispatch) => {
+    axios.get("http://181.127.189.247:3001/categories").then((response) => {
+      dispatch(reducer.allCategories(response.data));
     });
   };
 };

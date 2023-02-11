@@ -12,7 +12,6 @@ interface CoursesState {
 const initialState: CoursesState = {
   courses: [],
   coursesFiltered: [],
-
   categories: [],
   currentCourse: {},
   currentPage: 1,
@@ -25,6 +24,9 @@ export const courses = createSlice({
     allCourses: (state, { payload }) => {
       state.courses = payload;
       state.coursesFiltered = payload;
+    },
+    allCategories: (state, { payload }) => {
+      state.categories = payload;
     },
     setCurrent: (state, { payload }) => {
       state.currentCourse = payload;
