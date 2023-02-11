@@ -70,6 +70,19 @@ export const setCurrentCourse = (
   };
 };
 
+export const createCourse = (): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  AnyAction
+> => {
+  return (dispatch) => {
+    axios.post("http://181.127.189.247:3001/categories").then((response) => {
+      // dispatch(reducer.allCategories(response.data));
+    });
+  };
+};
+
 export const setFiltered = (
   order: string,
   courses: Array<CoursoBack>,
