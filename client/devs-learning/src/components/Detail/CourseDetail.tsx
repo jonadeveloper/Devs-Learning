@@ -73,7 +73,7 @@ const CourseDetail: React.FC = () => {
   };
 
   const handleCategorieClick = () => {
-    console.log(`Redireccionar al filtro por categoria`);
+    console.log(`Redireccionando al filtro por categoria`);
   };
 
   return (
