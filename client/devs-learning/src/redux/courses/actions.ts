@@ -107,11 +107,11 @@ export const setFiltered = (
   return (dispatch) => {
     let filteredCourses: Array<CoursoBack> = [];
 
-    if (searched === "") {
-      filteredCourses = [...courses];
-    } else {
-      filteredCourses = [...coursesFiltered];
-    }
+    // if (searched === "") {
+    //   filteredCourses = [...courses];
+    // } else {
+    filteredCourses = [...coursesFiltered];
+    // }
 
     //categories
 
