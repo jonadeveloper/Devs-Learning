@@ -42,6 +42,7 @@ export default function SearchBar() {
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Zoom in={checked}>
             <TextField
+              sx={{ minWidth: 120 }}
               id="outlined-basic"
               label="Search..."
               variant="outlined"
