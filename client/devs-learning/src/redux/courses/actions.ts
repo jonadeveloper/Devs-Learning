@@ -17,6 +17,15 @@ export const getCourses = (): ThunkAction<
 > => {
   return (dispatch) => {
     axios.get(`${BACK}/courses`).then((response) => {
+      response.data.map((course: any) => {
+        course.name = course.name.replaceAll("-", " ");
+        course.name = course.name[0].toUpperCase() + course.name.substring(1);
+        course.categories.map((category: any) => {
+          category.name = category.name.replaceAll("-", " ");
+          category.name =
+            category.name[0].toUpperCase() + category.name.substring(1);
+        });
+      });
       dispatch(reducer.allCourses(response.data));
     });
   };
@@ -29,6 +38,11 @@ export const getCategories = (): ThunkAction<
 > => {
   return (dispatch) => {
     axios.get(`${BACK}/categories`).then((response) => {
+      response.data.map((category: any) => {
+        category.name = category.name.replaceAll("-", " ");
+        category.name =
+          category.name[0].toUpperCase() + category.name.substring(1);
+      });
       dispatch(reducer.allCategories(response.data));
     });
   };
