@@ -13,7 +13,7 @@ export default function SearchBar() {
   const [checked, setChecked] = useState(false);
 
   const dispatch = useAppDispatch();
-  const { courses } = useAppSelector((state) => state.courses);
+  const { coursesFiltered } = useAppSelector((state) => state.courses);
 
   const checkClick = () => {
     if (search == "") {
@@ -30,7 +30,7 @@ export default function SearchBar() {
   const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (search !== "") {
-      dispatch(searchCourses(courses, search));
+      dispatch(searchCourses(coursesFiltered, search));
     }
 
     setSearch("");

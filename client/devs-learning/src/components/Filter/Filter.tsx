@@ -118,13 +118,15 @@ export default function () {
                 minWidth: 120,
                 color: "gray",
               }}
+              href={name ? "/" : name}
             >
               Refresh
             </Button>
           </Box>
         </Box>
       </Collapse>
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
+
+      <Box sx={{ display: "flex", justifyContent: "center", marginTop: 1 }}>
         <Button
           sx={{ color: "gray" }}
           variant="outlined"
