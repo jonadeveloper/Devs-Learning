@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
+import { Link as ReactLink } from "react-router-dom";
 
 //MUI
 import Box from "@mui/material/Box";
@@ -71,10 +72,8 @@ const CourseDetail: React.FC = () => {
     price: 2750,
   };
 
-  const handleClick = () => {
-    console.log(
-      `Redireccionar al filtro por categoria ${CursoActual.categoria}`
-    );
+  const handleCategorieClick = () => {
+    console.log(`Redireccionando al filtro por categoria`);
   };
 
   return (
@@ -99,21 +98,18 @@ const CourseDetail: React.FC = () => {
           justifyContent="center"
         >
           <Box ml={1}>
-            <Stack direction="row">
-              {/*               {TheCourse.categories.map((cat: any) => {
+            <Stack direction="row" spacing={1}>
+              {TheCourse.categories.map((cat: any) => {
                 return (
-                  <Chip
-                    label={cat}
-                    sx={{ backgroundColor: "greenyellow" }}
-                    onClick={handleClick}
-                  />
+                  <ReactLink to={`/categories/${cat.name}`}>
+                    <Chip
+                      label={cat.name}
+                      sx={{ backgroundColor: "greenyellow" }}
+                      onClick={handleCategorieClick}
+                    />
+                  </ReactLink>
                 );
-              })} */}
-              <Chip
-                label={CursoActual.categoria}
-                sx={{ backgroundColor: "greenyellow" }}
-                onClick={handleClick}
-              />
+              })}
             </Stack>
           </Box>
           <Typography ml={1} gutterBottom variant="h2">
