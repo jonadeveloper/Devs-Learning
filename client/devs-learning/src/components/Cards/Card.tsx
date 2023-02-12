@@ -11,6 +11,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { setCurrentCourse } from "../../redux/courses/actions";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
+import Stack from "@mui/material/Stack";
 
 export interface Course {
   categoria: number;
@@ -95,10 +96,23 @@ export const CardComponent = ({ card, index }: Props) => {
                 </Typography>
                 {/* Category */}
                 <Box my={2}>
-                  <Chip
-                    label="Development"
-                    sx={{ backgroundColor: "greenyellow" }}
-                  />
+                  <Stack spacing={1}>
+                    {card.categories.map((cat: any) => {
+                      return (
+                        <Link to={`/categories/${cat.name}`}>
+                          <Chip
+                            label={cat.name}
+                            sx={{ backgroundColor: "greenyellow" }}
+                            onClick={() => {
+                              console.log(
+                                `Redireccionando a la categoria ${cat.name}`
+                              );
+                            }}
+                          />
+                        </Link>
+                      );
+                    })}
+                  </Stack>
                 </Box>
                 {/* Course sumary */}
                 <Typography variant="body2" color="text.secondary">
