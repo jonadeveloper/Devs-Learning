@@ -34,6 +34,6 @@ module.exports.postCategories = async function (category) {
       //console.log(response);
     })
     .catch(function (error) {
-      //console.log(error);
+      console.log(error);
     });
 }

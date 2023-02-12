@@ -18,6 +18,13 @@ function putCategorie(req, res) {
             let nameDB = name.split(" ").join("-").toLowerCase();
             let category = yield Category.findOne({
                 where: { name: nameDB },
+                include: {
+                    model: Course,
+                    attributes: ["name"],
+                    through: {
+                        attributes: []
+                    }
+                }
             });
             if (category === undefined)
                 return res.status(404).send(`La categoria ${name} no existe`);
@@ -30,13 +37,24 @@ function putCategorie(req, res) {
                 },
             });
             if (course) {
-                let courseArr = course.map((el) => {
+                let newCourses = course.map((el) => {
                     return el.split(" ").join("-").toLowerCase();
                 });
-                let courseDB = yield Course.findAll({
-                    where: { name: courseArr },
+                let coursesArr = category.courses.map((course) => {
+                    return course.name;
                 });
-                courseDB.forEach((el) => {
+                let oldCourses = yield Course.findAll({
+                    where: {
+                        name: coursesArr
+                    }
+                });
+                oldCourses.forEach((el) => {
+                    category.removeCourse(el);
+                });
+                let coursesDB = yield Course.findAll({
+                    where: { name: newCourses },
+                });
+                coursesDB.forEach((el) => {
                     category.addCourse(el);
                 });
             }

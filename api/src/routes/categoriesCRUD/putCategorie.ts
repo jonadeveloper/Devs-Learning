@@ -11,6 +11,13 @@ export async function putCategorie(req: any, res: any) {
     let nameDB = name.split(" ").join("-").toLowerCase();
     let category = await Category.findOne({
       where: { name: nameDB },
+      include: {
+        model: Course,
+        attributes: ["name"],
+        through: {
+          attributes: []
+        }
+      }
     });
     if (category === undefined) return res.status(404).send(`La categoria ${name} no existe`);
     await Category.update(
@@ -25,13 +32,24 @@ export async function putCategorie(req: any, res: any) {
       }
     );
     if (course) {
-      let courseArr = course.map((el: string) => {
+      let newCourses = course.map((el: string) => {
         return el.split(" ").join("-").toLowerCase();
       });
-      let courseDB = await Course.findAll({
-        where: { name: courseArr },
+      let coursesArr = category.courses.map((course: any)=>{
+        return course.name
       });
-      courseDB.forEach((el: any) => {
+      let oldCourses = await Course.findAll({
+        where: {
+          name: coursesArr
+        }
+      });
+      oldCourses.forEach((el: any)=>{
+        category.removeCourse(el)
+      });
+      let coursesDB = await Course.findAll({
+        where: { name: newCourses },
+      });
+      coursesDB.forEach((el: any) => {
         category.addCourse(el);
       });
     };
