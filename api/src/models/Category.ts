@@ -18,7 +18,6 @@ module.exports = (sequelize: any) => {
         "social-networks",
         "advertising",
         "copywriting",
-        "seo",
         "web-design",
         "graphic-design",
         "ux-design",
@@ -27,9 +26,17 @@ module.exports = (sequelize: any) => {
         "big-data",
         "data-analytics",
         "machine-learning",
-        "search-engine-optimization"
+        "search-engine-optimization-(seo)"
       ),
       allowNull: false,
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
+    img: {
+      type: DataTypes.STRING,
+      allowNull: false
     },
   });
 };

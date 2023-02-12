@@ -21,10 +21,10 @@ export async function postCourse(req: any, res: any) {
     let categoriesArr = category.map((el: string) => {
       return el.split(" ").join("-").toLowerCase();
     });
-    categoriesArr.forEach((cat: string) => {
-      Category.findOrCreate({
-        where: { name: cat },
-      });
+    let categoriesDB = await Category.findAll({
+      where: {
+        name: categoriesArr
+      }
     });
     let courseCreated = await Course.create({
       name: nameDB,
@@ -35,9 +35,6 @@ export async function postCourse(req: any, res: any) {
       duration,
       instructor,
       price,
-    });
-    let categoriesDB = await Category.findAll({
-      where: { name: categoriesArr },
     });
     categoriesDB.forEach((el: any) => {
       courseCreated.addCategory(el);

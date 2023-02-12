@@ -15,11 +15,12 @@ export async function getCategories(req: any, res: any) {
           },
         },
       });
-      return res.status(200).send(category);
+      category.length===0 ? res.status(404).send(`The category ${name} has not been found`) : res.status(200).send(category);
     } else {
       let category = await Category.findAll({
-        includes: {
-          Course,
+        where: {},
+        include: {
+          model: Course,
           attributes: ["name"],
           through: {
             attributes: [],

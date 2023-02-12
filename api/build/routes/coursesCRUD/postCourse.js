@@ -24,10 +24,10 @@ function postCourse(req, res) {
             let categoriesArr = category.map((el) => {
                 return el.split(" ").join("-").toLowerCase();
             });
-            categoriesArr.forEach((cat) => {
-                Category.findOrCreate({
-                    where: { name: cat },
-                });
+            let categoriesDB = yield Category.findAll({
+                where: {
+                    name: categoriesArr
+                }
             });
             let courseCreated = yield Course.create({
                 name: nameDB,
@@ -38,9 +38,6 @@ function postCourse(req, res) {
                 duration,
                 instructor,
                 price,
-            });
-            let categoriesDB = yield Category.findAll({
-                where: { name: categoriesArr },
             });
             categoriesDB.forEach((el) => {
                 courseCreated.addCategory(el);

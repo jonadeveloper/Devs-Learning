@@ -18,7 +18,16 @@ function putCourse(req, res) {
             let nameDB = name.split(" ").join("-").toLowerCase();
             let course = yield Course.findOne({
                 where: { name: nameDB },
+                include: {
+                    model: Category,
+                    attributes: ["name"],
+                    through: {
+                        attributes: []
+                    }
+                }
             });
+            if (course === undefined)
+                return res.status(404).send(`El curso ${name} no existe`);
             yield Course.update({
                 level: level ? level : course.level,
                 img: img ? img : course.img,
@@ -35,22 +44,29 @@ function putCourse(req, res) {
                 },
             });
             if (category) {
-                let categoryArr = category.map((el) => {
+                let newCategories = category.map((el) => {
                     return el.split(" ").join("-").toLowerCase();
                 });
-                categoryArr.forEach((cat) => {
-                    Category.findOrCreate({
-                        where: { name: cat },
-                    });
+                let categoriesArr = course.categories.map((category) => {
+                    return category.name;
                 });
-                let categoryDB = yield Category.findAll({
-                    where: { name: categoryArr },
+                let oldCategories = yield Category.findAll({
+                    where: {
+                        name: categoriesArr
+                    }
                 });
-                categoryDB.forEach((el) => {
+                oldCategories.forEach((el) => {
+                    course.removeCategory(el);
+                });
+                let categoriesDB = yield Category.findAll({
+                    where: { name: newCategories },
+                });
+                categoriesDB.forEach((el) => {
                     course.addCategory(el);
                 });
             }
-            return res.status(200).send(course);
+            ;
+            return res.status(200).send(`The course ${name} has been updated`);
         }
         catch (err) {
             return res.status(404).send(err);
