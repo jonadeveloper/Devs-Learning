@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 import { getCourses, setFiltered } from "../../redux/courses/actions";
 import SearchBar from "../searchbar/searchbar";
@@ -25,6 +26,8 @@ const MenuProps = {
 export default function () {
   const [order, setOrder] = useState("");
   const [filterCategories, setFilterCategories] = useState("");
+  const { name } = useParams();
+  const [disabledFilter, setDisabledFilter] = useState(name ? true : false);
 
   const dispatch = useAppDispatch();
   const { courses, coursesFiltered, searched, categories } = useAppSelector(
@@ -81,6 +84,7 @@ export default function () {
             value={filterCategories.toString()}
             onChange={categoryChange}
             MenuProps={MenuProps}
+            disabled={disabledFilter}
           >
             {categories.map((category: any, index) => {
               return (
