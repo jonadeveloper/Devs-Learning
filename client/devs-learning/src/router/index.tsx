@@ -13,22 +13,22 @@ import { PublicRoute } from "./PublicRoute";
 import { AuthRouter } from "./AuthRoute";
 import { CreateCourse } from "../views/CreateCourse";
 import Footer from "../components/Footer/Footer";
-
+import LandingPage from "../components/Landing/LandingPage";
 
 export const AppRouter = () => {
-
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getCourses());
-    dispatch(getCategories())
-
-  }, [])
+    dispatch(getCategories());
+  }, []);
 
   return (
     <div>
       <NavBar />
       <Routes>
-        <Route path={`/`} element={<Home />} />
+        <Route path={`/`} element={<LandingPage />} />
+        <Route path={`/courses`} element={<Home />} />
+
         <Route path={`/courseDetail/:id`} element={<CourseDetail />} />
         <Route path={`/categories`} element={<Categories />} />
         <Route path={`/categories/:name`} element={<CoursePerCategories />} />
@@ -36,18 +36,22 @@ export const AppRouter = () => {
         {/* Deberia ser private */}
         <Route path={`/dashboard/create/course`} element={<CreateCourse />} />
 
-        <Route path={`/auth/*`}
+        <Route
+          path={`/auth/*`}
           element={
             <PublicRoute isLoggedin={"notLoggedIn"}>
               <AuthRouter />
             </PublicRoute>
-          } />
-        <Route path={`/*`}
+          }
+        />
+        <Route
+          path={`/*`}
           element={
             <PrivateRoute isLoggedin={"notLoggedIn"}>
               <LoggedRoutes />
             </PrivateRoute>
-          } />
+          }
+        />
       </Routes>
       <Footer />
     </div>

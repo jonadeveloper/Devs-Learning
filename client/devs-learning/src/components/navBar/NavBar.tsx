@@ -135,7 +135,6 @@ function ResponsiveAppBar() {
                   </MenuItem>
                 ))}
               </Menu>
-              {/* <SearchBar /> */}
             </Box>
             {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} /> */}
             <Typography
@@ -166,7 +165,6 @@ function ResponsiveAppBar() {
                   <Link to={page.route}>{page.name}</Link>
                 </Button>
               ))}
-              {/* <SearchBar /> */}
             </Box>
             <Stack spacing={2} direction="row" margin={2}>
               <Button color="secondary" variant="text">
