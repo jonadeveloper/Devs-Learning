@@ -19,7 +19,8 @@ import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 
 import { useParams } from "react-router-dom";
-import { getCourses, setCurrentCourse } from "../../redux/courses/actions";
+import { getCourses, setCurrentCourse, addToCart } from "../../redux/courses/actions";
+import { setItem } from "../../utils/localStorage";
 
 interface UserParams {
   id: string;
@@ -37,6 +38,18 @@ const CourseDetail: React.FC = () => {
   const courses = useAppSelector((state) => state.courses.courses);
   const TheCourse = useAppSelector((state) => state.courses.currentCourse);
   const { coursesFiltered } = useAppSelector((state) => state.courses);
+  const [disabledBtn, setDisabledBtn] = React.useState<boolean>(false);
+
+  const handleAddToCart = () => {
+    dispatch(addToCart(TheCourse));
+  };
+
+  const { cart } = useAppSelector((state) => state.courses);
+
+  React.useEffect(() => {
+    setDisabledBtn(cart.some((item) => item.id === id));
+    setItem("cart", cart);
+  }, [cart, id]);
 
   useEffect(() => {
     console.log(`Current Course: ${TheCourse}`);
@@ -148,6 +161,8 @@ const CourseDetail: React.FC = () => {
               color="secondary"
               variant="contained"
               endIcon={<AddShoppingCartIcon />}
+              onClick={handleAddToCart}
+              disabled={disabledBtn}
             >
               <Typography variant="button" p={0.5}>
                 Add to Cart
@@ -172,10 +187,7 @@ const CourseDetail: React.FC = () => {
           </List>
         </Grid>
         <Grid item xs={12} md={9} lg={9} p={1}>
-          <Typography variant="body1">
-            {" "}
-            {TheCourse.descriptionComplete}{" "}
-          </Typography>
+          <Typography variant="body1"> {TheCourse.descriptionComplete} </Typography>
         </Grid>
       </Grid>
     </div>
