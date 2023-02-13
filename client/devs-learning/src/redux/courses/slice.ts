@@ -22,7 +22,7 @@ interface CartAddState {
 interface CartRemoveState {
   id: string | number;
 }
-// getItem('cart') ||
+
 const initialState: CoursesState = {
   courses: [],
   coursesFiltered: [],
