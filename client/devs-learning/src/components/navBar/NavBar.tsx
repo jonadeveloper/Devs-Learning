@@ -11,11 +11,9 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import Stack from "@mui/material/Stack";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import SearchBar from "../searchbar/searchbar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import img from "./img.png";
 
 // const pages = ["Home", "Courses", "Categories"];
@@ -67,6 +65,15 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
+  const navigate = useNavigate();
+
+  const handleRegister = () => {
+    navigate("/signup");
+  };
+
+  const handleLogin = () => {
+    navigate("/signin");
+  };
   return (
     <ThemeProvider theme={theme}>
       <AppBar position="static">
@@ -167,10 +174,14 @@ function ResponsiveAppBar() {
               ))}
             </Box>
             <Stack spacing={2} direction="row" margin={2}>
-              <Button color="secondary" variant="text">
+              <Button onClick={handleLogin} color="secondary" variant="text">
                 Log in
               </Button>
-              <Button variant="contained" color="success">
+              <Button
+                onClick={handleRegister}
+                variant="contained"
+                color="success"
+              >
                 Sign Up
               </Button>
             </Stack>
