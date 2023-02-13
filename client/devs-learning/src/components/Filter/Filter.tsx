@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 import { getCourses, setFiltered } from "../../redux/courses/actions";
 import SearchBar from "../searchbar/searchbar";
@@ -118,9 +118,8 @@ export default function () {
                 minWidth: 120,
                 color: "gray",
               }}
-              href={name ? "/" : name}
             >
-              Refresh
+              <NavLink to="/courses">Refresh</NavLink>
             </Button>
           </Box>
         </Box>
