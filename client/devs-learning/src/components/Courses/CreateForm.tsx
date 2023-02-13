@@ -1,7 +1,8 @@
 import { Button, Chip, FormControl, Grid, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField, Theme, Typography, useTheme } from '@mui/material'
 import { Box } from '@mui/system'
 import React, { ChangeEvent, useState } from 'react'
-import { useAppSelector } from '../../hooks/hooksRedux';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooksRedux';
+import { createCourseAction } from '../../redux/courses/actions';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 0;
@@ -13,19 +14,6 @@ const MenuProps = {
         },
     },
 };
-
-const names = [
-    'Oliver Hansen',
-    'Van Henry',
-    'April Tucker',
-    'Ralph Hubbard',
-    'Omar Alexander',
-    'Carlos Abbott',
-    'Miriam Wagner',
-    'Bradley Wilkerson',
-    'Virginia Andrews',
-    'Kelly Snyder',
-];
 
 function getStyles(name: string, personName: readonly string[], theme: Theme) {
     return {
@@ -45,13 +33,18 @@ export const CreateForm = () => {
         level: "",
         category: [],
         description: "",
-        descriptionComplete: ""
+        descriptionComplete: "",
+        instructor: ""
     })
     const [categoriesSelect, setCategoriesSelect] = useState<string[]>([])
-
+    const dispatch = useAppDispatch()
     const { categories } = useAppSelector((state) => state.courses)
 
-    const handleChange = () => (event: ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
+        setCourse({ ...course, [name]: value })
+    }
+    const handleChangeSelect = (event: SelectChangeEvent) => {
         const { name, value } = event.target;
         setCourse({ ...course, [name]: value })
     }
@@ -64,8 +57,9 @@ export const CreateForm = () => {
             typeof value === 'string' ? value.split(',') : value,
         );
     };
-    const handleSubmit = () => () => {
-
+    const handleSubmit = (event: React.FormEvent<HTMLInputElement>) => {
+        event.preventDefault()
+        dispatch(createCourseAction({ ...course, category: categoriesSelect }))
     }
     return (
         <Box sx={{ height: "100vh", display: "flex", alignItems: "center" }}>
@@ -85,6 +79,7 @@ export const CreateForm = () => {
                     flexDirection: "column",
                     gap: 2
                 }}
+                onSubmit={handleSubmit}
             >
                 <Typography variant='h2' fontSize={"2rem"} textAlign={"center"} >
                     Create Course
@@ -133,33 +128,19 @@ export const CreateForm = () => {
                                 name="level"
                                 value={course.level}
                                 label="Difficulty"
-                                onChange={handleChange}
-
+                                onChange={handleChangeSelect}
                             >
                                 <MenuItem value={"beginner"}>Beginner</MenuItem>
-                                <MenuItem value={"intemediate"}>Intemediate</MenuItem>
+                                <MenuItem value={"intermediate"}>Intermediate</MenuItem>
                                 <MenuItem value={"advanced"}>Advanced</MenuItem>
                             </Select>
                         </FormControl>
 
                     </Grid>
                     <Grid item sm={6} xs={12} sx={{ '& .MuiTextField-root': { width: '100%' } }}>
-                        {/* <FormControl fullWidth>
-                            <InputLabel >Category</InputLabel>
-                            <Select
-                                required
-                                name="category"
-                                value={course.category}
-                                label="Category"
-                                onChange={handleChange}
-                            >
-                                <MenuItem value={10}>Beginner</MenuItem>
-                                <MenuItem value={20}>Intemediate</MenuItem>
-                                <MenuItem value={30}>Advanced</MenuItem>
-                            </Select>
-                        </FormControl> */}
+
                         <FormControl sx={{ width: "100%" }}>
-                            <InputLabel id="demo-multiple-chip-label">Categories</InputLabel>
+                            <InputLabel>Categories</InputLabel>
                             <Select
                                 multiple
                                 value={categoriesSelect}
@@ -189,9 +170,20 @@ export const CreateForm = () => {
                     <Grid item xs={12} sx={{ '& .MuiTextField-root': { width: '100%' } }}>
                         <TextField
                             required
+                            label="Instructor"
+                            name='instructor'
+                            onChange={handleChange}
+
+                        />
+                    </Grid>
+                    <Grid item xs={12} sx={{ '& .MuiTextField-root': { width: '100%' } }}>
+                        <TextField
+                            required
                             label="Short Description"
                             name='description'
                             onChange={handleChange}
+                            value={course.description}
+                            inputProps={{ maxLength: 100 }}
 
                         />
                     </Grid>

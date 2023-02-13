@@ -9,6 +9,7 @@ interface CoursesState {
   currentPage: number;
   currentCourse: CoursoBack;
   searched: string;
+  status: string;
 }
 
 const initialState: CoursesState = {
@@ -29,6 +30,7 @@ const initialState: CoursesState = {
   },
   currentPage: 1,
   searched: "",
+  status: "loading"
 };
 
 export const courses = createSlice({
@@ -38,15 +40,20 @@ export const courses = createSlice({
     allCourses: (state, { payload }) => {
       state.courses = payload;
       state.coursesFiltered = payload;
+      state.status = "confirmed";
+
     },
     allCategories: (state, { payload }) => {
       state.categories = payload;
+      state.status = "confirmed";
     },
     setCurrent: (state, { payload }) => {
+      state.status = "confirmed";
       state.currentCourse = payload;
     },
     currentCourse: (state, action: PayloadAction<CoursoBack>) => {
       state.currentCourse = action.payload;
+      state.status = "confirmed";
     },
     searched: (state, { payload }) => {
       state.coursesFiltered = payload.allcourses;
@@ -54,6 +61,9 @@ export const courses = createSlice({
     },
     setFiltered: (state, { payload }) => {
       state.coursesFiltered = payload;
+    },
+    setLoading: (state, { payload }) => {
+      state.status = "loading";
     },
   },
 });
