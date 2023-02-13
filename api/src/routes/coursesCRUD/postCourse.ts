@@ -41,6 +41,7 @@ export async function postCourse(req: any, res: any) {
     });
     return res.status(200).send(`The Course ${name} has been created`);
   } catch (err) {
-    return res.status(404).send(err);
+    console.log(err);
+    return res.status(500).send(err);
   }
 }

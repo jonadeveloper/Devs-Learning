@@ -11,15 +11,16 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import Stack from "@mui/material/Stack";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+
 import SearchBar from "../searchbar/searchbar";
 import { Link, useNavigate } from "react-router-dom";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { Badge } from "@mui/material";
 import { useAppSelector } from "../../hooks/hooksRedux";
 import { CartComponent } from "../Cart/Cart";
+
 // import img from "./img.png";
 
 // const pages = ["Home", "Courses", "Categories"];
@@ -67,14 +68,26 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
+
   const handleStateViewDrawer = () => {
     setOpen((state) => !state);
   };
 
   const { cart } = useAppSelector((state) => state.courses);
+
+  const navigate = useNavigate();
+
+  const handleRegister = () => {
+    navigate("/signup");
+  };
+
+  const handleLogin = () => {
+    navigate("/signin");
+  };
+
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             {/* <img
@@ -140,7 +153,6 @@ function ResponsiveAppBar() {
                   </MenuItem>
                 ))}
               </Menu>
-              {/* <SearchBar /> */}
             </Box>
             {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} /> */}
             <Typography
@@ -171,18 +183,25 @@ function ResponsiveAppBar() {
                   <Link to={page.route}>{page.name}</Link>
                 </Button>
               ))}
-              {/* <SearchBar /> */}
             </Box>
             <Stack spacing={2} direction="row" margin={2}>
+
               <IconButton color="secondary" onClick={() => handleStateViewDrawer()}>
                 <Badge color="secondary" badgeContent={cart.length}>
                   <ShoppingCartOutlinedIcon />
                 </Badge>
               </IconButton>
               <Button color="secondary" variant="text">
+
+              <Button onClick={handleLogin} color="secondary" variant="text">
+
                 Log in
               </Button>
-              <Button variant="contained" color="success">
+              <Button
+                onClick={handleRegister}
+                variant="contained"
+                color="success"
+              >
                 Sign Up
               </Button>
             </Stack>

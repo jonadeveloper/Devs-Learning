@@ -1,6 +1,8 @@
 import { AnyAction, ThunkAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import Swal from "sweetalert2";
 import { CoursoBack } from "../../components/Cards/Card";
+import { createCourse } from "../../interfaces/Course";
 import { RootState } from "../store";
 import { reducer } from "./slice";
 
@@ -84,16 +86,26 @@ export const setCurrentCourse = (
   };
 };
 
-export const createCourse = (): ThunkAction<
+export const createCourseAction = (course: createCourse): ThunkAction<
   void,
   RootState,
   unknown,
   AnyAction
 > => {
+  // console.log(course);
+
   return (dispatch) => {
-    axios.post("http://181.127.189.247:3001/categories").then((response) => {
-      // dispatch(reducer.allCategories(response.data));
-    });
+    dispatch(reducer.setLoading())
+    axios.post(BACK + "/courses/", course)
+      .then((response) => {
+        console.log(response);
+        dispatch(reducer.createCourse());
+        Swal.fire("Course created successfully!", "", "success");
+      })
+      .catch((err) => {
+        dispatch(reducer.createCourse());
+        Swal.fire("Something went wrong, please try again", "", "error");
+      })
   };
 };
 
@@ -107,11 +119,11 @@ export const setFiltered = (
   return (dispatch) => {
     let filteredCourses: Array<CoursoBack> = [];
 
-    if (searched === "") {
-      filteredCourses = [...courses];
-    } else {
-      filteredCourses = [...coursesFiltered];
-    }
+    // if (searched === "") {
+    //   filteredCourses = [...courses];
+    // } else {
+    filteredCourses = [...coursesFiltered];
+    // }
 
     //categories
 

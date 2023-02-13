@@ -1,13 +1,11 @@
 enum Ranks {
   admin,
   teacher,
-  student
+  student,
 }
-
 
 export interface CreateUserInterface {
   fullname: string;
-  username: string;
   password: string;
   rpassword: string;
   email: string;

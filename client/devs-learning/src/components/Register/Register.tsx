@@ -10,25 +10,16 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { AccountCircle, Email, Lock, Person } from "@mui/icons-material";
-import { useDispatch } from "react-redux";
+import { AccountCircle, Email, Lock } from "@mui/icons-material";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 import { useNavigate } from "react-router-dom";
-// import { CreateUserInterface } from "../../interfaces/CreateUserInterface";
+import { registerUser } from "../../redux/users/actions";
 
 export default function Register() {
-  const initialState = {
-    fullname: "",
-    username: "",
-    password: "",
-    rpassword: "",
-    email: "",
-    rank: 2,
-    profileImg: "",
-  };
-
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [input, setInput] = useState(initialState);
+  const userState = useAppSelector((state) => state);
+  const [input, setInput] = useState(userState.users);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput({
@@ -39,11 +30,12 @@ export default function Register() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (input.fullname.length < 6) {
       alert("Please complete the form");
     } else {
-      //dispatch funcion crear :)
-      alert("creado");
+      dispatch(registerUser({ ...input }));
+      navigate("/");
     }
   };
 
@@ -53,7 +45,6 @@ export default function Register() {
 
   const [validName, setValidName] = useState(true);
   const [validEmail, setValidEmail] = useState(true);
-  const [validUsername, setValidUsername] = useState(true);
   const [validPassword, setValidPassword] = useState(true);
   const [passwordCheck, setPasswordChecked] = useState(true);
   const regexWhite = new RegExp(/^\s+$/);
@@ -83,22 +74,8 @@ export default function Register() {
     }
   }
 
-  function validateUserName() {
-    if (input.username.length < 3 || regexWhite.test(input.username)) {
-      setValidUsername(false);
-    } else {
-      setValidUsername(true);
-    }
-  }
-
   function validateEmail() {
-    var validRegex =
-      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    if (
-      regexWhite.test(input.email) ||
-      input.email.length < 8 ||
-      !input.email.match(validRegex)
-    ) {
+    if (regexWhite.test(input.email) || input.email.length < 8) {
       setValidEmail(false);
     } else {
       setValidEmail(true);
@@ -113,17 +90,18 @@ export default function Register() {
         height: "100%",
         width: "100%",
         backgroundImage: `url(${image})`,
+        backgroundSize: "cover",
         display: "flex",
         justifyContent: "center",
-        alignItems: "center"
-
+        alignItems: "center",
       }}
+      mt={3}
     >
       <Grid
         container
         justifyContent="center"
         alignItems="center"
-        borderRadius='20px'
+        borderRadius="20px"
         sx={{
           display: "grid",
           gridTemplateColumns: "repeat(2, 1fr)",
@@ -131,7 +109,6 @@ export default function Register() {
           height: "70vh",
           maxHeight: "100%",
           backgroundColor: "white",
-          borderRadius: '20px'
         }}
       >
         <Container
@@ -139,7 +116,7 @@ export default function Register() {
             height: "100%",
             backgroundImage: `url(${devsLogo})`,
             backgroundPosition: "center",
-            backgroundSize: "contain"
+            backgroundSize: "contain",
           }}
         ></Container>
         <Grid
@@ -147,11 +124,12 @@ export default function Register() {
           container
           justifyContent="center"
           alignItems="center"
-          sx={{ height: "100%", width: "100%", backgroundColor: 'white' }}
+          sx={{ height: "100%", width: "100%", backgroundColor: "white" }}
         >
           <Typography variant="h3">Create Account</Typography>
           <Box
             component="form"
+            autoComplete="false"
             onSubmit={handleSubmit}
             display="flex"
             flexDirection="column"
@@ -177,29 +155,6 @@ export default function Register() {
               onBlur={validateName}
               value={input.fullname}
               placeholder="Fullname..."
-            />
-            <TextField
-              error={!validUsername}
-              helperText={
-                !validUsername && "Username minimum length required is 3"
-              }
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Person />
-                  </InputAdornment>
-                ),
-              }}
-              sx={{ m: "10px 0" }}
-              label="Username"
-              required
-              size="small"
-              type="text"
-              name="username"
-              onChange={handleChange}
-              onBlur={validateUserName}
-              value={input.username}
-              placeholder="Username..."
             />
 
             <TextField
@@ -250,7 +205,7 @@ export default function Register() {
 
             <TextField
               error={!validEmail}
-              helperText={!validEmail && "Plase enter a valid email"}
+              helperText={!validEmail && "Please enter a valid email"}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -275,11 +230,7 @@ export default function Register() {
               size="medium"
               type="submit"
               disabled={
-                !validPassword ||
-                !validName ||
-                !validUsername ||
-                !passwordCheck ||
-                !validEmail
+                !validPassword || !validName || !passwordCheck || !validEmail
               }
             >
               Register
