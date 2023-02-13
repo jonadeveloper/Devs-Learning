@@ -14,6 +14,8 @@ import { AuthRouter } from "./AuthRoute";
 import { CreateCourse } from "../views/CreateCourse";
 import Footer from "../components/Footer/Footer";
 import LandingPage from "../components/Landing/LandingPage";
+import Register from "../components/Register/Register";
+import Login from "../components/Login/Login";
 
 export const AppRouter = () => {
   const dispatch = useAppDispatch();
@@ -28,7 +30,8 @@ export const AppRouter = () => {
       <Routes>
         <Route path={`/`} element={<LandingPage />} />
         <Route path={`/courses`} element={<Home />} />
-
+        <Route path={`/signup`} element={<Register />} />
+        <Route path={`/signin`} element={<Login />} />
         <Route path={`/courseDetail/:id`} element={<CourseDetail />} />
         <Route path={`/categories`} element={<Categories />} />
         <Route path={`/categories/:name`} element={<CoursePerCategories />} />
