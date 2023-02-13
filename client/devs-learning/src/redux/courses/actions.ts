@@ -1,5 +1,6 @@
 import { AnyAction, ThunkAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import Swal from "sweetalert2";
 import { CoursoBack } from "../../components/Cards/Card";
 import { createCourse } from "../../interfaces/Course";
 import { RootState } from "../store";
@@ -94,10 +95,17 @@ export const createCourseAction = (course: createCourse): ThunkAction<
   // console.log(course);
 
   return (dispatch) => {
-    axios.post(BACK + "/courses/", course).then((response) => {
-      console.log(response);
-      // dispatch(reducer.allCategories(response.data));
-    });
+    dispatch(reducer.setLoading())
+    axios.post(BACK + "/courses/", course)
+      .then((response) => {
+        console.log(response);
+        dispatch(reducer.createCourse());
+        Swal.fire("Course created successfully!", "", "success");
+      })
+      .catch((err) => {
+        dispatch(reducer.createCourse());
+        Swal.fire("Something went wrong, please try again", "", "error");
+      })
   };
 };
 

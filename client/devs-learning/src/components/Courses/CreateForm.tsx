@@ -38,7 +38,7 @@ export const CreateForm = () => {
     })
     const [categoriesSelect, setCategoriesSelect] = useState<string[]>([])
     const dispatch = useAppDispatch()
-    const { categories } = useAppSelector((state) => state.courses)
+    const { categories, status } = useAppSelector((state) => state.courses)
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -199,7 +199,7 @@ export const CreateForm = () => {
                         />
                     </Grid>
                 </Grid>
-                <Button variant="contained" color="success" type='submit'>
+                <Button variant="contained" color="success" type='submit' disabled={status === "loading"}>
                     Create course
                 </Button>
 
