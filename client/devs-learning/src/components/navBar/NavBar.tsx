@@ -13,7 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Stack from "@mui/material/Stack";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { Badge } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
@@ -36,16 +36,17 @@ const pages = [
 const settings = [
   {
     name: "Profile",
-    route: "/"
+    route: "/",
   },
   {
     name: "Create Course (Temp)",
-    route: "/dashboard/create/course"
+    route: "/dashboard/create/course",
   },
   {
     name: "Dashboard",
-    route: "/"
-  }]
+    route: "/",
+  },
+];
 function ResponsiveAppBar() {
   let theme = createTheme({
     palette: {
@@ -60,11 +61,15 @@ function ResponsiveAppBar() {
       },
     },
   });
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const [open, setOpen] = React.useState<boolean>(false);
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-  const { status } = useAppSelector((state) => state.users)
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+    null
+  );
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null
+  );
+  const { status } = useAppSelector((state) => state.users);
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -77,8 +82,8 @@ function ResponsiveAppBar() {
   };
   const handleLogout = () => {
     setAnchorElNav(null);
-    dispatch(signOutAction())
-  }
+    dispatch(signOutAction());
+  };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
@@ -117,7 +122,7 @@ function ResponsiveAppBar() {
               variant="h6"
               noWrap
               component="a"
-              href="/"
+              // href="/"
               sx={{
                 mr: 2,
                 display: { xs: "none", md: "flex" },
@@ -128,7 +133,7 @@ function ResponsiveAppBar() {
                 textDecoration: "none",
               }}
             >
-              Devs Learning
+              <NavLink to="/">Devs Learning</NavLink>
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -162,9 +167,9 @@ function ResponsiveAppBar() {
               >
                 {pages.map((page) => (
                   <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                    <Link to={page.route}>
+                    <NavLink to={page.route}>
                       <Typography textAlign="center">{page.name}</Typography>
-                    </Link>
+                    </NavLink>
                   </MenuItem>
                 ))}
                 <MenuItem key={"LoggOut"} onClick={handleCloseNavMenu}>
@@ -177,7 +182,7 @@ function ResponsiveAppBar() {
               variant="h5"
               noWrap
               component="a"
-              href=""
+              // href=""
               sx={{
                 mr: 2,
                 display: { xs: "flex", md: "none" },
@@ -189,7 +194,7 @@ function ResponsiveAppBar() {
                 textDecoration: "none",
               }}
             >
-              Devs
+              <NavLink to="/">Devs </NavLink>
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page) => (
@@ -198,25 +203,43 @@ function ResponsiveAppBar() {
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: "black", display: "block" }}
                 >
-                  <Link to={page.route}>{page.name}</Link>
+                  <NavLink to={page.route}>{page.name}</NavLink>
                 </Button>
               ))}
             </Box>
             <Stack spacing={2} direction="row" margin={2}>
-              <IconButton color="secondary" onClick={() => handleStateViewDrawer()}>
+              <IconButton
+                color="secondary"
+                onClick={() => handleStateViewDrawer()}
+              >
                 <Badge color="secondary" badgeContent={cart.length}>
                   <ShoppingCartOutlinedIcon />
                 </Badge>
               </IconButton>
               {/* <Button color="secondary" variant="text"></Button> */}
-              <Button onClick={handleLogin} color="secondary" variant="text" sx={{ display: status === "logged" ? "none" : "block" }}>
+              <Button
+                onClick={handleLogin}
+                color="secondary"
+                variant="text"
+                sx={{ display: status === "logged" ? "none" : "block" }}
+              >
                 Log in
               </Button>
-              <Button onClick={handleRegister} variant="contained" color="success" sx={{ display: status === "logged" ? "none" : "block" }}>
+              <Button
+                onClick={handleRegister}
+                variant="contained"
+                color="success"
+                sx={{ display: status === "logged" ? "none" : "block" }}
+              >
                 Sign Up
               </Button>
             </Stack>
-            <Box sx={{ flexGrow: 0, display: status != "logged" ? "none" : "block" }} >
+            <Box
+              sx={{
+                flexGrow: 0,
+                display: status != "logged" ? "none" : "block",
+              }}
+            >
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -240,9 +263,9 @@ function ResponsiveAppBar() {
               >
                 {settings.map((setting) => (
                   <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
-                    <Link to={setting.route}>
+                    <NavLink to={setting.route}>
                       <Typography textAlign="center">{setting.name}</Typography>
-                    </Link>
+                    </NavLink>
                   </MenuItem>
                 ))}
                 <MenuItem key={"Logout"} onClick={handleLogout}>
@@ -253,7 +276,10 @@ function ResponsiveAppBar() {
           </Toolbar>
         </Container>
       </AppBar>
-      <CartComponent open={open} handleStateViewDrawer={handleStateViewDrawer} />
+      <CartComponent
+        open={open}
+        handleStateViewDrawer={handleStateViewDrawer}
+      />
     </ThemeProvider>
   );
 }
