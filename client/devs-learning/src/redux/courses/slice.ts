@@ -62,7 +62,10 @@ export const courses = createSlice({
     setFiltered: (state, { payload }) => {
       state.coursesFiltered = payload;
     },
-    setLoading: (state, { payload }) => {
+    createCourse: (state) => {
+      state.status = "confirmed";
+    },
+    setLoading: (state) => {
       state.status = "loading";
     },
   },
