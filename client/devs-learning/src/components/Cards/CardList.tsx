@@ -24,6 +24,7 @@ export const CardList = ({ cards }: Props) => {
         gap: 4,
         p: 5,
       }}
+      mt={5}
     >
       <Filter />
       <Grid container spacing={6}>
