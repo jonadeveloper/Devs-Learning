@@ -21,10 +21,18 @@ export const loginUser = (
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return async (dispatch) => {
     try {
+      dispatch(reducer.loading)
       let response = await axios.post(`${REACT_APP_BASE_URL}/login`, data);
       dispatch(reducer.signIn(response.data));
     } catch (error) {
       alert(error);
     }
+  };
+};
+export const signOutAction = (): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return async (dispatch) => {
+    console.log("hola");
+    
+    dispatch(reducer.logOut)
   };
 };

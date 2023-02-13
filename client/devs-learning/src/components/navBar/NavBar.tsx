@@ -13,13 +13,12 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Stack from "@mui/material/Stack";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-import SearchBar from "../searchbar/searchbar";
 import { Link, useNavigate } from "react-router-dom";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { Badge } from "@mui/material";
-import { useAppSelector } from "../../hooks/hooksRedux";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 import { CartComponent } from "../Cart/Cart";
+import { signOutAction } from "../../redux/users/actions";
 
 // import img from "./img.png";
 
@@ -34,7 +33,19 @@ const pages = [
     route: "/categories",
   },
 ];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = [
+  {
+    name: "Profile",
+    route: "/"
+  },
+  {
+    name: "Create Course (Temp)",
+    route: "/dashboard/create/course"
+  },
+  {
+    name: "Dashboard",
+    route: "/"
+  }]
 function ResponsiveAppBar() {
   let theme = createTheme({
     palette: {
@@ -49,10 +60,11 @@ function ResponsiveAppBar() {
       },
     },
   });
+  const dispatch = useAppDispatch()
   const [open, setOpen] = React.useState<boolean>(false);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-
+  const { status } = useAppSelector((state) => state.users)
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -63,6 +75,10 @@ function ResponsiveAppBar() {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+  const handleLogout = () => {
+    setAnchorElNav(null);
+    dispatch(signOutAction())
+  }
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
@@ -77,11 +93,11 @@ function ResponsiveAppBar() {
   const navigate = useNavigate();
 
   const handleRegister = () => {
-    navigate("/signup");
+    navigate("/auth/signup");
   };
 
   const handleLogin = () => {
-    navigate("/signin");
+    navigate("/auth/signin");
   };
 
   return (
@@ -151,6 +167,9 @@ function ResponsiveAppBar() {
                     </Link>
                   </MenuItem>
                 ))}
+                <MenuItem key={"LoggOut"} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
               </Menu>
             </Box>
             {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} /> */}
@@ -189,15 +208,15 @@ function ResponsiveAppBar() {
                   <ShoppingCartOutlinedIcon />
                 </Badge>
               </IconButton>
-              <Button color="secondary" variant="text"></Button>
-              <Button onClick={handleLogin} color="secondary" variant="text">
+              {/* <Button color="secondary" variant="text"></Button> */}
+              <Button onClick={handleLogin} color="secondary" variant="text" sx={{ display: status === "logged" ? "none" : "block" }}>
                 Log in
               </Button>
-              <Button onClick={handleRegister} variant="contained" color="success">
+              <Button onClick={handleRegister} variant="contained" color="success" sx={{ display: status === "logged" ? "none" : "block" }}>
                 Sign Up
               </Button>
             </Stack>
-            <Box sx={{ flexGrow: 0 }}>
+            <Box sx={{ flexGrow: 0, display: status != "logged" ? "none" : "block" }} >
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -220,10 +239,15 @@ function ResponsiveAppBar() {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
+                  <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
+                    <Link to={setting.route}>
+                      <Typography textAlign="center">{setting.name}</Typography>
+                    </Link>
                   </MenuItem>
                 ))}
+                <MenuItem key={"Logout"} onClick={handleLogout}>
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
               </Menu>
             </Box>
           </Toolbar>

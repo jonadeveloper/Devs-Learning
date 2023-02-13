@@ -13,4 +13,5 @@ export interface CreateUserInterface {
   courses?: Array<unknown>;
   rank?: Ranks;
   country?: string;
+  status: string
 }

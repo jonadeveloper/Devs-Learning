@@ -168,7 +168,7 @@ export default function Login() {
               color="success"
               variant="contained"
               size="medium"
-              disabled={!validPassword || !validEmail}
+              disabled={!validPassword || !validEmail || userState.users.status === "loading"}
             >
               Login
             </Button>
@@ -186,7 +186,7 @@ export default function Login() {
             <Link href="/">Forgot your password?</Link>
           </Typography>
           <Typography sx={{ mt: "5px" }}>
-            <Link href="/signup">New user? Create an account</Link>
+            <Link href="/auth/signup">New user? Create an account</Link>
           </Typography>
         </Grid>
       </Grid>
