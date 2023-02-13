@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Course, CoursoBack } from "../../components/Cards/Card";
 import { Category } from "../../interfaces/Category";
+import { getItem } from '../../utils/localStorage';
 
 interface CoursesState {
   courses: CoursoBack[];
@@ -9,8 +10,14 @@ interface CoursesState {
   currentPage: number;
   currentCourse: CoursoBack;
   searched: string;
+
+  cart: CoursoBack[],
+
   status: string;
 }
+
+
+
 
 const initialState: CoursesState = {
   courses: [],
@@ -30,6 +37,9 @@ const initialState: CoursesState = {
   },
   currentPage: 1,
   searched: "",
+
+  cart: getItem('cart') || [],
+
   status: "loading"
 };
 
@@ -62,6 +72,29 @@ export const courses = createSlice({
     setFiltered: (state, { payload }) => {
       state.coursesFiltered = payload;
     },
+
+    addToCart: (state, action: PayloadAction<CoursoBack>) => {
+      const { id } = action.payload;
+      if (
+        state.cart.length === 0 ||
+        state.cart.filter((item) => item.id === id).length === 0
+      ) {
+        state.cart.push(action.payload);
+
+      }
+    },
+    removeToCart: (state, action: PayloadAction<CoursoBack>) => {
+      const { id } = action.payload;
+      if (state.cart.some((item) => item.id === id)) {
+        return {
+          ...state,
+          cart: state.cart.filter((item) => item.id !== id)
+        }
+      } else {
+        return state;
+      }
+    },
+
     createCourse: (state) => {
       state.status = "confirmed";
     },

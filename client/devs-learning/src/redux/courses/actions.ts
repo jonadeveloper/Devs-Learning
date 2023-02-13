@@ -186,3 +186,22 @@ export const setFiltered = (
     return dispatch(reducer.setFiltered(filteredCourses));
   };
 };
+
+export const addToCart = (
+  card: CoursoBack
+): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return (dispatch) => {
+    console.log(card);
+    return dispatch(reducer.addToCart(card));
+  };
+};
+
+export const removeToCart = (
+  card: CoursoBack
+): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return (dispatch) => {
+    console.log(card);
+    return dispatch(reducer.removeToCart(card));
+  };
+};
+

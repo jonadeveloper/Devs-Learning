@@ -13,7 +13,14 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Stack from "@mui/material/Stack";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+import SearchBar from "../searchbar/searchbar";
 import { Link, useNavigate } from "react-router-dom";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import { Badge } from "@mui/material";
+import { useAppSelector } from "../../hooks/hooksRedux";
+import { CartComponent } from "../Cart/Cart";
+
 // import img from "./img.png";
 
 // const pages = ["Home", "Courses", "Categories"];
@@ -42,13 +49,9 @@ function ResponsiveAppBar() {
       },
     },
   });
-
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
+  const [open, setOpen] = React.useState<boolean>(false);
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -65,6 +68,13 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
+
+  const handleStateViewDrawer = () => {
+    setOpen((state) => !state);
+  };
+
+  const { cart } = useAppSelector((state) => state.courses);
+
   const navigate = useNavigate();
 
   const handleRegister = () => {
@@ -74,6 +84,7 @@ function ResponsiveAppBar() {
   const handleLogin = () => {
     navigate("/signin");
   };
+
   return (
     <ThemeProvider theme={theme}>
       <AppBar position="fixed">
@@ -174,7 +185,16 @@ function ResponsiveAppBar() {
               ))}
             </Box>
             <Stack spacing={2} direction="row" margin={2}>
+
+              <IconButton color="secondary" onClick={() => handleStateViewDrawer()}>
+                <Badge color="secondary" badgeContent={cart.length}>
+                  <ShoppingCartOutlinedIcon />
+                </Badge>
+              </IconButton>
+              <Button color="secondary" variant="text">
+
               <Button onClick={handleLogin} color="secondary" variant="text">
+
                 Log in
               </Button>
               <Button
@@ -217,6 +237,7 @@ function ResponsiveAppBar() {
           </Toolbar>
         </Container>
       </AppBar>
+      <CartComponent open={open} handleStateViewDrawer={handleStateViewDrawer} />
     </ThemeProvider>
   );
 }
