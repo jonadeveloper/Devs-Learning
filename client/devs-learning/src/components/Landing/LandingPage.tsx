@@ -58,12 +58,14 @@ const LandingPage: React.FC = () => {
             </Typography>
           </Box>
           <Box mt={3}>
-            <Fab size="medium" variant="extended" color="inherit">
-              <Typography variant="button" p={2}>
-                Ver cursos
-              </Typography>
-              <KeyboardArrowRightRoundedIcon />
-            </Fab>
+            <Link href="/courses">
+              <Fab size="medium" variant="extended" color="inherit">
+                <Typography variant="button" p={2}>
+                  Ver cursos
+                </Typography>
+                <KeyboardArrowRightRoundedIcon />
+              </Fab>
+            </Link>
           </Box>
         </Box>
       </Grid>
