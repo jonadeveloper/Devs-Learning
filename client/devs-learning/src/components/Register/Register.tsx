@@ -95,6 +95,7 @@ export default function Register() {
         justifyContent: "center",
         alignItems: "center",
       }}
+      mt={3}
     >
       <Grid
         container

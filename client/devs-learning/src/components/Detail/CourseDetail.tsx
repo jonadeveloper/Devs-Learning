@@ -78,8 +78,8 @@ const CourseDetail: React.FC = () => {
 
   return (
     <div>
-      <Grid container spacing={5} direction="row">
-        <Grid item xs={12} mt={1} ml={1}>
+      <Grid container spacing={5} direction="row" mb={5} mt={5}>
+        <Grid item xs={12} ml={1}>
           <Breadcrumbs aria-label="breadcrumb">
             <Link underline="hover" color="inherit" href="/">
               Home
