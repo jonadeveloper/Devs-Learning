@@ -2,7 +2,7 @@ import React from 'react'
 import { Navigate } from 'react-router'
 
 export const PrivateRoute = ({ children, isLoggedin }: any) => {
-    return isLoggedin === "loggedIn"
+    return isLoggedin === "logged"
         ? children
-        : <Navigate to={`/auth/login`} />
+        : <Navigate to={`/auth/signin`} />
 }

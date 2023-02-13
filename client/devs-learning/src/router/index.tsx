@@ -5,20 +5,18 @@ import { Categories } from "../views/Categories";
 import { Home } from "../views/Home";
 import NavBar from "../components/navBar/NavBar";
 import { CoursePerCategories } from "../views/CoursePerCategories";
-import { useAppDispatch } from "../hooks/hooksRedux";
+import { useAppDispatch, useAppSelector } from "../hooks/hooksRedux";
 import { getCategories, getCourses } from "../redux/courses/actions";
 import { PrivateRoute } from "./PrivateRoute";
 import { LoggedRoutes } from "./LoggedRoutes";
 import { PublicRoute } from "./PublicRoute";
 import { AuthRouter } from "./AuthRoute";
-import { CreateCourse } from "../views/CreateCourse";
 import Footer from "../components/Footer/Footer";
 import LandingPage from "../components/Landing/LandingPage";
-import Register from "../components/Register/Register";
-import Login from "../components/Login/Login";
 
 export const AppRouter = () => {
   const dispatch = useAppDispatch();
+  const { status } = useAppSelector((state) => state.users)
   useEffect(() => {
     dispatch(getCourses());
     dispatch(getCategories());
@@ -30,19 +28,14 @@ export const AppRouter = () => {
       <Routes>
         <Route path={`/`} element={<LandingPage />} />
         <Route path={`/courses`} element={<Home />} />
-        <Route path={`/signup`} element={<Register />} />
-        <Route path={`/signin`} element={<Login />} />
         <Route path={`/courseDetail/:id`} element={<CourseDetail />} />
         <Route path={`/categories`} element={<Categories />} />
         <Route path={`/categories/:name`} element={<CoursePerCategories />} />
 
-        {/* Deberia ser private */}
-        <Route path={`/dashboard/create/course`} element={<CreateCourse />} />
-
         <Route
           path={`/auth/*`}
           element={
-            <PublicRoute isLoggedin={"notLoggedIn"}>
+            <PublicRoute isLoggedin={status}>
               <AuthRouter />
             </PublicRoute>
           }
@@ -50,7 +43,7 @@ export const AppRouter = () => {
         <Route
           path={`/*`}
           element={
-            <PrivateRoute isLoggedin={"notLoggedIn"}>
+            <PrivateRoute isLoggedin={status}>
               <LoggedRoutes />
             </PrivateRoute>
           }
