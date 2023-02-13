@@ -15,7 +15,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 import Stack from "@mui/material/Stack";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import SearchBar from "../searchbar/searchbar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { Badge } from "@mui/material";
 import { useAppSelector } from "../../hooks/hooksRedux";
