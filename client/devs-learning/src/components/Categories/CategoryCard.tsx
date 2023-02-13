@@ -18,23 +18,23 @@ export const CategoryCard = ({ category }: Props) => {
                     boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
                     backdropFilter: "blur(9.8px)",
                     WebkitBackdropFilter: "blur(9.8px)",
-                    height: "250px",
+                    minHeight: "250px",
                 }}
             >
                 <Grid item xs={3}>
-                    <img src={category.image} alt=""
+                    <img src={category.img} alt={category.name}
                         style={{
                             width: "100%",
-                            height: "100%",
+                            // height: "100%",
                             objectFit: "cover",
                             borderRadius: "16px 0 0 16px",
                         }}
                     />
                 </Grid>
                 <Grid item xs={9} p={3}>
-                    <Typography variant="h4">
+                    <Typography variant="h4" fontWeight={600} mb={4}>
                         {/* Title */}
-                        {category.name}
+                        {category.name.toUpperCase()}
                     </Typography>
                     <Typography variant="body1">
                         {/* Description */}
@@ -49,13 +49,13 @@ export const CategoryCard = ({ category }: Props) => {
                         component="img"
                         height="200"
                         alt="Course Name"
-                        image={category.image}
+                        image={category.img}
                     />
                     <CardContent sx={{ justifySelf: 'flex-start' }}>
                         <Box>
                             {/* Name */}
                             <Typography gutterBottom variant="h3" component="div" sx={{ fontSize: 30, fontWeight: 700 }}>
-                                {category.name}
+                                {category.name.toUpperCase()}
                             </Typography>
 
                             {/* Description */}
