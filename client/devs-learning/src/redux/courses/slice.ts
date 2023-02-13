@@ -11,6 +11,7 @@ interface CoursesState {
   currentCourse: CoursoBack;
   searched: string;
   cart: CoursoBack[],
+  status: string;
 }
 
 
@@ -35,6 +36,7 @@ const initialState: CoursesState = {
   currentPage: 1,
   searched: "",
   cart: getItem('cart') || [],
+  status: "loading"
 };
 
 export const courses = createSlice({
@@ -81,8 +83,13 @@ export const courses = createSlice({
       } else {
         return state;
       }
-    }
-
+    },
+    createCourse: (state) => {
+      state.status = "confirmed";
+    },
+    setLoading: (state) => {
+      state.status = "loading";
+    },
   },
 });
 
