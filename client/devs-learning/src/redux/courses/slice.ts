@@ -12,16 +12,9 @@ interface CoursesState {
   searched: string;
   cart: CoursoBack[],
 }
-interface CartAddState {
-  id: string | number;
-  name: string;
-  image: string;
-  info: string;
-}
 
-interface CartRemoveState {
-  id: string | number;
-}
+
+
 
 const initialState: CoursesState = {
   courses: [],
@@ -89,6 +82,7 @@ export const courses = createSlice({
         return state;
       }
     }
+
   },
 });
 
