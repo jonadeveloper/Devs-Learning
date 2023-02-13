@@ -84,8 +84,6 @@ export const setCurrentCourse = (
   };
 };
 
-
-
 export const createCourse = (): ThunkAction<
   void,
   RootState,
@@ -194,3 +192,4 @@ export const removeToCart = (
     return dispatch(reducer.removeToCart(card));
   };
 };
+
