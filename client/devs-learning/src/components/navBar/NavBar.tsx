@@ -68,7 +68,6 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
-
   const handleStateViewDrawer = () => {
     setOpen((state) => !state);
   };
@@ -185,23 +184,16 @@ function ResponsiveAppBar() {
               ))}
             </Box>
             <Stack spacing={2} direction="row" margin={2}>
-
               <IconButton color="secondary" onClick={() => handleStateViewDrawer()}>
                 <Badge color="secondary" badgeContent={cart.length}>
                   <ShoppingCartOutlinedIcon />
                 </Badge>
               </IconButton>
-              <Button color="secondary" variant="text">
-
+              <Button color="secondary" variant="text"></Button>
               <Button onClick={handleLogin} color="secondary" variant="text">
-
                 Log in
               </Button>
-              <Button
-                onClick={handleRegister}
-                variant="contained"
-                color="success"
-              >
+              <Button onClick={handleRegister} variant="contained" color="success">
                 Sign Up
               </Button>
             </Stack>
