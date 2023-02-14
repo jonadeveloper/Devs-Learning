@@ -81,7 +81,7 @@ function ResponsiveAppBar() {
     setAnchorElNav(null);
   };
   const handleLogout = () => {
-    setAnchorElNav(null);
+    handleCloseNavMenu()
     dispatch(signOutAction());
   };
 

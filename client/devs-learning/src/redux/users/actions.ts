@@ -31,8 +31,6 @@ export const loginUser = (
 };
 export const signOutAction = (): ThunkAction<void, RootState, unknown, AnyAction> => {
   return async (dispatch) => {
-    console.log("hola");
-    
-    dispatch(reducer.logOut)
+    dispatch(reducer.logOut())
   };
 };
