@@ -11,15 +11,28 @@ import { Button } from "@mui/material";
 
 const DashboardAdmin: React.FC = () => {
   return (
-    <Grid container mt={9}>
-      <Grid item xs={ 2 } sx={{ backgroundColor: 'primary.main' }} p={2} height="100vh">
+    <Grid container mt={9} xs={12}>
+      <Grid item xs={ 2 } sx= {{backgroundColor : 'primary.main'}} p={2} height="100vh">
         <Box display="flex" justifyContent="center">
         <AdminPanelSettingsIcon />
         <Typography variant="body1" textAlign={"center"}>Admin</Typography>
         </Box>
       </Grid>
-      <Grid xs={10} p={2} display="flex" flexDirection="column" alignItems="center">
-        
+      <Grid item xs={10}>
+        <Grid container display="flex" justifyContent={"flex-end"}>
+        <Grid item xs={4} border={1} m={4} height="35vh">
+
+        </Grid>
+
+        <Grid item xs={4} border={1} m={4} height="35vh">
+
+        </Grid>
+
+        <Grid item xs={2} sx= {{backgroundColor : 'text.disabled'}} mt={4} p={2} height="100vh" >
+
+        </Grid>
+      </Grid>
+
       </Grid>
     </Grid>
   );

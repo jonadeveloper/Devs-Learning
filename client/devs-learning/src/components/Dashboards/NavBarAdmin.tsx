@@ -5,28 +5,28 @@ import { Link as ReactLink } from "react-router-dom";
 import { AppBar , Box , Toolbar} from "@mui/material"
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import { Button } from "@mui/material";
-import '@fontsource/roboto/500.css';
+//import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+//import { Button } from "@mui/material";
+//import '@fontsource/roboto/500.css';
 
-import { createTheme } from '@mui/material/styles';
+//import { createTheme } from '@mui/material/styles';
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      light: '#757ce8',
-      main: '#3f50b5',
-      dark: '#002884',
-      contrastText: '#fff',
-    },
-    secondary: {
-      light: '#ff7961',
-      main: '#f44336',
-      dark: '#ba000d',
-      contrastText: '#000',
-    },
-  },
-});
+// const theme = createTheme({
+//   palette: {
+//     primary: {
+//       light: '#757ce8',
+//       main: '#3f50b5',
+//       dark: '#002884',
+//       contrastText: '#fff',
+//     },
+//     secondary: {
+//       light: '#ff7961',
+//       main: '#f44336',
+//       dark: '#ba000d',
+//       contrastText: '#000',
+//     },
+//   },
+// });
 
 const Admin: React.FC = () => {
   return (
@@ -47,6 +47,8 @@ const Admin: React.FC = () => {
     </Box>
   );
 };
+
+
 
 
 export default Admin;
