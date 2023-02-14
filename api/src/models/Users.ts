@@ -5,8 +5,7 @@ module.exports = (sequelize: any) => {
     "users",
     {
       id: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
+        type: DataTypes.STRING,
         primaryKey: true,
         allowNull: false,
         unique: true,
@@ -27,22 +26,13 @@ module.exports = (sequelize: any) => {
             msg: "Dont enter empty strings",
           },
           len: {
-            args: [8, 64],
+            args: [8, 128],
             msg: "Fullname minimum length is 8",
           },
         },
       },
       profileImg: {
         type: DataTypes.STRING,
-      },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: {
-            msg: "Dont enter empty strings",
-          },
-        },
       },
       email: {
         type: DataTypes.STRING,
@@ -56,7 +46,7 @@ module.exports = (sequelize: any) => {
             msg: "Dont enter empty strings",
           },
           len: {
-            args: [6, 64],
+            args: [6, 128],
             msg: "Email minimum length is 6",
           },
         },

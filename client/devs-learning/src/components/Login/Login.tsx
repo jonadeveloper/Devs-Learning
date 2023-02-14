@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
-import { loginUser } from "../../redux/users/actions";
+import { loginUser, signInWithGoogle } from "../../redux/users/actions";
 import devsLogo from "../../img/devslearn.jpg";
 import {
   Avatar,
@@ -13,12 +13,12 @@ import {
   Typography,
   Link,
 } from "@mui/material";
+import GoogleIcon from "@mui/icons-material/Google";
 import { Email, Lock } from "@mui/icons-material";
 
 export default function Login() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
   const userState = useAppSelector((state) => state);
   const [input, setInput] = useState(userState.users);
 
@@ -31,7 +31,6 @@ export default function Login() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (input.email.length < 6) {
       alert("Please complete email");
     } else if (input.password.length < 8) {
@@ -43,6 +42,10 @@ export default function Login() {
 
   const handleClick = () => {
     navigate("/");
+  };
+
+  const handleSignWithGoogle = () => {
+    dispatch(signInWithGoogle());
   };
 
   const [validEmail, setValidEmail] = useState(true);
@@ -82,7 +85,6 @@ export default function Login() {
         alignItems: "center",
         backgroundColor: "#14213d",
       }}
-      mt={3}
     >
       <Grid
         container
@@ -168,9 +170,20 @@ export default function Login() {
               color="success"
               variant="contained"
               size="medium"
-              disabled={!validPassword || !validEmail || userState.users.status === "loading"}
+              disabled={!validPassword || !validEmail}
             >
               Login
+            </Button>
+            <Button
+              onClick={handleSignWithGoogle}
+              endIcon={<GoogleIcon />}
+              sx={{ mt: "5px" }}
+              color="info"
+              variant="contained"
+              size="medium"
+              type="button"
+            >
+              Sign up with Google
             </Button>
             <Button
               onClick={handleClick}
@@ -186,7 +199,7 @@ export default function Login() {
             <Link href="/">Forgot your password?</Link>
           </Typography>
           <Typography sx={{ mt: "5px" }}>
-            <Link href="/auth/signup">New user? Create an account</Link>
+            <Link href="/signup">New user? Create an account</Link>
           </Typography>
         </Grid>
       </Grid>

@@ -4,8 +4,7 @@ const sequelize_1 = require("sequelize");
 module.exports = (sequelize) => {
     sequelize.define("users", {
         id: {
-            type: sequelize_1.DataTypes.UUID,
-            defaultValue: sequelize_1.DataTypes.UUIDV4,
+            type: sequelize_1.DataTypes.STRING,
             primaryKey: true,
             allowNull: false,
             unique: true,
@@ -26,22 +25,13 @@ module.exports = (sequelize) => {
                     msg: "Dont enter empty strings",
                 },
                 len: {
-                    args: [8, 64],
+                    args: [8, 128],
                     msg: "Fullname minimum length is 8",
                 },
             },
         },
         profileImg: {
             type: sequelize_1.DataTypes.STRING,
-        },
-        password: {
-            type: sequelize_1.DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notEmpty: {
-                    msg: "Dont enter empty strings",
-                },
-            },
         },
         email: {
             type: sequelize_1.DataTypes.STRING,
@@ -55,7 +45,7 @@ module.exports = (sequelize) => {
                     msg: "Dont enter empty strings",
                 },
                 len: {
-                    args: [6, 64],
+                    args: [6, 128],
                     msg: "Email minimum length is 6",
                 },
             },
