@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Course, CoursoBack } from "../../components/Cards/Card";
 import { Category } from "../../interfaces/Category";
-import { getItem } from '../../utils/localStorage';
+import { getItem } from "../../utils/localStorage";
 
 interface CoursesState {
   courses: CoursoBack[];
@@ -11,13 +11,10 @@ interface CoursesState {
   currentCourse: CoursoBack;
   searched: string;
 
-  cart: CoursoBack[],
+  cart: CoursoBack[];
 
   status: string;
 }
-
-
-
 
 const initialState: CoursesState = {
   courses: [],
@@ -38,9 +35,9 @@ const initialState: CoursesState = {
   currentPage: 1,
   searched: "",
 
-  cart: getItem('cart') || [],
+  cart: getItem("cart") || [],
 
-  status: "loading"
+  status: "loading",
 };
 
 export const courses = createSlice({
@@ -51,7 +48,6 @@ export const courses = createSlice({
       state.courses = payload;
       state.coursesFiltered = payload;
       state.status = "confirmed";
-
     },
     allCategories: (state, { payload }) => {
       state.categories = payload;
@@ -80,7 +76,6 @@ export const courses = createSlice({
         state.cart.filter((item) => item.id === id).length === 0
       ) {
         state.cart.push(action.payload);
-
       }
     },
     removeToCart: (state, action: PayloadAction<CoursoBack>) => {
@@ -88,8 +83,8 @@ export const courses = createSlice({
       if (state.cart.some((item) => item.id === id)) {
         return {
           ...state,
-          cart: state.cart.filter((item) => item.id !== id)
-        }
+          cart: state.cart.filter((item) => item.id !== id),
+        };
       } else {
         return state;
       }

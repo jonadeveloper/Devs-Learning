@@ -43,7 +43,7 @@ export const CardList = ({ cards }: Props) => {
         })}
       </Grid>
       <Pagination
-        count={~~(cards.length / 8)}
+        count={Math.ceil(cards.length / 8)}
         variant="outlined"
         onChange={onPagination}
       />
