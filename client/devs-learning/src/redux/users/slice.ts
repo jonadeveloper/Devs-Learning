@@ -8,29 +8,32 @@ const initialState: CreateUserInterface = {
   email: "",
   rank: 2,
   profileImg: "",
-  status: "notLogged"
+  status: "notLogged",
 };
 
 export const userSign = createSlice({
   name: "users",
   initialState,
   reducers: {
-    signUp: (state, { payload }) => { },
+    signUp: (state, { payload }) => {
+      state.status = "confirmed";
+    },
     signIn: (state, { payload }) => {
-      state.status = "logged"
+      state.status = "logged";
     },
+    signWithG: (state) => {},
     logOut: (state) => {
-      state.fullname = ""
-      state.password = ""
-      state.rpassword = ""
-      state.email = ""
-      state.rank = 2
-      state.profileImg = ""
-      state.status = "notLogged"
+      state.fullname = "";
+      state.password = "";
+      state.rpassword = "";
+      state.email = "";
+      state.rank = 2;
+      state.profileImg = "";
+      state.status = "notLogged";
     },
-    loading: (state) => {
-      state.status = "loading"
-    }
+    setLoading: (state) => {
+      state.status = "loading";
+    },
   },
 });
 

@@ -30,13 +30,7 @@ export default function Register() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (input.fullname.length < 6) {
-      alert("Please complete the form");
-    } else {
-      dispatch(registerUser({ ...input }));
-      navigate("/");
-    }
+    dispatch(registerUser({ ...input }));
   };
 
   const handleclick = () => {
@@ -95,7 +89,6 @@ export default function Register() {
         justifyContent: "center",
         alignItems: "center",
       }}
-      mt={3}
     >
       <Grid
         container
