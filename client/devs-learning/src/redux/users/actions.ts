@@ -62,10 +62,6 @@ export const signInWithGoogle = (): ThunkAction<
   AnyAction
 > => {
   return async (dispatch) => {
-<<<<<<< HEAD
-=======
-
->>>>>>> 5077eb14f4e2131966a1204bac9d1d7bab0582e2
     try {
       let response = await signInWithPopup(auth, provider);
       const credential = GoogleAuthProvider.credentialFromResult(response);
@@ -102,5 +98,3 @@ export const signOutAction = (): ThunkAction<
     }
   };
 };
-
-
