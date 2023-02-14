@@ -1,7 +1,8 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Pagination from "@mui/material/Pagination";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useAppSelector } from "../../hooks/hooksRedux";
 import Filter from "../Filter/Filter";
 import { CardComponent, Course, CoursoBack } from "./Card";
 
@@ -10,9 +11,16 @@ interface Props {
 }
 export const CardList = ({ cards }: Props) => {
   const [page, setPage] = useState(1);
+  const { coursesFiltered } = useAppSelector((state) => state.courses);
+
   const onPagination = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage(page);
   };
+
+  useEffect(() => {
+    setPage(1);
+  }, [coursesFiltered]);
+
   return (
     <Box
       sx={{
@@ -35,7 +43,7 @@ export const CardList = ({ cards }: Props) => {
         })}
       </Grid>
       <Pagination
-        count={~~(cards.length / 8)}
+        count={Math.ceil(cards.length / 8)}
         variant="outlined"
         onChange={onPagination}
       />

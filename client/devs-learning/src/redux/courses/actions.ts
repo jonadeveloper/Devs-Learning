@@ -86,17 +86,15 @@ export const setCurrentCourse = (
   };
 };
 
-export const createCourseAction = (course: createCourse): ThunkAction<
-  void,
-  RootState,
-  unknown,
-  AnyAction
-> => {
+export const createCourseAction = (
+  course: createCourse
+): ThunkAction<void, RootState, unknown, AnyAction> => {
   // console.log(course);
 
   return (dispatch) => {
-    dispatch(reducer.setLoading())
-    axios.post(BACK + "/courses/", course)
+    dispatch(reducer.setLoading());
+    axios
+      .post(BACK + "/courses/", course)
       .then((response) => {
         console.log(response);
         dispatch(reducer.createCourse());
@@ -105,7 +103,7 @@ export const createCourseAction = (course: createCourse): ThunkAction<
       .catch((err) => {
         dispatch(reducer.createCourse());
         Swal.fire("Something went wrong, please try again", "", "error");
-      })
+      });
   };
 };
 
@@ -204,4 +202,3 @@ export const removeToCart = (
     return dispatch(reducer.removeToCart(card));
   };
 };
-
