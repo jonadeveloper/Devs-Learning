@@ -62,6 +62,7 @@ export const signInWithGoogle = (): ThunkAction<
   AnyAction
 > => {
   return async (dispatch) => {
+
     try {
       let response = await signInWithPopup(auth, provider);
       const credential = GoogleAuthProvider.credentialFromResult(response);
@@ -98,3 +99,5 @@ export const signOutAction = (): ThunkAction<
     }
   };
 };
+
+

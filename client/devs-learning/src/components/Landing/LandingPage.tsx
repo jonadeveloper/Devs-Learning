@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
-import { Link as ReactLink } from "react-router-dom";
+import { Link as ReactLink, NavLink } from "react-router-dom";
 
 import { Typography, Link, Button } from "@mui/material/";
 import Fab from "@mui/material/Fab";
@@ -58,14 +58,14 @@ const LandingPage: React.FC = () => {
             </Typography>
           </Box>
           <Box mt={3}>
-            <Link href="/courses">
+            <NavLink to="/courses">
               <Fab size="medium" variant="extended" color="inherit">
                 <Typography variant="button" p={2}>
                   Ver cursos
                 </Typography>
                 <KeyboardArrowRightRoundedIcon />
               </Fab>
-            </Link>
+            </NavLink>
           </Box>
         </Box>
       </Grid>
