@@ -13,10 +13,12 @@ import { PublicRoute } from "./PublicRoute";
 import { AuthRouter } from "./AuthRoute";
 import Footer from "../components/Footer/Footer";
 import LandingPage from "../components/Landing/LandingPage";
+import DashboardAdmin from "../components/Dashboards/DashboardAdmin";
+import Admin from "../components/Dashboards/NavBarAdmin"
 
 export const AppRouter = () => {
   const dispatch = useAppDispatch();
-  const { status } = useAppSelector((state) => state.users)
+  const { status } = useAppSelector((state) => state.users);
   useEffect(() => {
     dispatch(getCourses());
     dispatch(getCategories());
@@ -31,6 +33,9 @@ export const AppRouter = () => {
         <Route path={`/courseDetail/:id`} element={<CourseDetail />} />
         <Route path={`/categories`} element={<Categories />} />
         <Route path={`/categories/:name`} element={<CoursePerCategories />} />
+        <Route path={`/dash/Admin`} element={<DashboardAdmin />} />
+        <Route path={'/admin'} element={<Admin/>}/>
+        
 
         <Route
           path={`/auth/*`}
