@@ -1,5 +1,7 @@
 # Dependency directories
 node_modules/
 .env
+build/.env
 # package-lock.json
 package-lock.json
+build/
