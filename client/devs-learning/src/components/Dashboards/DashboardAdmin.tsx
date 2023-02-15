@@ -5,7 +5,7 @@ import { Link as ReactLink } from "react-router-dom";
 
 import { Box , Grid , Typography , Button  } from "@mui/material";
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import '@fontsource/roboto/500.css';
+//import '@fontsource/roboto/500.css';
 
 const DashboardAdmin: React.FC = () => {
   return (
@@ -19,8 +19,7 @@ const DashboardAdmin: React.FC = () => {
       <Grid item xs={10}>
         <Grid item xs={12} border={1} height="10vh">
             <Box display={"flex"} justifyContent={"space-between"} m={2}>
-              <Typography variant="h5">Dashboard</Typography>
-              <Button variant="contained">Log-in</Button>
+              <Typography variant="h5">Dashboard</Typography>  
             </Box>
         </Grid>
         <Grid container display="flex" justifyContent={"space-around"}>
@@ -34,6 +33,10 @@ const DashboardAdmin: React.FC = () => {
           </Grid>
 
           <Grid item xs={3.3} border={1} m={3} height="35vh">
+
+          </Grid>
+
+          <Grid item xs={12} border={1} m={3} height="40vh">
 
           </Grid>
 
