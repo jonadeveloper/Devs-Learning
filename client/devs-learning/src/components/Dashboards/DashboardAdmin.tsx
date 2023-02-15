@@ -15,18 +15,21 @@ const DashboardAdmin: React.FC = () => {
         <Typography variant="body1" textAlign={"center"}>Admin</Typography>
         </Box>
       </Grid>
-      <Grid container xs={10}>
-        <Grid container xs={10} display="flex" justifyContent={"flex-start"}>
+      <Grid item xs={10}>
+        <Grid item xs={12} border={1} height="10vh">
 
-          <Grid item xs={3} border={1} m={2} height="35vh">
+        </Grid>
+        <Grid container display="flex" justifyContent={"space-around"}>
+
+          <Grid item xs={3.3} border={1} m={3} height="35vh">
 
           </Grid>
 
-          <Grid item xs={3} border={1} m={2} height="35vh">
+          <Grid item xs={3.3} border={1} m={3} height="35vh">
 
           </Grid>
 
-          <Grid item xs={3} border={1} m={2} height="35vh">
+          <Grid item xs={3.3} border={1} m={3} height="35vh">
 
           </Grid>
 
@@ -34,7 +37,7 @@ const DashboardAdmin: React.FC = () => {
         </Grid>
       </Grid>
 
-      </Grid>
+    </Grid>
   );
 };
 
