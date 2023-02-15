@@ -3,11 +3,8 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 import { Link as ReactLink } from "react-router-dom";
 
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
+import { Box , Grid , Typography , Button  } from "@mui/material";
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import { Button } from "@mui/material";
 
 const DashboardAdmin: React.FC = () => {
   return (
@@ -18,23 +15,26 @@ const DashboardAdmin: React.FC = () => {
         <Typography variant="body1" textAlign={"center"}>Admin</Typography>
         </Box>
       </Grid>
-      <Grid item xs={10}>
-        <Grid container display="flex" justifyContent={"flex-end"}>
-        <Grid item xs={4} border={1} m={4} height="35vh">
+      <Grid container xs={10}>
+        <Grid container xs={10} display="flex" justifyContent={"flex-start"}>
 
-        </Grid>
+          <Grid item xs={3} border={1} m={2} height="35vh">
 
-        <Grid item xs={4} border={1} m={4} height="35vh">
+          </Grid>
 
-        </Grid>
+          <Grid item xs={3} border={1} m={2} height="35vh">
 
-        <Grid item xs={2} sx= {{backgroundColor : 'text.disabled'}} mt={4} p={2} height="100vh" >
+          </Grid>
 
+          <Grid item xs={3} border={1} m={2} height="35vh">
+
+          </Grid>
+
+        
         </Grid>
       </Grid>
 
       </Grid>
-    </Grid>
   );
 };
 
