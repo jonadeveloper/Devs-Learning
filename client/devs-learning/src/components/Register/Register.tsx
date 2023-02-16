@@ -15,7 +15,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../redux/users/actions";
 
-export default function Register() {
+export default function Register({ setAuth }: any) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const userState = useAppSelector((state) => state);
@@ -30,7 +30,7 @@ export default function Register() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(registerUser({ ...input }));
+    dispatch(registerUser({ ...input }, setAuth));
   };
 
   const handleclick = () => {

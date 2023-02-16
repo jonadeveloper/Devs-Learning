@@ -4,21 +4,15 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 
 import { Request, Response } from "express";
-const { Users } = require("../../db");
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME } = process.env;
 
-var firebaseConfig = {
-  apiKey: "AIzaSyC2NdZp4--hGRr-W9sEHkrK8yVCo1OKN70",
-  authDomain: "devslearning-76766.firebaseapp.com",
-  projectId: "devslearning-76766",
-  storageBucket: "devslearning-76766.appspot.com",
-  messagingSenderId: "508465796522",
-  appId: "1:508465796522:web:9c6070d8abb6a4680a47d3",
-  databaseURL: `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
-};
+const { Users } = require("../../db");
+const { FIREBASE_CONFIG } = process.env;
+
+const firebaseConfig = JSON.parse(FIREBASE_CONFIG!);
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
@@ -31,8 +25,9 @@ export async function signIn(req: Request, res: Response) {
       email,
       password
     );
-    const user = userCredential.user;
-    res.status(200).send(user);
+
+    // const user = userCredential.user;
+    res.status(200).send(userCredential);
   } catch (error: any) {
     const errorCode = error.code;
     const errorMessage = error.message;
@@ -56,7 +51,20 @@ export async function signUp(req: Request, res: Response) {
       email: user.email,
       lastLogin: Date.now(),
     });
+
     res.status(201).send(user);
+  } catch (error: any) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    res.status(404).send(`${errorCode}, ${errorMessage}`);
+  }
+}
+
+export async function recoverPassword(req: Request, res: Response) {
+  try {
+    const { email } = req.body;
+    await sendPasswordResetEmail(auth, email);
+    res.status(200).send("Check your email, remember check spam folder");
   } catch (error: any) {
     const errorCode = error.code;
     const errorMessage = error.message;

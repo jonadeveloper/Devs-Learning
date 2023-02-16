@@ -15,8 +15,9 @@ import {
 } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import { Email, Lock } from "@mui/icons-material";
+import Recover from "../RecoverPassword/Recover";
 
-export default function Login() {
+export default function Login({ setAuth }: any) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const userState = useAppSelector((state) => state);
@@ -36,7 +37,7 @@ export default function Login() {
     } else if (input.password.length < 8) {
       alert("Please complete the password");
     } else {
-      dispatch(loginUser({ ...input }));
+      dispatch(loginUser({ ...input }, setAuth));
     }
   };
 
@@ -45,7 +46,7 @@ export default function Login() {
   };
 
   const handleSignWithGoogle = () => {
-    dispatch(signInWithGoogle());
+    dispatch(signInWithGoogle(setAuth));
   };
 
   const [validEmail, setValidEmail] = useState(true);
@@ -183,7 +184,7 @@ export default function Login() {
               size="medium"
               type="button"
             >
-              Sign up with Google
+              Sign In with Google
             </Button>
             <Button
               onClick={handleClick}
@@ -196,10 +197,10 @@ export default function Login() {
           </Box>
 
           <Typography sx={{ mt: "5px" }}>
-            <Link href="/">Forgot your password?</Link>
+            <Recover />
           </Typography>
           <Typography sx={{ mt: "5px" }}>
-            <Link href="/signup">New user? Create an account</Link>
+            <Link href="/auth/signup">New user? Create an account</Link>
           </Typography>
         </Grid>
       </Grid>

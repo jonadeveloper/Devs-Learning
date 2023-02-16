@@ -13,16 +13,14 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Stack from "@mui/material/Stack";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { Badge } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 import { CartComponent } from "../Cart/Cart";
-import { signOutAction } from "../../redux/users/actions";
+import { signOutAction, userData } from "../../redux/users/actions";
+import { getAuth } from "firebase/auth";
 
-// import img from "./img.png";
-
-// const pages = ["Home", "Courses", "Categories"];
 const pages = [
   {
     name: "Courses",
@@ -81,7 +79,7 @@ function ResponsiveAppBar() {
     setAnchorElNav(null);
   };
   const handleLogout = () => {
-    handleCloseNavMenu()
+    handleCloseNavMenu();
     dispatch(signOutAction());
   };
 
@@ -104,6 +102,15 @@ function ResponsiveAppBar() {
   const handleLogin = () => {
     navigate("/auth/signin");
   };
+
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  if (user?.providerId === "firebase") {
+    console.log(user);
+  } else {
+    console.log(userData);
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -242,7 +249,10 @@ function ResponsiveAppBar() {
             >
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar
+                    alt="ProfileImage"
+                    src={user?.photoURL || "/static/images/avatar/2.jpg"}
+                  />
                 </IconButton>
               </Tooltip>
               <Menu

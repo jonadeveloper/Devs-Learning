@@ -16,12 +16,12 @@ export const userSign = createSlice({
   initialState,
   reducers: {
     signUp: (state, { payload }) => {
-      state.status = "confirmed";
+      state.status = payload;
     },
     signIn: (state, { payload }) => {
-      state.status = "logged";
+      state.status = payload;
     },
-    signWithG: (state) => {},
+    recover: (state) => {},
     logOut: (state) => {
       state.fullname = "";
       state.password = "";
@@ -30,9 +30,6 @@ export const userSign = createSlice({
       state.rank = 2;
       state.profileImg = "";
       state.status = "notLogged";
-    },
-    setLoading: (state) => {
-      state.status = "loading";
     },
   },
 });

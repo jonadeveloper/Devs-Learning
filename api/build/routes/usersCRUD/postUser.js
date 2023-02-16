@@ -9,21 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signUp = exports.signIn = void 0;
+exports.recoverPassword = exports.signUp = exports.signIn = void 0;
 require("dotenv").config();
 const app_1 = require("firebase/app");
 const auth_1 = require("firebase/auth");
 const { Users } = require("../../db");
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME } = process.env;
-var firebaseConfig = {
-    apiKey: "AIzaSyC2NdZp4--hGRr-W9sEHkrK8yVCo1OKN70",
-    authDomain: "devslearning-76766.firebaseapp.com",
-    projectId: "devslearning-76766",
-    storageBucket: "devslearning-76766.appspot.com",
-    messagingSenderId: "508465796522",
-    appId: "1:508465796522:web:9c6070d8abb6a4680a47d3",
-    databaseURL: `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
-};
+const { FIREBASE_CONFIG } = process.env;
+const firebaseConfig = JSON.parse(FIREBASE_CONFIG);
 const app = (0, app_1.initializeApp)(firebaseConfig);
 const auth = (0, auth_1.getAuth)(app);
 function signIn(req, res) {
@@ -31,8 +23,8 @@ function signIn(req, res) {
         try {
             const { email, password } = req.body;
             let userCredential = yield (0, auth_1.signInWithEmailAndPassword)(auth, email, password);
-            const user = userCredential.user;
-            res.status(200).send(user);
+            // const user = userCredential.user;
+            res.status(200).send(userCredential);
         }
         catch (error) {
             const errorCode = error.code;
@@ -64,3 +56,18 @@ function signUp(req, res) {
     });
 }
 exports.signUp = signUp;
+function recoverPassword(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const { email } = req.body;
+            yield (0, auth_1.sendPasswordResetEmail)(auth, email);
+            res.status(200).send("Check your email, remember check spam folder");
+        }
+        catch (error) {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            res.status(404).send(`${errorCode}, ${errorMessage}`);
+        }
+    });
+}
+exports.recoverPassword = recoverPassword;
