@@ -12,10 +12,10 @@ const DashboardAdmin: React.FC = () => {
   return (
     <Grid container mt={9} xs={12}>
       <Grid item xs={ 2 } sx= {{backgroundColor : 'text.secondary'}} p={2} height="100vh">
-        <Box display="flex" justifyContent="center">
+        {/* <Box display="flex" justifyContent="center">
         <AdminPanelSettingsIcon />
         <Typography variant="body1" textAlign={"center"}>Admin</Typography>
-        </Box>
+        </Box> */}
         <Admin />
       </Grid>
       <Grid item xs={10}>
