@@ -12,7 +12,11 @@ import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
-import { getCourses, setFiltered } from "../../redux/courses/actions";
+import {
+  clearSearch,
+  getCourses,
+  setFiltered,
+} from "../../redux/courses/actions";
 import SearchBar from "../searchbar/searchbar";
 
 const MenuProps = {
@@ -50,14 +54,21 @@ export default function () {
 
   const handleClick = () => {
     dispatch(getCourses());
+    dispatch(clearSearch());
     setOrder("");
     setFilterCategories("");
   };
 
   useEffect(() => {
-    dispatch(
-      setFiltered(order, courses, coursesFiltered, searched, filterCategories)
-    );
+    if (courses.length > 1) {
+      dispatch(
+        setFiltered(order, courses, coursesFiltered, searched, filterCategories)
+      );
+    }
+    if (searched === "not Found" && filterCategories !== "")
+      setFilterCategories("");
+
+    if (searched === "not Found") dispatch(clearSearch());
   }, [order, searched, filterCategories]);
 
   return (
@@ -134,6 +145,8 @@ export default function () {
           Filter
         </Button>
       </Box>
+
+      {searched !== "" ? <p>Resultados de {searched}</p> : null}
     </div>
   );
 }
