@@ -21,18 +21,22 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SaveIcon from "@mui/icons-material/Save";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import UserPersonalInfo from "./UserPersonalInfo";
 
 const UserDashboard: React.FC = () => {
   const img: string =
     "https://www.eluniverso.com/resizer/uEs8MTOMrNBA_E259XK6PXgb74o=/773x670/smart/filters:quality(70)/cloudfront-us-east-1.images.arcpublishing.com/eluniverso/RHCBXZMR3RB7JBZXNGE6YDB7PY.jpg";
 
   const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [content, setContent] = React.useState(0);
 
   const handleListItemClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     index: number
   ) => {
     setSelectedIndex(index);
+    setContent(index);
+    console.log(content);
   };
 
   return (
@@ -145,7 +149,11 @@ const UserDashboard: React.FC = () => {
           alignItems="start"
           justifyContent="top"
         >
-          <Typography variant="h3">Personal Info</Typography>
+          {content === 0 ? (
+            <UserPersonalInfo />
+          ) : (
+            <div>El estado es {content}</div>
+          )}
         </Box>
       </Grid>
     </Grid>
