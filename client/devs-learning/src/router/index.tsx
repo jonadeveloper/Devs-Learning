@@ -14,7 +14,8 @@ import { AuthRouter } from "./AuthRoute";
 import Footer from "../components/Footer/Footer";
 import LandingPage from "../components/Landing/LandingPage";
 import DashboardAdmin from "../components/Dashboards/DashboardAdmin";
-import Admin from "../components/Dashboards/NavBarAdmin"
+import Admin from "../components/Dashboards/NavBarAdmin";
+import UserDashboard from "../components/Dashboards/UserDashboard";
 
 export const AppRouter = () => {
   const dispatch = useAppDispatch();
@@ -34,8 +35,8 @@ export const AppRouter = () => {
         <Route path={`/categories`} element={<Categories />} />
         <Route path={`/categories/:name`} element={<CoursePerCategories />} />
         <Route path={`/dash/Admin`} element={<DashboardAdmin />} />
-        <Route path={'/admin'} element={<Admin/>}/>
-        
+        <Route path={"/admin"} element={<Admin />} />
+        <Route path={"/user"} element={<UserDashboard />} />
 
         <Route
           path={`/auth/*`}
