@@ -22,6 +22,8 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import SaveIcon from "@mui/icons-material/Save";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import UserPersonalInfo from "./UserPersonalInfo";
+import UserCourses from "./User/UserCourses";
+import UserAccountSettings from "./User/UserAccountSettings";
 
 const UserDashboard: React.FC = () => {
   const img: string =
@@ -36,7 +38,18 @@ const UserDashboard: React.FC = () => {
   ) => {
     setSelectedIndex(index);
     setContent(index);
-    console.log(content);
+  };
+
+  const handlePageContent = (content: number) => {
+    if (content === 0) {
+      return <UserPersonalInfo />;
+    } else if (content === 1) {
+      return <UserCourses />;
+    } else if (content === 2) {
+      return <UserAccountSettings />;
+    } else if (content === 3) {
+      return <div>LogOut</div>;
+    }
   };
 
   return (
@@ -149,11 +162,7 @@ const UserDashboard: React.FC = () => {
           alignItems="start"
           justifyContent="top"
         >
-          {content === 0 ? (
-            <UserPersonalInfo />
-          ) : (
-            <div>El estado es {content}</div>
-          )}
+          {handlePageContent(content)}
         </Box>
       </Grid>
     </Grid>
