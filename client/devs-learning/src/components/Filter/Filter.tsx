@@ -1,5 +1,6 @@
 import {
   Button,
+  Chip,
   Collapse,
   FormControl,
   InputLabel,
@@ -72,10 +73,14 @@ export default function () {
   }, [order, searched, filterCategories]);
 
   return (
-    <div className="filter">
+    <Box>
       <Collapse in={checked}>
         <Box
-          sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" } }}
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            marginTop: 2,
+          }}
         >
           <Box sx={{ display: "flex", flexDirection: "row" }}>
             <FormControl>
@@ -138,7 +143,7 @@ export default function () {
 
       <Box sx={{ display: "flex", justifyContent: "center", marginTop: 1 }}>
         <Button
-          sx={{ color: "gray" }}
+          sx={{ color: "gray", marginTop: 2 }}
           variant="outlined"
           onClick={handleChange}
         >
@@ -146,7 +151,13 @@ export default function () {
         </Button>
       </Box>
 
-      {searched !== "" ? <p>Resultados de {searched}</p> : null}
-    </div>
+      {searched !== "" ? (
+        <Chip
+          sx={{ fontSize: { xs: 20, sm: 30 }, display: "flex", marginTop: 3 }}
+          color="primary"
+          label={`Results of ${searched}`}
+        />
+      ) : null}
+    </Box>
   );
 }
