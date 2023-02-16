@@ -1,49 +1,50 @@
 import React from "react";
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 import { Link as ReactLink } from "react-router-dom";
-import { AppBar , Box , Toolbar} from "@mui/material"
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-//import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-//import { Button } from "@mui/material";
-//import '@fontsource/roboto/500.css';
+import { AppBar , Box , Toolbar, Button, Typography} from "@mui/material"
 
-//import { createTheme } from '@mui/material/styles';
+import AirplayIcon from '@mui/icons-material/Airplay';
+import PeopleIcon from '@mui/icons-material/People';
+import SellIcon from '@mui/icons-material/Sell';
+import DvrSharpIcon from '@mui/icons-material/DvrSharp';
+import EmailSharpIcon from '@mui/icons-material/EmailSharp';
+import LogoutSharpIcon from '@mui/icons-material/LogoutSharp';
 
-// const theme = createTheme({
-//   palette: {
-//     primary: {
-//       light: '#757ce8',
-//       main: '#3f50b5',
-//       dark: '#002884',
-//       contrastText: '#fff',
-//     },
-//     secondary: {
-//       light: '#ff7961',
-//       main: '#f44336',
-//       dark: '#ba000d',
-//       contrastText: '#000',
-//     },
-//   },
-// });
+
 
 const Admin: React.FC = () => {
   return (
-    <Box sx={{flexGrow: 1}}>
-        <AppBar position="fixed">
-            <Toolbar>
-                <Typography variant="body1">Hola mundo</Typography>
-            </Toolbar>
-        </AppBar>
-        <Grid container mt={10} display={"flex"} flexDirection={"column"}>
-            <Grid item border={1} xs={2} p={2}>
-                <Box display={"flex"} flexDirection={"column"}> 
-                        <Typography variant="body1">Dashboard</Typography>
-                        <Typography variant="body1">Users</Typography>
-                </Box>
-            </Grid>
-        </Grid>
+    <Box mt={15} pl={3}  display="flex" flexDirection={"column"} justifyContent={"center"} alignItems={"flex-start"} >
+      <Button
+        startIcon={ <AirplayIcon style={{ fontSize: 30 }}/> }>  
+        <Typography variant="h6" color="primary">Dashboard</Typography>
+      </Button>
+      <br></br><br></br>
+      <Button
+        startIcon={ <PeopleIcon style={{ fontSize: 30 }}/>}>  
+        <Typography variant="h6" color="primary">Users</Typography>
+      </Button>
+      <br></br><br></br>
+      <Button
+        startIcon={ <SellIcon style={{ fontSize: 30 }}/>}>  
+        <Typography variant="h6" color="primary">Sale</Typography>
+      </Button>
+      <br></br><br></br>
+      <Button
+        startIcon={ <DvrSharpIcon style={{ fontSize: 30 }}/>}>  
+        <Typography variant="h6" color="primary">Courses</Typography>
+      </Button>
+      <br></br><br></br>
+      <Button
+        startIcon={ <EmailSharpIcon style={{ fontSize: 30 }}/>}>  
+        <Typography variant="h6" color="primary">Messages</Typography>
+      </Button>
+      <br></br><br></br><br></br><br></br><br></br>
+      <Button
+      
+      color="primary" variant="outlined" size="small"
+        startIcon={ <LogoutSharpIcon style={{ fontSize: 30 }}/>}>  
+        <Typography variant="h6" color="primary">Logout</Typography>
+      </Button><br></br>
     </Box>
   );
 };
