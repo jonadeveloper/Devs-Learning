@@ -68,6 +68,14 @@ export const searchCourses = (
         if (allcourses.length < 1) search = "";
       }
 
+      if (allcourses.length < 1) {
+        Swal.fire({
+          title: "Search not found",
+          text: "try another search",
+        });
+        search = "not Found";
+      }
+
       dispatch(reducer.searched({ allcourses, search }));
     } catch (error) {
       console.log("no se encontro el curso buscado, se muestran todos");
@@ -181,6 +189,20 @@ export const setFiltered = (
 
     ///////////////////////////
 
+    //alert
+
+    if (filteredCourses.length < 1 && category !== "") {
+      Swal.fire({
+        title: "Search not found",
+        text: "try another search",
+      });
+      let search = "not Found";
+      let allcourses = filteredCourses;
+      dispatch(reducer.searched({ allcourses, search }));
+    }
+
+    /////////////////////////////////
+
     return dispatch(reducer.setFiltered(filteredCourses));
   };
 };
@@ -200,5 +222,16 @@ export const removeToCart = (
   return (dispatch) => {
     console.log(card);
     return dispatch(reducer.removeToCart(card));
+  };
+};
+
+export const clearSearch = (): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  AnyAction
+> => {
+  return (dispatch) => {
+    return dispatch(reducer.clearSearched());
   };
 };

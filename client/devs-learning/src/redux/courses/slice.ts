@@ -96,6 +96,10 @@ export const courses = createSlice({
     setLoading: (state) => {
       state.status = "loading";
     },
+
+    clearSearched: (state) => {
+      state.searched = "";
+    },
   },
 });
 

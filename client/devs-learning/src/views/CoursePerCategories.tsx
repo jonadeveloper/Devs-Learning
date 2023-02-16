@@ -11,10 +11,18 @@ export const CoursePerCategories = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(
-      setFiltered("", courses, coursesFiltered, "", name ? name.toString() : "")
-    );
-  }, [name]);
+    if (coursesFiltered.length > 0) {
+      dispatch(
+        setFiltered(
+          "",
+          courses,
+          coursesFiltered,
+          "",
+          name ? name.toString() : ""
+        )
+      );
+    }
+  }, [name, courses]);
 
   return (
     <Box>
