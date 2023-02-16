@@ -9,7 +9,10 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import { Button } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
+import Badge from "@mui/material/Badge";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
 
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -24,6 +27,7 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import UserPersonalInfo from "./UserPersonalInfo";
 import UserCourses from "./User/UserCourses";
 import UserAccountSettings from "./User/UserAccountSettings";
+import { borderRadius } from "@mui/system";
 
 const UserDashboard: React.FC = () => {
   const img: string =
@@ -53,7 +57,7 @@ const UserDashboard: React.FC = () => {
   };
 
   return (
-    <Grid container bgcolor="lightgrey" spacing={2}>
+    <Grid container bgcolor="#C5DCE4" spacing={2}>
       <Grid item xs={12} mt={10}></Grid>
       <Grid item xs={12} md={6} lg={4} xl={3} display="flex">
         <Box
@@ -65,6 +69,7 @@ const UserDashboard: React.FC = () => {
           borderRadius={5}
           p={2}
           m={2}
+          mr={0.5}
         >
           <Box
             width="100%"
@@ -73,22 +78,42 @@ const UserDashboard: React.FC = () => {
             alignItems="center"
             mt={2}
           >
-            <Box mb={1} width="80%">
-              <Stack direction="row" spacing={2} justifyContent="center">
+            <Box
+              mb={1}
+              width="40%"
+              sx={{ boxShadow: "5", borderRadius: "50%" }}
+            >
+              <Badge
+                overlap="circular"
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                badgeContent={
+                  <IconButton size="large">
+                    <CameraAltIcon fontSize="inherit" />
+                  </IconButton>
+                }
+              >
                 <Avatar
                   alt="ALF"
-                  sx={{ width: "50%", height: "50%" }}
+                  sx={{ width: "100%", height: "100%" }}
                   src={img}
-                />
-              </Stack>
+                />{" "}
+              </Badge>
             </Box>
-            <Box justifyContent="center" mb={8}>
-              <Typography
-                gutterBottom
-                color="inherit"
-                bgcolor="whitesmoke"
-                variant="h4"
-              >
+            <Box
+              display="flex"
+              justifyContent="center"
+              mb={6}
+              mt={1}
+              p={1}
+              sx={{
+                width: "80%",
+                borderRadius: 2,
+                borderRight: 0.5,
+                borderLeft: 0.5,
+                borderColor: "lightgrey",
+              }}
+            >
+              <Typography color="inherit" bgcolor="whitesmoke" variant="h4">
                 Alf
               </Typography>
             </Box>
@@ -155,6 +180,7 @@ const UserDashboard: React.FC = () => {
           height="100%"
           p={2}
           m={2}
+          ml={0.5}
           bgcolor="whitesmoke"
           borderRadius={5}
           display="flex"
