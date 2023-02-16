@@ -1,5 +1,6 @@
 import {
   Button,
+  Chip,
   Collapse,
   FormControl,
   InputLabel,
@@ -12,7 +13,11 @@ import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
-import { getCourses, setFiltered } from "../../redux/courses/actions";
+import {
+  clearSearch,
+  getCourses,
+  setFiltered,
+} from "../../redux/courses/actions";
 import SearchBar from "../searchbar/searchbar";
 
 const MenuProps = {
@@ -50,21 +55,32 @@ export default function () {
 
   const handleClick = () => {
     dispatch(getCourses());
+    dispatch(clearSearch());
     setOrder("");
     setFilterCategories("");
   };
 
   useEffect(() => {
-    dispatch(
-      setFiltered(order, courses, coursesFiltered, searched, filterCategories)
-    );
+    if (courses.length > 1) {
+      dispatch(
+        setFiltered(order, courses, coursesFiltered, searched, filterCategories)
+      );
+    }
+    if (searched === "not Found" && filterCategories !== "")
+      setFilterCategories("");
+
+    if (searched === "not Found") dispatch(clearSearch());
   }, [order, searched, filterCategories]);
 
   return (
-    <div className="filter">
+    <Box>
       <Collapse in={checked}>
         <Box
-          sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" } }}
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            marginTop: 2,
+          }}
         >
           <Box sx={{ display: "flex", flexDirection: "row" }}>
             <FormControl>
@@ -127,13 +143,21 @@ export default function () {
 
       <Box sx={{ display: "flex", justifyContent: "center", marginTop: 1 }}>
         <Button
-          sx={{ color: "gray" }}
+          sx={{ color: "gray", marginTop: 2 }}
           variant="outlined"
           onClick={handleChange}
         >
           Filter
         </Button>
       </Box>
-    </div>
+
+      {searched !== "" ? (
+        <Chip
+          sx={{ fontSize: { xs: 20, sm: 30 }, display: "flex", marginTop: 3 }}
+          color="primary"
+          label={`Results of ${searched}`}
+        />
+      ) : null}
+    </Box>
   );
 }

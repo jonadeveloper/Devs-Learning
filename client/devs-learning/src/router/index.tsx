@@ -20,10 +20,15 @@ import UserDashboard from "../components/Dashboards/UserDashboard";
 export const AppRouter = () => {
   const dispatch = useAppDispatch();
   const { status } = useAppSelector((state) => state.users);
+  const { coursesFiltered } = useAppSelector((state) => state.courses);
   useEffect(() => {
-    dispatch(getCourses());
-    dispatch(getCategories());
-  }, []);
+    let get = true;
+    if (coursesFiltered.length < 1 && get) {
+      dispatch(getCourses());
+      dispatch(getCategories());
+      get = false;
+    }
+  }, [coursesFiltered]);
 
   return (
     <div>

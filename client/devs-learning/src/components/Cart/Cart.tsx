@@ -4,13 +4,38 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { CardComponent } from "../Cards/Card";
 import { useAppSelector } from "../../hooks/hooksRedux";
 import { CartCard } from "./CartCard";
+import { setItem } from "../../utils/localStorage";
+
 interface CartComponentProps {
   open: boolean;
   handleStateViewDrawer: () => void;
 }
 
+export interface Category {
+  name: string;
+}
+
+export interface CoursoBack {
+  categories: Category[];
+  description: string;
+  id: string;
+  level: string;
+  name: string;
+  price: string;
+  duration: string;
+  instructor: string;
+  descriptionComplete: string;
+  img: string;
+}
+
 export const CartComponent: React.FC<CartComponentProps> = ({ open, handleStateViewDrawer }) => {
   const { cart } = useAppSelector((state) => state.courses);
+
+  React.useEffect(() => {
+    setItem("cart", cart);
+  }, [cart]);
+
+  const totalPrecio = cart.reduce((acumulado, curso) => acumulado + parseFloat(curso.price), 0);
 
   return (
     <Drawer anchor={"right"} open={open}>
@@ -25,6 +50,11 @@ export const CartComponent: React.FC<CartComponentProps> = ({ open, handleStateV
         {cart.length > 0
           ? cart.map((card, index) => <CartCard key={index} card={card} index={index} />)
           : "Nada por aqui"}
+        <Box color="secondary">
+          <Typography color="secondary" variant="h5">
+            Total Price: {totalPrecio}
+          </Typography>
+        </Box>
       </Box>
     </Drawer>
   );
