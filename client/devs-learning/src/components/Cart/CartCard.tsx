@@ -12,6 +12,7 @@ import {
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { useAppDispatch } from "../../hooks/hooksRedux";
 import { removeToCart } from "../../redux/courses/actions";
+import { Height } from "@mui/icons-material";
 
 interface CardHorizntalComponentProps {
   id: string | number;
@@ -49,14 +50,14 @@ export const CartCard = ({ card, index }: Props) => {
     dispatch(removeToCart(card));
   };
   return (
-    <Card sx={{ display: "flex", my: 2 }}>
-      <CardMedia component="img" sx={{ width: 151 }} image={card.img} alt="Rick and Morty" />
+    <Card sx={{ display: "flex", my: 2, height: 150 }}>
+      <CardMedia component="img" sx={{ width: 171 }} image={card.img} alt="Rick and Morty" />
       <Grid container sx={{ mx: 1 }}>
         <Grid item xs={9}>
           <CardContent>
-            <Typography variant="h4">{card.name}</Typography>
+            <Typography variant="h6">{card.name}</Typography>
             <Divider />
-            <Typography variant="h6">{card.description}</Typography>
+            <Typography variant="subtitle1">Price: {card.price}</Typography>
           </CardContent>
         </Grid>
         <Grid item xs={2}>
