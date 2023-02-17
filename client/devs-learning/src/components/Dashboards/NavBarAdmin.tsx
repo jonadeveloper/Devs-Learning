@@ -16,34 +16,34 @@ const Admin: React.FC = () => {
     <Box mt={15} pl={3}  display="flex" flexDirection={"column"} justifyContent={"center"} alignItems={"flex-start"} >
       <Button
         startIcon={ <AirplayIcon style={{ fontSize: 30 }}/> }>  
-        <Typography variant="h6" color="primary">Dashboard</Typography>
+        <Typography variant="body1" color="primary">Dashboard</Typography>
       </Button>
       <br></br><br></br>
       <Button
         startIcon={ <PeopleIcon style={{ fontSize: 30 }}/>}>  
-        <Typography variant="h6" color="primary">Users</Typography>
+        <Typography variant="body1" color="primary">Users</Typography>
       </Button>
       <br></br><br></br>
       <Button
         startIcon={ <SellIcon style={{ fontSize: 30 }}/>}>  
-        <Typography variant="h6" color="primary">Sale</Typography>
+        <Typography variant="body1" color="primary">Sale</Typography>
       </Button>
       <br></br><br></br>
       <Button
         startIcon={ <DvrSharpIcon style={{ fontSize: 30 }}/>}>  
-        <Typography variant="h6" color="primary">Courses</Typography>
+        <Typography variant="body1" color="primary">Courses</Typography>
       </Button>
       <br></br><br></br>
       <Button
         startIcon={ <EmailSharpIcon style={{ fontSize: 30 }}/>}>  
-        <Typography variant="h6" color="primary">Messages</Typography>
+        <Typography variant="body1" color="primary">Messages</Typography>
       </Button>
       <br></br><br></br><br></br><br></br><br></br>
       <Button
       
-      color="primary" variant="outlined" size="small"
+      // color="primary" variant="outlined" size="small"
         startIcon={ <LogoutSharpIcon style={{ fontSize: 30 }}/>}>  
-        <Typography variant="h6" color="primary">Logout</Typography>
+        <Typography variant="body1" color="primary">Logout</Typography>
       </Button><br></br>
     </Box>
   );
