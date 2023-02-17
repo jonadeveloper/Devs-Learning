@@ -24,7 +24,7 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SaveIcon from "@mui/icons-material/Save";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import UserPersonalInfo from "./UserPersonalInfo";
+import UserPersonalInfo from "./User/UserPersonalInfo";
 import UserCourses from "./User/UserCourses";
 import UserAccountSettings from "./User/UserAccountSettings";
 import { borderRadius } from "@mui/system";
