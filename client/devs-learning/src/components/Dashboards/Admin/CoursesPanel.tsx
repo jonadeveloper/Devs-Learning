@@ -9,7 +9,14 @@ import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 
+
 const CoursesPanel: React.FC = () => {
+
+  const dispatch = useAppDispatch();
+
+  useEffect(()=>{
+    
+  })
   return (
     <div>
       <Typography variant="h3">Courses</Typography>
