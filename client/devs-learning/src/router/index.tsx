@@ -13,8 +13,9 @@ import { PublicRoute } from "./PublicRoute";
 import { AuthRouter } from "./AuthRoute";
 import Footer from "../components/Footer/Footer";
 import LandingPage from "../components/Landing/LandingPage";
-import DashboardAdmin from "../components/Dashboards/DashboardAdmin";
+import DashboardAdmin from "../components/Dashboards/Admin/DashboardAdmin";
 import UserDashboard from "../components/Dashboards/UserDashboard";
+
 import { getAuth } from "firebase/auth";
 import { userData } from "../redux/users/actions";
 
