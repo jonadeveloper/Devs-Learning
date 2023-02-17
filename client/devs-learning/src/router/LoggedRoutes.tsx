@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router";
 import { EditForm } from "../components/Courses/EditForm";
-import Admin from "../components/Dashboards/NavBarAdmin";
+import DashboardAdmin from "../components/Dashboards/Admin/DashboardAdmin";
 import UserDashboard from "../components/Dashboards/UserDashboard";
 import { CreateCourse } from "../views/CreateCourse";
 interface Props {
@@ -12,7 +12,7 @@ export const LoggedRoutes = ({ rol }: Props) => {
       <Route path={`/dashboard/create/course`} element={<CreateCourse />} />
       <Route
         path={`/dashboard/create/course`}
-        element={rol === "admin" ? <Admin /> : <UserDashboard />}
+        element={rol === "admin" ? <DashboardAdmin /> : <UserDashboard />}
       />
       <Route path={`/dashboard/edit/course/:name`} element={<EditForm />} />
       <Route path={`/profile`} element={<UserDashboard />} />
