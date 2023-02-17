@@ -20,6 +20,7 @@ import { getAuth } from "firebase/auth";
 import { userData } from "../redux/users/actions";
 
 export var profileImg: string;
+import { EditForm } from "../components/Courses/EditForm";
 
 export const AppRouter = () => {
   const dispatch = useAppDispatch();
@@ -63,7 +64,7 @@ export const AppRouter = () => {
           path={`/*`}
           element={
             <PrivateRoute isLoggedin={status}>
-              <LoggedRoutes />
+              <LoggedRoutes rol={"user"} />
             </PrivateRoute>
           }
         />
