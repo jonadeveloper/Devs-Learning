@@ -32,6 +32,28 @@ export const getCourses = (): ThunkAction<
     });
   };
 };
+export const getCoursesByName = (name: string): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  AnyAction
+> => {
+  return (dispatch) => {
+    dispatch(reducer.setLoading())
+    axios.get(`${BACK}/courses?name=${name}`).then((response) => {
+      response.data.map((course: any) => {
+        course.name = course.name.replaceAll("-", " ");
+        course.name = course.name[0].toUpperCase() + course.name.substring(1);
+        course.categories.map((category: any) => {
+          category.name = category.name.replaceAll("-", " ");
+          category.name =
+            category.name[0].toUpperCase() + category.name.substring(1);
+        });
+      });
+      dispatch(reducer.currentCourse(response.data[0]));
+    });
+  };
+};
 export const getCategories = (): ThunkAction<
   void,
   RootState,
@@ -97,8 +119,6 @@ export const setCurrentCourse = (
 export const createCourseAction = (
   course: createCourse
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
-  // console.log(course);
-
   return (dispatch) => {
     dispatch(reducer.setLoading());
     axios
@@ -107,6 +127,27 @@ export const createCourseAction = (
         console.log(response);
         dispatch(reducer.createCourse());
         Swal.fire("Course created successfully!", "", "success");
+      })
+      .catch((err) => {
+        dispatch(reducer.createCourse());
+        Swal.fire("Something went wrong, please try again", "", "error");
+      });
+  };
+};
+export const editCourseAction = (
+  course: createCourse
+): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return (dispatch) => {
+    dispatch(reducer.setLoading());
+    axios
+      .put(BACK + "/courses", course)
+      .then((response) => {
+        console.log(response);
+        dispatch(reducer.createCourse());
+        Swal.fire("Course edited successfully!", "", "success")
+          .then(() => {
+            window.location.href = `/courseDetail/${course.name}`
+          });
       })
       .catch((err) => {
         dispatch(reducer.createCourse());
