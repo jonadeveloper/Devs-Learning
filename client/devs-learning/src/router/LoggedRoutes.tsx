@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router";
 import { EditForm } from "../components/Courses/EditForm";
-import DashboardAdmin from "../components/Dashboards/DashboardAdmin";
+import DashboardAdmin from "../components/Dashboards/Admin/DashboardAdmin";
 import UserDashboard from "../components/Dashboards/UserDashboard";
 import { CreateCourse } from "../views/CreateCourse";
 interface Props {
