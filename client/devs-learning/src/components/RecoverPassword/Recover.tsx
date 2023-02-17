@@ -5,14 +5,13 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
+import { useAppDispatch } from "../../hooks/hooksRedux";
 import { recoverPassword } from "../../redux/users/actions";
 import { useState } from "react";
 export default function FormDialog() {
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
-  const userState = useAppSelector((state) => state);
-  const [input, setInput] = useState(userState.users);
+  const [email, setEmail] = useState("");
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -22,23 +21,24 @@ export default function FormDialog() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput({
-      ...input,
-      [e.target.name]: e.target.value,
-    });
+    setEmail(e.target.value);
   };
 
   const handleReset = () => {
-    dispatch(recoverPassword({ ...input }));
+    dispatch(recoverPassword(email));
     setOpen(false);
-    setInput({ ...input });
+    setEmail("");
   };
 
   return (
     <div>
       <Button
         variant="text"
-        sx={{ textTransform: "none", textDecoration: "underline" }}
+        sx={{
+          textTransform: "none",
+          textDecoration: "underline",
+          fontSize: "16px",
+        }}
         onClick={handleClickOpen}
       >
         Forgot your password?
@@ -51,7 +51,7 @@ export default function FormDialog() {
           </DialogContentText>
           <TextField
             name="email"
-            value={input.email}
+            value={email}
             onChange={handleChange}
             autoFocus
             margin="dense"

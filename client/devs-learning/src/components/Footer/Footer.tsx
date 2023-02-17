@@ -11,12 +11,6 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import Stack from "@mui/material/Stack";
 
 const Footer: React.FC = () => {
-  const AllCategories = useAppSelector((state) => state.courses.categories);
-
-  useEffect(() => {
-    console.log(AllCategories);
-  }, []);
-
   return (
     <footer>
       <Box
@@ -33,9 +27,6 @@ const Footer: React.FC = () => {
             "Impulsa tu carrera en programación con nosotros."
           </Typography>
         </Box>
-        {/* <Box> intenté que se rendericen las categorias pero me tira un error.
-            {AllCategories.map((categorie) => {return <Typography key={categorie} variant="caption"> {categorie} | </Typography>})}
-  </Box> */}
 
         <Box display="flex" justifySelf="center">
           <Typography

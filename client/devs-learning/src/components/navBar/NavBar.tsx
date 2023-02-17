@@ -15,11 +15,12 @@ import Stack from "@mui/material/Stack";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { NavLink, useNavigate } from "react-router-dom";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import { Badge } from "@mui/material";
+import { Badge, Link } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 import { CartComponent } from "../Cart/Cart";
 import { signOutAction, userData } from "../../redux/users/actions";
 import { getAuth } from "firebase/auth";
+import { profileImg } from "../../router";
 
 const pages = [
   {
@@ -103,33 +104,16 @@ function ResponsiveAppBar() {
     navigate("/auth/signin");
   };
 
-  const auth = getAuth();
-  const user = auth.currentUser;
-
-  if (user?.providerId === "firebase") {
-    console.log(user);
-  } else {
-    console.log(userData);
-  }
-
   return (
     <ThemeProvider theme={theme}>
       <AppBar position="fixed">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            {/* <img
-              src={`${img}?w=164&h=164&fit=crop&auto=format`}
-              srcSet={`${img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-              alt={""}
-              loading="lazy"
-            />
-            <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
-            {/* <Avatar alt="Remy Sharp" src={img} /> */}
-            <Typography
+            <Link
+              href="/"
               variant="h6"
               noWrap
               component="a"
-              // href="/"
               sx={{
                 mr: 2,
                 display: { xs: "none", md: "flex" },
@@ -140,8 +124,8 @@ function ResponsiveAppBar() {
                 textDecoration: "none",
               }}
             >
-              <NavLink to="/">Devs Learning</NavLink>
-            </Typography>
+              Devs Learning
+            </Link>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
@@ -184,12 +168,12 @@ function ResponsiveAppBar() {
                 </MenuItem>
               </Menu>
             </Box>
-            {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} /> */}
-            <Typography
+
+            <Link
+              href="/"
               variant="h5"
               noWrap
               component="a"
-              // href=""
               sx={{
                 mr: 2,
                 display: { xs: "flex", md: "none" },
@@ -201,8 +185,8 @@ function ResponsiveAppBar() {
                 textDecoration: "none",
               }}
             >
-              <NavLink to="/">Devs </NavLink>
-            </Typography>
+              Devs
+            </Link>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page) => (
                 <Button
@@ -223,7 +207,6 @@ function ResponsiveAppBar() {
                   <ShoppingCartOutlinedIcon />
                 </Badge>
               </IconButton>
-              {/* <Button color="secondary" variant="text"></Button> */}
               <Button
                 onClick={handleLogin}
                 color="secondary"
@@ -251,7 +234,11 @@ function ResponsiveAppBar() {
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar
                     alt="ProfileImage"
-                    src={user?.photoURL || "/static/images/avatar/2.jpg"}
+                    src={
+                      profileImg !== null
+                        ? profileImg
+                        : "/static/images/avatar/2.jpg"
+                    }
                   />
                 </IconButton>
               </Tooltip>

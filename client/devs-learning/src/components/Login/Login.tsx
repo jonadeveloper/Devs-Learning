@@ -20,8 +20,7 @@ import Recover from "../RecoverPassword/Recover";
 export default function Login({ setAuth }: any) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const userState = useAppSelector((state) => state);
-  const [input, setInput] = useState(userState.users);
+  const [input, setInput] = useState({ email: "", password: "" });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput({
@@ -196,9 +195,7 @@ export default function Login({ setAuth }: any) {
             </Button>
           </Box>
 
-          <Typography sx={{ mt: "5px" }}>
-            <Recover />
-          </Typography>
+          <Recover />
           <Typography sx={{ mt: "5px" }}>
             <Link href="/auth/signup">New user? Create an account</Link>
           </Typography>

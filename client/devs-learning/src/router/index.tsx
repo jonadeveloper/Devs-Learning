@@ -16,14 +16,27 @@ import LandingPage from "../components/Landing/LandingPage";
 import DashboardAdmin from "../components/Dashboards/DashboardAdmin";
 import Admin from "../components/Dashboards/NavBarAdmin";
 import UserDashboard from "../components/Dashboards/UserDashboard";
+import { getAuth } from "firebase/auth";
+import { userData } from "../redux/users/actions";
+
+export var profileImg: string;
 
 export const AppRouter = () => {
   const dispatch = useAppDispatch();
-  const { status } = useAppSelector((state) => state.users)
+  const { status } = useAppSelector((state) => state.users);
   useEffect(() => {
     dispatch(getCourses());
     dispatch(getCategories());
   }, []);
+
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  if (user?.providerId === "firebase") {
+    profileImg = user.photoURL!;
+  } else {
+    profileImg = userData?.photoURL;
+  }
 
   return (
     <div>
