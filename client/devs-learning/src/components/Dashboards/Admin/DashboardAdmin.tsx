@@ -1,5 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../../hooks/hooksRedux";
 import { Link as ReactLink } from "react-router-dom";
 
 import Box from "@mui/material/Box";
@@ -16,8 +17,8 @@ import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-import GroupIcon from "@mui/icons-material/Group";
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import GroupIcon from '@mui/icons-material/Group';
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import PersonIcon from "@mui/icons-material/Person";
@@ -27,11 +28,11 @@ import SaveIcon from "@mui/icons-material/Save";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 
 import { borderRadius } from "@mui/system";
-import InfoPersonal from "./Admin/InfoPersonal";
-import CoursesPanel from "./Admin/CoursesPanel";
-import SalesPanel from "./Admin/SalesPanel";
-import UsersPanel from "./Admin/UsersPanel";
-import AccountSettings from "./Admin/AccountSettings";
+import InfoPersonal from "./InfoPersonal";
+import CoursesPanel from "./CoursesPanel";
+import SalesPanel from "./SalesPanel";
+import UsersPanel from "./UsersPanel";
+import AccountSettings from "./AccountSettings";
 
 const DashboardAdmin: React.FC = () => {
   const img: string =
