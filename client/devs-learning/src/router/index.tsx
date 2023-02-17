@@ -39,7 +39,6 @@ export const AppRouter = () => {
         <Route path={"/admin"} element={<Admin />} />
         <Route path={"/user"} element={<UserDashboard />} />
 
-        <Route path={`/dashboard/edit/course/:name`} element={<EditForm />} />
 
         <Route
           path={`/auth/*`}
