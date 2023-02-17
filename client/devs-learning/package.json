@@ -5,12 +5,8 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
-<<<<<<< HEAD
-    "@mui/icons-material": "^5.11.0",
-=======
     "@fontsource/roboto": "^4.5.8",
     "@mui/icons-material": "^5.11.9",
->>>>>>> acd22c0ab1e40cc8dca8a44d8167282d7daeffb7
     "@mui/material": "^5.11.7",
     "@reduxjs/toolkit": "^1.9.2",
     "@testing-library/jest-dom": "^5.16.5",

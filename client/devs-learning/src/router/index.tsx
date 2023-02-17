@@ -16,6 +16,7 @@ import LandingPage from "../components/Landing/LandingPage";
 import DashboardAdmin from "../components/Dashboards/DashboardAdmin";
 import Admin from "../components/Dashboards/NavBarAdmin";
 import UserDashboard from "../components/Dashboards/UserDashboard";
+import { EditForm } from "../components/Courses/EditForm";
 
 export const AppRouter = () => {
   const dispatch = useAppDispatch();
@@ -38,6 +39,7 @@ export const AppRouter = () => {
         <Route path={"/admin"} element={<Admin />} />
         <Route path={"/user"} element={<UserDashboard />} />
 
+
         <Route
           path={`/auth/*`}
           element={
@@ -50,7 +52,7 @@ export const AppRouter = () => {
           path={`/*`}
           element={
             <PrivateRoute isLoggedin={status}>
-              <LoggedRoutes />
+              <LoggedRoutes rol={"user"} />
             </PrivateRoute>
           }
         />
