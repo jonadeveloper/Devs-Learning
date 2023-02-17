@@ -3,6 +3,8 @@ const bodyParser = require("body-parser");
 const coursesRoute = require("./routes/courses");
 const categoriesRoute = require("./routes/categories");
 const usersRoute = require("./routes/users");
+const meliRoute = require("./routes/meli");
+
 const server = express();
 
 server.use(bodyParser.json());
@@ -17,6 +19,7 @@ server.use((_req, res, next) => {
 });
 server.use("/courses", coursesRoute);
 server.use("/categories", categoriesRoute);
+server.use("/pay", meliRoute);
 server.use("/", usersRoute);
 
 server.use((err: any, _req: any, res: any, _next: any) => {

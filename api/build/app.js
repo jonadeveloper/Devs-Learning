@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 const coursesRoute = require("./routes/courses");
 const categoriesRoute = require("./routes/categories");
 const usersRoute = require("./routes/users");
+const meliRoute = require("./routes/meli");
 const server = (0, express_1.default)();
 server.use(bodyParser.json());
 server.use((_req, res, next) => {
@@ -18,6 +19,7 @@ server.use((_req, res, next) => {
 });
 server.use("/courses", coursesRoute);
 server.use("/categories", categoriesRoute);
+server.use("/pay", meliRoute);
 server.use("/", usersRoute);
 server.use((err, _req, res, _next) => {
     const status = err.status || 500;
