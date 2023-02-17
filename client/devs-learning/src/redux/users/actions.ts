@@ -19,16 +19,15 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 export const registerUser = (
-  data: CreateUserInterface,
-  setAuth: any
+  data: CreateUserInterface
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return async (dispatch) => {
     try {
       let response = await axios.post(`${REACT_APP_BASE_URL}/register`, data);
-      setAuth = "logged";
-      dispatch(reducer.signUp(response.data));
-
-      Swal.fire("Create user successfully!", "", "success");
+      if (response !== null) {
+        dispatch(reducer.signUp(response.data));
+        Swal.fire("Create user successfully!", "", "success");
+      }
     } catch (error) {
       Swal.fire(`Error: ${error}, try again`, "", "error");
     }
@@ -48,8 +47,8 @@ export const loginUser = (
         userData = response.data;
         setAuth = "logged";
         dispatch(reducer.signIn(setAuth));
+        Swal.fire("Logged in", "", "success");
       }
-      Swal.fire("Logged in", "", "success");
     } catch (error) {
       Swal.fire(`Error: ${error}, try again`, "", "error");
     }
@@ -62,12 +61,11 @@ export const signInWithGoogle = (
   return async (dispatch) => {
     try {
       let response = await signInWithPopup(auth, provider);
-      const credential = GoogleAuthProvider.credentialFromResult(response);
-      const token = credential?.accessToken;
-      const user = response.user;
-      setAuth = "logged";
-      dispatch(reducer.signIn(setAuth));
-      Swal.fire("Logged in", "", "success");
+      if (response !== null) {
+        setAuth = "logged";
+        dispatch(reducer.signIn(setAuth));
+        Swal.fire("Logged in", "", "success");
+      }
     } catch (error: any) {
       const errorCode = error.code;
       const errorMessage = error.message;
@@ -102,7 +100,7 @@ export const signOutAction = (): ThunkAction<
         let result = await signOut(auth);
         dispatch(reducer.logOut(result));
       } else {
-        userData = undefined;
+        userData = null;
         dispatch(reducer.logOut(userData));
       }
 

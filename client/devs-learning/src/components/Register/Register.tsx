@@ -30,7 +30,7 @@ export default function Register({ setAuth }: any) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(registerUser({ ...input }, setAuth));
+    dispatch(registerUser({ ...input }));
   };
 
   const handleclick = () => {

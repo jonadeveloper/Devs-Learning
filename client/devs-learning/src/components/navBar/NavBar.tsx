@@ -18,8 +18,7 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { Badge, Link } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 import { CartComponent } from "../Cart/Cart";
-import { signOutAction, userData } from "../../redux/users/actions";
-import { getAuth } from "firebase/auth";
+import { signOutAction } from "../../redux/users/actions";
 import { profileImg } from "../../router";
 
 const pages = [
@@ -35,7 +34,7 @@ const pages = [
 const settings = [
   {
     name: "Profile",
-    route: "/",
+    route: "/profile",
   },
   {
     name: "Create Course (Temp)",
@@ -227,7 +226,7 @@ function ResponsiveAppBar() {
             <Box
               sx={{
                 flexGrow: 0,
-                display: status != "logged" ? "none" : "block",
+                display: status !== "logged" ? "none" : "block",
               }}
             >
               <Tooltip title="Open settings">

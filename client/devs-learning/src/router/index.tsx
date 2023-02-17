@@ -18,10 +18,12 @@ import Admin from "../components/Dashboards/NavBarAdmin";
 import UserDashboard from "../components/Dashboards/UserDashboard";
 import { getAuth } from "firebase/auth";
 import { userData } from "../redux/users/actions";
-
+//import { EditForm } from "../components/Courses/EditForm";
 export var profileImg: string;
-import { EditForm } from "../components/Courses/EditForm";
-
+export var userFullname: string;
+export var userEmail: string;
+export var userPhoneNumber: string;
+export var userLastLogin: any;
 export const AppRouter = () => {
   const dispatch = useAppDispatch();
   const { status } = useAppSelector((state) => state.users);
@@ -32,11 +34,20 @@ export const AppRouter = () => {
 
   const auth = getAuth();
   const user = auth.currentUser;
-
+  const userByEmailInfo = userData?.user;
   if (user?.providerId === "firebase") {
     profileImg = user.photoURL!;
+    userFullname = user.displayName!;
+    userEmail = user.email!;
+    userPhoneNumber = user.phoneNumber!;
+    userLastLogin = user.metadata.lastSignInTime!;
   } else {
-    profileImg = userData?.photoURL;
+    let time = Number(userByEmailInfo?.lastLoginAt);
+    profileImg = userByEmailInfo?.photoURL;
+    userFullname = userByEmailInfo?.displayName;
+    userEmail = userByEmailInfo?.email;
+    userPhoneNumber = userByEmailInfo?.phoneNumber;
+    userLastLogin = new Date(time).toDateString();
   }
 
   return (

@@ -15,9 +15,7 @@ export const userSign = createSlice({
   name: "users",
   initialState,
   reducers: {
-    signUp: (state, { payload }) => {
-      state.status = payload;
-    },
+    signUp: (state, { payload }) => {},
     signIn: (state, { payload }) => {
       state.status = payload;
     },

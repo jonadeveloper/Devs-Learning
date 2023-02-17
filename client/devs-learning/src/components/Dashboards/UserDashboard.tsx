@@ -3,9 +3,6 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import Badge from "@mui/material/Badge";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -18,14 +15,10 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import UserPersonalInfo from "./User/UserPersonalInfo";
 import UserCourses from "./User/UserCourses";
 import UserAccountSettings from "./User/UserAccountSettings";
-import { getAuth } from "firebase/auth";
-import { userData } from "../../redux/users/actions";
+import { profileImg, userFullname } from "../../router";
 
 const UserDashboard: React.FC = () => {
-  const img: string =
-    "https://www.eluniverso.com/resizer/uEs8MTOMrNBA_E259XK6PXgb74o=/773x670/smart/filters:quality(70)/cloudfront-us-east-1.images.arcpublishing.com/eluniverso/RHCBXZMR3RB7JBZXNGE6YDB7PY.jpg";
-
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [content, setContent] = React.useState(0);
 
   const handleListItemClick = (
@@ -47,13 +40,6 @@ const UserDashboard: React.FC = () => {
       return <div>LogOut</div>;
     }
   };
-
-  const auth = getAuth();
-  const user = auth.currentUser;
-
-  if (user?.providerId === "firebase") {
-  } else {
-  }
 
   return (
     <Grid container bgcolor="#C5DCE4" spacing={2}>
@@ -77,47 +63,27 @@ const UserDashboard: React.FC = () => {
             alignItems="center"
             mt={2}
           >
-            <Box
-              mb={1}
-              width="40%"
-              sx={{ boxShadow: "5", borderRadius: "50%" }}
+            <Avatar
+              alt="Full name"
+              sx={{ width: "96px", height: "96px" }}
+              src={profileImg}
+            />
+
+            <Typography
+              fontFamily="sans-serif"
+              color="inherit"
+              bgcolor="whitesmoke"
+              variant="h4"
             >
-              <Badge
-                overlap="circular"
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                badgeContent={
-                  <IconButton size="large">
-                    <CameraAltIcon fontSize="inherit" />
-                  </IconButton>
-                }
-              >
-                <Avatar
-                  alt="ALF"
-                  sx={{ width: "100%", height: "100%" }}
-                  src={img}
-                />{" "}
-              </Badge>
-            </Box>
+              {userFullname}
+            </Typography>
+
             <Box
-              display="flex"
-              justifyContent="center"
-              mb={6}
-              mt={1}
-              p={1}
               sx={{
-                width: "80%",
-                borderRadius: 2,
-                borderRight: 0.5,
-                borderLeft: 0.5,
-                borderColor: "lightgrey",
+                width: "100%",
+                bgcolor: "whitesmoke",
               }}
             >
-              <Typography color="inherit" bgcolor="whitesmoke" variant="h4">
-                {user?.displayName || userData.displayName}
-              </Typography>
-            </Box>
-
-            <Box sx={{ width: "100%", bgcolor: "whitesmoke" }}>
               <List component="nav" aria-label="main mailbox folders">
                 <Divider />
                 <ListItemButton

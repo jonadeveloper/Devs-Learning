@@ -5,6 +5,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
+  updateProfile,
 } from "firebase/auth";
 
 import { Request, Response } from "express";
@@ -44,13 +45,20 @@ export async function signUp(req: Request, res: Response) {
       email,
       password
     );
+
     const user = userCredential.user;
-    Users.create({
-      id: user.uid,
-      fullname: fullname,
-      email: user.email,
-      lastLogin: Date.now(),
-    });
+    await updateProfile(user, { ...user, displayName: fullname }).catch((err) =>
+      console.log(err)
+    );
+
+    if (user) {
+      await Users.create({
+        id: user.uid,
+        fullname: fullname,
+        email: user.email,
+        lastLogin: user.metadata.lastSignInTime,
+      });
+    }
 
     res.status(201).send(user);
   } catch (error: any) {

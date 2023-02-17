@@ -40,12 +40,15 @@ function signUp(req, res) {
             const { fullname, email, password } = req.body;
             let userCredential = yield (0, auth_1.createUserWithEmailAndPassword)(auth, email, password);
             const user = userCredential.user;
-            Users.create({
-                id: user.uid,
-                fullname: fullname,
-                email: user.email,
-                lastLogin: Date.now(),
-            });
+            yield (0, auth_1.updateProfile)(user, Object.assign(Object.assign({}, user), { displayName: fullname })).catch((err) => console.log(err));
+            if (user) {
+                yield Users.create({
+                    id: user.uid,
+                    fullname: fullname,
+                    email: user.email,
+                    lastLogin: user.metadata.lastSignInTime,
+                });
+            }
             res.status(201).send(user);
         }
         catch (error) {
