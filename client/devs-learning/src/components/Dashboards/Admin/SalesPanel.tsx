@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
+import { useAppDispatch, useAppSelector } from "../../../hooks/hooksRedux";
 import { Link as ReactLink } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
@@ -9,13 +9,13 @@ import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 
-const UsersPanel: React.FC = () => {
+const SalesPanel: React.FC = () => {
   return (
     <div>
-      <Typography variant="h3">Users</Typography>
-      ACÁ SE RENDERIZA LA INFORMACION SOBRE USUARIOS
+      <Typography variant="h3">Sales</Typography>
+      ACÁ SE RENDERIZA LA INFORMACION SOBRE VENTAS
     </div>
   );
 };
 
-export default UsersPanel;
+export default SalesPanel;

@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
+import { useAppDispatch, useAppSelector } from "../../../hooks/hooksRedux";
 import { Link as ReactLink } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
@@ -9,13 +9,13 @@ import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 
-const InfoPersonal: React.FC = () => {
+const UserPersonalInfo: React.FC = () => {
   return (
     <div>
-      <Typography variant="h3">Personal Dates</Typography>
+      <Typography variant="h3">Personal Info</Typography>
       ACÁ SE RENDERIZA LA INFORMACION PERSONAL
     </div>
   );
 };
 
-export default InfoPersonal;
+export default UserPersonalInfo;
