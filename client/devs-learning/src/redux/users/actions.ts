@@ -11,73 +11,79 @@ import Swal from "sweetalert2";
 import { CreateUserInterface } from "../../interfaces/CreateUserInterface";
 import { RootState } from "../store";
 import { reducer } from "./slice";
-const { REACT_APP_BASE_URL } = process.env;
+const { REACT_APP_BASE_URL, REACT_APP_FIREBASE_CONFIG } = process.env;
 const provider = new GoogleAuthProvider();
 
-var firebaseConfig = {
-  apiKey: "AIzaSyC2NdZp4--hGRr-W9sEHkrK8yVCo1OKN70",
-  authDomain: "devslearning-76766.firebaseapp.com",
-  projectId: "devslearning-76766",
-  storageBucket: "devslearning-76766.appspot.com",
-  messagingSenderId: "508465796522",
-  appId: "1:508465796522:web:9c6070d8abb6a4680a47d3",
-};
+const firebaseConfig = JSON.parse(REACT_APP_FIREBASE_CONFIG!);
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+
 export const registerUser = (
   data: CreateUserInterface
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return async (dispatch) => {
-    dispatch(reducer.setLoading());
     try {
       let response = await axios.post(`${REACT_APP_BASE_URL}/register`, data);
-      dispatch(reducer.signUp(response.data));
-
-      Swal.fire("Create user successfully!", "", "success");
+      if (response !== null) {
+        dispatch(reducer.signUp(response.data));
+        Swal.fire("Create user successfully!", "", "success");
+      }
     } catch (error) {
       Swal.fire(`Error: ${error}, try again`, "", "error");
     }
   };
 };
+
+export var userData: any;
 
 export const loginUser = (
-  data: any
+  data: any,
+  setAuth: any
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return async (dispatch) => {
-    dispatch(reducer.setLoading());
     try {
       let response = await axios.post(`${REACT_APP_BASE_URL}/login`, data);
-      dispatch(reducer.signIn(response.data));
-      Swal.fire("Logged in", "", "success");
+      if (response.data !== null) {
+        userData = response.data;
+        setAuth = "logged";
+        dispatch(reducer.signIn(setAuth));
+        Swal.fire("Logged in", "", "success");
+      }
     } catch (error) {
       Swal.fire(`Error: ${error}, try again`, "", "error");
     }
   };
 };
 
-export const signInWithGoogle = (): ThunkAction<
-  void,
-  RootState,
-  unknown,
-  AnyAction
-> => {
+export const signInWithGoogle = (
+  setAuth: any
+): ThunkAction<void, RootState, unknown, AnyAction> => {
   return async (dispatch) => {
     try {
       let response = await signInWithPopup(auth, provider);
-      const credential = GoogleAuthProvider.credentialFromResult(response);
-      const token = credential?.accessToken;
-      const user = response.user;
-      dispatch(reducer.signIn(user));
-      Swal.fire("Logged in", "", "success");
+      if (response !== null) {
+        setAuth = "logged";
+        dispatch(reducer.signIn(setAuth));
+        Swal.fire("Logged in", "", "success");
+      }
     } catch (error: any) {
       const errorCode = error.code;
       const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.customData.email;
-      // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      // ...
       Swal.fire(`${errorCode}: ${errorMessage}, try again`, "", "error");
+    }
+  };
+};
+
+export const recoverPassword = (
+  data: any
+): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return async (dispatch) => {
+    try {
+      let response = await axios.post(`${REACT_APP_BASE_URL}/recover`, data);
+      dispatch(reducer.recover(response.data));
+      Swal.fire("Log out", "", "success");
+    } catch (error) {
+      Swal.fire(`${error}, try again`, "", "error");
     }
   };
 };
@@ -90,8 +96,14 @@ export const signOutAction = (): ThunkAction<
 > => {
   return async (dispatch) => {
     try {
-      let result = await signOut(auth);
-      dispatch(reducer.logOut(result));
+      if (auth.currentUser?.providerId === "firebase") {
+        let result = await signOut(auth);
+        dispatch(reducer.logOut(result));
+      } else {
+        userData = null;
+        dispatch(reducer.logOut(userData));
+      }
+
       Swal.fire("Log out", "", "success");
     } catch (error) {
       Swal.fire(`${error}, try again`, "", "error");
