@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -38,7 +39,7 @@ const UserDashboard: React.FC = () => {
     } else if (content === 2) {
       return <UserAccountSettings />;
     } else if (content === 3) {
-      return <div>LogOut</div>;
+      return <LogOut />;
     }
   };
 
