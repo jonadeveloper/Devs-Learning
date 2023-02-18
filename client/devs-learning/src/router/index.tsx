@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import CourseDetail from "../components/Detail/CourseDetail";
 import { Categories } from "../views/Categories";
@@ -15,40 +15,15 @@ import Footer from "../components/Footer/Footer";
 import LandingPage from "../components/Landing/LandingPage";
 import DashboardAdmin from "../components/Dashboards/Admin/DashboardAdmin";
 import UserDashboard from "../components/Dashboards/UserDashboard";
-
-import { getAuth } from "firebase/auth";
-import { userData } from "../redux/users/actions";
 //import { EditForm } from "../components/Courses/EditForm";
-export var profileImg: string;
-export var userFullname: string;
-export var userEmail: string;
-export var userPhoneNumber: string;
-export var userLastLogin: any;
+
 export const AppRouter = () => {
   const dispatch = useAppDispatch();
-  const { status } = useAppSelector((state) => state.users);
+  let { status } = useAppSelector((state) => state.users);
   useEffect(() => {
     dispatch(getCourses());
     dispatch(getCategories());
   }, []);
-
-  const auth = getAuth();
-  const user = auth.currentUser;
-  const userByEmailInfo = userData?.user;
-  if (user?.providerId === "firebase") {
-    profileImg = user.photoURL!;
-    userFullname = user.displayName!;
-    userEmail = user.email!;
-    userPhoneNumber = user.phoneNumber!;
-    userLastLogin = user.metadata.lastSignInTime!;
-  } else {
-    let time = Number(userByEmailInfo?.lastLoginAt);
-    profileImg = userByEmailInfo?.photoURL;
-    userFullname = userByEmailInfo?.displayName;
-    userEmail = userByEmailInfo?.email;
-    userPhoneNumber = userByEmailInfo?.phoneNumber;
-    userLastLogin = new Date(time).toDateString();
-  }
 
   return (
     <div>

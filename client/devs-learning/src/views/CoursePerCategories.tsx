@@ -1,5 +1,5 @@
 import { Box } from "@mui/system";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { CardList } from "../components/Cards/CardList";
 import { useAppDispatch, useAppSelector } from "../hooks/hooksRedux";

@@ -19,7 +19,8 @@ import { Badge, Link } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 import { CartComponent } from "../Cart/Cart";
 import { signOutAction } from "../../redux/users/actions";
-import { profileImg } from "../../router";
+import { profileImg } from "../Landing/LandingPage";
+import { setItem } from "../../utils/localStorage";
 
 const pages = [
   {
@@ -81,6 +82,7 @@ function ResponsiveAppBar() {
   const handleLogout = () => {
     handleCloseNavMenu();
     dispatch(signOutAction());
+    setItem("loggedUserInfo", undefined);
   };
 
   const handleCloseUserMenu = () => {
@@ -162,9 +164,6 @@ function ResponsiveAppBar() {
                     </NavLink>
                   </MenuItem>
                 ))}
-                <MenuItem key={"LoggOut"} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">Logout</Typography>
-                </MenuItem>
               </Menu>
             </Box>
 

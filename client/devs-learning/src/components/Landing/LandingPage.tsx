@@ -1,12 +1,46 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { Typography } from "@mui/material/";
 import Fab from "@mui/material/Fab";
 import { Box } from "@mui/system";
 import Grid from "@mui/material/Grid";
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
+import { userData } from "../../redux/users/actions";
+import { getAuth } from "firebase/auth";
+import { setItem } from "../../utils/localStorage";
+export var profileImg: string;
+export var userFullname: string;
+export var userEmail: string;
+export var userPhoneNumber: string;
+export var userLastLogin: any;
 
 const LandingPage: React.FC = () => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const userByEmailInfo = userData?.user;
+  const getUser = () => {
+    localStorage.getItem("loggedUserInfo");
+  };
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  if (user?.providerId === "firebase") {
+    profileImg = user.photoURL!;
+    userFullname = user.displayName!;
+    userEmail = user.email!;
+    userPhoneNumber = user.phoneNumber!;
+    userLastLogin = user.metadata.lastSignInTime!;
+    setItem("loggedUserInfo", user);
+  } else {
+    let time = Number(userByEmailInfo?.lastLoginAt);
+    profileImg = userByEmailInfo?.photoURL;
+    userFullname = userByEmailInfo?.displayName;
+    userEmail = userByEmailInfo?.email;
+    userPhoneNumber = userByEmailInfo?.phoneNumber;
+    userLastLogin = new Date(time).toDateString();
+    setItem("loggedUserInfo", userByEmailInfo);
+  }
   return (
     <Grid container direction="row" mt={3} bgcolor="#6DBAC6">
       <Grid
