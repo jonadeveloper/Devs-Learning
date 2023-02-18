@@ -33,6 +33,9 @@ module.exports = (sequelize) => {
         profileImg: {
             type: sequelize_1.DataTypes.STRING,
         },
+        phoneNumber: {
+            type: sequelize_1.DataTypes.STRING,
+        },
         email: {
             type: sequelize_1.DataTypes.STRING,
             unique: true,

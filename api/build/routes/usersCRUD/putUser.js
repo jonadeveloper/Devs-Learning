@@ -10,10 +10,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateUserPhone = exports.updateUserPassword = exports.updateUserEmail = exports.updateUserProfile = void 0;
+const { Users } = require("../../db");
 const auth_1 = require("firebase/auth");
 const auth = (0, auth_1.getAuth)();
 const user = auth.currentUser;
-console.log(user);
 function updateUserProfile(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -22,6 +22,14 @@ function updateUserProfile(req, res) {
                 yield (0, auth_1.updateProfile)(user, {
                     displayName: fullname,
                     photoURL: profileImg,
+                });
+                yield Users.update({
+                    fullname: fullname,
+                    profileImg: profileImg
+                }, {
+                    where: {
+                        id: user.uid
+                    }
                 });
                 res.status(200).send("Update successfully");
             }
@@ -74,6 +82,7 @@ function updateUserPhone(req, res) {
             const { phoneNumber } = req.body;
             if (user) {
                 yield (0, auth_1.updatePhoneNumber)(user, phoneNumber);
+                yield Users.update({ phoneNumber: phoneNumber }, { where: { id: user.uid } });
                 res.status(200).send("Update phone number successfully");
             }
         }
