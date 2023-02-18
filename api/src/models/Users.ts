@@ -34,6 +34,9 @@ module.exports = (sequelize: any) => {
       profileImg: {
         type: DataTypes.STRING,
       },
+      phoneNumber: {
+        type: DataTypes.STRING,
+      },
       email: {
         type: DataTypes.STRING,
         unique: true,
