@@ -16,7 +16,7 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import UserPersonalInfo from "./User/UserPersonalInfo";
 import UserCourses from "./User/UserCourses";
 import UserAccountSettings from "./User/UserAccountSettings";
-import { profileImg, userFullname } from "../../router";
+import { profileImg, userFullname } from "../Landing/LandingPage";
 import LogOut from "./User/Logout";
 
 const UserDashboard: React.FC = () => {
