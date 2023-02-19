@@ -3,6 +3,7 @@ import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Chip from "@mui/material/Chip";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -12,6 +13,10 @@ import { setCurrentCourse } from "../../redux/courses/actions";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 import Stack from "@mui/material/Stack";
 import { Container } from "@mui/material";
+import { useState, useEffect } from "react";
+import { setItem } from "../../utils/localStorage";
+import { getCourses, addToCart } from "../../redux/courses/actions";
+import { Button } from "@mui/material";
 
 export interface Course {
   categoria: number;
@@ -54,10 +59,22 @@ export const CardComponent = ({ card, index }: Props) => {
     navigate(`${PATH}`);
   };
 
+  const [disabledBtn, setDisabledBtn] = useState<boolean>(false);
+
+  const handleAddToCart = () => {
+    dispatch(addToCart(card));
+  };
+
+  const { cart } = useAppSelector((state) => state.courses);
+
+  useEffect(() => {
+    setDisabledBtn(cart.some((item) => item.id === card.id));
+    setItem("cart", cart);
+  }, [cart, card.id]);
+
   return (
     <Grid key={index} item xl={3} lg={4} sx={{ display: "flex" }}>
       <Card
-        onClick={handleCurrent}
         sx={{
           minHeight: 500,
           borderRadius: 2,
@@ -68,13 +85,14 @@ export const CardComponent = ({ card, index }: Props) => {
         <CardActionArea sx={{ display: "grid", gridTemplateRows: "auto 1fr" }}>
           {/* Course Name */}
           <CardMedia
+            onClick={handleCurrent}
             component="img"
             height="200"
             alt="Course Name"
             image={card.img}
           />
           <CardContent sx={{ justifySelf: "flex-start" }}>
-            <Box>
+            <Box onClick={handleCurrent}>
               {/* Course Title */}
               <Typography
                 gutterBottom
@@ -103,9 +121,7 @@ export const CardComponent = ({ card, index }: Props) => {
                           label={cat.name}
                           sx={{ backgroundColor: "greenyellow" }}
                           onClick={() => {
-                            console.log(
-                              `Redireccionando a la categoria ${cat.name}`
-                            );
+                            console.log(`Redireccionando a la categoria ${cat.name}`);
                           }}
                         />
                       </Link>
@@ -121,18 +137,25 @@ export const CardComponent = ({ card, index }: Props) => {
             <Divider sx={{ my: 2 }} />
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <Typography sx={{ display: "flex", fontWeight: "600", gap: 1 }}>
-                Duration:{" "}
-                <span style={{ color: "grey" }}> {card.duration} hours</span>
+                Duration: <span style={{ color: "grey" }}> {card.duration} hours</span>
               </Typography>
 
               <Typography sx={{ display: "flex", fontWeight: "600", gap: 1 }}>
-                Difficulty:{" "}
-                <span style={{ color: "grey" }}>
-                  {" "}
-                  {card.level.toUpperCase()}
-                </span>
+                Difficulty: <span style={{ color: "grey" }}> {card.level.toUpperCase()}</span>
               </Typography>
             </Box>
+            <Button
+              size="medium"
+              color="secondary"
+              variant="contained"
+              endIcon={<AddShoppingCartIcon />}
+              onClick={handleAddToCart}
+              disabled={disabledBtn}
+            >
+              <Typography variant="button" p={0.5}>
+                Add to Cart
+              </Typography>
+            </Button>
           </CardContent>
         </CardActionArea>
       </Card>

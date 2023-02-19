@@ -1,54 +1,41 @@
 const { Course, Users } = require("../../db");
-import { getAuth } from "firebase/auth";
-import { Request, Response } from "express";
+/*import { getAuth } from "firebase/auth";
+import { initializeApp } from "firebase/app";
 
-const auth = getAuth();
-const user = auth.currentUser;
-
-export async function getCurrentUser(_req: Request, res: Response) {
-  try {
-    if (user) {
-      const userDB = await Users.findOne({
-        where: {
-          id: user?.uid,
-        },
-        include: {
-          model: Course,
-          attributes: ["name"],
-          through: {
-            attributes: [],
-          },
-        },
-      });
-      return res.status(200).send(userDB);
-    } else {
-      return res.status(404).send("Could not find the user");
-    }
-  } catch (err) {
-    return res.status(404).send(err);
-  }
-}
+const { REACT_APP_FIREBASE_CONFIG } = process.env;
+const firebaseConfig = JSON.parse(REACT_APP_FIREBASE_CONFIG!);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const user = auth.currentUser;*/
 
 export async function getUsersInfo(req: any, res: any) {
-  try {
-    const { fullname, id } = req.query;
-    if (fullname) {
-      let fullNameDB = fullname.split(" ").join("-").toLowerCase();
-      let user = await Users.findAll({
-        where: {
-          fullname: fullNameDB,
-        },
-        include: {
-          model: Course,
-          attributes: ["name"],
-          through: {
-            attributes: [],
-          },
-        },
-      });
-      user.length === 0
-        ? res.status(400).send(`The User ${fullname} has not been found`)
-        : res.status(200).send(user);
+    try {
+        const { id } = req.query;
+        if (id) {
+            let user = await Users.findAll({
+                where: {
+                    id: id
+                },
+                include: {
+                    model: Course,
+                    attributes: ["name"],
+                    through: {
+                        attributes: [],
+                    },
+                }
+            });
+            user.length === 0 ? res.status(400).send(`The User has not been found`) : res.status(200).send(user);
+        }
+        let users = await Users.findAll({
+            include: {
+                model: Course,
+                attributes: ["name"],
+                through: {
+                    attributes: [],
+                },
+            },
+        });
+        return res.status(200).send(users);
     }
     if (id) {
       let user = await Users.findAll({

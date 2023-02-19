@@ -9,26 +9,37 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUserPhone = exports.updateUserPassword = exports.updateUserEmail = exports.updateUserProfile = void 0;
+exports.updateUserPhone = exports.updateUserEmail = exports.updateUserProfile = void 0;
 const { Users } = require("../../db");
-const auth_1 = require("firebase/auth");
-const auth = (0, auth_1.getAuth)();
-const user = auth.currentUser;
+/*import { initializeApp } from "firebase/app";
+import {
+  getAuth,
+  updateEmail,
+  updatePassword,
+  updatePhoneNumber,
+  updateProfile,
+} from "firebase/auth";
+
+const { REACT_APP_FIREBASE_CONFIG } = process.env;
+const firebaseConfig = JSON.parse(REACT_APP_FIREBASE_CONFIG!);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const user = auth.currentUser;*/
 function updateUserProfile(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { fullname, profileImg } = req.body;
-            if (user) {
-                yield (0, auth_1.updateProfile)(user, {
-                    displayName: fullname,
-                    photoURL: profileImg,
-                });
+            const { id, fullname, profileImg } = req.body;
+            if (id) {
+                /*await updateProfile(user, {
+                  displayName: fullname,
+                  photoURL: profileImg,
+                });*/
                 yield Users.update({
                     fullname: fullname,
                     profileImg: profileImg
                 }, {
                     where: {
-                        id: user.uid
+                        id: id
                     }
                 });
                 res.status(200).send("Update successfully");
@@ -43,15 +54,18 @@ exports.updateUserProfile = updateUserProfile;
 function updateUserEmail(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { email } = req.body;
-            if (user) {
-                if (user.email !== email) {
-                    yield (0, auth_1.updateEmail)(user, email);
-                    yield Users.update({ email: email }, { where: { id: user.uid } });
-                }
-                else {
-                    throw new Error("Same Email");
-                }
+            const { id, email } = req.body;
+            if (id) {
+                /*if (user.email !== email) {
+                  await updateEmail(user, email);
+                } else {
+                  throw new Error("Same Email");
+                }*/
+                yield Users.update({
+                    email: email
+                }, {
+                    where: { id: id }
+                });
                 res.status(200).send("Update email successfully");
             }
         }
@@ -61,28 +75,28 @@ function updateUserEmail(req, res) {
     });
 }
 exports.updateUserEmail = updateUserEmail;
-function updateUserPassword(req, res) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const { password } = req.body;
-            if (user) {
-                yield (0, auth_1.updatePassword)(user, password);
-                res.status(200).send("Update password successfully");
-            }
-        }
-        catch (error) {
-            res.status(400).send(`Cannot update password ${error}`);
-        }
-    });
-}
-exports.updateUserPassword = updateUserPassword;
+/*export async function updateUserPassword(req: Request, res: Response) {
+  try {
+    const { password } = req.body;
+    if (user) {
+      await updatePassword(user, password);
+      res.status(200).send("Update password successfully");
+    }
+  } catch (error) {
+    res.status(400).send(`Cannot update password ${error}`);
+  }
+}*/
 function updateUserPhone(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { phoneNumber } = req.body;
-            if (user) {
-                yield (0, auth_1.updatePhoneNumber)(user, phoneNumber);
-                yield Users.update({ phoneNumber: phoneNumber }, { where: { id: user.uid } });
+            const { id, phoneNumber } = req.body;
+            if (id) {
+                /*await updatePhoneNumber(user, phoneNumber);*/
+                yield Users.update({
+                    phoneNumber: phoneNumber
+                }, {
+                    where: { id: id }
+                });
                 res.status(200).send("Update phone number successfully");
             }
         }

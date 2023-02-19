@@ -1,5 +1,6 @@
 require("dotenv").config();
-import { initializeApp } from "firebase/app";
+import { Request, Response } from "express";
+/*import { initializeApp } from "firebase/app";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -8,25 +9,21 @@ import {
   updateProfile,
 } from "firebase/auth";
 
-import { Request, Response } from "express";
+const { REACT_APP_FIREBASE_CONFIG } = process.env;
+const firebaseConfig = JSON.parse(REACT_APP_FIREBASE_CONFIG!);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);*/
 
 const { Users } = require("../../db");
-const { FIREBASE_CONFIG } = process.env;
 
-const firebaseConfig = JSON.parse(FIREBASE_CONFIG!);
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
-export async function signIn(req: Request, res: Response) {
+/*export async function signIn(req: Request, res: Response) {
   try {
     const { email, password } = req.body;
-
     let userCredential = await signInWithEmailAndPassword(
       auth,
       email,
       password
     );
-
     // const user = userCredential.user;
     res.status(200).send(userCredential);
   } catch (error: any) {
@@ -34,33 +31,30 @@ export async function signIn(req: Request, res: Response) {
     const errorMessage = error.message;
     res.status(404).send(`Error: ${errorCode}, ${errorMessage}`);
   }
-}
+}*/
 
 export async function signUp(req: Request, res: Response) {
   try {
-    const { fullname, email, password } = req.body;
-
-    let userCredential = await createUserWithEmailAndPassword(
+    const { id, fullname, email, lastSignInTime } = req.body;
+    /*let userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
       password
     );
-
     const user = userCredential.user;
     await updateProfile(user, { ...user, displayName: fullname }).catch((err) =>
       console.log(err)
-    );
-
-    if (user) {
+    );*/
+    const fullnameDB = fullname.split(" ").join("-").toLowerCase();
+    if (id) {
       await Users.create({
-        id: user.uid,
-        fullname: fullname,
-        email: user.email,
-        lastLogin: user.metadata.lastSignInTime,
+        id: id,
+        fullname: fullnameDB,
+        email: email,
+        lastLogin: lastSignInTime,
       });
     }
-
-    res.status(201).send(user);
+    res.status(201).send(`The user ${fullname} has been created`);
   } catch (error: any) {
     const errorCode = error.code;
     const errorMessage = error.message;
@@ -68,7 +62,7 @@ export async function signUp(req: Request, res: Response) {
   }
 }
 
-export async function recoverPassword(req: Request, res: Response) {
+/*export async function recoverPassword(req: Request, res: Response) {
   try {
     const { email } = req.body;
     await sendPasswordResetEmail(auth, email);
@@ -78,4 +72,4 @@ export async function recoverPassword(req: Request, res: Response) {
     const errorMessage = error.message;
     res.status(404).send(`${errorCode}, ${errorMessage}`);
   }
-}
+}*/
