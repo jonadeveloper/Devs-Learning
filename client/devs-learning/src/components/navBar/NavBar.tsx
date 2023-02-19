@@ -19,7 +19,7 @@ import { Badge, Link } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 import { CartComponent } from "../Cart/Cart";
 import { signOutAction } from "../../redux/users/actions";
-import { profileImg } from "../Landing/LandingPage";
+import { profileImg } from "../../router/index";
 import { setItem } from "../../utils/localStorage";
 
 const pages = [
@@ -110,11 +110,9 @@ function ResponsiveAppBar() {
       <AppBar position="fixed">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <Link
-              href="/"
+            <Typography
               variant="h6"
               noWrap
-              component="a"
               sx={{
                 mr: 2,
                 display: { xs: "none", md: "flex" },
@@ -125,8 +123,8 @@ function ResponsiveAppBar() {
                 textDecoration: "none",
               }}
             >
-              Devs Learning
-            </Link>
+              <NavLink to="/">Devs Learning</NavLink>
+            </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton

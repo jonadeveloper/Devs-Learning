@@ -18,6 +18,7 @@ const firebaseConfig = JSON.parse(FIREBASE_CONFIG);
 const app = (0, app_1.initializeApp)(firebaseConfig);
 const auth = (0, auth_1.getAuth)(app);
 const user = auth.currentUser;
+console.log(user);
 function deleteCurrentUser(_req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -25,10 +26,12 @@ function deleteCurrentUser(_req, res) {
                 yield (0, auth_1.deleteUser)(user);
                 yield Users.destroy({
                     where: {
-                        id: user.uid
-                    }
+                        id: user.uid,
+                    },
                 });
-                return res.status(200).send(`The user ${user.displayName} has been deleted`);
+                return res
+                    .status(200)
+                    .send(`The user ${user.displayName} has been deleted`);
             }
             else {
                 return res.status(404).send("Something went wrong, try again");

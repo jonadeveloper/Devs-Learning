@@ -7,7 +7,6 @@ import { useAppSelector } from "../hooks/hooksRedux";
 export const AuthRouter = () => {
   const logState = useAppSelector((state) => state.users);
   const [isAuth, setAuth] = useState(logState.status);
-
   return (
     <div>
       <Routes>

@@ -19,6 +19,9 @@ export const userSign = createSlice({
     signIn: (state, { payload }) => {
       state.status = payload;
     },
+    getUser: (state, { payload }) => {
+      state.status = payload;
+    },
     recover: (state) => {},
     logOut: (state) => {
       state.fullname = "";

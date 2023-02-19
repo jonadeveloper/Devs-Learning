@@ -6,7 +6,7 @@ import {
   userFullname,
   userLastLogin,
   userPhoneNumber,
-} from "../../Landing/LandingPage";
+} from "../../../router/index";
 import {
   Button,
   Divider,

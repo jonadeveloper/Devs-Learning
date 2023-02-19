@@ -14,13 +14,14 @@ const { Course, Users } = require("../../db");
 const auth_1 = require("firebase/auth");
 const auth = (0, auth_1.getAuth)();
 const user = auth.currentUser;
+console.log(user);
 function getCurrentUser(_req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             if (user) {
                 const userDB = yield Users.findOne({
                     where: {
-                        id: user === null || user === void 0 ? void 0 : user.uid
+                        id: user === null || user === void 0 ? void 0 : user.uid,
                     },
                     include: {
                         model: Course,
@@ -50,7 +51,7 @@ function getUsersInfo(req, res) {
                 let fullNameDB = fullname.split(" ").join("-").toLowerCase();
                 let user = yield Users.findAll({
                     where: {
-                        fullname: fullNameDB
+                        fullname: fullNameDB,
                     },
                     include: {
                         model: Course,
@@ -58,14 +59,16 @@ function getUsersInfo(req, res) {
                         through: {
                             attributes: [],
                         },
-                    }
+                    },
                 });
-                user.length === 0 ? res.status(400).send(`The User ${fullname} has not been found`) : res.status(200).send(user);
+                user.length === 0
+                    ? res.status(400).send(`The User ${fullname} has not been found`)
+                    : res.status(200).send(user);
             }
             if (id) {
                 let user = yield Users.findAll({
                     where: {
-                        id: id
+                        id: id,
                     },
                     include: {
                         model: Course,
@@ -73,9 +76,11 @@ function getUsersInfo(req, res) {
                         through: {
                             attributes: [],
                         },
-                    }
+                    },
                 });
-                user.length === 0 ? res.status(400).send(`The User has not been found`) : res.status(200).send(user);
+                user.length === 0
+                    ? res.status(400).send(`The User has not been found`)
+                    : res.status(200).send(user);
             }
             let users = yield Users.findAll({
                 include: {
