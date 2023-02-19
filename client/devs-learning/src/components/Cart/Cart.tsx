@@ -70,13 +70,16 @@ export const CartComponent: React.FC<CartComponentProps> = ({
               <CartCard key={index} card={card} index={index} />
             ))
           : "Nada por aqui"}
-        <Box color="secondary">
+        <Box
+          color="secondary"
+          sx={{ display: "flex", justifyContent: "space-between" }}
+        >
           <Typography color="secondary" variant="h5">
             Total Price: {totalPrecio}
           </Typography>
-        </Box>
 
-        <MeliButton />
+          <MeliButton />
+        </Box>
       </Box>
     </Drawer>
   );
