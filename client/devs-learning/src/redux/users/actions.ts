@@ -117,8 +117,10 @@ export const signOutAction = (): ThunkAction<
       if (auth.currentUser?.providerId === "firebase") {
         let result = await signOut(auth);
         dispatch(reducer.logOut(result));
+        userInfoObj = undefined;
       } else {
         userData = null;
+        userInfoObj = undefined;
         dispatch(reducer.logOut(userData));
       }
 
