@@ -13,47 +13,28 @@ exports.deleteCurrentUser = void 0;
 /*import { getAuth, deleteUser } from "firebase/auth";
 import { initializeApp } from "firebase/app";*/
 const { Users } = require("../../db");
-<<<<<<< HEAD
-const { FIREBASE_CONFIG } = process.env;
-const firebaseConfig = JSON.parse(FIREBASE_CONFIG);
-const app = (0, app_1.initializeApp)(firebaseConfig);
-const auth = (0, auth_1.getAuth)(app);
-const user = auth.currentUser;
-console.log(user);
-function deleteCurrentUser(_req, res) {
-=======
 /*const { REACT_APP_FIREBASE_CONFIG } = process.env;
 const firebaseConfig = JSON.parse(REACT_APP_FIREBASE_CONFIG!);
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const user = auth.currentUser;*/
 function deleteCurrentUser(req, res) {
->>>>>>> cadac4c359792c64d096f0f1418fa7a8cd8c5b1f
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { id } = req.query;
             let user = yield Users.findOne({
                 where: {
-                    id: id
-                }
+                    id: id,
+                },
             });
             if (user.length > 0) {
                 /*await deleteUser(user);*/
                 yield Users.destroy({
                     where: {
-<<<<<<< HEAD
-                        id: user.uid,
+                        id: id,
                     },
                 });
-                return res
-                    .status(200)
-                    .send(`The user ${user.displayName} has been deleted`);
-=======
-                        id: id
-                    }
-                });
                 return res.status(200).send(`The user ${user.name} has been deleted`);
->>>>>>> cadac4c359792c64d096f0f1418fa7a8cd8c5b1f
             }
             else {
                 return res.status(404).send("The user has not been found");
