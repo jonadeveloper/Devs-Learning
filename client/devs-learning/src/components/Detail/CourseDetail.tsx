@@ -40,7 +40,7 @@ interface UserParams {
 
 const ListStyle = {
   width: "100%",
-  bgcolor: "background.paper",
+  bgcolor: "whitesmoke",
 };
 
 const CourseDetail: React.FC = () => {
@@ -95,31 +95,17 @@ const CourseDetail: React.FC = () => {
     InfoKeeper();
   }, [coursesFiltered]);
 
-  //para obtener el curso sin la action y poder avanzar con el diseño
-  //harcodeo un curso
-  interface CursoaMano {
-    name: string;
-    img: string;
-    level: string;
-    description: string;
-    descriptionComplete: string;
-    duration: string;
-    profesor: string;
-    categoria: string;
-    price: number;
-  }
-
   const handleCategorieClick = () => {
     console.log(`Redireccionando al filtro por categoria`);
   };
 
   return (
     <div>
-      <Grid container spacing={5} direction="row" mb={5} mt={5}>
+      <Grid container bgcolor="whitesmoke" spacing={5} direction="row" mt={5}>
         <Grid item xs={12} ml={1}>
           <Breadcrumbs aria-label="breadcrumb">
-            <Link underline="hover" color="inherit" href="/">
-              Home
+            <Link underline="hover" color="inherit" href="/courses">
+              Courses
             </Link>
             <Typography color="text.primary">{TheCourse.name}</Typography>
           </Breadcrumbs>
@@ -194,12 +180,20 @@ const CourseDetail: React.FC = () => {
             </Button>
           </Box>
         </Grid>
-        <Divider />
         <Grid item xs={12} md={9} lg={9} p={1}>
-          <img src={TheCourse.img} alt="CourseIMG" width="100%" />
+          <Box
+            boxShadow={3}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            ml={1}
+          >
+            <img src={TheCourse.img} alt="CourseIMG" width="100%" />
+          </Box>
         </Grid>
         <Grid item xs={12} md={3} lg={3} display="flex" flexDirection="column">
           <List sx={ListStyle} component="nav" aria-label="mailbox folders">
+            <Divider />
             <ListItem button>
               <ListItemText primary={`Duración: ${TheCourse.duration} hs.`} />
             </ListItem>
@@ -210,11 +204,13 @@ const CourseDetail: React.FC = () => {
             <Divider light />
           </List>
         </Grid>
-        <Grid item xs={12} md={9} lg={9} p={1}>
-          <Typography variant="body1">
-            {" "}
-            {TheCourse.descriptionComplete}{" "}
-          </Typography>
+        <Grid item xs={12} md={9} lg={9} p={1} mb={8}>
+          <Box boxShadow={2} ml={1} p={3}>
+            <Typography variant="body1">
+              {" "}
+              {TheCourse.descriptionComplete}{" "}
+            </Typography>
+          </Box>
         </Grid>
       </Grid>
     </div>
