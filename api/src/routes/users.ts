@@ -1,13 +1,17 @@
 import { Router } from "express";
 import { deleteCurrentUser } from "../routes/usersCRUD/deteleUser";
-import { signUp } from "./usersCRUD/postUser";
-import { updateUserEmail, updateUserProfile, updateUserPhone } from "./usersCRUD/putUser";
+import { recoverPassword, signIn, signUp } from "./usersCRUD/postUser";
+import {
+  updateUserEmail,
+  updateUserProfile,
+  updateUserPhone,
+} from "./usersCRUD/putUser";
 import { getUsersInfo } from "../routes/usersCRUD/getUser";
 const router = Router();
 
 router.post("/register", signUp);
-//router.post("/login", signIn);
-//router.post("/recover", recoverPassword);
+router.post("/login", signIn);
+router.post("/recover", recoverPassword);
 router.put("/updateEmail", updateUserEmail);
 router.put("/updateUser", updateUserProfile);
 //router.put("/updatePassword", updateUserPassword);
