@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -16,6 +17,7 @@ import UserPersonalInfo from "./User/UserPersonalInfo";
 import UserCourses from "./User/UserCourses";
 import UserAccountSettings from "./User/UserAccountSettings";
 import { profileImg, userFullname } from "../Landing/LandingPage";
+import LogOut from "./User/Logout";
 
 const UserDashboard: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -37,7 +39,7 @@ const UserDashboard: React.FC = () => {
     } else if (content === 2) {
       return <UserAccountSettings />;
     } else if (content === 3) {
-      return <div>LogOut</div>;
+      return <LogOut />;
     }
   };
 

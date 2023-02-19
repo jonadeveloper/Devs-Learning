@@ -51,7 +51,7 @@ export const CartCard = ({ card, index }: Props) => {
   };
   return (
     <Card sx={{ display: "flex", my: 2, height: 150 }}>
-      <CardMedia component="img" sx={{ width: 171 }} image={card.img} alt="Rick and Morty" />
+      <CardMedia component="img" sx={{ width: 171 }} image={card.img} alt="" />
       <Grid container sx={{ mx: 1 }}>
         <Grid item xs={9}>
           <CardContent>
