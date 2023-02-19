@@ -9,59 +9,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUsersInfo = exports.getCurrentUser = void 0;
+exports.getUsersInfo = void 0;
 const { Course, Users } = require("../../db");
-const auth_1 = require("firebase/auth");
-const auth = (0, auth_1.getAuth)();
-const user = auth.currentUser;
-function getCurrentUser(_req, res) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            if (user) {
-                const userDB = yield Users.findOne({
-                    where: {
-                        id: user === null || user === void 0 ? void 0 : user.uid
-                    },
-                    include: {
-                        model: Course,
-                        attributes: ["name"],
-                        through: {
-                            attributes: [],
-                        },
-                    },
-                });
-                return res.status(200).send(userDB);
-            }
-            else {
-                return res.status(404).send("Could not find the user");
-            }
-        }
-        catch (err) {
-            return res.status(404).send(err);
-        }
-    });
-}
-exports.getCurrentUser = getCurrentUser;
+/*import { getAuth } from "firebase/auth";
+import { initializeApp } from "firebase/app";
+
+const { REACT_APP_FIREBASE_CONFIG } = process.env;
+const firebaseConfig = JSON.parse(REACT_APP_FIREBASE_CONFIG!);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const user = auth.currentUser;*/
 function getUsersInfo(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { fullname, id } = req.query;
-            if (fullname) {
-                let fullNameDB = fullname.split(" ").join("-").toLowerCase();
-                let user = yield Users.findAll({
-                    where: {
-                        fullname: fullNameDB
-                    },
-                    include: {
-                        model: Course,
-                        attributes: ["name"],
-                        through: {
-                            attributes: [],
-                        },
-                    }
-                });
-                user.length === 0 ? res.status(400).send(`The User ${fullname} has not been found`) : res.status(200).send(user);
-            }
+            const { id } = req.query;
             if (id) {
                 let user = yield Users.findAll({
                     where: {
