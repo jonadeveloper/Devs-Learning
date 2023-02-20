@@ -23,14 +23,17 @@ export async function updateUserProfile(req: Request, res: Response) {
         displayName: fullname,
         photoURL: profileImg,
       });*/
-      await Users.update({
-        fullname: fullname,
-        profileImg: profileImg
-      }, {
-        where: {
-          id: id
+      await Users.update(
+        {
+          fullname: fullname,
+          profileImg: profileImg,
+        },
+        {
+          where: {
+            id: id,
+          },
         }
-      })
+      );
       res.status(200).send("Update successfully");
     }
   } catch (error) {
@@ -47,11 +50,14 @@ export async function updateUserEmail(req: Request, res: Response) {
       } else {
         throw new Error("Same Email");
       }*/
-      await Users.update({
-        email: email
-      }, {
-        where: { id: id }
-      });
+      await Users.update(
+        {
+          email: email,
+        },
+        {
+          where: { id: id },
+        }
+      );
       res.status(200).send("Update email successfully");
     }
   } catch (error) {
@@ -76,11 +82,14 @@ export async function updateUserPhone(req: Request, res: Response) {
     const { id, phoneNumber } = req.body;
     if (id) {
       /*await updatePhoneNumber(user, phoneNumber);*/
-      await Users.update({
-        phoneNumber: phoneNumber
-      }, {
-        where: { id: id }
-      });
+      await Users.update(
+        {
+          phoneNumber: phoneNumber,
+        },
+        {
+          where: { id: id },
+        }
+      );
       res.status(200).send("Update phone number successfully");
     }
   } catch (error) {

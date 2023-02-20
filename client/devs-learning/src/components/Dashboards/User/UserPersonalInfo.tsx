@@ -15,6 +15,9 @@ import {
   ListItemText,
   Container,
 } from "@mui/material";
+import EmailChange from "../../../views/ChangeEmail";
+import NameChange from "../../../views/ChangeName";
+import PhoneChange from "../../../views/ChangePhoneNumber";
 
 const UserPersonalInfo: React.FC = () => {
   return (
@@ -43,10 +46,12 @@ const UserPersonalInfo: React.FC = () => {
       <List>
         <ListItem>
           <ListItemText primary="Fullname" secondary={userFullname} />
+          <NameChange />
         </ListItem>
         <Divider></Divider>
         <ListItem>
           <ListItemText primary="Email" secondary={userEmail} />
+          <EmailChange />
         </ListItem>
         <Divider></Divider>
         <ListItem>
@@ -54,6 +59,7 @@ const UserPersonalInfo: React.FC = () => {
             primary="Phone number"
             secondary={userPhoneNumber || "Nothing for here"}
           />
+          <PhoneChange />
         </ListItem>
         <Divider></Divider>
         <ListItem>

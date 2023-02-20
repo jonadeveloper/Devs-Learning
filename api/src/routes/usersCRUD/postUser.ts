@@ -4,7 +4,6 @@ import { initializeApp } from "firebase/app";
 import {
   getAuth,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
   sendPasswordResetEmail,
   updateProfile,
 } from "firebase/auth";
@@ -15,23 +14,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 const { Users } = require("../../db");
-
-export async function signIn(req: Request, res: Response) {
-  try {
-    const { email, password } = req.body;
-    let userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    // const user = userCredential.user;
-    res.status(200).send(userCredential);
-  } catch (error: any) {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    res.status(404).send(`Error: ${errorCode}, ${errorMessage}`);
-  }
-}
 
 export async function signUp(req: Request, res: Response) {
   try {

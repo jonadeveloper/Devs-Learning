@@ -6,6 +6,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   signOut,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 import Swal from "sweetalert2";
 import { CreateUserInterface } from "../../interfaces/CreateUserInterface";
@@ -34,17 +35,19 @@ export const registerUser = (
   };
 };
 
-export var userData: any;
-
 export const loginUser = (
   data: any,
   setAuth: any
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return async (dispatch) => {
     try {
-      let response = await axios.post(`${REACT_APP_BASE_URL}/login`, data);
-      if (response.data !== null) {
-        userData = response.data;
+      const { email, password } = data;
+      let userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      if (userCredential !== null) {
         setAuth = "logged";
         dispatch(reducer.signIn(setAuth));
         Swal.fire("Logged in", "", "success");
@@ -119,9 +122,8 @@ export const signOutAction = (): ThunkAction<
         dispatch(reducer.logOut(result));
         userInfoObj = undefined;
       } else {
-        userData = null;
         userInfoObj = undefined;
-        dispatch(reducer.logOut(userData));
+        dispatch(reducer.logOut());
       }
 
       Swal.fire("Log out", "", "success");

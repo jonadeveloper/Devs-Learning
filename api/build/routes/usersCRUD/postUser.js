@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.recoverPassword = exports.signUp = exports.signIn = void 0;
+exports.recoverPassword = exports.signUp = void 0;
 require("dotenv").config();
 const app_1 = require("firebase/app");
 const auth_1 = require("firebase/auth");
@@ -18,22 +18,6 @@ const firebaseConfig = JSON.parse(FIREBASE_CONFIG);
 const app = (0, app_1.initializeApp)(firebaseConfig);
 const auth = (0, auth_1.getAuth)(app);
 const { Users } = require("../../db");
-function signIn(req, res) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const { email, password } = req.body;
-            let userCredential = yield (0, auth_1.signInWithEmailAndPassword)(auth, email, password);
-            // const user = userCredential.user;
-            res.status(200).send(userCredential);
-        }
-        catch (error) {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            res.status(404).send(`Error: ${errorCode}, ${errorMessage}`);
-        }
-    });
-}
-exports.signIn = signIn;
 function signUp(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {

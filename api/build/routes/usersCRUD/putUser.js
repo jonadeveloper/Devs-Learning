@@ -36,11 +36,11 @@ function updateUserProfile(req, res) {
                 });*/
                 yield Users.update({
                     fullname: fullname,
-                    profileImg: profileImg
+                    profileImg: profileImg,
                 }, {
                     where: {
-                        id: id
-                    }
+                        id: id,
+                    },
                 });
                 res.status(200).send("Update successfully");
             }
@@ -62,9 +62,9 @@ function updateUserEmail(req, res) {
                   throw new Error("Same Email");
                 }*/
                 yield Users.update({
-                    email: email
+                    email: email,
                 }, {
-                    where: { id: id }
+                    where: { id: id },
                 });
                 res.status(200).send("Update email successfully");
             }
@@ -93,9 +93,9 @@ function updateUserPhone(req, res) {
             if (id) {
                 /*await updatePhoneNumber(user, phoneNumber);*/
                 yield Users.update({
-                    phoneNumber: phoneNumber
+                    phoneNumber: phoneNumber,
                 }, {
-                    where: { id: id }
+                    where: { id: id },
                 });
                 res.status(200).send("Update phone number successfully");
             }

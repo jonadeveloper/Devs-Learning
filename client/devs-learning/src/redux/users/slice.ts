@@ -22,6 +22,8 @@ export const userSign = createSlice({
     getUser: (state, { payload }) => {
       state.status = payload;
     },
+    changeEmail: (state) => {},
+    changePass: (state) => {},
     recover: (state) => {},
     logOut: (state) => {
       state.fullname = "";
