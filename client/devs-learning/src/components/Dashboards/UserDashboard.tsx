@@ -17,6 +17,8 @@ import UserCourses from "./User/UserCourses";
 import UserAccountSettings from "./User/UserAccountSettings";
 import { profileImg, userFullname } from "../../router/index";
 import LogOut from "./User/Logout";
+import CourseComment from "./User/UserComment";
+import BasicRating from "./User/UserRating";
 
 const UserDashboard: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -36,7 +38,7 @@ const UserDashboard: React.FC = () => {
     } else if (content === 1) {
       return <UserCourses />;
     } else if (content === 2) {
-      return <UserAccountSettings />;
+      return <CourseComment courseId="1" userId="2" />;
     } else if (content === 3) {
       return <LogOut />;
     }
