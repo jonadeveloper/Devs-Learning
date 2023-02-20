@@ -25,8 +25,8 @@ module.exports = (sequelize) => {
                     msg: "Dont enter empty strings",
                 },
                 len: {
-                    args: [8, 128],
-                    msg: "Fullname minimum length is 8",
+                    args: [6, 128],
+                    msg: "Fullname minimum length is 6",
                 },
             },
         },

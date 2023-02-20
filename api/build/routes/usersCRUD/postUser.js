@@ -21,17 +21,19 @@ const { Users } = require("../../db");
 function signUp(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { fullname, email, lastSignInTime, password } = req.body;
+            const { fullname, email, password } = req.body;
             let userCredential = yield (0, auth_1.createUserWithEmailAndPassword)(auth, email, password);
             const user = userCredential.user;
-            yield (0, auth_1.updateProfile)(user, Object.assign(Object.assign({}, user), { displayName: fullname })).catch((err) => console.log(err));
-            yield Users.create({
-                id: user.uid,
-                fullname: fullname,
-                email: email,
-                lastLogin: lastSignInTime,
-            });
-            res.status(201).send(`The user ${fullname} has been created`);
+            if (user) {
+                Users.create({
+                    id: user.uid,
+                    fullname: fullname,
+                    email: user.email,
+                    lastLogin: user.metadata.creationTime,
+                });
+            }
+            yield (0, auth_1.updateProfile)(user, { displayName: fullname }).catch((err) => console.log(err));
+            res.status(201).send(user);
         }
         catch (error) {
             const errorCode = error.code;
