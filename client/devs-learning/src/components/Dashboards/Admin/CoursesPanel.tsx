@@ -52,8 +52,7 @@ const CoursesPanel: React.FC = () => {
       <MUIDataTable
       title={"list of platform courses"}
       data={courses}
-      columns={columns}
-      
+      columns={columns}      
        />
     </Grid>
   );
