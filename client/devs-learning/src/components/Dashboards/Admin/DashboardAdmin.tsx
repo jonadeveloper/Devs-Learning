@@ -33,6 +33,7 @@ import CoursesPanel from "./CoursesPanel";
 import SalesPanel from "./SalesPanel";
 import UsersPanel from "./UsersPanel";
 import AccountSettings from "./AccountSettings";
+import LogOut from "./Logout";
 
 const DashboardAdmin: React.FC = () => {
   const img: string =
@@ -61,7 +62,7 @@ const DashboardAdmin: React.FC = () => {
     } else if (content === 4) {
       return <AccountSettings />;
     } else if (content === 5) {
-      return <div>LogOut</div>;
+      return <LogOut />;
     }
   };
 
