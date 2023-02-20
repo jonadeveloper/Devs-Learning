@@ -16,6 +16,7 @@ module.exports = (sequelize) => {
         },
         cart: {
             type: sequelize_1.DataTypes.ARRAY(sequelize_1.DataTypes.JSON),
+            defaultValue: []
         },
         fullname: {
             type: sequelize_1.DataTypes.STRING,
