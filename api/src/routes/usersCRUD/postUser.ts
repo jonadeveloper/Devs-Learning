@@ -17,25 +17,26 @@ const { Users } = require("../../db");
 
 export async function signUp(req: Request, res: Response) {
   try {
-    const { fullname, email, lastSignInTime, password } = req.body;
+    const { fullname, email, password } = req.body;
     let userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
       password
     );
     const user = userCredential.user;
-    await updateProfile(user, { ...user, displayName: fullname }).catch((err) =>
+    if (user) {
+      Users.create({
+        id: user.uid,
+        fullname: fullname,
+        email: user.email,
+        lastLogin: user.metadata.creationTime,
+      });
+    }
+
+    await updateProfile(user, { displayName: fullname }).catch((err) =>
       console.log(err)
     );
-
-    await Users.create({
-      id: user.uid,
-      fullname: fullname,
-      email: email,
-      lastLogin: lastSignInTime,
-    });
-
-    res.status(201).send(`The user ${fullname} has been created`);
+    res.status(201).send(user);
   } catch (error: any) {
     const errorCode = error.code;
     const errorMessage = error.message;

@@ -15,7 +15,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../redux/users/actions";
 
-export default function Register({ setAuth }: any) {
+export default function Register() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const userState = useAppSelector((state) => state);
