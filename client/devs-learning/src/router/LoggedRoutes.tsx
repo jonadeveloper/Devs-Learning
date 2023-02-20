@@ -11,7 +11,7 @@ export const LoggedRoutes = ({ rol }: Props) => {
     <Routes>
       <Route path={`/dashboard/create/course`} element={<CreateCourse />} />
       <Route
-        path={`/dashboard/profile`}
+        path={`/profile`}
         element={rol === "admin" ? <DashboardAdmin /> : <UserDashboard />}
       />
       <Route path={`/dashboard/edit/course/:name`} element={<EditForm />} />

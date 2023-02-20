@@ -18,6 +18,7 @@ import UserDashboard from "../components/Dashboards/UserDashboard";
 import { getUser } from "../redux/users/actions";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { setItem } from "../utils/localStorage";
+import { createMPButton } from "../components/meliButton/meliButton";
 import { initializeApp } from "firebase/app";
 export var profileImg: string;
 export var userFullname: string;
@@ -55,6 +56,20 @@ export const AppRouter = () => {
       setItem("loggedUserInfo", auth.currentUser);
     }
   });
+
+  //Mercado Pago Button
+
+  let button = true;
+  const { cart } = useAppSelector((state) => state.courses);
+
+  useEffect(() => {
+    if (button) {
+      createMPButton(cart);
+      button = false;
+    }
+  }, []);
+
+  ////////////////////////////////
 
   return (
     <div>
