@@ -90,7 +90,8 @@ export const getUser = (
   setAuth: any
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return (dispatch) => {
-    if (userInfo!.length > 9) {
+
+    if (userInfo && userInfo!.length > 9) {
       setAuth = "logged";
       userInfoObj = JSON.parse(userInfo!);
       dispatch(reducer.getUser(setAuth));

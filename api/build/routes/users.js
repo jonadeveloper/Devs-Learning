@@ -12,6 +12,7 @@ router.post("/recover", postUser_1.recoverPassword);
 router.put("/updateEmail", putUser_1.updateUserEmail);
 router.put("/updateUser", putUser_1.updateUserProfile);
 //router.put("/updatePassword", updateUserPassword);
+router.put("/updateCart", putUser_1.updateCart);
 router.put("/updatePhone", putUser_1.updateUserPhone);
 router.get("/usersInfo", getUser_1.getUsersInfo);
 router.delete("/deleteCurrentUser", deteleUser_1.deleteCurrentUser);

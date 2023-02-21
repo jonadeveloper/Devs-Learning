@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUserPhone = exports.updateUserEmail = exports.updateUserProfile = void 0;
+exports.updateCart = exports.updateUserPhone = exports.updateUserEmail = exports.updateUserProfile = void 0;
 const { Users } = require("../../db");
 /*import { initializeApp } from "firebase/app";
 import {
@@ -106,3 +106,50 @@ function updateUserPhone(req, res) {
     });
 }
 exports.updateUserPhone = updateUserPhone;
+function updateCart(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const { fullname, cart } = req.body;
+            let fullnameDB = fullname.split(" ").join("-").toLowerCase();
+            let user = yield Users.findAll({
+                where: {
+                    fullname: fullnameDB
+                },
+                include: {
+                    model: Course,
+                    attributes: ["name"],
+                    through: {
+                        attributes: [],
+                    },
+                },
+            });
+            if (user.cart === undefined || user.cart.length === 0) {
+                yield Users.update({
+                    cart: cart
+                }, {
+                    where: {
+                        fullname: fullnameDB
+                    }
+                });
+            }
+            else {
+                cart.forEach((el) => {
+                    user.cart.push(el);
+                });
+                yield Users.update({
+                    cart: user.cart
+                }, {
+                    where: {
+                        fullname: fullnameDB
+                    }
+                });
+            }
+            ;
+            return res.status(200).send(`The cart of user ${fullname} has been updated`);
+        }
+        catch (err) {
+            return res.status(404).send(err);
+        }
+    });
+}
+exports.updateCart = updateCart;

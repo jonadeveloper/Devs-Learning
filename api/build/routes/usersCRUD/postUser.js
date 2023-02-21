@@ -13,6 +13,7 @@ exports.recoverPassword = exports.signUp = void 0;
 require("dotenv").config();
 const app_1 = require("firebase/app");
 const auth_1 = require("firebase/auth");
+const sendMail_1 = require("../../utils/sendMail");
 const { FIREBASE_CONFIG } = process.env;
 const firebaseConfig = JSON.parse(FIREBASE_CONFIG);
 const app = (0, app_1.initializeApp)(firebaseConfig);
@@ -33,11 +34,19 @@ function signUp(req, res) {
                 });
             }
             yield (0, auth_1.updateProfile)(user, { displayName: fullname }).catch((err) => console.log(err));
+             (0, sendMail_1.sendMail)({
+                from: "simon__navarrete@hotmail.com",
+                subject: "Registro Exitoso! Bienvenido a DevsLearning",
+                text: "Bienvenido!",
+                to: email,
+                html: `<h1>Bienvenido a Devslearning, <strong>${fullname}</strong>!</h1>`
+            });
             res.status(201).send(user);
         }
         catch (error) {
             const errorCode = error.code;
             const errorMessage = error.message;
+            console.log(errorMessage);
             res.status(404).send(`${errorCode}, ${errorMessage}`);
         }
     });

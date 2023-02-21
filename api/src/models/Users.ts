@@ -17,6 +17,7 @@ module.exports = (sequelize: any) => {
       },
       cart: {
         type: DataTypes.ARRAY(DataTypes.JSON),
+        defaultValue: []
       },
       fullname: {
         type: DataTypes.STRING,
