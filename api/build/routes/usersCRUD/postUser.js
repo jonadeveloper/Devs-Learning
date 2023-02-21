@@ -25,10 +25,11 @@ function signUp(req, res) {
             const { fullname, email, password } = req.body;
             let userCredential = yield (0, auth_1.createUserWithEmailAndPassword)(auth, email, password);
             const user = userCredential.user;
+            const fullnameDB = fullname.split(" ").join("-").toLowerCase();
             if (user) {
                 Users.create({
                     id: user.uid,
-                    fullname: fullname,
+                    fullname: fullnameDB,
                     email: user.email,
                     lastLogin: user.metadata.creationTime,
                 });

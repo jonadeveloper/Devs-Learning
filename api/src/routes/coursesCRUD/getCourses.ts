@@ -17,10 +17,10 @@ export async function getCourses(req: any, res: any) {
         },
       });
       course.length === 0 ? res.status(404).send(`The course ${name} has not been found`) : res.status(200).send(course);
-    } 
+    }
     let { id } = req.query;
     if (id) {
-      if(myRegEx.test(id)){
+      if (myRegEx.test(id)) {
         let course = await Course.findAll({
           where: { id: id },
           include: {
@@ -32,7 +32,7 @@ export async function getCourses(req: any, res: any) {
           },
         });
         course.length === 0 ? res.status(404).send("The course has not been found") : res.status(200).send(course);
-      }else{
+      } else {
         return res.status(404).send("Id doesn't match type UUID");
       }
     } else {
@@ -49,5 +49,18 @@ export async function getCourses(req: any, res: any) {
     }
   } catch (err) {
     return res.status(404).send(err);
+  }
+}
+
+export async function getRatings(_req: any, res: any) {
+  try {
+    let courses = await Course.findAll();
+    let ratingsArr = courses.map((el: any) => {
+      return el.rating
+    });
+    let ratings = ratingsArr.flatMap((num: number) => num);
+    return res.status(200).send(ratings);
+  } catch (err) {
+    return res.status(200).send(err);
   }
 }

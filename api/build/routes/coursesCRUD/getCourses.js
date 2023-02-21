@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCourses = void 0;
+exports.getRatings = exports.getCourses = void 0;
 const { Course, Category } = require("../../db");
 function getCourses(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -68,3 +68,19 @@ function getCourses(req, res) {
     });
 }
 exports.getCourses = getCourses;
+function getRatings(_req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            let courses = yield Course.findAll();
+            let ratingsArr = courses.map((el) => {
+                return el.rating;
+            });
+            let ratings = ratingsArr.flatMap((num) => num);
+            return res.status(200).send(ratings);
+        }
+        catch (err) {
+            return res.status(200).send(err);
+        }
+    });
+}
+exports.getRatings = getRatings;

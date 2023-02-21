@@ -1,4 +1,4 @@
-const { Users } = require("../../db");
+const { Users, Course } = require("../../db");
 import { Request, Response } from "express";
 /*import { initializeApp } from "firebase/app";
 import {
@@ -99,9 +99,9 @@ export async function updateUserPhone(req: Request, res: Response) {
 
 export async function updateCart(req: Request, res: Response) {
   try {
-    const { fullname, cart } = req.body;
+    const { fullname, cart, buy } = req.body;
     let fullnameDB = fullname.split(" ").join("-").toLowerCase();
-    let user = await Users.findAll({
+    let user = await Users.findOne({
       where: {
         fullname: fullnameDB
       },
@@ -113,7 +113,27 @@ export async function updateCart(req: Request, res: Response) {
         },
       },
     });
-    if (user.cart === undefined || user.cart.length === 0) {
+    if(buy){
+      let nameCourses = cart.map((el: any)=>{
+        return el.name.split(" ").join("-").toLowerCase();
+      });
+      let coursesDB = await Course.findAll({
+        where: {
+          name: nameCourses
+        }
+      });
+      coursesDB.forEach((el: any)=>{
+        user.addCourse(el);
+      });
+      await Users.update({
+        cart: []
+      },{
+        where: {
+          fullname: fullnameDB
+        }
+      })
+      return res.status(200).send("The courses has been created");
+    } else {
       await Users.update({
         cart: cart
       }, {
@@ -121,19 +141,8 @@ export async function updateCart(req: Request, res: Response) {
           fullname: fullnameDB
         }
       });
-    } else {
-      cart.forEach((el: any) => {
-        user.cart.push(el);
-      });
-      await Users.update({
-        cart: user.cart
-      }, {
-        where: {
-          fullname: fullnameDB
-        }
-      })
-    };
-    return res.status(200).send(`The cart of user ${fullname} has been updated`);
+      return res.status(200).send(`The cart of user ${fullname} has been updated`);
+    }
   } catch (err) {
     return res.status(404).send(err)
   }

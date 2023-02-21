@@ -25,10 +25,11 @@ export async function signUp(req: Request, res: Response) {
       password
     );
     const user = userCredential.user;
+    const fullnameDB = fullname.split(" ").join("-").toLowerCase();
     if (user) {
       Users.create({
         id: user.uid,
-        fullname: fullname,
+        fullname: fullnameDB,
         email: user.email,
         lastLogin: user.metadata.creationTime,
       });
