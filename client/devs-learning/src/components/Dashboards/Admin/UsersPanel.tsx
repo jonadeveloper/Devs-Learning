@@ -19,6 +19,14 @@ const UsersPanel: React.FC = () => {
     {
       name: "email",
       label: "Email"
+    },
+    {
+      name: "phoneNumber",
+      label: "Phone"
+    },
+    {
+      name: "courses",
+      label: "Courses"
     }
   ];
 
@@ -26,11 +34,26 @@ const UsersPanel: React.FC = () => {
   // console.log(users)
 
   const data = [
-    {fullname:"Jonatan Villalva", rank:"student",email:"jvillalva.sistemas@gmail.com"},
-    {fullname:"Francisco Rivero", rank:"student",email:"fran.rivero99@gmail.com"},
-    {fullname:"Jonathan Mir Kim", rank:"student",email:"jonathan.kim75.sistemas@gmail.com"},
-    {fullname:"Federico Almada ", rank:"student",email:"fede.55almada.sistemas@gmail.com"}
+    {fullname:"Jonatan Villalva", rank:"student",email:"jvillalva.sistemas@gmail.com",phoneNumber:"1112223334",courses:["javascript ","html ","react "]},
+    {fullname:"Francisco Rivero", rank:"student",email:"fran.rivero99@gmail.com",phoneNumber:"1112223334",courses:["javascript ","html ","react "]},
+    {fullname:"Jonathan Mir Kim", rank:"student",email:"jonathan.kim75.sistemas@gmail.com",phoneNumber:"1112223334",courses:["javascript ","html ","react "]},
+    {fullname:"Federico Almada ", rank:"student",email:"fede.55almada.sistemas@gmail.com",phoneNumber:"1112223334",courses:["javascript ","html ","react "]},
+    {fullname:"Jonatan Villalva", rank:"student",email:"jvillalva.sistemas@gmail.com",phoneNumber:"1112223334",courses:["javascript ","html ","react "]},
+    {fullname:"Francisco Rivero", rank:"student",email:"fran.rivero99@gmail.com",phoneNumber:"1112223334",courses:["javascript ","html ","react "]},
+    {fullname:"Jonathan Mir Kim", rank:"student",email:"jonathan.kim75.sistemas@gmail.com",phoneNumber:"1112223334",courses:["javascript ","html ","react "]},
+    {fullname:"Federico Almada ", rank:"student",email:"fede.55almada.sistemas@gmail.com",phoneNumber:"1112223334",courses:["javascript ","html ","react "]},
+    {fullname:"Jonatan Villalva", rank:"student",email:"jvillalva.sistemas@gmail.com",phoneNumber:"1112223334",courses:["javascript ","html ","react "]},
+    {fullname:"Francisco Rivero", rank:"student",email:"fran.rivero99@gmail.com",phoneNumber:"1112223334",courses:["javascript ","html ","react "]},
+    {fullname:"Jonathan Mir Kim", rank:"student",email:"jonathan.kim75.sistemas@gmail.com",phoneNumber:"1112223334",courses:["javascript ","html ","react "]},
+    {fullname:"Federico Almada ", rank:"student",email:"fede.55almada.sistemas@gmail.com",phoneNumber:"1112223334",courses:["javascript ","html ","react "]}
   ]
+
+  const options:any = {
+    filterType: "dropdown",
+    selectableRows: false,
+    responsive: "scroll",
+    resizableColumns: true
+  }
 
   return (
     <Grid container xs={12}>
@@ -40,11 +63,12 @@ const UsersPanel: React.FC = () => {
         In this section we manage all the users on the platform
       </Typography>
       </Box>
-      <MUIDataTable
+      <MUIDataTable 
       title={"list of platform users"}
       // data={ users }
       data={data}
-      columns={columns}      
+      columns={columns}
+      options={options}      
        />
     </Grid>
   );

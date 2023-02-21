@@ -36,6 +36,13 @@ const CoursesPanel: React.FC = () => {
       label: "Instructor"
     }
   ];
+
+  const options:any = {
+    filterType: "dropdown",
+    selectableRows: false,
+    responsive: "scroll",
+    resizableColumns: true
+  }
   
 
   const { courses } = useAppSelector((state) => state.courses);
@@ -52,7 +59,8 @@ const CoursesPanel: React.FC = () => {
       <MUIDataTable
       title={"list of platform courses"}
       data={courses}
-      columns={columns}      
+      columns={columns}
+      options={options}      
        />
     </Grid>
   );
