@@ -114,7 +114,7 @@ export async function updateCart(req: Request, res: Response) {
       },
     });
     if(buy){
-      let nameCourses = user[0].cart.map((el: any)=>{
+      let nameCourses = cart.map((el: any)=>{
         return el.name.split(" ").join("-").toLowerCase();
       });
       let coursesDB = await Course.findAll({
@@ -133,20 +133,9 @@ export async function updateCart(req: Request, res: Response) {
         }
       })
       return res.status(200).send("The courses has been created");
-    }
-    if(user[0].cart.length === 0 || user[0].cart===null){
+    } else {
       await Users.update({
         cart: cart
-      }, {
-        where: {
-          fullname: fullnameDB
-        }
-      });
-      return res.status(200).send(`The cart of user ${fullname} has been updated`);
-    } else {
-      let newCart = [...user[0].cart, ...cart];
-      await Users.update({
-        cart: newCart
       }, {
         where: {
           fullname: fullnameDB

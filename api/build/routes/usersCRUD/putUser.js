@@ -124,7 +124,7 @@ function updateCart(req, res) {
                 },
             });
             if (buy) {
-                let nameCourses = user[0].cart.map((el) => {
+                let nameCourses = cart.map((el) => {
                     return el.name.split(" ").join("-").toLowerCase();
                 });
                 let coursesDB = yield Course.findAll({
@@ -144,20 +144,9 @@ function updateCart(req, res) {
                 });
                 return res.status(200).send("The courses has been created");
             }
-            if (user[0].cart.length === 0 || user[0].cart === null) {
+            else {
                 yield Users.update({
                     cart: cart
-                }, {
-                    where: {
-                        fullname: fullnameDB
-                    }
-                });
-                return res.status(200).send(`The cart of user ${fullname} has been updated`);
-            }
-            else {
-                let newCart = [...user[0].cart, ...cart];
-                yield Users.update({
-                    cart: newCart
                 }, {
                     where: {
                         fullname: fullnameDB
