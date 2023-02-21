@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateCart = exports.updateUserPhone = exports.updateUserEmail = exports.updateUserProfile = void 0;
-const { Users } = require("../../db");
+const { Users, Course } = require("../../db");
 /*import { initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -109,7 +109,7 @@ exports.updateUserPhone = updateUserPhone;
 function updateCart(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { fullname, cart } = req.body;
+            const { fullname, cart, buy } = req.body;
             let fullnameDB = fullname.split(" ").join("-").toLowerCase();
             let user = yield Users.findAll({
                 where: {
@@ -123,7 +123,28 @@ function updateCart(req, res) {
                     },
                 },
             });
-            if (user.cart === undefined || user.cart.length === 0) {
+            if (buy) {
+                let nameCourses = user[0].cart.map((el) => {
+                    return el.name.split(" ").join("-").toLowerCase();
+                });
+                let coursesDB = yield Course.findAll({
+                    where: {
+                        name: nameCourses
+                    }
+                });
+                coursesDB.forEach((el) => {
+                    user[0].addCourse(el);
+                });
+                yield Users.update({
+                    cart: []
+                }, {
+                    where: {
+                        fullname: fullnameDB
+                    }
+                });
+                return res.status(200).send("The courses has been created");
+            }
+            if (user[0].cart.length === 0 || user[0].cart === null) {
                 yield Users.update({
                     cart: cart
                 }, {
@@ -131,21 +152,19 @@ function updateCart(req, res) {
                         fullname: fullnameDB
                     }
                 });
+                return res.status(200).send(`The cart of user ${fullname} has been updated`);
             }
             else {
-                cart.forEach((el) => {
-                    user.cart.push(el);
-                });
+                let newCart = [...user[0].cart, ...cart];
                 yield Users.update({
-                    cart: user.cart
+                    cart: newCart
                 }, {
                     where: {
                         fullname: fullnameDB
                     }
                 });
+                return res.status(200).send(`The cart of user ${fullname} has been updated`);
             }
-            ;
-            return res.status(200).send(`The cart of user ${fullname} has been updated`);
         }
         catch (err) {
             return res.status(404).send(err);

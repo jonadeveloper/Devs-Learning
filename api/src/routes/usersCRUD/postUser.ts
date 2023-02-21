@@ -7,7 +7,7 @@ import {
   sendPasswordResetEmail,
   updateProfile,
 } from "firebase/auth";
-import { sendMail } from "../../utils/sendMail";
+//import { sendMail } from "../../utils/sendMail";
 
 const { FIREBASE_CONFIG } = process.env;
 const firebaseConfig = JSON.parse(FIREBASE_CONFIG!);
@@ -25,10 +25,11 @@ export async function signUp(req: Request, res: Response) {
       password
     );
     const user = userCredential.user;
+    const fullnameDB = fullname.split(" ").join("-").toLowerCase();
     if (user) {
       Users.create({
         id: user.uid,
-        fullname: fullname,
+        fullname: fullnameDB,
         email: user.email,
         lastLogin: user.metadata.creationTime,
       });
@@ -38,13 +39,13 @@ export async function signUp(req: Request, res: Response) {
       console.log(err)
     );
 
-    sendMail({
+    /*sendMail({
       from: "simon__navarrete@hotmail.com",
       subject: "Registro Exitoso! Bienvenido a DevsLearning",
       text: "Bienvenido!",
       to: email,
       html: `<h1>Bienvenido a Devslearning, <strong>${fullname}</strong>!</h1>`,
-    });
+    });*/
 
     res.status(201).send(user);
   } catch (error: any) {
