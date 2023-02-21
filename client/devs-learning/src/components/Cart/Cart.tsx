@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Divider,
@@ -77,8 +77,7 @@ export const CartComponent: React.FC<CartComponentProps> = ({
           <Typography color="secondary" variant="h5">
             Total Price: {totalPrecio}
           </Typography>
-
-          <MeliButton />
+          {cart.length > 0 ? <MeliButton /> : <div />}
         </Box>
       </Box>
     </Drawer>
