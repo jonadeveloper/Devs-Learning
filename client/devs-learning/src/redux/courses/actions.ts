@@ -276,3 +276,20 @@ export const clearSearch = (): ThunkAction<
     return dispatch(reducer.clearSearched());
   };
 };
+
+//// RATING
+export const AddRating = (
+  rating: any
+): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return (dispatch) => {
+    axios
+      .put(BACK + "/courses/putRating", rating)
+      .then((response) => {
+        console.log(response);
+        dispatch(reducer.addRating(rating));
+      })
+      .catch((err) => {
+        Swal.fire("Something went wrong, please try again", "", err);
+      });
+  };
+};

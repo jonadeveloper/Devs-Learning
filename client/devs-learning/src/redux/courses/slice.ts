@@ -101,6 +101,9 @@ export const courses = createSlice({
     clearSearched: (state) => {
       state.searched = "";
     },
+    addRating: (state, { payload }) => {
+      state.currentCourse.rating = [state.currentCourse.rating, payload];
+    },
   },
 });
 
