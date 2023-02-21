@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -14,22 +14,47 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import UserPersonalInfo from "./User/UserPersonalInfo";
 import UserCourses from "./User/UserCourses";
-import UserAccountSettings from "./User/UserAccountSettings";
 import { profileImg, userFullname } from "../../router/index";
 import LogOut from "./User/Logout";
 import CourseComment from "./User/UserComment";
-import BasicRating from "./User/UserRating";
+import { Badge, Button, Input } from "@mui/material";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getAuth, updateProfile } from "firebase/auth";
+import { CameraAltOutlined } from "@mui/icons-material";
+import Swal from "sweetalert2";
 
 const UserDashboard: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [content, setContent] = React.useState(0);
-
+  const storage = getStorage();
+  const auth = getAuth();
+  const [photoURL, setPhotoURL] = useState(profileImg);
   const handleListItemClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     index: number
   ) => {
     setSelectedIndex(index);
     setContent(index);
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      const file = e.target.files![0];
+      Swal.showLoading();
+      const imageRef = ref(storage, `profilePhotos/${file.name}`);
+      const snapshot = await uploadBytes(imageRef, file);
+      const downloadURL = await getDownloadURL(imageRef);
+      setPhotoURL(downloadURL);
+      const user = auth.currentUser;
+      if (user) {
+        updateProfile(user, { photoURL: downloadURL }).then(() => {
+          Swal.hideLoading();
+          Swal.fire("Update photo successfully", "", "success");
+        });
+      }
+    } catch (error) {
+      Swal.fire(`${error}`, "Can't upload photo, try again", "error");
+    }
   };
 
   const handlePageContent = (content: number) => {
@@ -66,13 +91,34 @@ const UserDashboard: React.FC = () => {
             alignItems="center"
             mt={2}
           >
-            <Avatar
-              alt="Full name"
-              sx={{ width: "96px", height: "96px" }}
-              src={profileImg}
-            />
+            <Badge
+              sx={{
+                textAlign: "center",
+                padding: "3%",
+              }}
+              overlap="circular"
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              badgeContent={
+                <Button variant="text" component="label">
+                  <Input
+                    type="file"
+                    hidden
+                    sx={{ display: "none" }}
+                    onChange={handleImageUpload}
+                  />
+                  <CameraAltOutlined />
+                </Button>
+              }
+            >
+              <Avatar
+                alt="Full name"
+                sx={{ width: "96px", height: "96px" }}
+                src={photoURL}
+              />
+            </Badge>
 
             <Typography
+              marginTop="15px"
               fontFamily="sans-serif"
               color="inherit"
               bgcolor="whitesmoke"

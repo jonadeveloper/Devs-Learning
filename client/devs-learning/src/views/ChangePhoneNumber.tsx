@@ -6,23 +6,25 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useState } from "react";
+import Swal from "sweetalert2";
 import {
   getAuth,
   PhoneAuthProvider,
   RecaptchaVerifier,
   updatePhoneNumber,
 } from "firebase/auth";
-import Swal from "sweetalert2";
 
 export default function PhoneChange() {
   const [open, setOpen] = useState(false);
   const [phone, setPhone] = useState("");
+  const [verificationId, setVerificationId] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
   const [validPhone, setValidPhone] = useState(true);
+
   const auth = getAuth();
 
   function validatePhoneNumber() {
-    if (phone === "" || phone.length < 10) {
+    if (phone === "") {
       setValidPhone(false);
     } else {
       setValidPhone(true);
@@ -40,40 +42,40 @@ export default function PhoneChange() {
     setPhone(e.target.value);
   };
 
-  const handleChangePhone = () => {
-    changePhoneNumber();
-    setPhone("");
-    setVerificationCode("");
-  };
-
-  const changePhoneNumber = async () => {
+  const handleSendCode = async () => {
     try {
-      const applicationVerifier = new RecaptchaVerifier(
-        "update-phone",
+      const phoneAuthProvider = new PhoneAuthProvider(auth);
+      const recaptchaVerifier = new RecaptchaVerifier(
+        "recaptcha-container",
         {
           size: "invisible",
-          callback: (response: any) => {
-            console.log(phone);
-            // reCAPTCHA solved, allow signInWithPhoneNumber.
-          },
         },
         auth
       );
-      console.log(phone);
-      const provider = new PhoneAuthProvider(auth);
-      const verificationId = await provider.verifyPhoneNumber(
-        `${phone}`,
-        applicationVerifier
+      const verificationId = await phoneAuthProvider.verifyPhoneNumber(
+        phone,
+        recaptchaVerifier
       );
-      const phoneCredential = PhoneAuthProvider.credential(
+      setVerificationId(verificationId);
+      Swal.fire("Phone number succesfully updated", "", "success");
+      window.location.reload();
+    } catch (error) {
+      Swal.fire(`${error} Insert a valid phone number`, "", "error");
+    }
+  };
+
+  const handleVerifyCode = async () => {
+    try {
+      const credential = PhoneAuthProvider.credential(
         verificationId,
         verificationCode
       );
-
-      await updatePhoneNumber(auth.currentUser!, phoneCredential);
-      Swal.fire("Phone Number succesfully updated", "", "success");
+      await updatePhoneNumber(auth.currentUser!, credential);
+      Swal.fire(`Update Phone Number succesfully`, "", "success");
+      setOpen(false);
     } catch (error) {
-      Swal.fire(`${error}`, "", "error");
+      Swal.fire(`${error} Cannot update, try again`, "", "error");
+      setOpen(false);
     }
   };
 
@@ -96,13 +98,14 @@ export default function PhoneChange() {
         <DialogContent>
           <DialogContentText>Update your phone number</DialogContentText>
           <TextField
+            sx={{ textAlign: "center" }}
             onBlur={validatePhoneNumber}
             name="phone"
             value={phone}
             onChange={handleChange}
             autoFocus
             margin="dense"
-            label="Update Phone"
+            label="Insert your Phone number"
             type="tel"
             fullWidth
             variant="standard"
@@ -111,11 +114,26 @@ export default function PhoneChange() {
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button
+            variant="contained"
+            color="primary"
             disabled={!validPhone}
-            id="update-phone"
-            onClick={changePhoneNumber}
+            onClick={handleSendCode}
           >
-            Send Verification Message
+            Send Code
+          </Button>
+          <div id="recaptcha-container"></div>
+          <TextField
+            type="text"
+            value={verificationCode}
+            onChange={(e) => setVerificationCode(e.target.value)}
+            placeholder="Verification code"
+          />
+          <Button
+            variant="contained"
+            color="success"
+            onClick={handleVerifyCode}
+          >
+            Verify Code
           </Button>
         </DialogActions>
       </Dialog>

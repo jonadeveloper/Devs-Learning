@@ -44,6 +44,7 @@ export default function NameChange() {
     try {
       await updateProfile(auth.currentUser!, { displayName: displayName });
       Swal.fire("Fullname succesfully updated", "", "success");
+      window.location.reload();
     } catch (error) {
       Swal.fire(`${error}`, "", "error");
     }
