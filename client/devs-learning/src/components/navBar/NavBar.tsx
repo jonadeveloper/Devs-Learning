@@ -21,6 +21,7 @@ import { CartComponent } from "../Cart/Cart";
 import { signOutAction } from "../../redux/users/actions";
 import { profileImg } from "../../router/index";
 import { setItem } from "../../utils/localStorage";
+import { createMPButton } from "../meliButton/meliButton";
 
 const pages = [
   {
@@ -104,6 +105,14 @@ function ResponsiveAppBar() {
   const handleLogin = () => {
     navigate("/auth/signin");
   };
+
+  //MP button
+
+  React.useEffect(() => {
+    createMPButton(cart);
+  }, [open]);
+
+  ///////////////////////////////////
 
   return (
     <ThemeProvider theme={theme}>
