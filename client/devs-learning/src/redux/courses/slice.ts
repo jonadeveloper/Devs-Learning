@@ -31,6 +31,7 @@ const initialState: CoursesState = {
     instructor: "",
     descriptionComplete: "",
     img: "",
+    rating: [],
   },
   currentPage: 1,
   searched: "",

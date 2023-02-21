@@ -36,6 +36,7 @@ export interface CoursoBack {
   instructor: string;
   descriptionComplete: string;
   img: string;
+  rating: any;
 }
 
 interface Props {

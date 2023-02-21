@@ -44,6 +44,7 @@ export interface CoursoBack {
   instructor: string;
   descriptionComplete: string;
   img: string;
+  rating: any;
 }
 interface Props {
   card: CoursoBack;
@@ -121,7 +122,9 @@ export const CardComponent = ({ card, index }: Props) => {
                           label={cat.name}
                           sx={{ backgroundColor: "greenyellow" }}
                           onClick={() => {
-                            console.log(`Redireccionando a la categoria ${cat.name}`);
+                            console.log(
+                              `Redireccionando a la categoria ${cat.name}`
+                            );
                           }}
                         />
                       </Link>
@@ -137,11 +140,16 @@ export const CardComponent = ({ card, index }: Props) => {
             <Divider sx={{ my: 2 }} />
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <Typography sx={{ display: "flex", fontWeight: "600", gap: 1 }}>
-                Duration: <span style={{ color: "grey" }}> {card.duration} hours</span>
+                Duration:{" "}
+                <span style={{ color: "grey" }}> {card.duration} hours</span>
               </Typography>
 
               <Typography sx={{ display: "flex", fontWeight: "600", gap: 1 }}>
-                Difficulty: <span style={{ color: "grey" }}> {card.level.toUpperCase()}</span>
+                Difficulty:{" "}
+                <span style={{ color: "grey" }}>
+                  {" "}
+                  {card.level.toUpperCase()}
+                </span>
               </Typography>
             </Box>
             <Button
