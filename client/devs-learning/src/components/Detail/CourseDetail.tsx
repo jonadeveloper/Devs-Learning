@@ -66,6 +66,7 @@ const CourseDetail: React.FC = () => {
       level: MyCourseInfo.level,
       name: NewName.replaceAll("-", " "),
       price: MyCourseInfo.price,
+      rating: [],
     };
     console.log(`Courseinfo`);
     console.log(InfoToKeep);

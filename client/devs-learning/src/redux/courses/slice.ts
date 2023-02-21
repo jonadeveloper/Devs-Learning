@@ -31,6 +31,7 @@ const initialState: CoursesState = {
     instructor: "",
     descriptionComplete: "",
     img: "",
+    rating: [],
   },
   currentPage: 1,
   searched: "",
@@ -99,6 +100,9 @@ export const courses = createSlice({
 
     clearSearched: (state) => {
       state.searched = "";
+    },
+    addRating: (state, { payload }) => {
+      state.currentCourse.rating = [state.currentCourse.rating, payload];
     },
   },
 });
