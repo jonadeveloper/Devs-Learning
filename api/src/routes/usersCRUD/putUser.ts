@@ -101,7 +101,7 @@ export async function updateCart(req: Request, res: Response) {
   try {
     const { fullname, cart, buy } = req.body;
     let fullnameDB = fullname.split(" ").join("-").toLowerCase();
-    let user = await Users.findAll({
+    let user = await Users.findOne({
       where: {
         fullname: fullnameDB
       },
@@ -123,7 +123,7 @@ export async function updateCart(req: Request, res: Response) {
         }
       });
       coursesDB.forEach((el: any)=>{
-        user[0].addCourse(el);
+        user.addCourse(el);
       });
       await Users.update({
         cart: []

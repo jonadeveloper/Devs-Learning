@@ -47,7 +47,7 @@ export async function putCourse(req: any, res: any) {
       let newCategories = category.map((el: string) => {
         return el.split(" ").join("-").toLowerCase();
       });
-      let categoriesArr = course.categories.map((category: any)=>{
+      let categoriesArr = course.categories.map((category: any) => {
         return category.name;
       });
       let oldCategories = await Category.findAll({
@@ -55,7 +55,7 @@ export async function putCourse(req: any, res: any) {
           name: categoriesArr
         }
       });
-      oldCategories.forEach((el: any)=>{
+      oldCategories.forEach((el: any) => {
         course.removeCategory(el)
       });
       let categoriesDB = await Category.findAll({
@@ -68,5 +68,28 @@ export async function putCourse(req: any, res: any) {
     return res.status(200).send(`The course ${name} has been updated`);
   } catch (err) {
     return res.status(404).send(err);
+  }
+}
+
+export async function putRating(req: any, res: any) {
+  try {
+    let { rating, nameCourse } = req.body;
+    let nameCourseDb = nameCourse.split(" ").join("-").toLowerCase();
+    let course = await Course.findOne({
+      where: {
+        name: nameCourseDb
+      }
+    });
+    let newRating = [...course.rating, rating];
+    await Course.update({
+      rating: newRating
+    }, {
+      where: {
+        name: nameCourseDb
+      }
+    });
+    return res.status(200).send("The rating has been updated");
+  } catch (err) {
+    return res.status(200).send(err);
   }
 }

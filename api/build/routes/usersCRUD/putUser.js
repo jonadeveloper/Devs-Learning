@@ -111,7 +111,7 @@ function updateCart(req, res) {
         try {
             const { fullname, cart, buy } = req.body;
             let fullnameDB = fullname.split(" ").join("-").toLowerCase();
-            let user = yield Users.findAll({
+            let user = yield Users.findOne({
                 where: {
                     fullname: fullnameDB
                 },
@@ -133,7 +133,7 @@ function updateCart(req, res) {
                     }
                 });
                 coursesDB.forEach((el) => {
-                    user[0].addCourse(el);
+                    user.addCourse(el);
                 });
                 yield Users.update({
                     cart: []

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.putCourse = void 0;
+exports.putRating = exports.putCourse = void 0;
 const { Course, Category } = require("../../db");
 function putCourse(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -74,3 +74,29 @@ function putCourse(req, res) {
     });
 }
 exports.putCourse = putCourse;
+function putRating(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            let { rating, nameCourse } = req.body;
+            let nameCourseDb = nameCourse.split(" ").join("-").toLowerCase();
+            let course = yield Course.findOne({
+                where: {
+                    name: nameCourseDb
+                }
+            });
+            let newRating = [...course.rating, rating];
+            yield Course.update({
+                rating: newRating
+            }, {
+                where: {
+                    name: nameCourseDb
+                }
+            });
+            return res.status(200).send("The rating has been updated");
+        }
+        catch (err) {
+            return res.status(200).send(err);
+        }
+    });
+}
+exports.putRating = putRating;
