@@ -17,7 +17,6 @@ const auth = getAuth(app);
 const { Users } = require("../../db");
 
 export async function signUp(req: Request, res: Response) {
-
   try {
     const { fullname, email, password } = req.body;
     let userCredential = await createUserWithEmailAndPassword(
@@ -39,19 +38,13 @@ export async function signUp(req: Request, res: Response) {
       console.log(err)
     );
 
-    await Users.create({
-      id: user.uid,
-      fullname: fullname,
-      email: email,
-      lastLogin: lastSignInTime,
-    });
     sendMail({
       from: "simon__navarrete@hotmail.com",
       subject: "Registro Exitoso! Bienvenido a DevsLearning",
       text: "Bienvenido!",
       to: email,
-      html: `<h1>Bienvenido a Devslearning, <strong>${fullname}</strong>!</h1>`
-    })
+      html: `<h1>Bienvenido a Devslearning, <strong>${fullname}</strong>!</h1>`,
+    });
 
     res.status(201).send(user);
   } catch (error: any) {
