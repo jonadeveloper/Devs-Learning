@@ -6,12 +6,14 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   signOut,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 import Swal from "sweetalert2";
 import { CreateUserInterface } from "../../interfaces/CreateUserInterface";
 import { RootState } from "../store";
 import { reducer } from "./slice";
-const { REACT_APP_BASE_URL, REACT_APP_FIREBASE_CONFIG } = process.env;
+const { REACT_APP_BASE_URL, REACT_APP_FIREBASE_CONFIG, REACT_APP_FRONT_URL } =
+  process.env;
 const provider = new GoogleAuthProvider();
 
 const firebaseConfig = JSON.parse(REACT_APP_FIREBASE_CONFIG!);
@@ -24,9 +26,14 @@ export const registerUser = (
   return async (dispatch) => {
     try {
       let response = await axios.post(`${REACT_APP_BASE_URL}/register`, data);
+      console.log(response);
+      console.log(data);
       if (response !== null) {
+        const redirect = (url: any, asLink = true) =>
+          asLink ? (window.location.href = url) : window.location.replace(url);
         dispatch(reducer.signUp(response.data));
-        Swal.fire("Create user successfully!", "", "success");
+        Swal.fire("Create user successfully! Please Login", "", "success");
+        redirect(`/auth/signin`);
       }
     } catch (error) {
       Swal.fire(`Error: ${error}, try again`, "", "error");
@@ -34,17 +41,19 @@ export const registerUser = (
   };
 };
 
-export var userData: any;
-
 export const loginUser = (
   data: any,
   setAuth: any
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return async (dispatch) => {
     try {
-      let response = await axios.post(`${REACT_APP_BASE_URL}/login`, data);
-      if (response.data !== null) {
-        userData = response.data;
+      const { email, password } = data;
+      let userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      if (userCredential !== null) {
         setAuth = "logged";
         dispatch(reducer.signIn(setAuth));
         Swal.fire("Logged in", "", "success");
@@ -120,9 +129,8 @@ export const signOutAction = (): ThunkAction<
         dispatch(reducer.logOut(result));
         userInfoObj = undefined;
       } else {
-        userData = null;
         userInfoObj = undefined;
-        dispatch(reducer.logOut(userData));
+        dispatch(reducer.logOut());
       }
 
       Swal.fire("Log out", "", "success");

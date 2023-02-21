@@ -15,28 +15,36 @@ import Footer from "../components/Footer/Footer";
 import LandingPage from "../components/Landing/LandingPage";
 import DashboardAdmin from "../components/Dashboards/Admin/DashboardAdmin";
 import UserDashboard from "../components/Dashboards/UserDashboard";
-import {
-  getUser,
-  userData,
-  userInfo,
-  userInfoObj,
-} from "../redux/users/actions";
-import { getAuth } from "firebase/auth";
+import { getUser } from "../redux/users/actions";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { setItem } from "../utils/localStorage";
+import { initializeApp } from "firebase/app";
 import { createMPButton } from "../components/meliButton/meliButton";
 export var profileImg: string;
 export var userFullname: string;
 export var userEmail: string;
 export var userPhoneNumber: string;
 export var userLastLogin: any;
-
+const { REACT_APP_FIREBASE_CONFIG } = process.env;
 export const AppRouter = () => {
   const dispatch = useAppDispatch();
   let { status } = useAppSelector((state) => state.users);
-  const auth = getAuth();
-  const user = auth.currentUser;
-  const userByEmailInfo = userData?.user || userInfoObj;
-  console.log(status);
+  const firebaseConfig = JSON.parse(REACT_APP_FIREBASE_CONFIG!);
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      profileImg = user.photoURL!;
+      userFullname = user.displayName!;
+      userEmail = user.email!;
+      userPhoneNumber = user.phoneNumber!;
+      userLastLogin = user.metadata.lastSignInTime!;
+    } else {
+      //Do Something
+    }
+  });
+
   useEffect(() => {
     dispatch(getUser(status));
     dispatch(getCourses());
@@ -44,39 +52,19 @@ export const AppRouter = () => {
   }, []);
 
   useEffect(() => {
-    if (user || userByEmailInfo) {
-      setItem("loggedUserInfo", user || userByEmailInfo);
+    if (auth.currentUser) {
+      setItem("loggedUserInfo", auth.currentUser);
     }
   });
 
-  if (user?.providerId === "firebase") {
-    profileImg = user.photoURL!;
-    userFullname = user.displayName!;
-    userEmail = user.email!;
-    userPhoneNumber = user.phoneNumber!;
-    userLastLogin = user.metadata.lastSignInTime!;
-  } else {
-    let time = Number(userByEmailInfo?.lastLoginAt);
-    profileImg = userByEmailInfo?.photoURL;
-    userFullname = userByEmailInfo?.displayName;
-    userEmail = userByEmailInfo?.email;
-    userPhoneNumber = userByEmailInfo?.phoneNumber;
-    userLastLogin = new Date(time).toDateString();
-  }
+  //MP button
+  const { cart } = useAppSelector((state) => state.courses);
 
-  //Mercado Pago Button
+  useEffect(() => {
+    createMPButton(cart);
+  }, [cart]);
 
-  // let button = true;
-  // const { cart } = useAppSelector((state) => state.courses);
-
-  // useEffect(() => {
-  //   if (button) {
-  //     createMPButton(cart);
-  //     button = false;
-  //   }
-  // }, []);
-
-  ////////////////////////////////
+  ///////////////////////////////////
 
   return (
     <div>

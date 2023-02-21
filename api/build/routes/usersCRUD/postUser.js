@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.recoverPassword = exports.signUp = exports.signIn = void 0;
+exports.recoverPassword = exports.signUp = void 0;
 require("dotenv").config();
 const app_1 = require("firebase/app");
 const auth_1 = require("firebase/auth");
@@ -19,43 +19,29 @@ const firebaseConfig = JSON.parse(FIREBASE_CONFIG);
 const app = (0, app_1.initializeApp)(firebaseConfig);
 const auth = (0, auth_1.getAuth)(app);
 const { Users } = require("../../db");
-function signIn(req, res) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const { email, password } = req.body;
-            let userCredential = yield (0, auth_1.signInWithEmailAndPassword)(auth, email, password);
-            // const user = userCredential.user;
-            res.status(200).send(userCredential);
-        }
-        catch (error) {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            res.status(404).send(`Error: ${errorCode}, ${errorMessage}`);
-        }
-    });
-}
-exports.signIn = signIn;
 function signUp(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { fullname, email, lastSignInTime, password } = req.body;
+            const { fullname, email, password } = req.body;
             let userCredential = yield (0, auth_1.createUserWithEmailAndPassword)(auth, email, password);
             const user = userCredential.user;
-            yield (0, auth_1.updateProfile)(user, Object.assign(Object.assign({}, user), { displayName: fullname })).catch((err) => console.log(err));
-            yield Users.create({
-                id: user.uid,
-                fullname: fullname,
-                email: email,
-                lastLogin: lastSignInTime,
-            });
-            (0, sendMail_1.sendMail)({
+            if (user) {
+                Users.create({
+                    id: user.uid,
+                    fullname: fullname,
+                    email: user.email,
+                    lastLogin: user.metadata.creationTime,
+                });
+            }
+            yield (0, auth_1.updateProfile)(user, { displayName: fullname }).catch((err) => console.log(err));
+             (0, sendMail_1.sendMail)({
                 from: "simon__navarrete@hotmail.com",
                 subject: "Registro Exitoso! Bienvenido a DevsLearning",
                 text: "Bienvenido!",
                 to: email,
                 html: `<h1>Bienvenido a Devslearning, <strong>${fullname}</strong>!</h1>`
             });
-            res.status(201).send(`The user ${fullname} has been created`);
+            res.status(201).send(user);
         }
         catch (error) {
             const errorCode = error.code;

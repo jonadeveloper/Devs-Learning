@@ -16,6 +16,7 @@ module.exports = (sequelize) => {
         },
         cart: {
             type: sequelize_1.DataTypes.ARRAY(sequelize_1.DataTypes.JSON),
+            defaultValue: []
         },
         fullname: {
             type: sequelize_1.DataTypes.STRING,
@@ -25,8 +26,8 @@ module.exports = (sequelize) => {
                     msg: "Dont enter empty strings",
                 },
                 len: {
-                    args: [8, 128],
-                    msg: "Fullname minimum length is 8",
+                    args: [6, 128],
+                    msg: "Fullname minimum length is 6",
                 },
             },
         },

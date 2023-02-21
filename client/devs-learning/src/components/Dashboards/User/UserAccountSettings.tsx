@@ -1,20 +1,48 @@
-import React from "react";
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../../hooks/hooksRedux";
-import { Link as ReactLink } from "react-router-dom";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Avatar from "@mui/material/Avatar";
-import Stack from "@mui/material/Stack";
+import React, { useState } from "react";
+import { Button, Container, Divider, Grid, Typography } from "@mui/material";
 
 const UserAccountSettings: React.FC = () => {
   return (
-    <div>
-      <Typography variant="h3">Manage your Account</Typography>
-      ACÁ PODRÁS REALIZAR LOS CAMBIOS DE GESTION DE TU CUENTA
-    </div>
+    <Grid
+      sx={{
+        width: "100%",
+        display: "grid",
+      }}
+    >
+      <Container
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Typography textAlign="center" variant="h4">
+          Manage your Account
+        </Typography>
+        <Typography textAlign="center" variant="subtitle2">
+          Modify or add information about you
+        </Typography>
+      </Container>
+      <Divider></Divider>
+      <Grid sx={{ display: "grid" }}>
+        <Button variant="contained" color="error">
+          Change Password
+        </Button>
+        <Divider></Divider>
+        <Button variant="contained" color="warning">
+          Become a Teacher
+        </Button>
+        <Divider></Divider>
+        <Button
+          variant="outlined"
+          color="error"
+          sx={{ width: "fit-content", fontWeight: "bold" }}
+        >
+          Delete Account
+        </Button>
+      </Grid>
+    </Grid>
   );
 };
 

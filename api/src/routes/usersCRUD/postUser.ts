@@ -4,7 +4,6 @@ import { initializeApp } from "firebase/app";
 import {
   getAuth,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
   sendPasswordResetEmail,
   updateProfile,
 } from "firebase/auth";
@@ -17,34 +16,26 @@ const auth = getAuth(app);
 
 const { Users } = require("../../db");
 
-export async function signIn(req: Request, res: Response) {
-  try {
-    const { email, password } = req.body;
-    let userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    // const user = userCredential.user;
-    res.status(200).send(userCredential);
-  } catch (error: any) {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    res.status(404).send(`Error: ${errorCode}, ${errorMessage}`);
-  }
-}
-
 export async function signUp(req: Request, res: Response) {
 
   try {
-    const { fullname, email, lastSignInTime, password } = req.body;
+    const { fullname, email, password } = req.body;
     let userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
       password
     );
     const user = userCredential.user;
-    await updateProfile(user, { ...user, displayName: fullname }).catch((err) =>
+    if (user) {
+      Users.create({
+        id: user.uid,
+        fullname: fullname,
+        email: user.email,
+        lastLogin: user.metadata.creationTime,
+      });
+    }
+
+    await updateProfile(user, { displayName: fullname }).catch((err) =>
       console.log(err)
     );
 
@@ -61,7 +52,8 @@ export async function signUp(req: Request, res: Response) {
       to: email,
       html: `<h1>Bienvenido a Devslearning, <strong>${fullname}</strong>!</h1>`
     })
-    res.status(201).send(`The user ${fullname} has been created`);
+
+    res.status(201).send(user);
   } catch (error: any) {
     const errorCode = error.code;
     const errorMessage = error.message;
