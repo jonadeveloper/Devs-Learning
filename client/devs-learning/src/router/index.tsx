@@ -58,7 +58,6 @@ export const AppRouter = () => {
   });
 
   //MP button
-
   const { cart } = useAppSelector((state) => state.courses);
 
   useEffect(() => {
