@@ -34,12 +34,12 @@ function signUp(req, res) {
                 });
             }
             yield (0, auth_1.updateProfile)(user, { displayName: fullname }).catch((err) => console.log(err));
-             (0, sendMail_1.sendMail)({
+            (0, sendMail_1.sendMail)({
                 from: "simon__navarrete@hotmail.com",
                 subject: "Registro Exitoso! Bienvenido a DevsLearning",
                 text: "Bienvenido!",
                 to: email,
-                html: `<h1>Bienvenido a Devslearning, <strong>${fullname}</strong>!</h1>`
+                html: `<h1>Bienvenido a Devslearning, <strong>${fullname}</strong>!</h1>`,
             });
             res.status(201).send(user);
         }

@@ -1,7 +1,4 @@
 import React from "react";
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../../hooks/hooksRedux";
-import { Link as ReactLink } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
