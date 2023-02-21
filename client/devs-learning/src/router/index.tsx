@@ -66,15 +66,15 @@ export const AppRouter = () => {
 
   //Mercado Pago Button
 
-  let button = true;
-  const { cart } = useAppSelector((state) => state.courses);
+  // let button = true;
+  // const { cart } = useAppSelector((state) => state.courses);
 
-  useEffect(() => {
-    if (button) {
-      createMPButton(cart);
-      button = false;
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (button) {
+  //     createMPButton(cart);
+  //     button = false;
+  //   }
+  // }, []);
 
   ////////////////////////////////
 

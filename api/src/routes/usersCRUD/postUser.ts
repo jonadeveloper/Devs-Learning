@@ -8,6 +8,7 @@ import {
   sendPasswordResetEmail,
   updateProfile,
 } from "firebase/auth";
+import { sendMail } from "../../utils/sendMail";
 
 const { FIREBASE_CONFIG } = process.env;
 const firebaseConfig = JSON.parse(FIREBASE_CONFIG!);
@@ -34,6 +35,7 @@ export async function signIn(req: Request, res: Response) {
 }
 
 export async function signUp(req: Request, res: Response) {
+
   try {
     const { fullname, email, lastSignInTime, password } = req.body;
     let userCredential = await createUserWithEmailAndPassword(
@@ -52,11 +54,18 @@ export async function signUp(req: Request, res: Response) {
       email: email,
       lastLogin: lastSignInTime,
     });
-
+    sendMail({
+      from: "simon__navarrete@hotmail.com",
+      subject: "Registro Exitoso! Bienvenido a DevsLearning",
+      text: "Bienvenido!",
+      to: email,
+      html: `<h1>Bienvenido a Devslearning, <strong>${fullname}</strong>!</h1>`
+    })
     res.status(201).send(`The user ${fullname} has been created`);
   } catch (error: any) {
     const errorCode = error.code;
     const errorMessage = error.message;
+    console.log(errorMessage);
     res.status(404).send(`${errorCode}, ${errorMessage}`);
   }
 }
