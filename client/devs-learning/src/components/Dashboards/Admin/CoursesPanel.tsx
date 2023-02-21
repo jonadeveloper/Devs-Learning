@@ -1,23 +1,68 @@
 import React from "react";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/hooksRedux";
-import { Link as ReactLink } from "react-router-dom";
+
 import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import Avatar from "@mui/material/Avatar";
-import Stack from "@mui/material/Stack";
+import MUIDataTable from "mui-datatables";
 
 const CoursesPanel: React.FC = () => {
   const dispatch = useAppDispatch();
 
+  const columns = [
+    {
+      name: "name",
+      label: "Name"
+    },
+    {
+      name: "description",
+      label: "Description"
+    },
+    {
+      name: "duration",
+      label: "Duration"
+    },
+    {
+      name: "level",
+      label: "Level"
+    },
+    {
+      name: "price",
+      label: "Price"
+    },
+    {
+      name: "instructor",
+      label: "Instructor"
+    }
+  ];
+
+  const options:any = {
+    filterType: "dropdown",
+    selectableRows: false,
+    responsive: "scroll",
+    resizableColumns: true
+  }
+  
+
+  const { courses } = useAppSelector((state) => state.courses);
+  console.log(courses)
   useEffect(() => {});
   return (
-    <div>
-      <Typography variant="h3">Courses</Typography>
-      ACÁ SE RENDERIZA LA INFORMACION SOBRE CURSOS
-    </div>
+    <Grid container xs={12}>
+      <Box width="100%">
+      <Typography textAlign={"center"} variant="h3">Courses</Typography>
+      <Typography textAlign={"center"} variant="h6" m={3}>
+        In this section we manage all the courses on the platform
+      </Typography>
+      </Box>
+      <MUIDataTable
+      title={"list of platform courses"}
+      data={courses}
+      columns={columns}
+      options={options}      
+       />
+    </Grid>
   );
 };
 
