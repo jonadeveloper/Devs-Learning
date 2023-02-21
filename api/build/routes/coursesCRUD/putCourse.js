@@ -84,6 +84,7 @@ function putRating(req, res) {
                     name: nameCourseDb
                 }
             });
+            rating.course = nameCourse;
             let newRating = [...course.rating, rating];
             yield Course.update({
                 rating: newRating

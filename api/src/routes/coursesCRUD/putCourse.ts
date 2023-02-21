@@ -80,6 +80,7 @@ export async function putRating(req: any, res: any) {
         name: nameCourseDb
       }
     });
+    rating.course = nameCourse;
     let newRating = [...course.rating, rating];
     await Course.update({
       rating: newRating
