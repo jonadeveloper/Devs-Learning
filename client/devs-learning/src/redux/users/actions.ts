@@ -90,7 +90,6 @@ export const getUser = (
   setAuth: any
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return (dispatch) => {
-
     if (userInfo && userInfo!.length > 9) {
       setAuth = "logged";
       userInfoObj = JSON.parse(userInfo!);
@@ -137,5 +136,13 @@ export const signOutAction = (): ThunkAction<
     } catch (error) {
       Swal.fire(`${error}, try again`, "", "error");
     }
+  };
+};
+
+export const setFullName = (
+  name: any
+): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return (dispatch) => {
+    return dispatch(reducer.setFullName(name));
   };
 };

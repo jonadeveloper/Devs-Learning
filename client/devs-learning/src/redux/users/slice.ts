@@ -34,6 +34,10 @@ export const userSign = createSlice({
       state.profileImg = "";
       state.status = "notLogged";
     },
+
+    setFullName: (state, { payload }) => {
+      state.fullname = payload;
+    },
   },
 });
 
