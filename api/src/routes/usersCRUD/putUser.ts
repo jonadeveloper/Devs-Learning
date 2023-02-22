@@ -41,6 +41,24 @@ export async function updateUserProfile(req: Request, res: Response) {
   }
 }
 
+export async function updateUserRol(req: any, res: any) {
+  try {
+    const { id, rank } = req.body;
+    await Users.update(
+      {
+        rank: rank
+      },
+      {
+        where:
+        {
+          id: id
+        }
+      }); return res.status(200).send("The Rol has been updated");
+  } catch (err) {
+    return res.status(200).send(err)
+  }
+}
+
 export async function updateUserEmail(req: Request, res: Response) {
   try {
     const { id, email } = req.body;
@@ -113,8 +131,8 @@ export async function updateCart(req: Request, res: Response) {
         },
       },
     });
-    if(buy){
-      let nameCourses = cart.map((el: any)=>{
+    if (buy) {
+      let nameCourses = cart.map((el: any) => {
         return el.name.split(" ").join("-").toLowerCase();
       });
       let coursesDB = await Course.findAll({
@@ -122,12 +140,12 @@ export async function updateCart(req: Request, res: Response) {
           name: nameCourses
         }
       });
-      coursesDB.forEach((el: any)=>{
+      coursesDB.forEach((el: any) => {
         user.addCourse(el);
       });
       await Users.update({
         cart: []
-      },{
+      }, {
         where: {
           fullname: fullnameDB
         }

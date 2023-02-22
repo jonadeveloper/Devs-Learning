@@ -11,6 +11,7 @@ router.post("/register", postUser_1.signUp);
 router.post("/recover", postUser_1.recoverPassword);
 router.put("/updateEmail", putUser_1.updateUserEmail);
 router.put("/updateUser", putUser_1.updateUserProfile);
+router.put("/updateUserRol", putUser_1.updateUserRol);
 //router.put("/updatePassword", updateUserPassword);
 router.put("/updateCart", putUser_1.updateCart);
 router.put("/updatePhone", putUser_1.updateUserPhone);

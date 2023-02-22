@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateCart = exports.updateUserPhone = exports.updateUserEmail = exports.updateUserProfile = void 0;
+exports.updateCart = exports.updateUserPhone = exports.updateUserEmail = exports.updateUserRol = exports.updateUserProfile = void 0;
 const { Users, Course } = require("../../db");
 /*import { initializeApp } from "firebase/app";
 import {
@@ -51,6 +51,25 @@ function updateUserProfile(req, res) {
     });
 }
 exports.updateUserProfile = updateUserProfile;
+function updateUserRol(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const { id, rank } = req.body;
+            yield Users.update({
+                rank: rank
+            }, {
+                where: {
+                    id: id
+                }
+            });
+            return res.status(200).send("The Rol has been updated");
+        }
+        catch (err) {
+            return res.status(200).send(err);
+        }
+    });
+}
+exports.updateUserRol = updateUserRol;
 function updateUserEmail(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {

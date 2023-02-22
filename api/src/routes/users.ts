@@ -5,7 +5,8 @@ import {
   updateUserEmail,
   updateUserProfile,
   updateUserPhone,
-  updateCart
+  updateCart,
+  updateUserRol
 } from "./usersCRUD/putUser";
 import { getUsersInfo } from "../routes/usersCRUD/getUser";
 const router = Router();
@@ -15,6 +16,7 @@ router.post("/register", signUp);
 router.post("/recover", recoverPassword);
 router.put("/updateEmail", updateUserEmail);
 router.put("/updateUser", updateUserProfile);
+router.put("/updateUserRol", updateUserRol);
 //router.put("/updatePassword", updateUserPassword);
 router.put("/updateCart", updateCart);
 router.put("/updatePhone", updateUserPhone);
