@@ -15,7 +15,7 @@ import Footer from "../components/Footer/Footer";
 import LandingPage from "../components/Landing/LandingPage";
 import DashboardAdmin from "../components/Dashboards/Admin/DashboardAdmin";
 import UserDashboard from "../components/Dashboards/UserDashboard";
-import { getUser } from "../redux/users/actions";
+import { getUser, setFullName } from "../redux/users/actions";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { setItem } from "../utils/localStorage";
 import { initializeApp } from "firebase/app";
@@ -54,6 +54,8 @@ export const AppRouter = () => {
   useEffect(() => {
     if (auth.currentUser) {
       setItem("loggedUserInfo", auth.currentUser);
+
+      dispatch(setFullName(auth.currentUser.displayName));
     }
   });
 
