@@ -54,8 +54,7 @@ exports.updateUserRol = updateUserRol;
 function updateUserEmail(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { id, email, uid } = req.body;
-            console.log(id, email, uid);
+            const { id, email } = req.body;
             if (id) {
                 yield Users.update({
                     email: email,

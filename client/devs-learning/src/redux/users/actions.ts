@@ -12,7 +12,7 @@ import Swal from "sweetalert2";
 import { CreateUserInterface } from "../../interfaces/CreateUserInterface";
 import { RootState } from "../store";
 import { reducer } from "./slice";
-const { REACT_APP_BASE_URL, REACT_APP_FIREBASE_CONFIG } = process.env;
+export const { REACT_APP_BASE_URL, REACT_APP_FIREBASE_CONFIG } = process.env;
 const provider = new GoogleAuthProvider();
 
 const firebaseConfig = JSON.parse(REACT_APP_FIREBASE_CONFIG!);
@@ -131,19 +131,6 @@ export const signOutAction = (): ThunkAction<
       Swal.fire("Log out", "", "success");
     } catch (error) {
       Swal.fire(`${error}, try again`, "", "error");
-    }
-  };
-};
-
-export const updateDbEmail = (data: any) => {
-  return async () => {
-    try {
-      let response = await axios.put(`${REACT_APP_BASE_URL}/updateemail`, data);
-      if (response !== null) {
-        console.log("success");
-      }
-    } catch (error) {
-      console.log(error);
     }
   };
 };

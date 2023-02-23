@@ -43,8 +43,8 @@ export async function updateUserRol(req: any, res: any) {
 
 export async function updateUserEmail(req: Request, res: Response) {
   try {
-    const { id, email, uid } = req.body;
-    console.log(id, email, uid);
+    const { id, email } = req.body;
+
     if (id) {
       await Users.update(
         {

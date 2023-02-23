@@ -10,7 +10,7 @@ router.post("/register", postUser_1.signUp);
 router.post("/fake", postUser_1.fakeSignUp);
 router.post("/recover", postUser_1.recoverPassword);
 router.put("/updateemail", putUser_1.updateUserEmail);
-router.put("/updateUser", putUser_1.updateUserProfile);
+router.put("/updateusername", putUser_1.updateUserProfile);
 router.put("/updateUserRol", putUser_1.updateUserRol);
 //router.put("/updatePassword", updateUserPassword);
 router.put("/updateCart", putUser_1.updateCart);

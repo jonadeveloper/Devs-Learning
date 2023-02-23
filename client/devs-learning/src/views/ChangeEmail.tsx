@@ -8,21 +8,14 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { useState } from "react";
 import { getAuth, updateEmail } from "firebase/auth";
 import Swal from "sweetalert2";
-import { updateDbEmail } from "../redux/users/actions";
-
+import axios from "axios";
+import { REACT_APP_BASE_URL } from "../redux/users/actions";
 export default function EmailChange() {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [validEmail, setValidEmail] = useState(true);
-  const regexWhite = new RegExp(/^\s+$/);
   const auth = getAuth();
-  function validateEmail() {
-    if (regexWhite.test(email) || email.length < 8) {
-      setValidEmail(false);
-    } else {
-      setValidEmail(true);
-    }
-  }
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -33,6 +26,12 @@ export default function EmailChange() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
+    const regexWhite = new RegExp(/^\s+$/);
+    if (regexWhite.test(email) || email.length < 8) {
+      setValidEmail(false);
+    } else {
+      setValidEmail(true);
+    }
   };
 
   const handleChangeEmail = () => {
@@ -43,9 +42,15 @@ export default function EmailChange() {
 
   const changeEmail = async () => {
     try {
-      await updateEmail(auth.currentUser!, email);
-      // await updateDbEmail(email);
-      Swal.fire("Email update", "", "success");
+      const user = auth.currentUser;
+      if (user) {
+        await updateEmail(user, email);
+        await axios.put(`${REACT_APP_BASE_URL}/updateemail`, {
+          id: user.uid,
+          email: email,
+        });
+        Swal.fire("Email update", "", "success");
+      }
     } catch (error) {
       Swal.fire(`${error}`, "", "error");
     }
@@ -68,7 +73,6 @@ export default function EmailChange() {
         <DialogContent>
           <DialogContentText>Insert the New Email</DialogContentText>
           <TextField
-            onBlur={validateEmail}
             name="email"
             value={email}
             onChange={handleChange}

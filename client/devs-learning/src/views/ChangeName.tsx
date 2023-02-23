@@ -8,6 +8,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { useState } from "react";
 import { getAuth, updateProfile } from "firebase/auth";
 import Swal from "sweetalert2";
+import axios from "axios";
+import { REACT_APP_BASE_URL } from "../redux/users/actions";
 
 export default function NameChange() {
   const [open, setOpen] = useState(false);
@@ -15,13 +17,7 @@ export default function NameChange() {
   const [validName, setValidName] = useState(true);
   const regexWhite = new RegExp(/^\s+$/);
   const auth = getAuth();
-  function validateProfile() {
-    if (regexWhite.test(displayName) || displayName.length < 6) {
-      setValidName(false);
-    } else {
-      setValidName(true);
-    }
-  }
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -32,9 +28,14 @@ export default function NameChange() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDisplayName(e.target.value);
+    if (regexWhite.test(displayName) || displayName.length < 6) {
+      setValidName(false);
+    } else {
+      setValidName(true);
+    }
   };
 
-  const handleChangeEmail = () => {
+  const handleChangeName = () => {
     changeProfile();
     setOpen(false);
     setDisplayName("");
@@ -42,9 +43,16 @@ export default function NameChange() {
 
   const changeProfile = async () => {
     try {
-      await updateProfile(auth.currentUser!, { displayName: displayName });
-      Swal.fire("Fullname succesfully updated", "", "success");
-      window.location.reload();
+      const user = auth.currentUser;
+      if (user) {
+        await updateProfile(user, { displayName: displayName });
+        await axios.put(`${REACT_APP_BASE_URL}/updateusername`, {
+          id: user.uid,
+          displayName: displayName,
+        });
+        Swal.fire("Fullname succesfully updated", "", "success");
+        window.location.reload();
+      }
     } catch (error) {
       Swal.fire(`${error}`, "", "error");
     }
@@ -67,7 +75,6 @@ export default function NameChange() {
         <DialogContent>
           <DialogContentText>Update your name</DialogContentText>
           <TextField
-            onBlur={validateProfile}
             name="fullname"
             value={displayName}
             onChange={handleChange}
@@ -81,7 +88,7 @@ export default function NameChange() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button disabled={!validName} onClick={handleChangeEmail}>
+          <Button disabled={!validName} onClick={handleChangeName}>
             Save
           </Button>
         </DialogActions>
