@@ -44,6 +44,9 @@ module.exports = (sequelize) => {
         rating: {
             type: sequelize_1.DataTypes.ARRAY(sequelize_1.DataTypes.JSON),
             defaultValue: []
+        },
+        deleted: {
+            type: sequelize_1.DataTypes.BOOLEAN,
         }
     });
 };
