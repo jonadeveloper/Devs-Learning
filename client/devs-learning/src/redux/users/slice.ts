@@ -9,6 +9,7 @@ const initialState: CreateUserInterface = {
   rank: 2,
   profileImg: "",
   status: "notLogged",
+  courses: [],
 };
 
 export const userSign = createSlice({
@@ -39,6 +40,9 @@ export const userSign = createSlice({
       state.fullname = payload.name;
       state.email = payload.email;
     },
+    setBoughtCourses: (state, {payload}) => {
+      state.courses = payload;
+    }
   },
 });
 
