@@ -16,6 +16,8 @@ import { Button, TextField, Typography } from "@mui/material/";
 import DoneIcon from "@mui/icons-material/Done";
 import CourseComment from "./UserComment";
 import BasicRating from "./UserRating";
+import { getBoughtCoursesNames } from "../../../redux/users/actions";
+import { useAppDispatch, useAppSelector } from "../../../hooks/hooksRedux";
 
 import {
   userEmail,
@@ -86,8 +88,18 @@ const rows = [
 ];
 
 export default function BasicTable() {
+  const dispatch = useAppDispatch();
+  const CoursesName = useAppSelector((state) => state.users.courses);
+
   const [value, setValue] = React.useState<number | null>(2);
   const [comment, setComment] = useState("");
+
+  React.useEffect(() => {
+    dispatch(getBoughtCoursesNames(userEmail));
+    console.log("cursos comprados");
+    console.log(userEmail);
+    console.log(CoursesName);
+  }, []);
 
   return (
     <TableContainer component={Paper}>
