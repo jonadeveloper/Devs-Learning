@@ -16,7 +16,7 @@ router.put("/updateemail", putUser_1.updateUserEmail);
 router.put("/updateusername", putUser_1.updateUserProfile);
 router.put("/updateUserRol", putUser_1.updateUserRol);
 router.put("/updateCart", putUser_1.updateCart);
-// router.put("/updatePhone", updateUserPhone);
+router.put("/updatePhone", updateUserPhone);
 router.put("/ban", logicDeleteUser_1.deleteLogicUser);
 router.put("/pardon", desBanUser_1.desBanUser);
 router.get("/banned", getBanned_1.getBanned);
