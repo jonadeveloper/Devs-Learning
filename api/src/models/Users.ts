@@ -58,6 +58,10 @@ module.exports = (sequelize: any) => {
       lastLogin: {
         type: DataTypes.DATE,
       },
+      banned: {
+        type: DataTypes.BOOLEAN,
+        default: false
+      }
     },
     { timestamps: false }
   );

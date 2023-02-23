@@ -57,5 +57,9 @@ module.exports = (sequelize) => {
         lastLogin: {
             type: sequelize_1.DataTypes.DATE,
         },
+        banned: {
+            type: sequelize_1.DataTypes.BOOLEAN,
+            default: false
+        }
     }, { timestamps: false });
 };
