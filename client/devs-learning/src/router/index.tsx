@@ -17,7 +17,7 @@ import DashboardAdmin from "../components/Dashboards/Admin/DashboardAdmin";
 import UserDashboard from "../components/Dashboards/UserDashboard";
 import { getUser, setFullName } from "../redux/users/actions";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { setItem } from "../utils/localStorage";
+import { getItem, setItem } from "../utils/localStorage";
 import { initializeApp } from "firebase/app";
 import { createMPButton } from "../components/meliButton/meliButton";
 import { SuccessPage } from "../components/Payment/SuccessPage";
@@ -46,17 +46,30 @@ export const AppRouter = () => {
     }
   });
 
-  useEffect(() => {
-    dispatch(getUser(status));
-    dispatch(getCourses());
-    dispatch(getCategories());
-  }, []);
+  useEffect(
+    () => {
+      dispatch(getUser(status));
+      dispatch(getCourses());
+      dispatch(getCategories());
+      ///recover user info from local storage
+      /*if (status === "logged") {
+    let userInfo = getItem("loggedUserInfo");
+    dispatch(setFullName(userInfo.displayName, userInfo.email));
+  }*/
+      /////////////////////////
+    },
+    [
+      /*status*/
+    ]
+  );
 
   useEffect(() => {
     if (auth.currentUser) {
       setItem("loggedUserInfo", auth.currentUser);
 
-      dispatch(setFullName(auth.currentUser.displayName));
+      /* dispatch(
+        setFullName(auth.currentUser.displayName, auth.currentUser.email)
+      );*/
     }
   });
 

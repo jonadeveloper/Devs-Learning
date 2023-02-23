@@ -22,6 +22,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getAuth, updateProfile } from "firebase/auth";
 import { CameraAltOutlined } from "@mui/icons-material";
 import Swal from "sweetalert2";
+import UserAccountSettings from "./User/UserAccountSettings";
 
 const UserDashboard: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -63,7 +64,7 @@ const UserDashboard: React.FC = () => {
     } else if (content === 1) {
       return <UserCourses />;
     } else if (content === 2) {
-      return <CourseComment courseId="1" userId="2" />;
+      return <UserAccountSettings />;
     } else if (content === 3) {
       return <LogOut />;
     }

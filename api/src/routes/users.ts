@@ -1,12 +1,11 @@
 import { Router } from "express";
 import { deleteCurrentUser } from "../routes/usersCRUD/deteleUser";
-import { recoverPassword, signUp } from "./usersCRUD/postUser";
+import { fakeSignUp, recoverPassword, signUp } from "./usersCRUD/postUser";
 import {
   updateUserEmail,
   updateUserProfile,
-  updateUserPhone,
   updateCart,
-  updateUserRol
+  updateUserRol,
 } from "./usersCRUD/putUser";
 import { getUsersInfo } from "../routes/usersCRUD/getUser";
 import { deleteLogicUser } from "./usersCRUD/logicDeleteUser";
@@ -15,12 +14,11 @@ import { getBanned } from "./usersCRUD/getBanned";
 const router = Router();
 
 router.post("/register", signUp);
-//router.post("/login", signIn);
+router.post("/fake", fakeSignUp);
 router.post("/recover", recoverPassword);
-router.put("/updateEmail", updateUserEmail);
-router.put("/updateUser", updateUserProfile);
+router.put("/updateemail", updateUserEmail);
+router.put("/updateusername", updateUserProfile);
 router.put("/updateUserRol", updateUserRol);
-//router.put("/updatePassword", updateUserPassword);
 router.put("/updateCart", updateCart);
 router.put("/updatePhone", updateUserPhone);
 router.put("/ban", deleteLogicUser);

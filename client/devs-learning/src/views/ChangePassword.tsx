@@ -5,23 +5,24 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useAppDispatch } from "../hooks/hooksRedux";
 import { useState } from "react";
+import { Box } from "@mui/material";
+import {
+  EmailAuthProvider,
+  getAuth,
+  reauthenticateWithCredential,
+  updatePassword,
+} from "firebase/auth";
+import Swal from "sweetalert2";
 
 export default function PasswordChange() {
-  const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
   const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [validPassword, setValidPassword] = useState(true);
   const regexWhite = new RegExp(/^\s+$/);
+  const auth = getAuth();
 
-  function validatePassword() {
-    if (password.length < 8 || regexWhite.test(password) || password === "") {
-      setValidPassword(false);
-    } else {
-      setValidPassword(true);
-    }
-  }
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -30,23 +31,52 @@ export default function PasswordChange() {
     setOpen(false);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleActualPass = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
-  const handleChangePassword = () => {
-    //dispatch(changePassword(password));
-    setOpen(false);
-    setPassword("");
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewPassword(e.target.value);
+    if (
+      e.target.value.length < 8 ||
+      regexWhite.test(e.target.value) ||
+      e.target.value === ""
+    ) {
+      setValidPassword(false);
+    } else {
+      setValidPassword(true);
+    }
+  };
+
+  const handleChangePassword = async () => {
+    const user = auth.currentUser;
+    try {
+      if (user) {
+        setOpen(false);
+        Swal.showLoading();
+        const credential = EmailAuthProvider.credential(user.email!, password);
+        await reauthenticateWithCredential(user, credential);
+        await updatePassword(user, newPassword).then(() => {
+          Swal.hideLoading();
+          setPassword("");
+          setNewPassword("");
+          Swal.fire("Password updated", "", "success");
+        });
+      }
+    } catch (error) {
+      setOpen(false);
+      Swal.hideLoading();
+      Swal.fire(`${error}`, "Check the password", "error");
+    }
   };
 
   return (
-    <div>
+    <Box width="80%">
       <Button
+        fullWidth
         variant="contained"
         sx={{
           textTransform: "none",
-          textDecoration: "underline",
           fontSize: "16px",
         }}
         onClick={handleClickOpen}
@@ -56,11 +86,24 @@ export default function PasswordChange() {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Change Password</DialogTitle>
         <DialogContent>
+          <DialogContentText>Insert the current Password</DialogContentText>
+          <TextField
+            name="actualpassword"
+            value={password}
+            onChange={handleActualPass}
+            autoFocus
+            margin="dense"
+            label="Current Password"
+            type="password"
+            fullWidth
+            variant="standard"
+          />
+        </DialogContent>
+        <DialogContent>
           <DialogContentText>Insert the New Password</DialogContentText>
           <TextField
-            onFocus={validatePassword}
             name="password"
-            value={password}
+            value={newPassword}
             onChange={handleChange}
             autoFocus
             margin="dense"
@@ -77,6 +120,6 @@ export default function PasswordChange() {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Box>
   );
 }

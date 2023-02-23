@@ -17,7 +17,7 @@ module.exports = (sequelize: any) => {
       },
       cart: {
         type: DataTypes.ARRAY(DataTypes.JSON),
-        defaultValue: []
+        defaultValue: [],
       },
       fullname: {
         type: DataTypes.STRING,
@@ -31,12 +31,6 @@ module.exports = (sequelize: any) => {
             msg: "Fullname minimum length is 6",
           },
         },
-      },
-      profileImg: {
-        type: DataTypes.STRING,
-      },
-      phoneNumber: {
-        type: DataTypes.STRING,
       },
       email: {
         type: DataTypes.STRING,
