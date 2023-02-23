@@ -32,6 +32,7 @@ export async function signUp(req: Request, res: Response) {
         fullname: fullnameDB,
         email: user.email,
         lastLogin: user.metadata.creationTime,
+        banned: false
       });
     }
 

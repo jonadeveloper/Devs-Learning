@@ -32,6 +32,7 @@ function signUp(req, res) {
                     fullname: fullnameDB,
                     email: user.email,
                     lastLogin: user.metadata.creationTime,
+                    banned: false
                 });
             }
             yield (0, auth_1.updateProfile)(user, { displayName: fullname }).catch((err) => console.log(err));
