@@ -4,7 +4,6 @@ import { fakeSignUp, recoverPassword, signUp } from "./usersCRUD/postUser";
 import {
   updateUserEmail,
   updateUserProfile,
-  updateUserPhone,
   updateCart,
   updateUserRol,
 } from "./usersCRUD/putUser";
@@ -14,12 +13,11 @@ const router = Router();
 router.post("/register", signUp);
 router.post("/fake", fakeSignUp);
 router.post("/recover", recoverPassword);
-router.put("/updateEmail", updateUserEmail);
+router.put("/updateemail", updateUserEmail);
 router.put("/updateUser", updateUserProfile);
 router.put("/updateUserRol", updateUserRol);
 //router.put("/updatePassword", updateUserPassword);
 router.put("/updateCart", updateCart);
-router.put("/updatePhone", updateUserPhone);
 router.get("/usersInfo", getUsersInfo);
 router.delete("/deleteCurrentUser", deleteCurrentUser);
 

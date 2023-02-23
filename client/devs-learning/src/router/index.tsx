@@ -46,26 +46,30 @@ export const AppRouter = () => {
     }
   });
 
-  useEffect(() => {
-    dispatch(getUser(status));
-    dispatch(getCourses());
-    dispatch(getCategories());
-
-    ///recover user info from local storage
-    if (status == "logged") {
-      let userInfo = getItem("loggedUserInfo");
-      dispatch(setFullName(userInfo.displayName, userInfo.email));
-    }
-    /////////////////////////
-  }, [status]);
+  useEffect(
+    () => {
+      dispatch(getUser(status));
+      dispatch(getCourses());
+      dispatch(getCategories());
+      ///recover user info from local storage
+      /*if (status === "logged") {
+    let userInfo = getItem("loggedUserInfo");
+    dispatch(setFullName(userInfo.displayName, userInfo.email));
+  }*/
+      /////////////////////////
+    },
+    [
+      /*status*/
+    ]
+  );
 
   useEffect(() => {
     if (auth.currentUser) {
       setItem("loggedUserInfo", auth.currentUser);
 
-      dispatch(
+      /* dispatch(
         setFullName(auth.currentUser.displayName, auth.currentUser.email)
-      );
+      );*/
     }
   });
 

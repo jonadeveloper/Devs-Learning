@@ -135,6 +135,19 @@ export const signOutAction = (): ThunkAction<
   };
 };
 
+export const updateDbEmail = (data: any) => {
+  return async () => {
+    try {
+      let response = await axios.put(`${REACT_APP_BASE_URL}/updateemail`, data);
+      if (response !== null) {
+        console.log("success");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
 export const setFullName = (
   name: any,
   email: any

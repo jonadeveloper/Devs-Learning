@@ -8,6 +8,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { useState } from "react";
 import { getAuth, updateEmail } from "firebase/auth";
 import Swal from "sweetalert2";
+import { updateDbEmail } from "../redux/users/actions";
 
 export default function EmailChange() {
   const [open, setOpen] = useState(false);
@@ -43,6 +44,7 @@ export default function EmailChange() {
   const changeEmail = async () => {
     try {
       await updateEmail(auth.currentUser!, email);
+      // await updateDbEmail(email);
       Swal.fire("Email update", "", "success");
     } catch (error) {
       Swal.fire(`${error}`, "", "error");

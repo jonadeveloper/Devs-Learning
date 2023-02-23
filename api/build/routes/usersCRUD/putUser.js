@@ -9,34 +9,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateCart = exports.updateUserPhone = exports.updateUserEmail = exports.updateUserRol = exports.updateUserProfile = void 0;
+exports.updateCart = exports.updateUserEmail = exports.updateUserRol = exports.updateUserProfile = void 0;
 const { Users, Course } = require("../../db");
-/*import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  updateEmail,
-  updatePassword,
-  updatePhoneNumber,
-  updateProfile,
-} from "firebase/auth";
-
-const { REACT_APP_FIREBASE_CONFIG } = process.env;
-const firebaseConfig = JSON.parse(REACT_APP_FIREBASE_CONFIG!);
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const user = auth.currentUser;*/
 function updateUserProfile(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { id, fullname, profileImg } = req.body;
+            const { id, displayName } = req.body;
             if (id) {
-                /*await updateProfile(user, {
-                  displayName: fullname,
-                  photoURL: profileImg,
-                });*/
                 yield Users.update({
-                    fullname: fullname,
-                    profileImg: profileImg,
+                    fullname: displayName,
                 }, {
                     where: {
                         id: id,
@@ -56,11 +37,11 @@ function updateUserRol(req, res) {
         try {
             const { id, rank } = req.body;
             yield Users.update({
-                rank: rank
+                rank: rank,
             }, {
                 where: {
-                    id: id
-                }
+                    id: id,
+                },
             });
             return res.status(200).send("The Rol has been updated");
         }
@@ -73,13 +54,9 @@ exports.updateUserRol = updateUserRol;
 function updateUserEmail(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { id, email } = req.body;
+            const { id, email, uid } = req.body;
+            console.log(id, email, uid);
             if (id) {
-                /*if (user.email !== email) {
-                  await updateEmail(user, email);
-                } else {
-                  throw new Error("Same Email");
-                }*/
                 yield Users.update({
                     email: email,
                 }, {
@@ -94,37 +71,6 @@ function updateUserEmail(req, res) {
     });
 }
 exports.updateUserEmail = updateUserEmail;
-/*export async function updateUserPassword(req: Request, res: Response) {
-  try {
-    const { password } = req.body;
-    if (user) {
-      await updatePassword(user, password);
-      res.status(200).send("Update password successfully");
-    }
-  } catch (error) {
-    res.status(400).send(`Cannot update password ${error}`);
-  }
-}*/
-function updateUserPhone(req, res) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const { id, phoneNumber } = req.body;
-            if (id) {
-                /*await updatePhoneNumber(user, phoneNumber);*/
-                yield Users.update({
-                    phoneNumber: phoneNumber,
-                }, {
-                    where: { id: id },
-                });
-                res.status(200).send("Update phone number successfully");
-            }
-        }
-        catch (error) {
-            res.status(400).send(`Cannot update phone number ${error}`);
-        }
-    });
-}
-exports.updateUserPhone = updateUserPhone;
 function updateCart(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -132,7 +78,7 @@ function updateCart(req, res) {
             let fullnameDB = fullname.split(" ").join("-").toLowerCase();
             let user = yield Users.findOne({
                 where: {
-                    fullname: fullnameDB
+                    fullname: fullnameDB,
                 },
                 include: {
                     model: Course,
@@ -148,30 +94,32 @@ function updateCart(req, res) {
                 });
                 let coursesDB = yield Course.findAll({
                     where: {
-                        name: nameCourses
-                    }
+                        name: nameCourses,
+                    },
                 });
                 coursesDB.forEach((el) => {
                     user.addCourse(el);
                 });
                 yield Users.update({
-                    cart: []
+                    cart: [],
                 }, {
                     where: {
-                        fullname: fullnameDB
-                    }
+                        fullname: fullnameDB,
+                    },
                 });
                 return res.status(200).send("The courses has been created");
             }
             else {
                 yield Users.update({
-                    cart: cart
+                    cart: cart,
                 }, {
                     where: {
-                        fullname: fullnameDB
-                    }
+                        fullname: fullnameDB,
+                    },
                 });
-                return res.status(200).send(`The cart of user ${fullname} has been updated`);
+                return res
+                    .status(200)
+                    .send(`The cart of user ${fullname} has been updated`);
             }
         }
         catch (err) {
