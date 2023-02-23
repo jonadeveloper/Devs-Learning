@@ -36,7 +36,8 @@ export const userSign = createSlice({
     },
 
     setFullName: (state, { payload }) => {
-      state.fullname = payload;
+      state.fullname = payload.name;
+      state.email = payload.email;
     },
   },
 });

@@ -56,7 +56,10 @@ export const AppRouter = () => {
     if (auth.currentUser) {
       setItem("loggedUserInfo", auth.currentUser);
 
-      dispatch(setFullName(auth.currentUser.displayName));
+      dispatch(
+        setFullName(auth.currentUser.displayName, auth.currentUser.email)
+      );
+      // dispatch(setFullName(auth.currentUser.displayName));
     }
   });
 
