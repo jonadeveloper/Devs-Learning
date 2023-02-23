@@ -66,3 +66,24 @@ export async function recoverPassword(req: Request, res: Response) {
     res.status(404).send(`${errorCode}, ${errorMessage}`);
   }
 }
+
+export async function fakeSignUp(req: Request, res: Response) {
+  try {
+    const { email, displayName, uid } = req.body;
+    console.log(email, displayName, uid);
+    const userExists = await Users.findOne({
+      where: { email: email },
+    });
+    const fullnameDB = displayName.split(" ").join("-").toLowerCase();
+    if (userExists === null) {
+      await Users.create({
+        id: uid,
+        fullname: fullnameDB,
+        email: email,
+      });
+    }
+    res.status(201).send("Succesfully created");
+  } catch (error) {
+    res.status(400).send(error);
+  }
+}

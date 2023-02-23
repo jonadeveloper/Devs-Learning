@@ -8,7 +8,6 @@ import {
   userPhoneNumber,
 } from "../../../router/index";
 import {
-  Button,
   Divider,
   List,
   ListItem,
@@ -30,17 +29,17 @@ const UserPersonalInfo: React.FC = () => {
       <Container
         sx={{
           display: "flex",
-          justifyContent: "space-around",
+          justifyContent: "space-between",
           alignItems: "center",
           alignContent: "center",
         }}
       >
-        <Typography textAlign="center" color="silver" variant="h5">
+        <Typography color="silver" variant="h5">
           Profile
         </Typography>
-        <Button variant="text" color="success">
+        <Typography color="silver" variant="h5">
           Edit Profile
-        </Button>
+        </Typography>
       </Container>
       <Divider></Divider>
       <List>

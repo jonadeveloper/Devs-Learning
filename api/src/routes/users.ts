@@ -1,18 +1,18 @@
 import { Router } from "express";
 import { deleteCurrentUser } from "../routes/usersCRUD/deteleUser";
-import { recoverPassword, signUp } from "./usersCRUD/postUser";
+import { fakeSignUp, recoverPassword, signUp } from "./usersCRUD/postUser";
 import {
   updateUserEmail,
   updateUserProfile,
   updateUserPhone,
   updateCart,
-  updateUserRol
+  updateUserRol,
 } from "./usersCRUD/putUser";
 import { getUsersInfo } from "../routes/usersCRUD/getUser";
 const router = Router();
 
 router.post("/register", signUp);
-//router.post("/login", signIn);
+router.post("/fake", fakeSignUp);
 router.post("/recover", recoverPassword);
 router.put("/updateEmail", updateUserEmail);
 router.put("/updateUser", updateUserProfile);
