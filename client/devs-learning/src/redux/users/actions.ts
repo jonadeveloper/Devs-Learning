@@ -136,9 +136,10 @@ export const signOutAction = (): ThunkAction<
 };
 
 export const setFullName = (
-  name: any
+  name: any,
+  email: any
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return (dispatch) => {
-    return dispatch(reducer.setFullName(name));
+    return dispatch(reducer.setFullName({ name, email }));
   };
 };
