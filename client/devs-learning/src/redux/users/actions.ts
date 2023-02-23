@@ -56,7 +56,7 @@ export const loginUser = (
           .then(
             (response) => {
               console.log(response);
-              if (!response) {
+              if (!response.data) {
                 setAuth = "logged";
                 console.log(userCredential);
                 dispatch(reducer.signIn(setAuth));
@@ -86,10 +86,20 @@ export const signInWithGoogle = (
       Swal.showLoading();
       if (userCredential !== null) {
         axios.post(`${REACT_APP_BASE_URL}/fake`, userCredential.user);
-        Swal.hideLoading();
-        setAuth = "logged";
-        dispatch(reducer.signIn(setAuth));
-        Swal.fire("Logged in", "", "success");
+        axios.get(`${REACT_APP_BASE_URL}/banned?email=${userCredential.user.email}`)
+          .then(
+            (response) => {
+              console.log(response);
+              if (!response.data) {
+                Swal.hideLoading();
+                setAuth = "logged";
+                dispatch(reducer.signIn(setAuth));
+                Swal.fire("Logged in", "", "success");
+              }
+              else {
+                Swal.fire(`Error: You are banned, for more information contact support`, "", "error");
+              }
+            })
       }
     } catch (error: any) {
       Swal.hideLoading();

@@ -83,8 +83,16 @@ function fakeSignUp(req, res) {
                     id: uid,
                     fullname: fullnameDB,
                     email: email,
+                    banned: false
                 });
             }
+            (0, sendMail_1.sendMail)({
+                from: "simon__navarrete@hotmail.com",
+                subject: "Registro Exitoso! Bienvenido a DevsLearning",
+                text: "Bienvenido!",
+                to: email,
+                html: `<h1>Bienvenido a Devslearning, <strong>${fullnameDB}</strong>!</h1>`,
+            });
             res.status(201).send("Succesfully created");
         }
         catch (error) {
