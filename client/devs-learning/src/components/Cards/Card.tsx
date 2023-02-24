@@ -17,6 +17,9 @@ import { useState, useEffect } from "react";
 import { setItem } from "../../utils/localStorage";
 import { getCourses, addToCart } from "../../redux/courses/actions";
 import { Button } from "@mui/material";
+import axios from "axios";
+
+const BACK = process.env.REACT_APP_BASE_URL;
 
 export interface Course {
   categoria: number;
@@ -60,17 +63,24 @@ export const CardComponent = ({ card, index }: Props) => {
     navigate(`${PATH}`);
   };
 
+  const { email } = useAppSelector((state) => state.users);
+  const { cart } = useAppSelector((state) => state.courses);
+
   const [disabledBtn, setDisabledBtn] = useState<boolean>(false);
 
   const handleAddToCart = () => {
     dispatch(addToCart(card));
   };
 
-  const { cart } = useAppSelector((state) => state.courses);
-
   useEffect(() => {
     setDisabledBtn(cart.some((item) => item.id === card.id));
     setItem("cart", cart);
+
+    axios.put(`${BACK}/updateCart`, {
+      email: email,
+      cart: cart,
+      buy: false,
+    });
   }, [cart, card.id]);
 
   return (

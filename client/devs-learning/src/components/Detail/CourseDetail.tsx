@@ -85,11 +85,18 @@ const CourseDetail: React.FC = () => {
     dispatch(addToCart(TheCourse));
   };
 
+  const { email } = useAppSelector((state) => state.users);
   const { cart } = useAppSelector((state) => state.courses);
 
   React.useEffect(() => {
     setDisabledBtn(cart.some((item) => item.id === id));
     setItem("cart", cart);
+
+    axios.put(`${BACK}/updateCart`, {
+      email: email,
+      cart: cart,
+      buy: false,
+    });
   }, [cart, id]);
 
   useEffect(() => {
