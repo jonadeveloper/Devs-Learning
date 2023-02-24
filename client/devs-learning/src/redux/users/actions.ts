@@ -183,18 +183,13 @@ export const setFullName = (
   };
 };
 
-export const getBoughtCoursesNames = (
-  userEmail: any
-): ThunkAction<void, RootState, unknown, AnyAction> => {
+export const getBoughtCoursesNames = (userEmail: any) : ThunkAction<void, RootState, unknown, AnyAction> => {
   return async (dispatch) => {
-    const users = await axios
-      .get(`${REACT_APP_BASE_URL}/usersInfo`)
-      .then((response) => response.data);
-    console.log("usuarios:");
-    console.log(users);
-    const user = users.filter((us: any) => us.email === userEmail);
-    console.log("cursos");
-    console.log(user.courses);
-    return dispatch(reducer.setBoughtCourses(user.courses));
-  };
-};
+      const users = await axios.get(`${REACT_APP_BASE_URL}/usersInfo`).then((response)=> response.data);
+      console.log('usuarios:')
+      console.log(users)
+      const user = users.filter((us: any)=> {return us.email === userEmail.toString()});
+      console.log('user')
+      console.log(user[0]);
+      return dispatch(reducer.setBoughtCourses(user[0].courses))
+  }}
