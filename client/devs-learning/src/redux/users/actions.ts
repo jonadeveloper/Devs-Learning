@@ -59,24 +59,26 @@ export const loginUser = (
         password
       );
       if (userCredential !== null) {
-        axios.get(`${REACT_APP_BASE_URL}/banned?email=${email}`)
-          .then(
-            (response) => {
-              console.log(response);
-              if (!response.data) {
-                setAuth = "logged";
-                console.log(userCredential);
-                dispatch(reducer.signIn(setAuth));
-                Swal.fire("Logged in", "", "success");
-              }
-              else {
-                Swal.fire(`Error: You are banned, for more information contact support`, "", "error");
-              }
-            })
+        axios
+          .get(`${REACT_APP_BASE_URL}/banned?email=${email}`)
+          .then((response) => {
+            console.log(response);
+            if (!response.data) {
+              setAuth = "logged";
+              console.log(userCredential);
+              dispatch(reducer.signIn(setAuth));
+              Swal.fire("Logged in", "", "success");
+            } else {
+              Swal.fire(
+                `Error: You are banned, for more information contact support`,
+                "",
+                "error"
+              );
+            }
+          })
           .catch((error) => {
             Swal.fire(`Error: ${error}, try again`, "", "error");
-          })
-
+          });
       }
     } catch (error) {
       Swal.fire(`Error: ${error}, try again`, "", "error");
@@ -93,20 +95,25 @@ export const signInWithGoogle = (
       Swal.showLoading();
       if (userCredential !== null) {
         axios.post(`${REACT_APP_BASE_URL}/fake`, userCredential.user);
-        axios.get(`${REACT_APP_BASE_URL}/banned?email=${userCredential.user.email}`)
-          .then(
-            (response) => {
-              console.log(response);
-              if (!response.data) {
-                Swal.hideLoading();
-                setAuth = "logged";
-                dispatch(reducer.signIn(setAuth));
-                Swal.fire("Logged in", "", "success");
-              }
-              else {
-                Swal.fire(`Error: You are banned, for more information contact support`, "", "error");
-              }
-            })
+        axios
+          .get(
+            `${REACT_APP_BASE_URL}/banned?email=${userCredential.user.email}`
+          )
+          .then((response) => {
+            console.log(response);
+            if (!response.data) {
+              Swal.hideLoading();
+              setAuth = "logged";
+              dispatch(reducer.signIn(setAuth));
+              Swal.fire("Logged in", "", "success");
+            } else {
+              Swal.fire(
+                `Error: You are banned, for more information contact support`,
+                "",
+                "error"
+              );
+            }
+          });
       }
     } catch (error: any) {
       Swal.hideLoading();
@@ -176,19 +183,18 @@ export const setFullName = (
   };
 };
 
-export const getBoughtCoursesNames = (userEmail: any) : ThunkAction<void, RootState, unknown, AnyAction> => {
+export const getBoughtCoursesNames = (
+  userEmail: any
+): ThunkAction<void, RootState, unknown, AnyAction> => {
   return async (dispatch) => {
-      const users = await axios.get(`${REACT_APP_BASE_URL}/usersInfo`).then((response)=> response.data);
-      console.log('usuarios:')
-      console.log(users)
-      const user = users.filter((us: any)=> us.email === userEmail);
-      console.log('cursos')
-      console.log(user.courses);
-      return dispatch(reducer.setBoughtCourses(user.courses))
-  }}
-
-
-
-
-
-
+    const users = await axios
+      .get(`${REACT_APP_BASE_URL}/usersInfo`)
+      .then((response) => response.data);
+    console.log("usuarios:");
+    console.log(users);
+    const user = users.filter((us: any) => us.email === userEmail);
+    console.log("cursos");
+    console.log(user.courses);
+    return dispatch(reducer.setBoughtCourses(user.courses));
+  };
+};
