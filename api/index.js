@@ -4,8 +4,8 @@ const { postCourses, postCategories, postAdmin } = require("./postInfo.js");
 const dbCourses = require("./courses.json");
 const dbCategories = require("./categories.json");
 const dbAdmin = require("./admin.json");
-
-const PORT = 3001;
+const { DB_PORT } = process.env;
+const PORT = DB_PORT || 3001;
 
 conn.sync({ force: true }).then(() => {
   server.listen(PORT, () => {
@@ -16,8 +16,8 @@ conn.sync({ force: true }).then(() => {
     dbCourses.courses.map((course, index) => {
       return postCourses(course);
     });
-    dbAdmin.admin.map((user)=>{
+    dbAdmin.admin.map((user) => {
       return postAdmin(user);
-    })
+    });
   });
 });
