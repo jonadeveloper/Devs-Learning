@@ -4,6 +4,7 @@ import DoneIcon from "@mui/icons-material/Done";
 import ChatRoundedIcon from "@mui/icons-material/ChatRounded";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import Rating from "@mui/material/Rating";
 import { Box } from "@mui/system";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/hooksRedux";
@@ -18,6 +19,7 @@ const CourseComment: React.FC<CourseCommentProps> = ({ courseId, userId }) => {
 
   const [comment, setComment] = useState("");
   const [showInput, setShowInput] = useState(false);
+  const [value, setValue] = React.useState<number | null>(0);
 
   const handleButtonClick = () => {
     setShowInput(!showInput);
@@ -44,21 +46,31 @@ const CourseComment: React.FC<CourseCommentProps> = ({ courseId, userId }) => {
 
       {showInput && (
         <form onSubmit={handleSubmit}>
-          <Box display="flex">
-            <TextField
-              label={"write your comment"}
-              variant="outlined"
-              value={comment}
-              onChange={handleInputChange}
-              fullWidth
-              required
+          <Box display="flex" flexDirection="column" alignItems="center">
+            <Rating
+              name="simple-controlled"
+              value={value}
+              onChange={(event, newValue) => {
+                setValue(newValue);
+              }}
             />
-            <IconButton type="submit" color="primary">
-              <DoneIcon />
-            </IconButton>
-            <IconButton color="primary" onClick={handleButtonClick}>
-              <CloseIcon />
-            </IconButton>
+            <Box display="flex" mt={1}>
+              <TextField
+                label={"write your comment"}
+                variant="outlined"
+                value={comment}
+                onChange={handleInputChange}
+                fullWidth
+                required
+                multiline
+              />
+              <IconButton type="submit" color="primary">
+                <DoneIcon />
+              </IconButton>
+              <IconButton color="primary" onClick={handleButtonClick}>
+                <CloseIcon />
+              </IconButton>
+            </Box>
           </Box>
         </form>
       )}
