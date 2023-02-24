@@ -105,7 +105,6 @@ export default function BasicTable() {
   React.useEffect(() => {
     dispatch(getBoughtCoursesNames(userEmail));
     console.log(`cursos comprados por ${userFullname}`);
-
     console.log(CoursesNames);
     console.log(rows);
   }, []);
@@ -138,7 +137,6 @@ export default function BasicTable() {
               <TableCell align="right">{row.price}</TableCell>
               <TableCell align="center">
                 <Box display="flex" justifyContent="center" alignItems="center">
-                  <BasicRating courseId={row.name} userId={userEmail} />
                   <CourseComment courseId={row.name} userId={userEmail} />
                 </Box>
               </TableCell>
