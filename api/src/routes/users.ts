@@ -1,6 +1,11 @@
 import { Router } from "express";
 import { deleteCurrentUser } from "../routes/usersCRUD/deteleUser";
-import { fakeSignUp, recoverPassword, signUp, signUpDB } from "./usersCRUD/postUser";
+import {
+  fakeSignUp,
+  recoverPassword,
+  signUp,
+  signUpDB,
+} from "./usersCRUD/postUser";
 import {
   updateUserEmail,
   updateUserProfile,

@@ -32,13 +32,13 @@ export async function signUp(req: Request, res: Response) {
         fullname: fullnameDB,
         email: user.email,
         lastLogin: user.metadata.creationTime,
-        banned: false
+        banned: false,
       });
     }
 
-    await updateProfile(user, { displayName: fullname }).catch((err) =>
-      console.log(err)
-    );
+    await updateProfile(user, { displayName: fullname }).catch((err) => {
+      throw new Error(err);
+    });
 
     sendMail({
       from: "simon__navarrete@hotmail.com",
@@ -52,23 +52,23 @@ export async function signUp(req: Request, res: Response) {
   } catch (error: any) {
     const errorCode = error.code;
     const errorMessage = error.message;
-    console.log(errorMessage);
+
     res.status(404).send(`${errorCode}, ${errorMessage}`);
   }
-};
+}
 
-export async function signUpDB(req: Request, res: Response){
-  try{
+export async function signUpDB(req: Request, res: Response) {
+  try {
     const { id, fullname, email, rank } = req.body;
     const fullnameDB = fullname.split(" ").join("-").toLowerCase();
     await Users.create({
       id: id,
       fullname: fullnameDB,
       email: email,
-      rank: rank
+      rank: rank,
     });
-    return res.status(200).send("The user has been created")
-  }catch(err){
+    return res.status(200).send("The user has been created");
+  } catch (err) {
     return res.status(404).send(err);
   }
 }
@@ -88,7 +88,6 @@ export async function recoverPassword(req: Request, res: Response) {
 export async function fakeSignUp(req: Request, res: Response) {
   try {
     const { email, displayName, uid } = req.body;
-    console.log(email, displayName, uid);
     const userExists = await Users.findOne({
       where: { email: email },
     });
@@ -98,7 +97,7 @@ export async function fakeSignUp(req: Request, res: Response) {
         id: uid,
         fullname: fullnameDB,
         email: email,
-        banned: false
+        banned: false,
       });
     }
 
