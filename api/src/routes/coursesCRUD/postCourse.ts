@@ -35,6 +35,7 @@ export async function postCourse(req: any, res: any) {
       duration,
       instructor,
       price,
+      deleted: false
     });
     categoriesDB.forEach((el: any) => {
       courseCreated.addCategory(el);

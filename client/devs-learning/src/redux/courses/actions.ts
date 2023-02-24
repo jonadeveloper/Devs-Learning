@@ -32,6 +32,25 @@ export const getCourses = (): ThunkAction<
     });
   };
 };
+export const getCoursesByName = (
+  name: string
+): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return (dispatch) => {
+    dispatch(reducer.setLoading());
+    axios.get(`${BACK}/courses?name=${name}`).then((response) => {
+      response.data.map((course: any) => {
+        course.name = course.name.replaceAll("-", " ");
+        course.name = course.name[0].toUpperCase() + course.name.substring(1);
+        course.categories.map((category: any) => {
+          category.name = category.name.replaceAll("-", " ");
+          category.name =
+            category.name[0].toUpperCase() + category.name.substring(1);
+        });
+      });
+      dispatch(reducer.currentCourse(response.data[0]));
+    });
+  };
+};
 export const getCategories = (): ThunkAction<
   void,
   RootState,
@@ -68,6 +87,14 @@ export const searchCourses = (
         if (allcourses.length < 1) search = "";
       }
 
+      if (allcourses.length < 1) {
+        Swal.fire({
+          title: "Search not found",
+          text: "try another search",
+        });
+        search = "not Found";
+      }
+
       dispatch(reducer.searched({ allcourses, search }));
     } catch (error) {
       console.log("no se encontro el curso buscado, se muestran todos");
@@ -89,8 +116,6 @@ export const setCurrentCourse = (
 export const createCourseAction = (
   course: createCourse
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
-  // console.log(course);
-
   return (dispatch) => {
     dispatch(reducer.setLoading());
     axios
@@ -99,6 +124,26 @@ export const createCourseAction = (
         console.log(response);
         dispatch(reducer.createCourse());
         Swal.fire("Course created successfully!", "", "success");
+      })
+      .catch((err) => {
+        dispatch(reducer.createCourse());
+        Swal.fire("Something went wrong, please try again", "", "error");
+      });
+  };
+};
+export const editCourseAction = (
+  course: createCourse
+): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return (dispatch) => {
+    dispatch(reducer.setLoading());
+    axios
+      .put(BACK + "/courses", course)
+      .then((response) => {
+        console.log(response);
+        dispatch(reducer.createCourse());
+        Swal.fire("Course edited successfully!", "", "success").then(() => {
+          window.location.href = `/courseDetail/${course.name}`;
+        });
       })
       .catch((err) => {
         dispatch(reducer.createCourse());
@@ -181,6 +226,20 @@ export const setFiltered = (
 
     ///////////////////////////
 
+    //alert
+
+    if (filteredCourses.length < 1 && category !== "") {
+      Swal.fire({
+        title: "Search not found",
+        text: "try another search",
+      });
+      let search = "not Found";
+      let allcourses = filteredCourses;
+      dispatch(reducer.searched({ allcourses, search }));
+    }
+
+    /////////////////////////////////
+
     return dispatch(reducer.setFiltered(filteredCourses));
   };
 };
@@ -190,6 +249,7 @@ export const addToCart = (
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return (dispatch) => {
     console.log(card);
+
     return dispatch(reducer.addToCart(card));
   };
 };
@@ -200,5 +260,33 @@ export const removeToCart = (
   return (dispatch) => {
     console.log(card);
     return dispatch(reducer.removeToCart(card));
+  };
+};
+
+export const clearSearch = (): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  AnyAction
+> => {
+  return (dispatch) => {
+    return dispatch(reducer.clearSearched());
+  };
+};
+
+//// RATING
+export const AddRating = (
+  rating: any
+): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return (dispatch) => {
+    axios
+      .put(BACK + "/courses/putRating", rating)
+      .then((response) => {
+        console.log(response);
+        dispatch(reducer.addRating(rating));
+      })
+      .catch((err) => {
+        Swal.fire("Something went wrong, please try again", "", err);
+      });
   };
 };

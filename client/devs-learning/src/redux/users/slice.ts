@@ -9,19 +9,23 @@ const initialState: CreateUserInterface = {
   rank: 2,
   profileImg: "",
   status: "notLogged",
+  courses: [],
 };
 
 export const userSign = createSlice({
   name: "users",
   initialState,
   reducers: {
-    signUp: (state, { payload }) => {
-      state.status = "confirmed";
-    },
+    signUp: (state, { payload }) => {},
     signIn: (state, { payload }) => {
-      state.status = "logged";
+      state.status = payload;
     },
-    signWithG: (state) => {},
+    getUser: (state, { payload }) => {
+      state.status = payload;
+    },
+    changeEmail: (state) => {},
+    changePass: (state) => {},
+    recover: (state) => {},
     logOut: (state) => {
       state.fullname = "";
       state.password = "";
@@ -31,9 +35,14 @@ export const userSign = createSlice({
       state.profileImg = "";
       state.status = "notLogged";
     },
-    setLoading: (state) => {
-      state.status = "loading";
+
+    setFullName: (state, { payload }) => {
+      state.fullname = payload.name;
+      state.email = payload.email;
     },
+    setBoughtCourses: (state, {payload}) => {
+      state.courses = payload;
+    }
   },
 });
 

@@ -39,6 +39,13 @@ module.exports = (sequelize: any) => {
         price: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        rating: {
+            type: DataTypes.ARRAY(DataTypes.JSON),
+            defaultValue: []
+        },
+        deleted: {
+            type: DataTypes.BOOLEAN,
         }
     })
 }

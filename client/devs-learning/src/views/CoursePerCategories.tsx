@@ -1,5 +1,5 @@
 import { Box } from "@mui/system";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { CardList } from "../components/Cards/CardList";
 import { useAppDispatch, useAppSelector } from "../hooks/hooksRedux";
@@ -11,10 +11,18 @@ export const CoursePerCategories = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(
-      setFiltered("", courses, coursesFiltered, "", name ? name.toString() : "")
-    );
-  }, [name]);
+    if (coursesFiltered.length > 0) {
+      dispatch(
+        setFiltered(
+          "",
+          courses,
+          coursesFiltered,
+          "",
+          name ? name.toString() : ""
+        )
+      );
+    }
+  }, [name, courses]);
 
   return (
     <Box>

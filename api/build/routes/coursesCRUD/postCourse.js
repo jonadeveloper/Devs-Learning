@@ -38,6 +38,7 @@ function postCourse(req, res) {
                 duration,
                 instructor,
                 price,
+                deleted: false
             });
             categoriesDB.forEach((el) => {
                 courseCreated.addCategory(el);

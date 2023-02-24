@@ -1,21 +1,12 @@
 import React from "react";
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
-import { Link as ReactLink, NavLink } from "react-router-dom";
-
-import { Typography, Link, Button } from "@mui/material/";
+import { NavLink } from "react-router-dom";
+import { Typography } from "@mui/material/";
 import Fab from "@mui/material/Fab";
 import { Box } from "@mui/system";
 import Grid from "@mui/material/Grid";
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 
 const LandingPage: React.FC = () => {
-  /*     const AllCategories = useAppSelector((state)=> state.courses.categories);
-    
-    useEffect(()=> {
-        console.log(AllCategories)
-    }, []) */
-
   return (
     <Grid container direction="row" mt={3} bgcolor="#6DBAC6">
       <Grid
@@ -69,10 +60,6 @@ const LandingPage: React.FC = () => {
           </Box>
         </Box>
       </Grid>
-
-      {/* <Box> intenté que se rendericen las categorias pero me tira un error.
-            {AllCategories.map((categorie) => {return <Typography key={categorie} variant="caption"> {categorie} | </Typography>})}
-  </Box> */}
 
       <Grid
         item

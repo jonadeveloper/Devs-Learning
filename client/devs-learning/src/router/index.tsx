@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import CourseDetail from "../components/Detail/CourseDetail";
 import { Categories } from "../views/Categories";
@@ -13,16 +13,72 @@ import { PublicRoute } from "./PublicRoute";
 import { AuthRouter } from "./AuthRoute";
 import Footer from "../components/Footer/Footer";
 import LandingPage from "../components/Landing/LandingPage";
-import DashboardAdmin from "../components/Dashboards/DashboardAdmin";
-import Admin from "../components/Dashboards/NavBarAdmin"
-
+import DashboardAdmin from "../components/Dashboards/Admin/DashboardAdmin";
+import UserDashboard from "../components/Dashboards/UserDashboard";
+import { getUser, setFullName } from "../redux/users/actions";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getItem, setItem } from "../utils/localStorage";
+import { initializeApp } from "firebase/app";
+import { createMPButton } from "../components/meliButton/meliButton";
+import { SuccessPage } from "../components/Payment/SuccessPage";
+export var profileImg: string;
+export var userFullname: string;
+export var userEmail: string;
+export var userPhoneNumber: string;
+export var userLastLogin: any;
+const { REACT_APP_FIREBASE_CONFIG } = process.env;
 export const AppRouter = () => {
   const dispatch = useAppDispatch();
-  const { status } = useAppSelector((state) => state.users);
+  let { status } = useAppSelector((state) => state.users);
+  const firebaseConfig = JSON.parse(REACT_APP_FIREBASE_CONFIG!);
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      profileImg = user.photoURL!;
+      userFullname = user.displayName!;
+      userEmail = user.email!;
+      userPhoneNumber = user.phoneNumber!;
+      userLastLogin = user.metadata.lastSignInTime!;
+    } else {
+      //Do Something
+    }
+  });
+
   useEffect(() => {
+    dispatch(getUser(status));
     dispatch(getCourses());
     dispatch(getCategories());
   }, []);
+
+  useEffect(() => {
+    if (auth.currentUser) {
+      setItem("loggedUserInfo", auth.currentUser);
+
+      dispatch(
+        setFullName(auth.currentUser.displayName, auth.currentUser.email)
+      );
+    }
+  }, [status]);
+
+  //recover user info from local storage
+  useEffect(() => {
+    if (status == "logged") {
+      let userInfo = getItem("loggedUserInfo");
+      dispatch(setFullName(userInfo.displayName, userInfo.email));
+    }
+  }, [status]);
+  ///////////////////////
+
+  //MP button
+  const { cart } = useAppSelector((state) => state.courses);
+
+  useEffect(() => {
+    createMPButton(cart);
+  }, [cart]);
+
+  ///////////////////////////////////
 
   return (
     <div>
@@ -34,9 +90,8 @@ export const AppRouter = () => {
         <Route path={`/categories`} element={<Categories />} />
         <Route path={`/categories/:name`} element={<CoursePerCategories />} />
         <Route path={`/dash/Admin`} element={<DashboardAdmin />} />
-        <Route path={'/admin'} element={<Admin/>}/>
-        
-
+        <Route path={"/user"} element={<UserDashboard />} />
+        <Route path={"/payment/success"} element={<SuccessPage />} />
         <Route
           path={`/auth/*`}
           element={
@@ -49,7 +104,7 @@ export const AppRouter = () => {
           path={`/*`}
           element={
             <PrivateRoute isLoggedin={status}>
-              <LoggedRoutes />
+              <LoggedRoutes rol={"user"} />
             </PrivateRoute>
           }
         />

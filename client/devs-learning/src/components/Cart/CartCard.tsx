@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Card,
   CardActions,
@@ -10,8 +10,12 @@ import {
   Typography,
 } from "@mui/material";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import { useAppDispatch } from "../../hooks/hooksRedux";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 import { removeToCart } from "../../redux/courses/actions";
+import { Height } from "@mui/icons-material";
+import axios from "axios";
+
+const BACK = process.env.REACT_APP_BASE_URL;
 
 interface CardHorizntalComponentProps {
   id: string | number;
@@ -35,6 +39,7 @@ export interface CoursoBack {
   instructor: string;
   descriptionComplete: string;
   img: string;
+  rating: any;
 }
 
 interface Props {
@@ -48,15 +53,27 @@ export const CartCard = ({ card, index }: Props) => {
   const handleRemoveToCart = () => {
     dispatch(removeToCart(card));
   };
+
+  const { email } = useAppSelector((state) => state.users);
+  const { cart } = useAppSelector((state) => state.courses);
+
+  useEffect(() => {
+    axios.put(`${BACK}/updateCart`, {
+      email: email,
+      cart: cart,
+      buy: false,
+    });
+  }, [cart]);
+
   return (
-    <Card sx={{ display: "flex", my: 2 }}>
-      <CardMedia component="img" sx={{ width: 151 }} image={card.img} alt="Rick and Morty" />
+    <Card sx={{ display: "flex", my: 2, height: 150 }}>
+      <CardMedia component="img" sx={{ width: 171 }} image={card.img} alt="" />
       <Grid container sx={{ mx: 1 }}>
         <Grid item xs={9}>
           <CardContent>
-            <Typography variant="h4">{card.name}</Typography>
+            <Typography variant="h6">{card.name}</Typography>
             <Divider />
-            <Typography variant="h6">{card.description}</Typography>
+            <Typography variant="subtitle1">Price: {card.price}</Typography>
           </CardContent>
         </Grid>
         <Grid item xs={2}>

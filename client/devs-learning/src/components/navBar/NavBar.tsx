@@ -13,16 +13,16 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Stack from "@mui/material/Stack";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import { Badge } from "@mui/material";
+import { Badge, Link } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 import { CartComponent } from "../Cart/Cart";
 import { signOutAction } from "../../redux/users/actions";
+import { profileImg } from "../../router/index";
+import { setItem } from "../../utils/localStorage";
+import { createMPButton } from "../meliButton/meliButton";
 
-// import img from "./img.png";
-
-// const pages = ["Home", "Courses", "Categories"];
 const pages = [
   {
     name: "Courses",
@@ -36,7 +36,7 @@ const pages = [
 const settings = [
   {
     name: "Profile",
-    route: "/",
+    route: "/profile",
   },
   {
     name: "Create Course (Temp)",
@@ -81,8 +81,9 @@ function ResponsiveAppBar() {
     setAnchorElNav(null);
   };
   const handleLogout = () => {
-    handleCloseNavMenu()
+    handleCloseNavMenu();
     dispatch(signOutAction());
+    setItem("loggedUserInfo", undefined);
   };
 
   const handleCloseUserMenu = () => {
@@ -105,24 +106,22 @@ function ResponsiveAppBar() {
     navigate("/auth/signin");
   };
 
+  //MP button
+
+  React.useEffect(() => {
+    createMPButton(cart);
+  }, [open]);
+
+  ///////////////////////////////////
+
   return (
     <ThemeProvider theme={theme}>
       <AppBar position="fixed">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            {/* <img
-              src={`${img}?w=164&h=164&fit=crop&auto=format`}
-              srcSet={`${img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-              alt={""}
-              loading="lazy"
-            />
-            <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
-            {/* <Avatar alt="Remy Sharp" src={img} /> */}
             <Typography
               variant="h6"
               noWrap
-              component="a"
-              // href="/"
               sx={{
                 mr: 2,
                 display: { xs: "none", md: "flex" },
@@ -172,17 +171,14 @@ function ResponsiveAppBar() {
                     </NavLink>
                   </MenuItem>
                 ))}
-                <MenuItem key={"LoggOut"} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">Logout</Typography>
-                </MenuItem>
               </Menu>
             </Box>
-            {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} /> */}
-            <Typography
+
+            <Link
+              href="/"
               variant="h5"
               noWrap
               component="a"
-              // href=""
               sx={{
                 mr: 2,
                 display: { xs: "flex", md: "none" },
@@ -194,8 +190,8 @@ function ResponsiveAppBar() {
                 textDecoration: "none",
               }}
             >
-              <NavLink to="/">Devs </NavLink>
-            </Typography>
+              Devs
+            </Link>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page) => (
                 <Button
@@ -216,7 +212,6 @@ function ResponsiveAppBar() {
                   <ShoppingCartOutlinedIcon />
                 </Badge>
               </IconButton>
-              {/* <Button color="secondary" variant="text"></Button> */}
               <Button
                 onClick={handleLogin}
                 color="secondary"
@@ -237,12 +232,19 @@ function ResponsiveAppBar() {
             <Box
               sx={{
                 flexGrow: 0,
-                display: status != "logged" ? "none" : "block",
+                display: status !== "logged" ? "none" : "block",
               }}
             >
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar
+                    alt="ProfileImage"
+                    src={
+                      profileImg !== null
+                        ? profileImg
+                        : "/static/images/avatar/2.jpg"
+                    }
+                  />
                 </IconButton>
               </Tooltip>
               <Menu

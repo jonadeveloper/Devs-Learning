@@ -37,3 +37,20 @@ module.exports.postCategories = async function (category) {
       console.log(error);
     });
 }
+"/register"
+module.exports.postAdmin = async function (user) {
+  let userDB = {
+    id: user.id,
+    fullname: user.fullname,
+    email: user.email,
+    rank: user.rank
+  };
+  await axios
+    .post("http://localhost:3001/registerDB", userDB)
+    .then(function (response) {
+      //console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}

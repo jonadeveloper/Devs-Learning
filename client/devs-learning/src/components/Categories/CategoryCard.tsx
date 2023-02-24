@@ -37,7 +37,6 @@ export const CategoryCard = ({ category }: Props) => {
             alt={category.name}
             style={{
               width: "100%",
-              // height: "100%",
               objectFit: "cover",
               borderRadius: "16px 0 0 16px",
             }}
@@ -54,7 +53,7 @@ export const CategoryCard = ({ category }: Props) => {
           </Typography>
         </Grid>
       </Grid>
-      <Grid container xs={12} sx={{ display: { xs: "flex", md: "none" } }}>
+      <Grid container item xs={12} sx={{ display: { xs: "flex", md: "none" } }}>
         <Grid item xs={12} my={4}>
           {" "}
           -{" "}
