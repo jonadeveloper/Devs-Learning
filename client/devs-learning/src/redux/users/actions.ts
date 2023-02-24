@@ -12,12 +12,6 @@ import Swal from "sweetalert2";
 import { CreateUserInterface } from "../../interfaces/CreateUserInterface";
 import { RootState } from "../store";
 import { reducer } from "./slice";
-import {
-  userEmail,
-  userFullname,
-  userLastLogin,
-  userPhoneNumber,
-} from "../../router/index";
 
 export const { REACT_APP_BASE_URL, REACT_APP_FIREBASE_CONFIG } = process.env;
 const provider = new GoogleAuthProvider();
@@ -63,7 +57,7 @@ export const loginUser = (
           .then(
             (response) => {
               console.log(response);
-              if (!response.data) {
+              if (!response) {
                 setAuth = "logged";
                 console.log(userCredential);
                 dispatch(reducer.signIn(setAuth));
@@ -93,20 +87,10 @@ export const signInWithGoogle = (
       Swal.showLoading();
       if (userCredential !== null) {
         axios.post(`${REACT_APP_BASE_URL}/fake`, userCredential.user);
-        axios.get(`${REACT_APP_BASE_URL}/banned?email=${userCredential.user.email}`)
-          .then(
-            (response) => {
-              console.log(response);
-              if (!response.data) {
-                Swal.hideLoading();
-                setAuth = "logged";
-                dispatch(reducer.signIn(setAuth));
-                Swal.fire("Logged in", "", "success");
-              }
-              else {
-                Swal.fire(`Error: You are banned, for more information contact support`, "", "error");
-              }
-            })
+        Swal.hideLoading();
+        setAuth = "logged";
+        dispatch(reducer.signIn(setAuth));
+        Swal.fire("Logged in", "", "success");
       }
     } catch (error: any) {
       Swal.hideLoading();
@@ -181,10 +165,10 @@ export const getBoughtCoursesNames = (userEmail: any) : ThunkAction<void, RootSt
       const users = await axios.get(`${REACT_APP_BASE_URL}/usersInfo`).then((response)=> response.data);
       console.log('usuarios:')
       console.log(users)
-      const user = users.filter((us: any)=> us.email === userEmail);
-      console.log('cursos')
-      console.log(user.courses);
-      return dispatch(reducer.setBoughtCourses(user.courses))
+      const user = users.filter((us: any)=> {return us.email === userEmail.toString()});
+      console.log('user')
+      console.log(user[0]);
+      return dispatch(reducer.setBoughtCourses(user[0].courses))
   }}
 
 
