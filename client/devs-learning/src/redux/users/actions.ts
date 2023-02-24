@@ -52,24 +52,26 @@ export const loginUser = (
         password
       );
       if (userCredential !== null) {
-        axios.get(`${REACT_APP_BASE_URL}/banned?email=${email}`)
-          .then(
-            (response) => {
-              console.log(response);
-              if (!response) {
-                setAuth = "logged";
-                console.log(userCredential);
-                dispatch(reducer.signIn(setAuth));
-                Swal.fire("Logged in", "", "success");
-              }
-              else {
-                Swal.fire(`Error: You are banned, for more information contact support`, "", "error");
-              }
-            })
+        axios
+          .get(`${REACT_APP_BASE_URL}/banned?email=${email}`)
+          .then((response) => {
+            console.log(response);
+            if (!response.data) {
+              setAuth = "logged";
+              console.log(userCredential);
+              dispatch(reducer.signIn(setAuth));
+              Swal.fire("Logged in", "", "success");
+            } else {
+              Swal.fire(
+                `Error: You are banned, for more information contact support`,
+                "",
+                "error"
+              );
+            }
+          })
           .catch((error) => {
             Swal.fire(`Error: ${error}, try again`, "", "error");
-          })
-
+          });
       }
     } catch (error) {
       Swal.fire(`Error: ${error}, try again`, "", "error");

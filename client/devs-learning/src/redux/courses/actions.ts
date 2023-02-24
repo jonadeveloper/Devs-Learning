@@ -32,14 +32,11 @@ export const getCourses = (): ThunkAction<
     });
   };
 };
-export const getCoursesByName = (name: string): ThunkAction<
-  void,
-  RootState,
-  unknown,
-  AnyAction
-> => {
+export const getCoursesByName = (
+  name: string
+): ThunkAction<void, RootState, unknown, AnyAction> => {
   return (dispatch) => {
-    dispatch(reducer.setLoading())
+    dispatch(reducer.setLoading());
     axios.get(`${BACK}/courses?name=${name}`).then((response) => {
       response.data.map((course: any) => {
         course.name = course.name.replaceAll("-", " ");
@@ -144,10 +141,9 @@ export const editCourseAction = (
       .then((response) => {
         console.log(response);
         dispatch(reducer.createCourse());
-        Swal.fire("Course edited successfully!", "", "success")
-          .then(() => {
-            window.location.href = `/courseDetail/${course.name}`
-          });
+        Swal.fire("Course edited successfully!", "", "success").then(() => {
+          window.location.href = `/courseDetail/${course.name}`;
+        });
       })
       .catch((err) => {
         dispatch(reducer.createCourse());
@@ -253,6 +249,7 @@ export const addToCart = (
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return (dispatch) => {
     console.log(card);
+
     return dispatch(reducer.addToCart(card));
   };
 };

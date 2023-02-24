@@ -73,11 +73,10 @@ exports.updateUserEmail = updateUserEmail;
 function updateCart(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { fullname, cart, buy } = req.body;
-            let fullnameDB = fullname.split(" ").join("-").toLowerCase();
+            const { email, cart, buy } = req.body;
             let user = yield Users.findOne({
                 where: {
-                    fullname: fullnameDB,
+                    email: email,
                 },
                 include: {
                     model: Course,
@@ -103,7 +102,7 @@ function updateCart(req, res) {
                     cart: [],
                 }, {
                     where: {
-                        fullname: fullnameDB,
+                        email: email,
                     },
                 });
                 return res.status(200).send("The courses has been created");
@@ -113,12 +112,10 @@ function updateCart(req, res) {
                     cart: cart,
                 }, {
                     where: {
-                        fullname: fullnameDB,
+                        email: email,
                     },
                 });
-                return res
-                    .status(200)
-                    .send(`The cart of user ${fullname} has been updated`);
+                return res.status(200).send(`The cart of user ${email} has been updated`);
             }
         }
         catch (err) {

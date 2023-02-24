@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Card,
   CardActions,
@@ -10,9 +10,12 @@ import {
   Typography,
 } from "@mui/material";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import { useAppDispatch } from "../../hooks/hooksRedux";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 import { removeToCart } from "../../redux/courses/actions";
 import { Height } from "@mui/icons-material";
+import axios from "axios";
+
+const BACK = process.env.REACT_APP_BASE_URL;
 
 interface CardHorizntalComponentProps {
   id: string | number;
@@ -50,6 +53,18 @@ export const CartCard = ({ card, index }: Props) => {
   const handleRemoveToCart = () => {
     dispatch(removeToCart(card));
   };
+
+  const { email } = useAppSelector((state) => state.users);
+  const { cart } = useAppSelector((state) => state.courses);
+
+  useEffect(() => {
+    axios.put(`${BACK}/updateCart`, {
+      email: email,
+      cart: cart,
+      buy: false,
+    });
+  }, [cart]);
+
   return (
     <Card sx={{ display: "flex", my: 2, height: 150 }}>
       <CardMedia component="img" sx={{ width: 171 }} image={card.img} alt="" />
