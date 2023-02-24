@@ -1,8 +1,9 @@
 const server = require("./build/app.js");
 const { conn } = require("./build/db.js");
-const { postCourses, postCategories } = require("./postInfo.js");
+const { postCourses, postCategories, postAdmin } = require("./postInfo.js");
 const dbCourses = require("./courses.json");
 const dbCategories = require("./categories.json");
+const dbAdmin = require("./admin.json");
 
 const PORT = 3001;
 
@@ -15,5 +16,8 @@ conn.sync({ force: true }).then(() => {
     dbCourses.courses.map((course, index) => {
       return postCourses(course);
     });
+    dbAdmin.admin.map((user)=>{
+      return postAdmin(user);
+    })
   });
 });

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fakeSignUp = exports.recoverPassword = exports.signUp = void 0;
+exports.fakeSignUp = exports.recoverPassword = exports.signUpDB = exports.signUp = void 0;
 require("dotenv").config();
 const app_1 = require("firebase/app");
 const auth_1 = require("firebase/auth");
@@ -54,6 +54,26 @@ function signUp(req, res) {
     });
 }
 exports.signUp = signUp;
+;
+function signUpDB(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const { id, fullname, email, rank } = req.body;
+            const fullnameDB = fullname.split(" ").join("-").toLowerCase();
+            yield Users.create({
+                id: id,
+                fullname: fullnameDB,
+                email: email,
+                rank: rank
+            });
+            return res.status(200).send("The user has been created");
+        }
+        catch (err) {
+            return res.status(404).send(err);
+        }
+    });
+}
+exports.signUpDB = signUpDB;
 function recoverPassword(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {

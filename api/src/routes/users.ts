@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { deleteCurrentUser } from "../routes/usersCRUD/deteleUser";
-import { fakeSignUp, recoverPassword, signUp } from "./usersCRUD/postUser";
+import { fakeSignUp, recoverPassword, signUp, signUpDB } from "./usersCRUD/postUser";
 import {
   updateUserEmail,
   updateUserProfile,
@@ -14,6 +14,7 @@ import { getBanned } from "./usersCRUD/getBanned";
 const router = Router();
 
 router.post("/register", signUp);
+router.post("/registerDB", signUpDB);
 router.post("/fake", fakeSignUp);
 router.post("/recover", recoverPassword);
 router.put("/updateemail", updateUserEmail);

@@ -55,7 +55,24 @@ export async function signUp(req: Request, res: Response) {
     console.log(errorMessage);
     res.status(404).send(`${errorCode}, ${errorMessage}`);
   }
+};
+
+export async function signUpDB(req: Request, res: Response){
+  try{
+    const { id, fullname, email, rank } = req.body;
+    const fullnameDB = fullname.split(" ").join("-").toLowerCase();
+    await Users.create({
+      id: id,
+      fullname: fullnameDB,
+      email: email,
+      rank: rank
+    });
+    return res.status(200).send("The user has been created")
+  }catch(err){
+    return res.status(404).send(err);
+  }
 }
+
 export async function recoverPassword(req: Request, res: Response) {
   try {
     const { email } = req.body;
