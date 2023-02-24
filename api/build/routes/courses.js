@@ -13,5 +13,6 @@ router.post("/", postCourse_1.postCourse);
 router.put("/", putCourse_1.putCourse);
 router.put("/putRating", putCourse_1.putRating);
 router.put("/logicDelete", logicDeleteCourse_1.logicDeleteCourse);
+router.put("/logicRestore", logicDeleteCourse_1.logicRestoreCourse);
 router.delete("/:name", deleteCourse_1.deleteCourse);
 module.exports = router;
