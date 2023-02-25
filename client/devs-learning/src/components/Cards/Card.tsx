@@ -64,6 +64,7 @@ export const CardComponent = ({ card, index }: Props) => {
   };
 
   const { email } = useAppSelector((state) => state.users);
+  const { courses } = useAppSelector((state) => state.users);
   const { cart } = useAppSelector((state) => state.courses);
 
   const [disabledBtn, setDisabledBtn] = useState<boolean>(false);
@@ -73,7 +74,20 @@ export const CardComponent = ({ card, index }: Props) => {
   };
 
   useEffect(() => {
-    setDisabledBtn(cart.some((item) => item.id === card.id));
+    let disabled = false;
+
+    if (courses) {
+      if (
+        cart.some((item) => item.id === card.id) ||
+        courses.some((item) => item.name === card.name)
+      )
+        disabled = true;
+    } else {
+      if (cart.some((item) => item.id === card.id)) disabled = true;
+    }
+
+    setDisabledBtn(disabled);
+
     setItem("cart", cart);
 
     axios.put(`${BACK}/updateCart`, {

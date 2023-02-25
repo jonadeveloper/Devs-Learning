@@ -3,19 +3,26 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 import axios from "axios";
+import { REACT_APP_BASE_URL } from "../../redux/users/actions";
+import { clearCart } from "../../redux/courses/actions";
 
 export const SuccessPage = () => {
   const { email } = useAppSelector((state) => state.users);
   const { cart } = useAppSelector((state) => state.courses);
+  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    axios.put("/updateCart", {
+  const clearCartDB = async () => {
+    await axios.put(`${REACT_APP_BASE_URL}/updateCart`, {
       email: email,
       cart: cart,
       buy: true,
     });
-  }, []);
+    dispatch(clearCart());
+  };
 
+  useEffect(() => {
+    clearCartDB();
+  }, [email]);
   return (
     <Box
       sx={{

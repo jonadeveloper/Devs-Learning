@@ -188,6 +188,10 @@ export const getBoughtCoursesNames = (
     const user = users.filter((us: any) => {
       return us.email === userEmail.toString();
     });
+    user[0].courses.map((course: any) => {
+      course.name = course.name.replaceAll("-", " ");
+      course.name = course.name[0].toUpperCase() + course.name.substring(1);
+    });
 
     return dispatch(reducer.setBoughtCourses(user[0].courses));
   };

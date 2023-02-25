@@ -86,10 +86,29 @@ const CourseDetail: React.FC = () => {
   };
 
   const { email } = useAppSelector((state) => state.users);
-  const { cart } = useAppSelector((state) => state.courses);
+  const { courses } = useAppSelector((state) => state.users);
+  const { cart, currentCourse } = useAppSelector((state) => state.courses);
 
   React.useEffect(() => {
-    setDisabledBtn(cart.some((item) => item.id === id));
+    // setDisabledBtn(cart.some((item) => item.id === id));
+
+    // if (courses && disabledBtn) {
+    //   setDisabledBtn(courses.some((item) => item.name === currentCourse.name));
+    // }
+    let disabled = false;
+
+    if (courses) {
+      if (
+        cart.some((item) => item.id === currentCourse.id) ||
+        courses.some((item) => item.name === currentCourse.name)
+      )
+        disabled = true;
+    } else {
+      if (cart.some((item) => item.id === currentCourse.id)) disabled = true;
+    }
+
+    setDisabledBtn(disabled);
+
     setItem("cart", cart);
 
     axios.put(`${BACK}/updateCart`, {

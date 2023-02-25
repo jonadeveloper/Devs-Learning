@@ -104,6 +104,10 @@ export const courses = createSlice({
     addRating: (state, { payload }) => {
       state.currentCourse.rating = [state.currentCourse.rating, payload];
     },
+
+    clearCart: (state) => {
+      state.cart = [];
+    },
   },
 });
 
