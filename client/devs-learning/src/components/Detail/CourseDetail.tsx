@@ -90,11 +90,24 @@ const CourseDetail: React.FC = () => {
   const { cart, currentCourse } = useAppSelector((state) => state.courses);
 
   React.useEffect(() => {
-    setDisabledBtn(cart.some((item) => item.id === id));
+    // setDisabledBtn(cart.some((item) => item.id === id));
+
+    // if (courses && disabledBtn) {
+    //   setDisabledBtn(courses.some((item) => item.name === currentCourse.name));
+    // }
+    let disabled = false;
 
     if (courses) {
-      setDisabledBtn(courses.some((item) => item.name === currentCourse.name));
+      if (
+        cart.some((item) => item.id === currentCourse.id) ||
+        courses.some((item) => item.name === currentCourse.name)
+      )
+        disabled = true;
+    } else {
+      if (cart.some((item) => item.id === currentCourse.id)) disabled = true;
     }
+
+    setDisabledBtn(disabled);
 
     setItem("cart", cart);
 

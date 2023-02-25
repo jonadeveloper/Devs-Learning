@@ -74,10 +74,20 @@ export const CardComponent = ({ card, index }: Props) => {
   };
 
   useEffect(() => {
-    setDisabledBtn(cart.some((item) => item.id === card.id));
+    let disabled = false;
+
     if (courses) {
-      setDisabledBtn(courses.some((item) => item.name === card.name));
+      if (
+        cart.some((item) => item.id === card.id) ||
+        courses.some((item) => item.name === card.name)
+      )
+        disabled = true;
+    } else {
+      if (cart.some((item) => item.id === card.id)) disabled = true;
     }
+
+    setDisabledBtn(disabled);
+
     setItem("cart", cart);
 
     axios.put(`${BACK}/updateCart`, {
