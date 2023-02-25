@@ -34,15 +34,16 @@ export const userSign = createSlice({
       state.rank = 2;
       state.profileImg = "";
       state.status = "notLogged";
+      state.courses = [];
     },
 
     setFullName: (state, { payload }) => {
       state.fullname = payload.name;
       state.email = payload.email;
     },
-    setBoughtCourses: (state, {payload}) => {
+    setBoughtCourses: (state, { payload }) => {
       state.courses = payload;
-    }
+    },
   },
 });
 

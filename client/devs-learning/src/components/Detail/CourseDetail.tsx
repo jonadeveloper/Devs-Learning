@@ -87,14 +87,10 @@ const CourseDetail: React.FC = () => {
 
   const { email } = useAppSelector((state) => state.users);
   const { courses } = useAppSelector((state) => state.users);
+  const { status } = useAppSelector((state) => state.users);
   const { cart, currentCourse } = useAppSelector((state) => state.courses);
 
   React.useEffect(() => {
-    // setDisabledBtn(cart.some((item) => item.id === id));
-
-    // if (courses && disabledBtn) {
-    //   setDisabledBtn(courses.some((item) => item.name === currentCourse.name));
-    // }
     let disabled = false;
 
     if (courses) {
@@ -116,7 +112,7 @@ const CourseDetail: React.FC = () => {
       cart: cart,
       buy: false,
     });
-  }, [cart, id]);
+  }, [cart, id, status]);
 
   useEffect(() => {
     InfoKeeper();

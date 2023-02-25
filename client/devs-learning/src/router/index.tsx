@@ -6,7 +6,11 @@ import { Home } from "../views/Home";
 import NavBar from "../components/navBar/NavBar";
 import { CoursePerCategories } from "../views/CoursePerCategories";
 import { useAppDispatch, useAppSelector } from "../hooks/hooksRedux";
-import { getCategories, getCourses } from "../redux/courses/actions";
+import {
+  clearBoughtCart,
+  getCategories,
+  getCourses,
+} from "../redux/courses/actions";
 import { PrivateRoute } from "./PrivateRoute";
 import { LoggedRoutes } from "./LoggedRoutes";
 import { PublicRoute } from "./PublicRoute";
@@ -67,6 +71,12 @@ export const AppRouter = () => {
       dispatch(getBoughtCoursesNames(auth.currentUser.email));
     }
   }, [status]);
+
+  const { courses } = useAppSelector((state) => state.users);
+
+  useEffect(() => {
+    dispatch(clearBoughtCart(cart, courses));
+  }, [courses]);
 
   //recover user info from local storage
   useEffect(() => {
