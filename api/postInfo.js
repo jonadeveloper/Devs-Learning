@@ -1,5 +1,5 @@
 const axios = require("axios");
-
+const { DB_PORT } = process.env;
 module.exports.postCourses = async function (course) {
   let courseDB = {
     name: course.name,
@@ -13,7 +13,7 @@ module.exports.postCourses = async function (course) {
     category: course.category,
   };
   await axios
-    .post("http://localhost:3001/courses", courseDB)
+    .post(`http://localhost:${DB_PORT}/courses`, courseDB)
     .then(function (response) {
       //console.log(response);
     })
@@ -26,31 +26,31 @@ module.exports.postCategories = async function (category) {
   let categoryDB = {
     name: category.name,
     img: category.img,
-    description: category.description
+    description: category.description,
   };
   await axios
-    .post("http://localhost:3001/categories", categoryDB)
+    .post(`http://localhost:${DB_PORT}/categories`, categoryDB)
     .then(function (response) {
       //console.log(response);
     })
     .catch(function (error) {
       console.log(error);
     });
-}
-"/register"
+};
+("/register");
 module.exports.postAdmin = async function (user) {
   let userDB = {
     id: user.id,
     fullname: user.fullname,
     email: user.email,
-    rank: user.rank
+    rank: user.rank,
   };
   await axios
-    .post("http://localhost:3001/registerDB", userDB)
+    .post(`http://localhost:${DB_PORT}/registerDB`, userDB)
     .then(function (response) {
       //console.log(response);
     })
     .catch(function (error) {
       console.log(error);
     });
-}
+};
