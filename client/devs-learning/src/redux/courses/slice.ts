@@ -108,6 +108,10 @@ export const courses = createSlice({
     clearCart: (state) => {
       state.cart = [];
     },
+
+    filterBoughtCart: (state, { payload }) => {
+      state.cart = payload;
+    },
   },
 });
 
