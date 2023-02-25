@@ -15,7 +15,11 @@ import Footer from "../components/Footer/Footer";
 import LandingPage from "../components/Landing/LandingPage";
 import DashboardAdmin from "../components/Dashboards/Admin/DashboardAdmin";
 import UserDashboard from "../components/Dashboards/UserDashboard";
-import { getUser, setFullName } from "../redux/users/actions";
+import {
+  getBoughtCoursesNames,
+  getUser,
+  setFullName,
+} from "../redux/users/actions";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getItem, setItem } from "../utils/localStorage";
 import { initializeApp } from "firebase/app";
@@ -59,6 +63,8 @@ export const AppRouter = () => {
       dispatch(
         setFullName(auth.currentUser.displayName, auth.currentUser.email)
       );
+
+      dispatch(getBoughtCoursesNames(auth.currentUser.email));
     }
   }, [status]);
 
@@ -67,6 +73,8 @@ export const AppRouter = () => {
     if (status == "logged") {
       let userInfo = getItem("loggedUserInfo");
       dispatch(setFullName(userInfo.displayName, userInfo.email));
+
+      dispatch(getBoughtCoursesNames(userInfo.email));
     }
   }, [status]);
   ///////////////////////

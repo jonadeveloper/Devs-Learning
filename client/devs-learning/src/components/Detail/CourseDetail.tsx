@@ -86,10 +86,16 @@ const CourseDetail: React.FC = () => {
   };
 
   const { email } = useAppSelector((state) => state.users);
-  const { cart } = useAppSelector((state) => state.courses);
+  const { courses } = useAppSelector((state) => state.users);
+  const { cart, currentCourse } = useAppSelector((state) => state.courses);
 
   React.useEffect(() => {
     setDisabledBtn(cart.some((item) => item.id === id));
+
+    if (courses) {
+      setDisabledBtn(courses.some((item) => item.name === currentCourse.name));
+    }
+
     setItem("cart", cart);
 
     axios.put(`${BACK}/updateCart`, {

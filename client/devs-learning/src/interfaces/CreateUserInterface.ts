@@ -10,7 +10,7 @@ export interface CreateUserInterface {
   rpassword: string;
   email: string;
   profileImg?: string;
-  courses?: Array<unknown>;
+  courses?: { name: string }[];
   rank?: Ranks;
   country?: string;
   status?: string;
