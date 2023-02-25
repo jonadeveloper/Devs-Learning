@@ -12,7 +12,8 @@ import { getCourses } from "../../../redux/courses/actions";
 
 const CoursesPanel: React.FC = () => {
 
-  const { courses } = useAppSelector((state) => state.courses);
+  const allCourses = useAppSelector((state) => state.courses);
+  console.log(allCourses)
 
   interface RowData{
     name: string,
@@ -22,7 +23,7 @@ const CoursesPanel: React.FC = () => {
     price: string,
     instructor: string
   }
-  //const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
 const initialData : RowData []= 
 
@@ -33,9 +34,24 @@ const initialData : RowData []=
     "duration":"20",
     "instructor":"Simon Navarrete",
     "price":"2900"
-}]
-;
-
+},
+{
+  "name":"Analysis and design with SQL server 2019",
+  "level": "intermediate",
+  "description":"Master complex SQL queries and boost your DBA profile. Develop programs from scratch applying the most advanced Transact-SQL features.",
+  "duration":"20",
+  "instructor":"Simon Navarrete",
+  "price":"2900"
+},
+{
+  "name":"Analysis and design with SQL server 2019",
+  "level": "intermediate",
+  "description":"Master complex SQL queries and boost your DBA profile. Develop programs from scratch applying the most advanced Transact-SQL features.",
+  "duration":"20",
+  "instructor":"Simon Navarrete",
+  "price":"2900"
+}
+];
 
 const columns: MUIDataTableColumn[] = [
   {
@@ -70,11 +86,11 @@ const columns: MUIDataTableColumn[] = [
         const rowIndex = tableMeta.rowIndex;
         return (
           <>
-            <Button variant="outlined" onClick={() => handleEdit(rowIndex)}>
-              <EditIcon />
+            <Button variant="contained" color={"inherit"} size={"small"} onClick={() => handleEdit(rowIndex)}>
+              <EditIcon /> 
             </Button>
-            <Button variant="outlined" onClick={() => handleDelete(rowIndex)}>
-              <DeleteIcon />
+            <Button variant="contained" color={"error"} size={"small"} onClick={() => handleDelete(rowIndex)}>
+              <DeleteIcon /> 
             </Button>
           </>
         );
@@ -109,7 +125,9 @@ const columns: MUIDataTableColumn[] = [
   
   
 
-  useEffect(() => {});
+  useEffect(() => {
+    dispatch(getCourses())
+  },[dispatch]);
   return (
     <Grid container xs={12}>
       <Box width="100%">
