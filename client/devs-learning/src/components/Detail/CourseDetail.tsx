@@ -87,6 +87,7 @@ const CourseDetail: React.FC = () => {
 
   const { email } = useAppSelector((state) => state.users);
   const { courses } = useAppSelector((state) => state.users);
+  const { status } = useAppSelector((state) => state.users);
   const { cart, currentCourse } = useAppSelector((state) => state.courses);
 
   React.useEffect(() => {
@@ -116,7 +117,7 @@ const CourseDetail: React.FC = () => {
       cart: cart,
       buy: false,
     });
-  }, [cart, id]);
+  }, [cart, id, status]);
 
   useEffect(() => {
     InfoKeeper();

@@ -65,6 +65,7 @@ export const CardComponent = ({ card, index }: Props) => {
 
   const { email } = useAppSelector((state) => state.users);
   const { courses } = useAppSelector((state) => state.users);
+  const { status } = useAppSelector((state) => state.users);
   const { cart } = useAppSelector((state) => state.courses);
 
   const [disabledBtn, setDisabledBtn] = useState<boolean>(false);
@@ -95,7 +96,7 @@ export const CardComponent = ({ card, index }: Props) => {
       cart: cart,
       buy: false,
     });
-  }, [cart, card.id]);
+  }, [cart, card.id, status]);
 
   return (
     <Grid key={index} item xl={3} lg={4} sx={{ display: "flex" }}>
