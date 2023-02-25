@@ -73,7 +73,7 @@ const UserDashboard: React.FC = () => {
   return (
     <Grid container bgcolor="#C5DCE4" spacing={2}>
       <Grid item xs={12} mt={10}></Grid>
-      <Grid item xs={12} md={6} lg={4} xl={3} display="flex">
+      <Grid item xs={12} md={12} lg={3} xl={3} display="flex">
         <Box
           width="100%"
           display="flex"
@@ -182,15 +182,7 @@ const UserDashboard: React.FC = () => {
           </Box>
         </Box>
       </Grid>
-      <Grid
-        item
-        xs={12}
-        md={6}
-        lg={8}
-        xl={9}
-        display="flex"
-        flexDirection="column"
-      >
+      <Grid item xs={12} md={12} lg={9} display="flex" flexDirection="column">
         <Box
           height="100%"
           p={2}
