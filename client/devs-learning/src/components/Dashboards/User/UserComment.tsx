@@ -20,14 +20,19 @@ interface CourseCommentProps {
 const CourseComment: React.FC<CourseCommentProps> = ({ course, userId }) => {
   const dispatch = useAppDispatch();
   const currentCourse = useAppSelector((state) => state.courses.currentCourse);
-
-  //getCommentIfExists.
-  const getCommentIfExists = async () => {};
-
   const [comment, setComment] = useState("");
   const [value, setValue] = React.useState<number | null>(0);
 
-  var RATING = {
+  /*   const [rating, setRating] = useState({
+    nameCourse: course.name,
+    rating: {
+      rating: 0,
+      comment: "",
+      user: userId,
+    },
+  }); */
+
+  let RATING = {
     nameCourse: course.name,
     rating: {
       rating: value,
@@ -36,9 +41,22 @@ const CourseComment: React.FC<CourseCommentProps> = ({ course, userId }) => {
     },
   };
 
+  //getCommentIfExists.
+  const getCommentIfExists = async () => {
+    const existingRating = course.rating.filter(
+      (rat: any) => (rat.rating.user = userId)
+    );
+    if (existingRating) {
+      setComment(existingRating.rating.comment);
+      setValue(existingRating.rating.rating);
+      console.log(existingRating);
+    }
+  };
+
   const [showInput, setShowInput] = useState(false);
 
   const handleButtonClick = () => {
+    getCommentIfExists();
     if (!showInput) {
       dispatch(setCurrentCourse(course));
       console.log("Curso Actual");
@@ -63,6 +81,12 @@ const CourseComment: React.FC<CourseCommentProps> = ({ course, userId }) => {
     console.log(currentCourse.rating);
     setShowInput(false);
   };
+
+  useEffect(() => {
+    if (currentCourse.name !== course.name) {
+      setShowInput(false);
+    }
+  });
 
   return (
     <div>
