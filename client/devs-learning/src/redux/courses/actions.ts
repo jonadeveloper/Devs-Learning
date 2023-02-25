@@ -274,6 +274,17 @@ export const clearSearch = (): ThunkAction<
   };
 };
 
+export const clearCart = (): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  AnyAction
+> => {
+  return (dispatch) => {
+    return dispatch(reducer.clearCart());
+  };
+};
+
 //// RATING
 export const AddRating = (
   rating: any
