@@ -137,7 +137,7 @@ export default function BasicTable() {
               <TableCell align="right">{row.price}</TableCell>
               <TableCell align="center">
                 <Box display="flex" justifyContent="center" alignItems="center">
-                  <CourseComment courseId={row.name} userId={userEmail} />
+                  <CourseComment course={row} userId={userEmail} />
                 </Box>
               </TableCell>
             </TableRow>
