@@ -8,31 +8,59 @@ import Rating from "@mui/material/Rating";
 import { Box } from "@mui/system";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/hooksRedux";
+import { CoursoBack } from "../../Cards/Card";
+import { setCurrentCourse } from "../../../redux/courses/actions";
+import { AddRating } from "../../../redux/courses/actions";
 
 interface CourseCommentProps {
-  courseId: string;
+  course: CoursoBack;
   userId: any;
 }
 
-const CourseComment: React.FC<CourseCommentProps> = ({ courseId, userId }) => {
+const CourseComment: React.FC<CourseCommentProps> = ({ course, userId }) => {
+  const dispatch = useAppDispatch();
+  const currentCourse = useAppSelector((state) => state.courses.currentCourse);
+
   //getCommentIfExists.
+  const getCommentIfExists = async () => {};
 
   const [comment, setComment] = useState("");
-  const [showInput, setShowInput] = useState(false);
   const [value, setValue] = React.useState<number | null>(0);
 
+  var RATING = {
+    nameCourse: course.name,
+    rating: {
+      rating: value,
+      comment: comment,
+      user: userId,
+    },
+  };
+
+  const [showInput, setShowInput] = useState(false);
+
   const handleButtonClick = () => {
+    if (!showInput) {
+      dispatch(setCurrentCourse(course));
+      console.log("Curso Actual");
+      console.log(currentCourse);
+    }
+
     setShowInput(!showInput);
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setComment(event.target.value);
+
+    console.log(comment);
+    console.log(RATING);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // Aquí podrías enviar el comentario a tu backend o hacer lo que necesites
-    setComment("");
+    dispatch(AddRating(RATING));
+    console.log("Nuevo rating");
+    console.log(currentCourse.rating);
     setShowInput(false);
   };
 
@@ -52,6 +80,8 @@ const CourseComment: React.FC<CourseCommentProps> = ({ courseId, userId }) => {
               value={value}
               onChange={(event, newValue) => {
                 setValue(newValue);
+                console.log(RATING);
+                console.log(value + ", " + newValue);
               }}
             />
             <Box display="flex" mt={1}>
