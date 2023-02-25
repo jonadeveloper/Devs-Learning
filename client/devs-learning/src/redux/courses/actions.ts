@@ -5,11 +5,8 @@ import { CoursoBack } from "../../components/Cards/Card";
 import { createCourse } from "../../interfaces/Course";
 import { RootState } from "../store";
 import { reducer } from "./slice";
-
-const BACK =
-  process.env.NODE_ENV === "production"
-    ? "http://181.127.189.247:3001"
-    : "http://localhost:3001";
+const { REACT_APP_PROD_URL, REACT_APP_BASE_URL } = process.env;
+const BACK = REACT_APP_BASE_URL || REACT_APP_PROD_URL;
 
 export const getCourses = (): ThunkAction<
   void,
