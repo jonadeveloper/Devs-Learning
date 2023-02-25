@@ -5,7 +5,7 @@ const dbCourses = require("./courses.json");
 const dbCategories = require("./categories.json");
 const dbAdmin = require("./admin.json");
 const { DB_PORT } = process.env;
-const PORT = DB_PORT || 3001;
+const PORT = DB_PORT || 5432;
 
 conn.sync({ force: true }).then(() => {
   server.listen(PORT, () => {
