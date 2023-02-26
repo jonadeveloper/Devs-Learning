@@ -63,11 +63,10 @@ export async function updateUserEmail(req: Request, res: Response) {
 
 export async function updateCart(req: Request, res: Response) {
   try {
-    const { fullname, cart, buy } = req.body;
-    let fullnameDB = fullname.split(" ").join("-").toLowerCase();
+    const { email, cart, buy } = req.body;
     let user = await Users.findOne({
       where: {
-        fullname: fullnameDB,
+        email: email,
       },
       include: {
         model: Course,
@@ -95,7 +94,7 @@ export async function updateCart(req: Request, res: Response) {
         },
         {
           where: {
-            fullname: fullnameDB,
+            email: email,
           },
         }
       );
@@ -107,13 +106,11 @@ export async function updateCart(req: Request, res: Response) {
         },
         {
           where: {
-            fullname: fullnameDB,
+            email: email,
           },
         }
       );
-      return res
-        .status(200)
-        .send(`The cart of user ${fullname} has been updated`);
+      return res.status(200).send(`The cart of user ${email} has been updated`);
     }
   } catch (err) {
     return res.status(404).send(err);

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fakeSignUp = exports.recoverPassword = exports.signUp = void 0;
+exports.fakeSignUp = exports.recoverPassword = exports.signUpDB = exports.signUp = void 0;
 require("dotenv").config();
 const app_1 = require("firebase/app");
 const auth_1 = require("firebase/auth");
@@ -32,10 +32,12 @@ function signUp(req, res) {
                     fullname: fullnameDB,
                     email: user.email,
                     lastLogin: user.metadata.creationTime,
-                    banned: false
+                    banned: false,
                 });
             }
-            yield (0, auth_1.updateProfile)(user, { displayName: fullname }).catch((err) => console.log(err));
+            yield (0, auth_1.updateProfile)(user, { displayName: fullname }).catch((err) => {
+                throw new Error(err);
+            });
             (0, sendMail_1.sendMail)({
                 from: "simon__navarrete@hotmail.com",
                 subject: "Registro Exitoso! Bienvenido a DevsLearning",
@@ -48,12 +50,30 @@ function signUp(req, res) {
         catch (error) {
             const errorCode = error.code;
             const errorMessage = error.message;
-            console.log(errorMessage);
             res.status(404).send(`${errorCode}, ${errorMessage}`);
         }
     });
 }
 exports.signUp = signUp;
+function signUpDB(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const { id, fullname, email, rank } = req.body;
+            const fullnameDB = fullname.split(" ").join("-").toLowerCase();
+            yield Users.create({
+                id: id,
+                fullname: fullnameDB,
+                email: email,
+                rank: rank,
+            });
+            return res.status(200).send("The user has been created");
+        }
+        catch (err) {
+            return res.status(404).send(err);
+        }
+    });
+}
+exports.signUpDB = signUpDB;
 function recoverPassword(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -73,30 +93,31 @@ function fakeSignUp(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { email, displayName, uid } = req.body;
-            console.log(email, displayName, uid);
             const userExists = yield Users.findOne({
-                where: { email: email },
+                where: { id: uid },
             });
             const fullnameDB = displayName.split(" ").join("-").toLowerCase();
-            if (userExists === null) {
+            if (!userExists) {
                 yield Users.create({
                     id: uid,
                     fullname: fullnameDB,
                     email: email,
-                    banned: false
+                    banned: false,
                 });
+                (0, sendMail_1.sendMail)({
+                    from: "simon__navarrete@hotmail.com",
+                    subject: "Registro Exitoso! Bienvenido a DevsLearning",
+                    text: "Bienvenido!",
+                    to: email,
+                    html: `<h1>Bienvenido a Devslearning, <strong>${fullnameDB}</strong>!</h1>`,
+                });
+                return res.status(201).send("Succesfully created");
             }
-            (0, sendMail_1.sendMail)({
-                from: "simon__navarrete@hotmail.com",
-                subject: "Registro Exitoso! Bienvenido a DevsLearning",
-                text: "Bienvenido!",
-                to: email,
-                html: `<h1>Bienvenido a Devslearning, <strong>${fullnameDB}</strong>!</h1>`,
-            });
-            res.status(201).send("Succesfully created");
+            return res.status(201).send("Succesfully login");
         }
         catch (error) {
-            res.status(400).send(error);
+            console.log(error);
+            return res.status(400).send(error);
         }
     });
 }

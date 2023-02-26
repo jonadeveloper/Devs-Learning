@@ -17,6 +17,7 @@ import DoneIcon from "@mui/icons-material/Done";
 import CourseComment from "./UserComment";
 import BasicRating from "./UserRating";
 import { getBoughtCoursesNames } from "../../../redux/users/actions";
+import { getCoursesByName } from "../../../redux/courses/actions";
 import { useAppDispatch, useAppSelector } from "../../../hooks/hooksRedux";
 
 import {
@@ -26,9 +27,18 @@ import {
   userPhoneNumber,
 } from "../../../router/index";
 
-export interface Comment {
-  id: string;
+export interface CourseNames {
+  name: string;
+}
+export interface RatingContent {
+  rating: string;
   comment: string;
+  user: any;
+}
+
+export interface Rating {
+  nameCourse: string;
+  rating: RatingContent;
 }
 
 export interface Category {
@@ -46,59 +56,51 @@ export interface BoughtCourse {
   instructor: string;
   descriptionComplete: string;
   img: string;
-  rating: number;
-  comments: Comment[];
+  rating: Rating[];
 }
 
 const BoughtCourse1: BoughtCourse = {
-  categories: [{ name: "Front-end" }, { name: "Back-end" }],
+  categories: [],
   description: "",
   id: "1",
-  level: "intermediate",
-  name: "FullStack Course",
-  price: 12000,
-  duration: 24,
-  instructor: "Henry",
+  level: "",
+  name: "No has comprado ningún curso aún",
+  price: 0,
+  duration: 0,
+  instructor: "",
   descriptionComplete: "",
   img: "",
-  rating: 0,
-  comments: [],
+  rating: [],
 };
-
-function createData(
-  name: string,
-  level: string,
-  duration: number,
-  instructor: string,
-  price: number
-) {
-  return { name, level, duration, instructor, price };
-}
-
-const rows = [
-  createData(
-    BoughtCourse1.name,
-    BoughtCourse1.level,
-    BoughtCourse1.duration,
-    BoughtCourse1.instructor,
-    BoughtCourse1.price
-  ),
-  createData("Curso 2", "beginner", 5, "Fran", 2750),
-  createData("Curso 3", "intermediate", 14, "Jonathan", 12000),
-];
 
 export default function BasicTable() {
   const dispatch = useAppDispatch();
-  const CoursesName = useAppSelector((state) => state.users.courses);
+  const CoursesNames = useAppSelector((state) => state.users.courses);
+  console.log("Courses Names");
+  console.log(CoursesNames);
+  const AllCourses = useAppSelector((state) => state.courses.courses);
 
-  const [value, setValue] = React.useState<number | null>(2);
-  const [comment, setComment] = useState("");
+  let CoursesByName: any = [];
+
+  if (CoursesNames && CoursesNames.length > 0) {
+    CoursesByName = AllCourses.filter((course) => {
+      // const newName = course.name.toLowerCase().split(" ");
+      // const newNameWithLine = newName.join("-");
+      for (let i = 0; i < CoursesNames.length; i++) {
+        const element: any = CoursesNames[i];
+        if (element.name === course.name) return course;
+      }
+    });
+  }
+  const rows = CoursesByName;
+  console.log(`cursos comprados por ${userFullname} `);
+  console.log(rows);
 
   React.useEffect(() => {
     dispatch(getBoughtCoursesNames(userEmail));
-    console.log("cursos comprados");
-    console.log(userEmail);
-    console.log(CoursesName);
+    console.log(`cursos comprados por ${userFullname}`);
+    console.log(CoursesNames);
+    console.log(rows);
   }, []);
 
   return (
@@ -111,11 +113,12 @@ export default function BasicTable() {
             <TableCell align="center">Duracion</TableCell>
             <TableCell align="center">Instructor</TableCell>
             <TableCell align="right">Precio</TableCell>
+            <TableCell align="right">Fecha de Compra</TableCell>
             <TableCell align="center">Rating and Comment</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {rows.map((row: any) => (
             <TableRow
               key={row.name}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -127,10 +130,10 @@ export default function BasicTable() {
               <TableCell align="center">{row.duration}</TableCell>
               <TableCell align="center">{row.instructor}</TableCell>
               <TableCell align="right">{row.price}</TableCell>
+              <TableCell align="right">Fecha de Compra</TableCell>
               <TableCell align="center">
                 <Box display="flex" justifyContent="center" alignItems="center">
-                  <BasicRating courseId={row.name} userId={userEmail} />
-                  <CourseComment courseId={row.name} userId={userEmail} />
+                  <CourseComment course={row} userId={userEmail} />
                 </Box>
               </TableCell>
             </TableRow>

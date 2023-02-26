@@ -18,6 +18,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
+import Rating from "@mui/material/Rating";
 
 import { useParams } from "react-router-dom";
 import {
@@ -66,7 +67,7 @@ const CourseDetail: React.FC = () => {
       level: MyCourseInfo.level,
       name: NewName.replaceAll("-", " "),
       price: MyCourseInfo.price,
-      rating: [],
+      rating: MyCourseInfo.rating,
     };
     console.log(`Courseinfo`);
     console.log(InfoToKeep);
@@ -85,12 +86,34 @@ const CourseDetail: React.FC = () => {
     dispatch(addToCart(TheCourse));
   };
 
-  const { cart } = useAppSelector((state) => state.courses);
+  const { email } = useAppSelector((state) => state.users);
+  const { courses } = useAppSelector((state) => state.users);
+  const { status } = useAppSelector((state) => state.users);
+  const { cart, currentCourse } = useAppSelector((state) => state.courses);
 
   React.useEffect(() => {
-    setDisabledBtn(cart.some((item) => item.id === id));
+    let disabled = false;
+
+    if (courses) {
+      if (
+        cart.some((item) => item.id === currentCourse.id) ||
+        courses.some((item) => item.name === currentCourse.name)
+      )
+        disabled = true;
+    } else {
+      if (cart.some((item) => item.id === currentCourse.id)) disabled = true;
+    }
+
+    setDisabledBtn(disabled);
+
     setItem("cart", cart);
-  }, [cart, id]);
+
+    axios.put(`${BACK}/updateCart`, {
+      email: email,
+      cart: cart,
+      buy: false,
+    });
+  }, [cart, id, status]);
 
   useEffect(() => {
     InfoKeeper();
@@ -99,6 +122,27 @@ const CourseDetail: React.FC = () => {
   const handleCategorieClick = () => {
     console.log(`Redireccionando al filtro por categoria`);
   };
+
+  const getRatingAVG = () => {
+    function calcularPromedio(numeros: number[]): number {
+      const suma = numeros.reduce((a, b) => a + b, 0);
+      const promedio = suma / numeros.length;
+      return Number(promedio.toFixed(1));
+    }
+    const ratings = TheCourse.rating.map((rat: any) => {
+      return rat.rating;
+    });
+    if (ratings.length > 0) {
+      console.log(ratings);
+      const average = calcularPromedio(ratings);
+      console.log(average);
+      return average;
+    } else {
+      return 0;
+    }
+  };
+
+  const AverageRating = getRatingAVG();
 
   return (
     <div>
@@ -196,11 +240,24 @@ const CourseDetail: React.FC = () => {
           <List sx={ListStyle} component="nav" aria-label="mailbox folders">
             <Divider />
             <ListItem button>
-              <ListItemText primary={`Duración: ${TheCourse.duration} hs.`} />
+              <ListItemText secondary={`Duración: ${TheCourse.duration} hs.`} />
             </ListItem>
             <Divider />
             <ListItem button divider>
-              <ListItemText primary={`Nivel: ${TheCourse.level}`} />
+              <ListItemText secondary={`Nivel: ${TheCourse.level}`} />
+            </ListItem>{" "}
+            <Divider />
+            <ListItem button divider>
+              <Rating name="read-only" value={AverageRating} readOnly />
+              <Box ml={1}>
+                <ListItemText
+                  secondary={
+                    AverageRating !== 0
+                      ? AverageRating
+                      : "No hay calificaciones aún"
+                  }
+                />
+              </Box>
             </ListItem>
             <Divider light />
           </List>
@@ -211,6 +268,35 @@ const CourseDetail: React.FC = () => {
               {" "}
               {TheCourse.descriptionComplete}{" "}
             </Typography>
+          </Box>
+
+          <Box
+            display="flex"
+            p={1}
+            m={1}
+            mt={2}
+            borderTop={0.5}
+            borderColor="lightgray"
+          >
+            {" "}
+            <Box borderRight={1} borderColor="lightgray" px={2} mr={1}>
+              <Typography variant="overline">Comments...</Typography>
+            </Box>
+            {TheCourse.rating.map((rat: any) => {
+              return (
+                <Box
+                  key={rat.user}
+                  p={1}
+                  m={1}
+                  border={1}
+                  borderColor="lightgray"
+                  borderRadius={4}
+                  bgcolor="white"
+                >
+                  <ListItemText secondary={rat.comment} />
+                </Box>
+              );
+            })}
           </Box>
         </Grid>
       </Grid>

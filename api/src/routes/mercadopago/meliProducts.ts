@@ -32,9 +32,9 @@ export async function payMeli(req: any, res: any) {
       // },
       // When the user finishes the payment, depending of the status of the payment he'll be redirected, you gotta put your custom urls
       back_urls: {
-        success: `${FRONTEND_URL}/courses`,
+        success: `${FRONTEND_URL}/payment/processing`,
         failure: `${FRONTEND_URL}/courses`,
-        pending: "https://pending.com",
+        // pending: "https://pending.com",
       },
       // This is always "approved"
       auto_return: "approved",

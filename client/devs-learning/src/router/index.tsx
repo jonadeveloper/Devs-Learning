@@ -6,7 +6,11 @@ import { Home } from "../views/Home";
 import NavBar from "../components/navBar/NavBar";
 import { CoursePerCategories } from "../views/CoursePerCategories";
 import { useAppDispatch, useAppSelector } from "../hooks/hooksRedux";
-import { getCategories, getCourses } from "../redux/courses/actions";
+import {
+  clearBoughtCart,
+  getCategories,
+  getCourses,
+} from "../redux/courses/actions";
 import { PrivateRoute } from "./PrivateRoute";
 import { LoggedRoutes } from "./LoggedRoutes";
 import { PublicRoute } from "./PublicRoute";
@@ -15,12 +19,17 @@ import Footer from "../components/Footer/Footer";
 import LandingPage from "../components/Landing/LandingPage";
 import DashboardAdmin from "../components/Dashboards/Admin/DashboardAdmin";
 import UserDashboard from "../components/Dashboards/UserDashboard";
-import { getUser, setFullName } from "../redux/users/actions";
+import {
+  getBoughtCoursesNames,
+  getUser,
+  setFullName,
+} from "../redux/users/actions";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getItem, setItem } from "../utils/localStorage";
 import { initializeApp } from "firebase/app";
 import { createMPButton } from "../components/meliButton/meliButton";
 import { SuccessPage } from "../components/Payment/SuccessPage";
+import { ProcessingPage } from "../components/Payment/ProcessingPage";
 export var profileImg: string;
 export var userFullname: string;
 export var userEmail: string;
@@ -59,14 +68,24 @@ export const AppRouter = () => {
       dispatch(
         setFullName(auth.currentUser.displayName, auth.currentUser.email)
       );
+
+      dispatch(getBoughtCoursesNames(auth.currentUser.email));
     }
   }, [status]);
+
+  const { courses } = useAppSelector((state) => state.users);
+
+  useEffect(() => {
+    dispatch(clearBoughtCart(cart, courses));
+  }, [courses]);
 
   //recover user info from local storage
   useEffect(() => {
     if (status == "logged") {
       let userInfo = getItem("loggedUserInfo");
       dispatch(setFullName(userInfo.displayName, userInfo.email));
+
+      dispatch(getBoughtCoursesNames(userInfo.email));
     }
   }, [status]);
   ///////////////////////
@@ -75,7 +94,7 @@ export const AppRouter = () => {
   const { cart } = useAppSelector((state) => state.courses);
 
   useEffect(() => {
-    createMPButton(cart);
+    if (status === "logged") createMPButton(cart);
   }, [cart]);
 
   ///////////////////////////////////
@@ -91,7 +110,8 @@ export const AppRouter = () => {
         <Route path={`/categories/:name`} element={<CoursePerCategories />} />
         <Route path={`/dash/Admin`} element={<DashboardAdmin />} />
         <Route path={"/user"} element={<UserDashboard />} />
-        <Route path={"/payment/success"} element={<SuccessPage />} />
+        <Route path={"/payment/processing"} element={<ProcessingPage />} />
+
         <Route
           path={`/auth/*`}
           element={

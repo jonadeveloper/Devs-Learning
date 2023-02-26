@@ -16,7 +16,6 @@ import UserPersonalInfo from "./User/UserPersonalInfo";
 import UserCourses from "./User/UserCourses";
 import { profileImg, userFullname } from "../../router/index";
 import LogOut from "./User/Logout";
-import CourseComment from "./User/UserComment";
 import { Badge, Button, Input } from "@mui/material";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getAuth, updateProfile } from "firebase/auth";
@@ -73,7 +72,7 @@ const UserDashboard: React.FC = () => {
   return (
     <Grid container bgcolor="#C5DCE4" spacing={2}>
       <Grid item xs={12} mt={10}></Grid>
-      <Grid item xs={12} md={6} lg={4} xl={3} display="flex">
+      <Grid item xs={12} md={12} lg={4} xl={3} display="flex">
         <Box
           width="100%"
           display="flex"
@@ -185,7 +184,7 @@ const UserDashboard: React.FC = () => {
       <Grid
         item
         xs={12}
-        md={6}
+        md={12}
         lg={8}
         xl={9}
         display="flex"

@@ -34,6 +34,7 @@ export const userSign = createSlice({
       state.rank = 2;
       state.profileImg = "";
       state.status = "notLogged";
+      state.courses = [];
     },
 
     setFullName: (state, { payload }) => {
@@ -42,7 +43,7 @@ export const userSign = createSlice({
     },
     setBoughtCourses: (state, { payload }) => {
       state.courses = payload;
-    }
+    },
   },
 });
 

@@ -5,11 +5,8 @@ import { CoursoBack } from "../../components/Cards/Card";
 import { createCourse } from "../../interfaces/Course";
 import { RootState } from "../store";
 import { reducer } from "./slice";
-
-const BACK =
-  process.env.NODE_ENV === "production"
-    ? "http://181.127.189.247:3001"
-    : "http://localhost:3001";
+const { REACT_APP_PROD_URL, REACT_APP_BASE_URL } = process.env;
+const BACK = REACT_APP_BASE_URL || REACT_APP_PROD_URL;
 
 export const getCourses = (): ThunkAction<
   void,
@@ -32,14 +29,11 @@ export const getCourses = (): ThunkAction<
     });
   };
 };
-export const getCoursesByName = (name: string): ThunkAction<
-  void,
-  RootState,
-  unknown,
-  AnyAction
-> => {
+export const getCoursesByName = (
+  name: string
+): ThunkAction<void, RootState, unknown, AnyAction> => {
   return (dispatch) => {
-    dispatch(reducer.setLoading())
+    dispatch(reducer.setLoading());
     axios.get(`${BACK}/courses?name=${name}`).then((response) => {
       response.data.map((course: any) => {
         course.name = course.name.replaceAll("-", " ");
@@ -144,10 +138,9 @@ export const editCourseAction = (
       .then((response) => {
         console.log(response);
         dispatch(reducer.createCourse());
-        Swal.fire("Course edited successfully!", "", "success")
-          .then(() => {
-            window.location.href = `/courseDetail/${course.name}`
-          });
+        Swal.fire("Course edited successfully!", "", "success").then(() => {
+          window.location.href = `/courseDetail/${course.name}`;
+        });
       })
       .catch((err) => {
         dispatch(reducer.createCourse());
@@ -253,6 +246,7 @@ export const addToCart = (
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return (dispatch) => {
     console.log(card);
+
     return dispatch(reducer.addToCart(card));
   };
 };
@@ -277,6 +271,17 @@ export const clearSearch = (): ThunkAction<
   };
 };
 
+export const clearCart = (): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  AnyAction
+> => {
+  return (dispatch) => {
+    return dispatch(reducer.clearCart());
+  };
+};
+
 //// RATING
 export const AddRating = (
   rating: any
@@ -291,5 +296,20 @@ export const AddRating = (
       .catch((err) => {
         Swal.fire("Something went wrong, please try again", "", err);
       });
+  };
+};
+
+export const clearBoughtCart = (
+  localCart: any,
+  usercart: any
+): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return (dispatch) => {
+    let newCart = [...localCart];
+
+    newCart = newCart.filter((item: any) => {
+      return !usercart.some((course: any) => course.name === item.name);
+    });
+
+    return dispatch(reducer.filterBoughtCart(newCart));
   };
 };
