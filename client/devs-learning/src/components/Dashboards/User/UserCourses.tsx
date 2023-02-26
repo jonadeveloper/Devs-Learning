@@ -79,28 +79,22 @@ export default function BasicTable() {
   console.log("Courses Names");
   console.log(CoursesNames);
   const AllCourses = useAppSelector((state) => state.courses.courses);
-  //const current = useAppSelector((state) => state.courses.currentCourse);
-  console.log("Current");
-  //console.log(current);
 
   let CoursesByName: any = [];
 
   if (CoursesNames && CoursesNames.length > 0) {
     CoursesByName = AllCourses.filter((course) => {
-      const newName = course.name.toLowerCase().split(" ");
-      const newNameWithLine = newName.join("-");
+      // const newName = course.name.toLowerCase().split(" ");
+      // const newNameWithLine = newName.join("-");
       for (let i = 0; i < CoursesNames.length; i++) {
         const element: any = CoursesNames[i];
-        if (element.name === newNameWithLine) return course;
+        if (element.name === course.name) return course;
       }
     });
   }
   const rows = CoursesByName;
   console.log(`cursos comprados por ${userFullname} `);
   console.log(rows);
-
-  const [value, setValue] = React.useState<number | null>(2);
-  const [comment, setComment] = useState("");
 
   React.useEffect(() => {
     dispatch(getBoughtCoursesNames(userEmail));
@@ -119,6 +113,7 @@ export default function BasicTable() {
             <TableCell align="center">Duracion</TableCell>
             <TableCell align="center">Instructor</TableCell>
             <TableCell align="right">Precio</TableCell>
+            <TableCell align="right">Fecha de Compra</TableCell>
             <TableCell align="center">Rating and Comment</TableCell>
           </TableRow>
         </TableHead>
@@ -135,6 +130,7 @@ export default function BasicTable() {
               <TableCell align="center">{row.duration}</TableCell>
               <TableCell align="center">{row.instructor}</TableCell>
               <TableCell align="right">{row.price}</TableCell>
+              <TableCell align="right">Fecha de Compra</TableCell>
               <TableCell align="center">
                 <Box display="flex" justifyContent="center" alignItems="center">
                   <CourseComment course={row} userId={userEmail} />
