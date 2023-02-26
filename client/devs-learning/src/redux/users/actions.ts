@@ -181,6 +181,7 @@ export const setFullName = (
   };
 };
 
+
 export const getBoughtCoursesNames = (
   userEmail: any
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
@@ -200,3 +201,4 @@ export const getBoughtCoursesNames = (
     return dispatch(reducer.setBoughtCourses(user[0].courses));
   };
 };
+
