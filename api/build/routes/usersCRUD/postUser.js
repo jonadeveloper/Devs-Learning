@@ -94,28 +94,30 @@ function fakeSignUp(req, res) {
         try {
             const { email, displayName, uid } = req.body;
             const userExists = yield Users.findOne({
-                where: { email: email },
+                where: { id: uid },
             });
             const fullnameDB = displayName.split(" ").join("-").toLowerCase();
-            if (userExists === null) {
+            if (!userExists) {
                 yield Users.create({
                     id: uid,
                     fullname: fullnameDB,
                     email: email,
                     banned: false,
                 });
+                (0, sendMail_1.sendMail)({
+                    from: "simon__navarrete@hotmail.com",
+                    subject: "Registro Exitoso! Bienvenido a DevsLearning",
+                    text: "Bienvenido!",
+                    to: email,
+                    html: `<h1>Bienvenido a Devslearning, <strong>${fullnameDB}</strong>!</h1>`,
+                });
+                return res.status(201).send("Succesfully created");
             }
-            (0, sendMail_1.sendMail)({
-                from: "simon__navarrete@hotmail.com",
-                subject: "Registro Exitoso! Bienvenido a DevsLearning",
-                text: "Bienvenido!",
-                to: email,
-                html: `<h1>Bienvenido a Devslearning, <strong>${fullnameDB}</strong>!</h1>`,
-            });
-            res.status(201).send("Succesfully created");
+            return res.status(201).send("Succesfully login");
         }
         catch (error) {
-            res.status(400).send(error);
+            console.log(error);
+            return res.status(400).send(error);
         }
     });
 }

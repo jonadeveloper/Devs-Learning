@@ -86,31 +86,35 @@ export async function recoverPassword(req: Request, res: Response) {
 }
 
 export async function fakeSignUp(req: Request, res: Response) {
+
   try {
     const { email, displayName, uid } = req.body;
     const userExists = await Users.findOne({
-      where: { email: email },
+      where: { id: uid },
     });
+
     const fullnameDB = displayName.split(" ").join("-").toLowerCase();
-    if (userExists === null) {
+    if (!userExists) {
       await Users.create({
         id: uid,
         fullname: fullnameDB,
         email: email,
         banned: false,
       });
+
+      sendMail({
+        from: "simon__navarrete@hotmail.com",
+        subject: "Registro Exitoso! Bienvenido a DevsLearning",
+        text: "Bienvenido!",
+        to: email,
+        html: `<h1>Bienvenido a Devslearning, <strong>${fullnameDB}</strong>!</h1>`,
+      });
+      return res.status(201).send("Succesfully created");
+
     }
-
-    sendMail({
-      from: "simon__navarrete@hotmail.com",
-      subject: "Registro Exitoso! Bienvenido a DevsLearning",
-      text: "Bienvenido!",
-      to: email,
-      html: `<h1>Bienvenido a Devslearning, <strong>${fullnameDB}</strong>!</h1>`,
-    });
-
-    res.status(201).send("Succesfully created");
+    return res.status(201).send("Succesfully login");
   } catch (error) {
-    res.status(400).send(error);
+    console.log(error);
+    return res.status(400).send(error);
   }
 }

@@ -107,7 +107,11 @@ export const signInWithGoogle = (
                 "error"
               );
             }
-          });
+          })
+          .catch((error) => {
+            console.log(error);
+
+          })
       }
     } catch (error: any) {
       Swal.hideLoading();
