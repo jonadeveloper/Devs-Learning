@@ -15,3 +15,7 @@ export interface CreateUserInterface {
   country?: string;
   status?: string;
 }
+
+export interface AllUsers {
+  users: CreateUserInterface[];
+}

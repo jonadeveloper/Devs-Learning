@@ -6,7 +6,11 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { Button } from "@mui/material";
 import MUIDataTable, { MUIDataTableOptions, MUIDataTableColumn } from "mui-datatables";
+
 const UsersPanel: React.FC = () => {
+  const { users } = useAppSelector((state) => state.allUsers);
+  console.log("🚀 ~ file: UsersPanel.tsx:13 ~ users:", users);
+
   interface RowData {
     fullname: string;
     rank: string;
