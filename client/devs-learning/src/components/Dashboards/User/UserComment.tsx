@@ -33,34 +33,35 @@ const CourseComment: React.FC<CourseCommentProps> = ({ course, userId }) => {
   }); */
 
   let RATING = {
-    nameCourse: course.name,
-    rating: {
-      rating: value,
-      comment: comment,
-      user: userId,
-    },
+    rating: value,
+    comment: comment,
+    user: userId,
+    course: course.name,
   };
 
   //getCommentIfExists.
   const getCommentIfExists = async () => {
     const existingRating = course.rating.filter(
-      (rat: any) => (rat.rating.user = userId)
+      (rat: any) => rat.user === userId.toString()
     );
     if (existingRating) {
-      setComment(existingRating.rating.comment);
-      setValue(existingRating.rating.rating);
+      setComment(existingRating[0].comment);
+      setValue(existingRating[0].rating);
+      console.log("El rating existente es");
       console.log(existingRating);
     }
   };
 
+  //Handlers.
   const [showInput, setShowInput] = useState(false);
 
   const handleButtonClick = () => {
-    getCommentIfExists();
     if (!showInput) {
+      getCommentIfExists();
       dispatch(setCurrentCourse(course));
       console.log("Curso Actual");
       console.log(currentCourse);
+      console.log(RATING);
     }
 
     setShowInput(!showInput);
@@ -68,9 +69,6 @@ const CourseComment: React.FC<CourseCommentProps> = ({ course, userId }) => {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setComment(event.target.value);
-
-    console.log(comment);
-    console.log(RATING);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
