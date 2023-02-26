@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect , useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/hooksRedux";
-import { Button } from "@mui/material"
+import { Modal , TextField , Button} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import Typography from "@mui/material/Typography";
@@ -12,8 +12,8 @@ import { getCourses } from "../../../redux/courses/actions";
 
 const CoursesPanel: React.FC = () => {
 
-  const allCourses = useAppSelector((state) => state.courses);
-  console.log(allCourses)
+  const { courses } = useAppSelector((state) => state.courses);
+  console.log(courses)
 
   interface RowData{
     name: string,
@@ -25,33 +25,16 @@ const CoursesPanel: React.FC = () => {
   }
   const dispatch = useAppDispatch();
 
-const initialData : RowData []= 
+ const initialData : RowData[] = courses
+//[{
+//     name: "javascript",
+//     description: "curso de javascript desde cero",
+//     duration: "15",
+//     level: "advanced",
+//     price: "2500",
+//     instructor: "Jonatan Villalva"
+// }];
 
-[{
-    "name":"Analysis and design with SQL server 2019",
-    "level": "intermediate",
-    "description":"Master complex SQL queries and boost your DBA profile. Develop programs from scratch applying the most advanced Transact-SQL features.",
-    "duration":"20",
-    "instructor":"Simon Navarrete",
-    "price":"2900"
-},
-{
-  "name":"Analysis and design with SQL server 2019",
-  "level": "intermediate",
-  "description":"Master complex SQL queries and boost your DBA profile. Develop programs from scratch applying the most advanced Transact-SQL features.",
-  "duration":"20",
-  "instructor":"Simon Navarrete",
-  "price":"2900"
-},
-{
-  "name":"Analysis and design with SQL server 2019",
-  "level": "intermediate",
-  "description":"Master complex SQL queries and boost your DBA profile. Develop programs from scratch applying the most advanced Transact-SQL features.",
-  "duration":"20",
-  "instructor":"Simon Navarrete",
-  "price":"2900"
-}
-];
 
 const columns: MUIDataTableColumn[] = [
   {
@@ -136,6 +119,7 @@ const columns: MUIDataTableColumn[] = [
         In this section we manage all the courses on the platform
       </Typography>
       </Box>
+      <Button>crear nuevo curso</Button>
       <MUIDataTable
       title={"list of platform courses"}
       data={data}
