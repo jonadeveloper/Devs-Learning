@@ -306,13 +306,9 @@ export const clearBoughtCart = (
   return (dispatch) => {
     let newCart = [...localCart];
 
-    console.log(usercart);
-
     newCart = newCart.filter((item: any) => {
       return !usercart.some((course: any) => course.name === item.name);
     });
-
-    console.log(newCart);
 
     return dispatch(reducer.filterBoughtCart(newCart));
   };

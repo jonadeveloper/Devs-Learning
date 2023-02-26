@@ -29,6 +29,7 @@ import { getItem, setItem } from "../utils/localStorage";
 import { initializeApp } from "firebase/app";
 import { createMPButton } from "../components/meliButton/meliButton";
 import { SuccessPage } from "../components/Payment/SuccessPage";
+import { ProcessingPage } from "../components/Payment/ProcessingPage";
 export var profileImg: string;
 export var userFullname: string;
 export var userEmail: string;
@@ -93,7 +94,7 @@ export const AppRouter = () => {
   const { cart } = useAppSelector((state) => state.courses);
 
   useEffect(() => {
-    createMPButton(cart);
+    if (status === "logged") createMPButton(cart);
   }, [cart]);
 
   ///////////////////////////////////
@@ -109,7 +110,8 @@ export const AppRouter = () => {
         <Route path={`/categories/:name`} element={<CoursePerCategories />} />
         <Route path={`/dash/Admin`} element={<DashboardAdmin />} />
         <Route path={"/user"} element={<UserDashboard />} />
-        <Route path={"/payment/success"} element={<SuccessPage />} />
+        <Route path={"/payment/processing"} element={<ProcessingPage />} />
+
         <Route
           path={`/auth/*`}
           element={

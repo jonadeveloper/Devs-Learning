@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useAppSelector } from "../../hooks/hooksRedux";
@@ -56,5 +57,17 @@ export const createMPButton = async (cart: any) => {
 };
 
 export default function () {
-  return <div id="cho-container" className="cho-container"></div>;
+  let { status } = useAppSelector((state) => state.users);
+
+  return (
+    <div id="cho-container" className="cho-container">
+      <Button
+        variant="contained"
+        color="success"
+        sx={{ display: status === "logged" ? "none" : "block" }}
+      >
+        Sign Up
+      </Button>
+    </div>
+  );
 }
