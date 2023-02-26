@@ -80,18 +80,18 @@ export default function BasicTable() {
   console.log(CoursesNames);
   const AllCourses = useAppSelector((state) => state.courses.courses);
   //const current = useAppSelector((state) => state.courses.currentCourse);
-  console.log("Current");
+  console.log(AllCourses[0]);
   //console.log(current);
 
   let CoursesByName: any = [];
 
   if (CoursesNames && CoursesNames.length > 0) {
     CoursesByName = AllCourses.filter((course) => {
-      const newName = course.name.toLowerCase().split(" ");
-      const newNameWithLine = newName.join("-");
+      //const newName = course.name.toLowerCase().split(" ");
+      //const newNameWithLine = newName.join("-");
       for (let i = 0; i < CoursesNames.length; i++) {
         const element: any = CoursesNames[i];
-        if (element.name === newNameWithLine) return course;
+        if (element.name === course.name) return course;
       }
     });
   }
