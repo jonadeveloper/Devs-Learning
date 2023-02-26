@@ -1,12 +1,14 @@
 import { Box, Grid, Paper, Typography } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 import axios from "axios";
 import { REACT_APP_BASE_URL } from "../../redux/users/actions";
 import { clearCart } from "../../redux/courses/actions";
+import { useParams } from "react-router-dom";
 
 export const SuccessPage = () => {
+  const [paymentId, setPaymentId] = useState("")
   const { email } = useAppSelector((state) => state.users);
   const { cart } = useAppSelector((state) => state.courses);
   const dispatch = useAppDispatch();
@@ -23,6 +25,13 @@ export const SuccessPage = () => {
   useEffect(() => {
     clearCartDB();
   }, [email]);
+
+  React.useEffect(() => {
+    const params = new URLSearchParams(window.location.search) // id=123
+    let id = params.get('payment_id') // 123 
+    if (id)
+      setPaymentId(id)
+  }, [])
   return (
     <Box
       sx={{
@@ -80,7 +89,7 @@ export const SuccessPage = () => {
                   color: "#747474",
                 }}
               >
-                Transaction Number: 12345031
+                Transaction Number: {paymentId}
               </Typography>
             </Grid>
             <Grid
