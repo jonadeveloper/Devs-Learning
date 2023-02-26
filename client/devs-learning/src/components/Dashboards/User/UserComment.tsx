@@ -44,25 +44,27 @@ const CourseComment: React.FC<CourseCommentProps> = ({ course, userId }) => {
   //getCommentIfExists.
   const getCommentIfExists = async () => {
     const existingRating = course.rating.filter(
-      (rat: any) => (rat.rating.user = userId)
+      (rat: any) => (rat.user = userId)
     );
+    console.log(currentCourse);
+    console.log(existingRating);
     if (existingRating) {
-      setComment(existingRating.rating.comment);
-      setValue(existingRating.rating.rating);
       console.log(existingRating);
+      setComment(existingRating.comment);
+      setValue(existingRating.rating);
     }
   };
 
   const [showInput, setShowInput] = useState(false);
 
   const handleButtonClick = () => {
-    getCommentIfExists();
     if (!showInput) {
+      setShowInput(!showInput);
       dispatch(setCurrentCourse(course));
+      getCommentIfExists();
       console.log("Curso Actual");
       console.log(currentCourse);
     }
-
     setShowInput(!showInput);
   };
 

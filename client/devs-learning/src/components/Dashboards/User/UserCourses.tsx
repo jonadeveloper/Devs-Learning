@@ -119,6 +119,7 @@ export default function BasicTable() {
             <TableCell align="center">Duracion</TableCell>
             <TableCell align="center">Instructor</TableCell>
             <TableCell align="right">Precio</TableCell>
+            <TableCell align="center">Fecha de Compra</TableCell>
             <TableCell align="center">Rating and Comment</TableCell>
           </TableRow>
         </TableHead>
@@ -135,6 +136,7 @@ export default function BasicTable() {
               <TableCell align="center">{row.duration}</TableCell>
               <TableCell align="center">{row.instructor}</TableCell>
               <TableCell align="right">{row.price}</TableCell>
+              <TableCell align="center">La Fecha</TableCell>
               <TableCell align="center">
                 <Box display="flex" justifyContent="center" alignItems="center">
                   <CourseComment course={row} userId={userEmail} />
