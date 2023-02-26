@@ -109,7 +109,7 @@ function ResponsiveAppBar() {
   //MP button
 
   React.useEffect(() => {
-    createMPButton(cart);
+    if (status === "logged") createMPButton(cart);
   }, [open]);
 
   ///////////////////////////////////
