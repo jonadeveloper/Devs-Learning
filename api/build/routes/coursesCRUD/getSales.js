@@ -22,7 +22,7 @@ function getSales(req, res) {
             let result = yield sales.map((sale) => {
                 let user = users.find((user) => user.id === sale.userId);
                 user.fullname = user.fullname[0].toUpperCase() + user.fullname.substring(1);
-                return Object.assign(Object.assign({}, sale.dataValues), { user_name: user.fullname.replace("-", " ") });
+                return Object.assign(Object.assign({}, sale.dataValues), { user_name: user.fullname.replace("-", " "), email: user.email });
             });
             res.send(result);
         }
