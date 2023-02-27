@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, CircularProgress } from "@mui/material";
 import MUIDataTable, { MUIDataTableOptions, MUIDataTableColumn } from "mui-datatables";
+import { useAppSelector } from "../../../hooks/hooksRedux";
 
 
 interface RowData {
@@ -12,7 +13,7 @@ interface RowData {
 }
 
 const SalesPanel: React.FC = () => {
-
+  const { status, sales } = useAppSelector((state) => state.sales)
   const initialData: RowData[] = [
     {
       fullname: "Jonatan Villalva",
@@ -104,30 +105,22 @@ const SalesPanel: React.FC = () => {
 
   const columns: MUIDataTableColumn[] = [
     {
-      name: "fullname",
-      label: "Full Name",
+      name: "courseId",
+      label: "Course Id",
     },
     {
-      name: "rank",
-      label: "Rank",
+      name: "user_name",
+      label: "User",
     },
     {
       name: "email",
       label: "Email",
     },
     {
-      name: "phoneNumber",
-      label: "Phone Number",
+      name: "createdAt",
+      label: "Sale date",
     },
-    {
-      name: "courses",
-      label: "Courses",
-      options: {
-        customBodyRender: (value: string[]) => {
-          return value.join(", ");
-        },
-      },
-    },
+
     // {
     //   name: "action",
     //   label: "Action",
@@ -158,12 +151,27 @@ const SalesPanel: React.FC = () => {
     pagination: true,
     rowsPerPage: 5,
   };
+  if (status === "loading") {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          height: "100%",
+          width: "100%",
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        <CircularProgress color="success" size={100} />
+      </Box>
+    )
+  }
   return (
     <div>
       <Typography variant="h3">Sales</Typography>
       ACÁ SE RENDERIZA LA INFORMACION SOBRE VENTAS
       <Box>
-        <MUIDataTable title="Student List" data={data} columns={columns} options={options} />
+        <MUIDataTable title="Student List" data={sales} columns={columns} options={options} />
 
       </Box>
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -31,6 +31,8 @@ import SalesPanel from "./SalesPanel";
 import UsersPanel from "./UsersPanel";
 import AccountSettings from "./AccountSettings";
 import LogOut from "./Logout";
+import { useAppDispatch } from "../../../hooks/hooksRedux";
+import { getSales } from "../../../redux/sales/actions";
 
 const DashboardAdmin: React.FC = () => {
   const img: string =
@@ -38,7 +40,7 @@ const DashboardAdmin: React.FC = () => {
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [content, setContent] = React.useState(0);
-
+  const dispatch = useAppDispatch()
   const handleListItemClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     index: number
@@ -46,6 +48,10 @@ const DashboardAdmin: React.FC = () => {
     setSelectedIndex(index);
     setContent(index);
   };
+  useEffect(() => {
+    dispatch(getSales())
+  }, [])
+
 
   const handlePageContent = (content: number) => {
     if (content === 0) {
