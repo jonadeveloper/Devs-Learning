@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Typography, Box, CircularProgress } from "@mui/material";
 import MUIDataTable, { MUIDataTableOptions, MUIDataTableColumn } from "mui-datatables";
 import { useAppSelector } from "../../../hooks/hooksRedux";
+import moment from "moment";
 
 
 interface RowData {
@@ -119,8 +120,21 @@ const SalesPanel: React.FC = () => {
     {
       name: "createdAt",
       label: "Sale date",
+      options: {
+        customBodyRender: (value: string) => {
+          return moment(value).format("DD/MM/YYYY");
+        },
+      },
     },
-
+    // {
+    //   name: "courses",
+    //   label: "Courses",
+    //   options: {
+    //     customBodyRender: (value: string[]) => {
+    //       return value.join(", ");
+    //     },
+    //   },
+    // },
     // {
     //   name: "action",
     //   label: "Action",
@@ -167,15 +181,33 @@ const SalesPanel: React.FC = () => {
     )
   }
   return (
-    <div>
+    <Box
+      sx={{
+        display: "flex",
+        height: "100%",
+        width: "100%",
+        flexDirection: "column"
+      }}
+    >
       <Typography variant="h3">Sales</Typography>
-      ACÁ SE RENDERIZA LA INFORMACION SOBRE VENTAS
-      <Box>
-        <MUIDataTable title="Student List" data={sales} columns={columns} options={options} />
+      {/* ACÁ SE RENDERIZA LA INFORMACION SOBRE VENTAS */}
+      <Box
+        sx={{
+          display: "flex",
+          height: "100%",
+          width: "100%",
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        <Box>
+          <MUIDataTable title="Student List" data={sales} columns={columns} options={options} />
+
+        </Box>
 
       </Box>
 
-    </div>
+    </Box>
   );
 };
 
