@@ -1,12 +1,4 @@
 const { Course, Users } = require("../../db");
-/*import { getAuth } from "firebase/auth";
-import { initializeApp } from "firebase/app";
-
-const { REACT_APP_FIREBASE_CONFIG } = process.env;
-const firebaseConfig = JSON.parse(REACT_APP_FIREBASE_CONFIG!);
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const user = auth.currentUser;*/
 
 export async function getBanned(req: any, res: any) {
     try {

@@ -7,17 +7,17 @@ const dbAdmin = require("./admin.json");
 const { DB_PORT } = process.env;
 const PORT = DB_PORT || 5432;
 
-conn.sync({ force: true }).then(() => {
-  server.listen(PORT, () => {
-    console.log("%s listening at", PORT);
-    dbCategories.categories.map((category) => {
-      return postCategories(category);
+conn.sync({ force: false }).then(() => {
+    server.listen(PORT, () => {
+        console.log("%s listening at", PORT);
+        dbCategories.categories.map((category) => {
+            return postCategories(category);
+        });
+        dbCourses.courses.map((course, index) => {
+            return postCourses(course);
+        });
+        dbAdmin.admin.map((user) => {
+            return postAdmin(user);
+        });
     });
-    dbCourses.courses.map((course, index) => {
-      return postCourses(course);
-    });
-    dbAdmin.admin.map((user) => {
-      return postAdmin(user);
-    });
-  });
 });
