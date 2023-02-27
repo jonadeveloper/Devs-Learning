@@ -69,10 +69,16 @@ const columns: MUIDataTableColumn[] = [
         const rowIndex = tableMeta.rowIndex;
         return (
           <>
-            <Button variant="contained" color={"inherit"} size={"small"} onClick={() => handleEdit(rowIndex)}>
+            <Button variant="contained" 
+            color={"inherit"} 
+            size={"small"} 
+            onClick={() => handleEdit(rowIndex)}>
               <EditIcon /> 
             </Button>
-            <Button variant="contained" color={"error"} size={"small"} onClick={() => handleDelete(rowIndex)}>
+            <Button variant="contained" 
+            color={"error"} 
+            size={"small"} 
+            onClick={() => handleDelete(rowIndex)}>
               <DeleteIcon /> 
             </Button>
           </>
