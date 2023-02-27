@@ -269,6 +269,35 @@ const CourseDetail: React.FC = () => {
               {TheCourse.descriptionComplete}{" "}
             </Typography>
           </Box>
+
+          <Box
+            display="flex"
+            p={1}
+            m={1}
+            mt={2}
+            borderTop={0.5}
+            borderColor="lightgray"
+          >
+            {" "}
+            <Box borderRight={1} borderColor="lightgray" px={2} mr={1}>
+              <Typography variant="overline">Comments...</Typography>
+            </Box>
+            {TheCourse.rating.map((rat: any) => {
+              return (
+                <Box
+                  key={rat.user}
+                  p={1}
+                  m={1}
+                  border={1}
+                  borderColor="lightgray"
+                  borderRadius={4}
+                  bgcolor="white"
+                >
+                  <ListItemText secondary={rat.comment} />
+                </Box>
+              );
+            })}
+          </Box>
         </Grid>
       </Grid>
     </div>

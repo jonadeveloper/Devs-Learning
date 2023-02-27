@@ -1,37 +1,24 @@
 import { Box, Grid, Paper, Typography } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 import axios from "axios";
-import { REACT_APP_BASE_URL } from "../../redux/users/actions";
+import {
+  getBoughtCoursesNames,
+  REACT_APP_BASE_URL,
+} from "../../redux/users/actions";
 import { clearCart } from "../../redux/courses/actions";
-import { useParams } from "react-router-dom";
+import { getItem } from "../../utils/localStorage";
 
 export const SuccessPage = () => {
-  const [paymentId, setPaymentId] = useState("")
-  const { email } = useAppSelector((state) => state.users);
-  const { cart } = useAppSelector((state) => state.courses);
   const dispatch = useAppDispatch();
 
-  const clearCartDB = async () => {
-    await axios.put(`${REACT_APP_BASE_URL}/updateCart`, {
-      email: email,
-      cart: cart,
-      buy: true,
-    });
-    dispatch(clearCart());
-  };
-
   useEffect(() => {
-    clearCartDB();
-  }, [email]);
+    let userInfo = getItem("loggedUserInfo");
 
-  React.useEffect(() => {
-    const params = new URLSearchParams(window.location.search) // id=123
-    let id = params.get('payment_id') // 123 
-    if (id)
-      setPaymentId(id)
-  }, [])
+    dispatch(getBoughtCoursesNames(userInfo.email));
+  }, []);
+
   return (
     <Box
       sx={{
@@ -89,7 +76,7 @@ export const SuccessPage = () => {
                   color: "#747474",
                 }}
               >
-                Transaction Number: {paymentId}
+                Transaction Number: 12345031
               </Typography>
             </Grid>
             <Grid

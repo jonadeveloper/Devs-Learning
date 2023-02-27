@@ -3,11 +3,13 @@ import { composeWithDevTools } from "redux-devtools-extension";
 
 import { courses } from "./courses/slice";
 import { userSign } from "./users/slice";
+import { allUsers } from './AllUsers/slice';
 
 export const store = configureStore({
   reducer: {
     courses: courses.reducer,
     users: userSign.reducer,
+    allUsers: allUsers.reducer,
   },
 });
 

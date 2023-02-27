@@ -16,16 +16,16 @@ export const userSign = createSlice({
   name: "users",
   initialState,
   reducers: {
-    signUp: (state, { payload }) => {},
+    signUp: (state, { payload }) => { },
     signIn: (state, { payload }) => {
       state.status = payload;
     },
     getUser: (state, { payload }) => {
       state.status = payload;
     },
-    changeEmail: (state) => {},
-    changePass: (state) => {},
-    recover: (state) => {},
+    changeEmail: (state) => { },
+    changePass: (state) => { },
+    recover: (state) => { },
     logOut: (state) => {
       state.fullname = "";
       state.password = "";
