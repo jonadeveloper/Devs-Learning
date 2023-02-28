@@ -37,7 +37,24 @@ export const BanUser = (
       .put(`${REACT_APP_BASE_URL}/ban?id=${user[0].id}`)
       .then((response) => {
         console.log("🚀 ~ file: actions.ts:44 ~ return ~ user:", user)
-        dispatch(reducer.BanUsers(user));
+         dispatch(reducer.BanUsers(user));
+
+      })
+
+  };
+
+};
+
+export const DesBanUser = (
+  user: any
+): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return (dispatch) => {
+
+    axios
+      .put(`${REACT_APP_BASE_URL}/pardon?id=${user[0].id}`)
+      .then((response) => {
+        console.log("🚀 ~ file: actions.ts:44 ~ return ~ user:", user)
+        dispatch(reducer.DesBanUsers(user));
 
       })
 

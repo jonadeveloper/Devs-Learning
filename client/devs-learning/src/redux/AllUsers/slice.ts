@@ -11,17 +11,25 @@ export const allUsers = createSlice({
   reducers: {
 
     setAllUsers: (state, { payload }) => {
-      state.users = payload.filter((user: any) => !user.banned);
-
+      state.users = payload;
+      //.filter((user: any) => !user.banned)
     },
     BanUsers: (state, { payload }) => {
-      state.users = state.users.filter((user) => !user.banned && user.id !== payload[0].id);
+      state.users = state.users.map((user) => {
+        return  user.id === payload.id ? { ...user, banned: payload.banned } : user;
+      });
+    },
+    
+    DesBanUsers: (state, { payload }) => {
+      state.users = state.users.map((user) => {
+        return  user.id === payload.id ? { ...user, banned: payload.banned } : user;
+      });
 
     },
     
     UpdateAllUsers: (state, { payload }) => {
       state.users = state.users.map((user) => {
-        return !user.banned && user.id === payload.id ? { ...user, rank: payload.rank } : user;
+        return  user.id === payload.id ? { ...user, rank: payload.rank } : user;
       });
     }
 
