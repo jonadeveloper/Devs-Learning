@@ -30,6 +30,6 @@ router.put("/ban", deleteLogicUser);
 router.put("/pardon", desBanUser);
 router.get("/banned", getBanned);
 router.get("/usersInfo", getUsersInfo);
-router.delete("/deleteCurrentUser", deleteCurrentUser);
+router.delete("/deletecurrentuser", deleteCurrentUser);
 
 module.exports = router;

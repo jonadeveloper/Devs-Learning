@@ -25,8 +25,9 @@ function signUp(req, res) {
             const { fullname, email, password } = req.body;
             let userCredential = yield (0, auth_1.createUserWithEmailAndPassword)(auth, email, password);
             const user = userCredential.user;
+            const userExists = Users.findOne({ where: { email: email } });
             const fullnameDB = fullname.split(" ").join("-").toLowerCase();
-            if (user) {
+            if (user && userExists) {
                 Users.create({
                     id: user.uid,
                     fullname: fullnameDB,
