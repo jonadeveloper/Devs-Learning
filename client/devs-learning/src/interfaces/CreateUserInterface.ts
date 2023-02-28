@@ -14,6 +14,8 @@ export interface CreateUserInterface {
   rank?: Ranks;
   country?: string;
   status?: string;
+  id?: string;
+  banned?: string;
 }
 
 export interface AllUsers {
