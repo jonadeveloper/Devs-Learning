@@ -7,8 +7,8 @@ import Grid from "@mui/material/Grid";
 import { Button, TextField } from "@mui/material";
 import MUIDataTable, { MUIDataTableOptions, MUIDataTableColumn } from "mui-datatables";
 import { getUsersInfo, BanUser, EditUser } from "../../../redux/AllUsers/actions";
-import Select from "@material-ui/core/Select";
-import { MenuItem } from "@material-ui/core";
+// import Select from "@material-ui/core/Select";
+// import { MenuItem } from "@material-ui/core";
 
 const UsersPanel: React.FC = () => {
   const { users } = useAppSelector((state) => state.allUsers);
