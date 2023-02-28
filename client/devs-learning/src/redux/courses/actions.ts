@@ -291,7 +291,7 @@ export const AddRating = (
       .put(BACK + "/courses/putRating", rating)
       .then((response) => {
         console.log(response);
-        dispatch(reducer.addRating(rating));
+        dispatch(reducer.addRating({rating: rating.rating.rating, comment: rating.rating.comment, user: rating.rating.user, course: rating.nameCourse }));
       })
       .catch((err) => {
         Swal.fire("Something went wrong, please try again", "", err);
