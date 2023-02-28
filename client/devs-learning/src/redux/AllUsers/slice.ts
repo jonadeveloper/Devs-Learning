@@ -15,28 +15,45 @@ export const allUsers = createSlice({
       //.filter((user: any) => !user.banned)
     },
     BanUsers: (state, { payload }) => {
-      state.users = state.users.map((user) => {
-        return  user.id === payload.id ? { ...user, banned: payload.banned } : user;
-      });
-    },
-    
-    DesBanUsers: (state, { payload }) => {
-      console.log("Linea 24 action"+payload);
-      
-      state.users = state.users.map((user) => {
-        return  user.id === payload.id ? { ...user, banned: payload.banned } : user;
-      });
+      const { id } = payload[0];
+      console.log("🚀 ~ file: slice.ts:19 ~ siono:", payload.siono)
+      // console.log("🚀 ~ file: slice.ts:19 ~ id:", payload)
+
+      if (payload.siono) {
+        state.users = state.users.map((user) => {
+          // console.log("🚀 ~ file: slice.ts:31 ~ state.users=state.users.map ~ user:", user)
+          return user.id === id ? { ...user, banned: true } : user;
+        });
+
+      } else {
+        state.users = state.users.map((user) => {
+          // console.log("🚀 ~ file: slice.ts:31 ~ state.users=state.users.map ~ user:", user)
+          return user.id === id ? { ...user, banned: false } : user;
+        });
+
+      }
+
 
     },
-    
+
+    // DesBanUsers: (state, { payload }) => {
+    //   const { id } = payload[0];
+    //   // console.log("🚀 ~ file: slice.ts:27 ~ id:", id)
+    //   state.users = state.users.map((user) => {
+    //     // console.log("🚀 ~ file: slice.ts:31 ~ state.users=state.users.map ~ user:", user)
+    //     return user.id === id ? { ...user, banned: false } : user;
+    //   });
+
+    // },
+
     UpdateAllUsers: (state, { payload }) => {
       state.users = state.users.map((user) => {
-        return  user.id === payload.id ? { ...user, rank: payload.rank } : user;
+        return user.id === payload.id ? { ...user, rank: payload.rank } : user;
       });
     }
 
-    }
-  },
+  }
+},
 );
 
 export const reducer = allUsers.actions;

@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { Button, TextField } from "@mui/material";
 import MUIDataTable, { MUIDataTableOptions, MUIDataTableColumn } from "mui-datatables";
-import { getUsersInfo, BanUser, EditUser, DesBanUser } from "../../../redux/AllUsers/actions";
+import { getUsersInfo, BanUser, EditUser } from "../../../redux/AllUsers/actions";
 // import Select from "@material-ui/core/Select";
 // import { MenuItem } from "@material-ui/core";
 
@@ -16,26 +16,24 @@ const UsersPanel: React.FC = () => {
   useEffect(() => {
     dispatch(getUsersInfo());
   }, []);
-  console.log(users);
-  
+  // console.log(users);
 
   const [editedUserId, setEditedUserId] = useState<number | null>(null);
   const [editedRank, setEditedRank] = useState<string>("");
 
-  const handleSave = (user:any) => {
+  const handleSave = (user: any) => {
     const data = {
       id: user,
-      rank: editedRank
-    }
+      rank: editedRank,
+    };
     if (editedUserId !== null) {
       // Send request to update user's rank
       console.log(`Saving rank "${editedRank}" for user with ID ${editedUserId}`);
       // TODO: Call server API to update the user's rank here
       console.log(data);
 
-      dispatch(EditUser(data))
+      dispatch(EditUser(data));
       setEditedUserId(null);
-
     }
   };
 
@@ -50,8 +48,8 @@ const UsersPanel: React.FC = () => {
       options: {
         customBodyRender: (value: string, tableMeta: any) => {
           const rowIndex = tableMeta.rowIndex;
-          const user = tableMeta.currentTableData[rowIndex]
-                   
+          const user = tableMeta.currentTableData[rowIndex];
+
           if (rowIndex === editedUserId) {
             // Render text field for editing the rank
             return (
@@ -73,7 +71,7 @@ const UsersPanel: React.FC = () => {
       name: "email",
       label: "Email",
     },
-    
+
     {
       name: "id",
       label: "ID",
@@ -94,7 +92,6 @@ const UsersPanel: React.FC = () => {
         customBodyRender: (value: any, tableMeta: any, updateValue: any) => {
           const rowIndex = tableMeta.rowIndex;
           const userId = tableMeta.currentTableData[rowIndex].data[3];
-          
 
           if (rowIndex === editedUserId) {
             // Render "Save" button when editing
@@ -139,20 +136,19 @@ const UsersPanel: React.FC = () => {
     const newData = [...users];
     const data = newData.splice(rowIndex, 1);
     console.log("🚀 ~ file: UsersPanel.tsx:92 ~ handleDelete ~ data:", data[0].id);
-    dispatch(BanUser(data));
+    dispatch(BanUser(data, true));
   };
-  
+
   const handleDesBan = (rowIndex: number) => {
     // Create a new array without the selected row
     const newData = [...users];
     const data = newData.splice(rowIndex, 1);
     console.log("🚀 ~ file: UsersPanel.tsx:92 ~ handleDelete ~ data:", data[0].id);
-    dispatch(DesBanUser(data));
+    dispatch(BanUser(data, false));
   };
 
-  const handleEdit = (value:any) => {
+  const handleEdit = (value: any) => {
     console.log(value);
-    
   };
 
   return (
