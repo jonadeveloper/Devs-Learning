@@ -19,6 +19,8 @@ import BasicRating from "./UserRating";
 import { getBoughtCoursesNames } from "../../../redux/users/actions";
 import { getCoursesByName } from "../../../redux/courses/actions";
 import { useAppDispatch, useAppSelector } from "../../../hooks/hooksRedux";
+import { getSales } from "../../../redux/sales/actions";
+import { format } from "date-fns";
 
 import {
   userEmail,
@@ -73,14 +75,35 @@ const BoughtCourse1: BoughtCourse = {
   rating: [],
 };
 
+export interface SaleContent {
+  date: any;
+  courseId: string;
+  courseData: BoughtCourse;
+}
+
 export default function BasicTable() {
   const dispatch = useAppDispatch();
   const CoursesNames = useAppSelector((state) => state.users.courses);
+  const AllSales = useAppSelector((state) => state.sales.sales);
+  const AllCourses = useAppSelector((state) => state.courses.courses);
   console.log("Courses Names");
   console.log(CoursesNames);
-  const AllCourses = useAppSelector((state) => state.courses.courses);
+  console.log("Sales");
+  console.log(AllSales);
+
+  const UserSales = AllSales.filter((sale) => {
+    return sale.email === userEmail.toString();
+  });
+
+  const DatesId = UserSales.map((sale) => {
+    return { date: sale.createdAt, courseId: sale.courseId, courseData: {} };
+  });
+
+  console.log(DatesId);
 
   let CoursesByName: any = [];
+
+  let SalesWithDate: any = [];
 
   if (CoursesNames && CoursesNames.length > 0) {
     CoursesByName = AllCourses.filter((course) => {
@@ -92,16 +115,37 @@ export default function BasicTable() {
       }
     });
   }
-  const rows = CoursesByName;
+
+  if (DatesId && DatesId.length > 0) {
+    DatesId.forEach((date) => {
+      for (let i = 0; i < CoursesByName.length; i++) {
+        if (CoursesByName[i].id === date.courseId)
+          SalesWithDate.push({
+            date: DatesId[i].date,
+            courseId: DatesId[i].courseId,
+            courseData: CoursesByName[i],
+          });
+      }
+    });
+  }
+
+  console.log("SalesContent");
+  console.log(SalesWithDate);
+  const rows = SalesWithDate;
   console.log(`cursos comprados por ${userFullname} `);
   console.log(rows);
 
   React.useEffect(() => {
+    dispatch(getSales());
     dispatch(getBoughtCoursesNames(userEmail));
     console.log(`cursos comprados por ${userFullname}`);
     console.log(CoursesNames);
     console.log(rows);
   }, []);
+
+  function formatearFecha(fecha: string) {
+    return format(new Date(fecha), "yyyy-MM-dd HH:mm:ss");
+  }
 
   return (
     <TableContainer component={Paper}>
@@ -124,16 +168,16 @@ export default function BasicTable() {
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.name}
+                {row.courseData.name}
               </TableCell>
-              <TableCell align="left">{row.level}</TableCell>
-              <TableCell align="center">{row.duration}</TableCell>
-              <TableCell align="center">{row.instructor}</TableCell>
-              <TableCell align="right">{row.price}</TableCell>
-              <TableCell align="right">Fecha de Compra</TableCell>
+              <TableCell align="left">{row.courseData.level}</TableCell>
+              <TableCell align="center">{row.courseData.duration}</TableCell>
+              <TableCell align="center">{row.courseData.instructor}</TableCell>
+              <TableCell align="right">$ {row.courseData.price}</TableCell>
+              <TableCell align="right">{formatearFecha(row.date)}</TableCell>
               <TableCell align="center">
                 <Box display="flex" justifyContent="center" alignItems="center">
-                  <CourseComment course={row} userId={userEmail} />
+                  <CourseComment course={row.courseData} userId={userEmail} />
                 </Box>
               </TableCell>
             </TableRow>
