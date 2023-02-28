@@ -17,8 +17,16 @@ export const allUsers = createSlice({
     BanUsers: (state, { payload }) => {
       state.users = state.users.filter((user) => !user.banned && user.id !== payload[0].id);
 
+    },
+    
+    UpdateAllUsers: (state, { payload }) => {
+      state.users = state.users.map((user) => {
+        return !user.banned && user.id === payload.id ? { ...user, rank: payload.rank } : user;
+      });
+    }
+
     }
   },
-});
+);
 
 export const reducer = allUsers.actions;

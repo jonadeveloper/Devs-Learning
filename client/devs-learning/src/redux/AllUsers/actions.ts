@@ -45,6 +45,24 @@ export const BanUser = (
 
 };
 
+export const EditUser = (
+  data: any
+  
+): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return (dispatch) => {
+
+    axios
+      .put(`${REACT_APP_BASE_URL}/updateUserRol`, data)
+      .then((response) => {
+        console.log("🚀 ~ file: actions.ts:44 ~ return ~ user:", data)
+         dispatch(reducer.UpdateAllUsers(data));
+
+      })
+
+  };
+
+};
+
 
 
 
