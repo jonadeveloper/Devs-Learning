@@ -11,7 +11,12 @@ export const allUsers = createSlice({
   reducers: {
 
     setAllUsers: (state, { payload }) => {
-      state.users = payload;
+      state.users = payload.filter((user: any) => !user.banned);
+
+    },
+    BanUsers: (state, { payload }) => {
+      state.users = state.users.filter((user) => !user.banned && user.id !== payload[0].id);
+
     }
   },
 });
