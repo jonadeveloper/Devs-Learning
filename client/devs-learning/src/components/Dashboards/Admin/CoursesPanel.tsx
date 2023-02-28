@@ -123,7 +123,6 @@ const columns: MUIDataTableColumn[] = [
         In this section we manage all the courses on the platform
       </Typography>
       </Box>
-      <Button onClick={abrirCerrarModalInsertar}>crear curso</Button>
       <MUIDataTable
       title={"list of platform courses"}
       data={data}
