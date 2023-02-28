@@ -11,7 +11,8 @@ const LandingPage: React.FC = () => {
     <Grid container direction="row" mt={3} bgcolor="#6DBAC6">
       <Grid
         item
-        xs={6}
+        xs={12}
+        md={6}
         display="flex"
         alignItems="center"
         justifyContent="center"
@@ -31,8 +32,7 @@ const LandingPage: React.FC = () => {
               component="a"
               href="/"
               sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
+                display: { md: "flex" },
                 fontFamily: "monospace",
                 fontWeight: 700,
                 letterSpacing: ".3rem",
@@ -63,7 +63,8 @@ const LandingPage: React.FC = () => {
 
       <Grid
         item
-        xs={6}
+        xs={12}
+        md={6}
         display="flex"
         alignItems="center"
         justifyContent="center"
