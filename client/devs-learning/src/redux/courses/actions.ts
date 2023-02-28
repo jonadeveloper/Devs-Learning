@@ -30,11 +30,11 @@ export const getCourses = (): ThunkAction<
   };
 };
 export const getCoursesByName = (
-  name: string
+  id: string
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return (dispatch) => {
     dispatch(reducer.setLoading());
-    axios.get(`${BACK}/courses?name=${name}`).then((response) => {
+    axios.get(`${BACK}/courses?id=${id}`).then((response) => {
       response.data.map((course: any) => {
         course.name = course.name.replaceAll("-", " ");
         course.name = course.name[0].toUpperCase() + course.name.substring(1);

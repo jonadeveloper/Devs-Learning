@@ -30,6 +30,7 @@ import { initializeApp } from "firebase/app";
 import { createMPButton } from "../components/meliButton/meliButton";
 import { SuccessPage } from "../components/Payment/SuccessPage";
 import { ProcessingPage } from "../components/Payment/ProcessingPage";
+import { EditForm } from "../components/Courses/EditForm";
 export var profileImg: string;
 export var userFullname: string;
 export var userEmail: string;
@@ -111,6 +112,7 @@ export const AppRouter = () => {
         <Route path={`/dash/Admin`} element={<DashboardAdmin />} />
         <Route path={"/user"} element={<UserDashboard />} />
         <Route path={"/payment/processing"} element={<ProcessingPage />} />
+        {/* <Route path={`/dashboard/edit/course/:id`} element={<EditForm />} /> */}
 
         <Route
           path={`/auth/*`}

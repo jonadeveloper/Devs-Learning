@@ -1,4 +1,4 @@
-enum Ranks {
+export enum Ranks {
   admin,
   teacher,
   student,

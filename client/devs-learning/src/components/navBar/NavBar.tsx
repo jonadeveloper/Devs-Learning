@@ -43,6 +43,10 @@ const settings = [
     route: "/dashboard/create/course",
   },
   {
+    name: "Edit Course (Temp)",
+    route: "/dashboard/edit/course/aea8d308-e8e0-4c37-8c59-d738b3b143aa",
+  },
+  {
     name: "Dashboard",
     route: "/",
   },
