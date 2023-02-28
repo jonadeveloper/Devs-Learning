@@ -16,6 +16,8 @@ const UsersPanel: React.FC = () => {
   useEffect(() => {
     dispatch(getUsersInfo());
   }, []);
+  console.log(users);
+  
 
   const [editedUserId, setEditedUserId] = useState<number | null>(null);
   const [editedRank, setEditedRank] = useState<string>("");

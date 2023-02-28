@@ -53,7 +53,7 @@ export const DesBanUser = (
     axios
       .put(`${REACT_APP_BASE_URL}/pardon?id=${user[0].id}`)
       .then((response) => {
-        console.log("🚀 ~ file: actions.ts:44 ~ return ~ user:", user)
+        console.log("🚀 ~ file: actions.ts:56 ~ return ~ user:", user)
         dispatch(reducer.DesBanUsers(user));
 
       })

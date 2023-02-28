@@ -21,6 +21,8 @@ export const allUsers = createSlice({
     },
     
     DesBanUsers: (state, { payload }) => {
+      console.log("Linea 24 action"+payload);
+      
       state.users = state.users.map((user) => {
         return  user.id === payload.id ? { ...user, banned: payload.banned } : user;
       });
