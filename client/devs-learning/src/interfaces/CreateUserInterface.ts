@@ -15,7 +15,7 @@ export interface CreateUserInterface {
   country?: string;
   status?: string;
   id?: string;
-  banned?: string;
+  banned?: boolean;
 }
 
 export interface AllUsers {
