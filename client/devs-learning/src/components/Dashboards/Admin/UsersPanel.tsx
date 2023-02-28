@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { Button, TextField } from "@mui/material";
 import MUIDataTable, { MUIDataTableOptions, MUIDataTableColumn } from "mui-datatables";
-import { getUsersInfo, BanUser, EditUser } from "../../../redux/AllUsers/actions";
+import { getUsersInfo, BanUser, EditUser, DesBanUser } from "../../../redux/AllUsers/actions";
 // import Select from "@material-ui/core/Select";
 // import { MenuItem } from "@material-ui/core";
 
@@ -77,6 +77,15 @@ const UsersPanel: React.FC = () => {
       label: "ID",
     },
     {
+      name: "banned",
+      label: "BANNED",
+      options: {
+        customBodyRender: (value: boolean) => {
+          return value ? "Yes" : "No";
+        },
+      },
+    },
+    {
       name: "action",
       label: "Action",
       options: {
@@ -100,7 +109,10 @@ const UsersPanel: React.FC = () => {
                   Edit
                 </Button>
                 <Button variant="outlined" onClick={() => handleDelete(rowIndex)}>
-                  Delete
+                  BAN
+                </Button>
+                <Button variant="outlined" onClick={() => handleDesBan(rowIndex)}>
+                  DESBAN
                 </Button>
               </>
             );
@@ -126,6 +138,14 @@ const UsersPanel: React.FC = () => {
     const data = newData.splice(rowIndex, 1);
     console.log("🚀 ~ file: UsersPanel.tsx:92 ~ handleDelete ~ data:", data[0].id);
     dispatch(BanUser(data));
+  };
+  
+  const handleDesBan = (rowIndex: number) => {
+    // Create a new array without the selected row
+    const newData = [...users];
+    const data = newData.splice(rowIndex, 1);
+    console.log("🚀 ~ file: UsersPanel.tsx:92 ~ handleDelete ~ data:", data[0].id);
+    dispatch(DesBanUser(data));
   };
 
   const handleEdit = (value:any) => {
