@@ -23,6 +23,7 @@ export const getUsersInfo = (): ThunkAction<
     axios.get(`http://localhost:3001/usersInfo`).then((response) => {
 
       dispatch(reducer.setAllUsers(response.data));
+      console.log("🚀 ~ file: actions.ts:26 ~ axios.get ~ response:", response.data)
     });
   };
 };
@@ -33,7 +34,7 @@ export const BanUser = (
   return (dispatch) => {
 
     axios
-      .put(`${REACT_APP_BASE_URL}/ban?id=${user}`)
+      .put(`${REACT_APP_BASE_URL}/ban?id=${user[0].id}`)
       .then((response) => {
         console.log("🚀 ~ file: actions.ts:44 ~ return ~ user:", user)
         dispatch(reducer.BanUsers(user));
