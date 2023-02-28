@@ -4,7 +4,12 @@ import PasswordChange from "../../../views/ChangePassword";
 import { deleteUser, getAuth } from "firebase/auth";
 import Swal from "sweetalert2";
 import { useAppDispatch } from "../../../hooks/hooksRedux";
-import { signOutAction } from "../../../redux/users/actions";
+import {
+  REACT_APP_BASE_URL,
+  signOutAction,
+} from "../../../redux/users/actions";
+import axios from "axios";
+import { setItem } from "../../../utils/localStorage";
 
 const UserAccountSettings: React.FC = () => {
   const auth = getAuth();
@@ -25,10 +30,16 @@ const UserAccountSettings: React.FC = () => {
 
       if (user && confirmResult.isConfirmed) {
         Swal.showLoading();
-        await deleteUser(user);
-        Swal.hideLoading();
-        Swal.fire("User succesfully deleted", "We go miss you :(", "success");
-        dispatch(signOutAction());
+        const response = await axios.delete(
+          `${REACT_APP_BASE_URL}/deletecurrentuser?id=${user.uid}`
+        );
+        if (response) {
+          await deleteUser(user);
+          Swal.hideLoading();
+          Swal.fire("User succesfully deleted", "We go miss you :(", "success");
+          setItem("loggedUserInfo", undefined);
+          dispatch(signOutAction());
+        }
       }
     } catch (error) {
       Swal.fire(`${error}`, "User dont exist", "error");

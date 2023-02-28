@@ -19,14 +19,16 @@ const { Users } = require("../../db");
 export async function signUp(req: Request, res: Response) {
   try {
     const { fullname, email, password } = req.body;
+
     let userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
       password
     );
     const user = userCredential.user;
+    const userExists = Users.findOne({ where: { email: email } });
     const fullnameDB = fullname.split(" ").join("-").toLowerCase();
-    if (user) {
+    if (user && userExists) {
       Users.create({
         id: user.uid,
         fullname: fullnameDB,
@@ -86,7 +88,6 @@ export async function recoverPassword(req: Request, res: Response) {
 }
 
 export async function fakeSignUp(req: Request, res: Response) {
-
   try {
     const { email, displayName, uid } = req.body;
     const userExists = await Users.findOne({
@@ -110,7 +111,6 @@ export async function fakeSignUp(req: Request, res: Response) {
         html: `<h1>Bienvenido a Devslearning, <strong>${fullnameDB}</strong>!</h1>`,
       });
       return res.status(201).send("Succesfully created");
-
     }
     return res.status(201).send("Succesfully login");
   } catch (error) {

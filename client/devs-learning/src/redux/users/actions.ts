@@ -12,12 +12,6 @@ import Swal from "sweetalert2";
 import { CreateUserInterface } from "../../interfaces/CreateUserInterface";
 import { RootState } from "../store";
 import { reducer } from "./slice";
-import {
-  userEmail,
-  userFullname,
-  userLastLogin,
-  userPhoneNumber,
-} from "../../router/index";
 
 export const { REACT_APP_BASE_URL, REACT_APP_FIREBASE_CONFIG } = process.env;
 const provider = new GoogleAuthProvider();
@@ -38,7 +32,9 @@ export const registerUser = (
           asLink ? (window.location.href = url) : window.location.replace(url);
         dispatch(reducer.signUp(response.data));
         Swal.fire("Create user successfully! Please Login", "", "success");
-        redirect(`/auth/signin`);
+        setTimeout(function () {
+          redirect(`/auth/signin`);
+        }, 2000);
       }
     } catch (error) {
       Swal.fire(`Error: ${error}, try again`, "", "error");
@@ -110,8 +106,7 @@ export const signInWithGoogle = (
           })
           .catch((error) => {
             console.log(error);
-
-          })
+          });
       }
     } catch (error: any) {
       Swal.hideLoading();
@@ -162,9 +157,9 @@ export const signOutAction = (): ThunkAction<
 > => {
   return async (dispatch) => {
     try {
-      let result = await signOut(auth);
-      dispatch(reducer.logOut(result));
+      await signOut(auth);
       userInfoObj = undefined;
+      dispatch(reducer.logOut(userInfoObj));
       Swal.fire("Log out", "", "success");
     } catch (error) {
       Swal.fire(`${error}, try again`, "", "error");
@@ -180,7 +175,6 @@ export const setFullName = (
     return dispatch(reducer.setFullName({ name, email }));
   };
 };
-
 
 export const getBoughtCoursesNames = (
   userEmail: any
@@ -201,4 +195,3 @@ export const getBoughtCoursesNames = (
     return dispatch(reducer.setBoughtCourses(user[0].courses));
   };
 };
-
