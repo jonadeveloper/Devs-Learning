@@ -29,9 +29,6 @@ import {
   userPhoneNumber,
 } from "../../../router/index";
 
-export interface CourseNames {
-  name: string;
-}
 export interface RatingContent {
   rating: string;
   comment: string;
@@ -75,21 +72,11 @@ const BoughtCourse1: BoughtCourse = {
   rating: [],
 };
 
-export interface SaleContent {
-  date: any;
-  courseId: string;
-  courseData: BoughtCourse;
-}
-
 export default function BasicTable() {
   const dispatch = useAppDispatch();
   const CoursesNames = useAppSelector((state) => state.users.courses);
   const AllSales = useAppSelector((state) => state.sales.sales);
   const AllCourses = useAppSelector((state) => state.courses.courses);
-  console.log("Courses Names");
-  console.log(CoursesNames);
-  console.log("Sales");
-  console.log(AllSales);
 
   const UserSales = AllSales.filter((sale) => {
     return sale.email === userEmail.toString();
@@ -107,8 +94,6 @@ export default function BasicTable() {
 
   if (CoursesNames && CoursesNames.length > 0) {
     CoursesByName = AllCourses.filter((course) => {
-      // const newName = course.name.toLowerCase().split(" ");
-      // const newNameWithLine = newName.join("-");
       for (let i = 0; i < CoursesNames.length; i++) {
         const element: any = CoursesNames[i];
         if (element.name === course.name) return course;
@@ -129,8 +114,6 @@ export default function BasicTable() {
     });
   }
 
-  console.log("SalesContent");
-  console.log(SalesWithDate);
   const rows = SalesWithDate;
   console.log(`cursos comprados por ${userFullname} `);
   console.log(rows);
@@ -139,7 +122,6 @@ export default function BasicTable() {
     dispatch(getSales());
     dispatch(getBoughtCoursesNames(userEmail));
     console.log(`cursos comprados por ${userFullname}`);
-    console.log(CoursesNames);
     console.log(rows);
   }, []);
 
