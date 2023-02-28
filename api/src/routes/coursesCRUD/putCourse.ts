@@ -81,7 +81,11 @@ export async function putRating(req: any, res: any) {
       }
     });
     rating.course = nameCourse;
-    let newRating = [...course.rating, rating];
+    
+    
+    let oldRating: any = await course.rating.filter((rat: any) => rating.user !== rat.user)
+
+    let newRating = [...oldRating, rating];
     await Course.update({
       rating: newRating
     }, {
@@ -89,7 +93,7 @@ export async function putRating(req: any, res: any) {
         name: nameCourseDb
       }
     });
-    return res.status(200).send("The rating has been updated");
+    return res.status(200).send(`The rating has been updated.`);
   } catch (err) {
     return res.status(200).send(err);
   }

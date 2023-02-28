@@ -33,10 +33,12 @@ const CourseComment: React.FC<CourseCommentProps> = ({ course, userId }) => {
   }); */
 
   let RATING = {
-    rating: value,
-    comment: comment,
-    user: userId,
-    course: course.name,
+    nameCourse: course.name,
+    rating: {
+      rating: value,
+      comment: comment,
+      user: userId,
+    },
   };
 
   //getCommentIfExists.

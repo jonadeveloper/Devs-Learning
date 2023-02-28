@@ -102,7 +102,7 @@ export const courses = createSlice({
       state.searched = "";
     },
     addRating: (state, { payload }) => {
-      state.currentCourse.rating = [state.currentCourse.rating, payload];
+      state.currentCourse.rating = [state.currentCourse.rating.filter((rat: any) => rat.user !== payload.user), payload];
     },
 
     clearCart: (state) => {
