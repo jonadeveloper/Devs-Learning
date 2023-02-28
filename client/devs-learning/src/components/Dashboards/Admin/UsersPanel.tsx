@@ -6,9 +6,9 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { Button, TextField } from "@mui/material";
 import MUIDataTable, { MUIDataTableOptions, MUIDataTableColumn } from "mui-datatables";
-import { getUsersInfo, BanUser } from "../../../redux/AllUsers/actions";
-import Select from "@material-ui/core/Select";
-import { MenuItem } from "@material-ui/core";
+import { getUsersInfo, BanUser, EditUser } from "../../../redux/AllUsers/actions";
+// import Select from "@material-ui/core/Select";
+// import { MenuItem } from "@material-ui/core";
 
 const UsersPanel: React.FC = () => {
   const { users } = useAppSelector((state) => state.allUsers);
@@ -17,7 +17,26 @@ const UsersPanel: React.FC = () => {
     dispatch(getUsersInfo());
   }, []);
 
-  const [tableData, setTableData] = useState(["Admin"]);
+  const [editedUserId, setEditedUserId] = useState<number | null>(null);
+  const [editedRank, setEditedRank] = useState<string>("");
+
+  const handleSave = (user:any) => {
+    const data = {
+      id: user,
+      rank: editedRank
+    }
+    if (editedUserId !== null) {
+      // Send request to update user's rank
+      console.log(`Saving rank "${editedRank}" for user with ID ${editedUserId}`);
+      // TODO: Call server API to update the user's rank here
+      console.log(data);
+
+      dispatch(EditUser(data))
+      setEditedUserId(null);
+
+    }
+  };
+
   const columns: MUIDataTableColumn[] = [
     {
       name: "fullname",
@@ -27,23 +46,24 @@ const UsersPanel: React.FC = () => {
       name: "rank",
       label: "Rank",
       options: {
-        customBodyRenderLite: (dataIndex, rowIndex) => {
-          const handleChange = (event: { target: { value: any } }) => {
-            setTableData(event.target.value);
-          };
-          return (
-            <Select
-              value={tableData}
-              onChange={handleChange}
-              variant="outlined"
-              fullWidth
-              inputProps={{ style: { textAlign: "center" } }}
-            >
-              <MenuItem value="Student">Student</MenuItem>
-              <MenuItem value="Admin">Admin</MenuItem>
-              <MenuItem value="Teacher">Teacher</MenuItem>
-            </Select>
-          );
+        customBodyRender: (value: string, tableMeta: any) => {
+          const rowIndex = tableMeta.rowIndex;
+          const user = tableMeta.currentTableData[rowIndex]
+                   
+          if (rowIndex === editedUserId) {
+            // Render text field for editing the rank
+            return (
+              <TextField
+                value={editedRank}
+                onChange={(e) => setEditedRank(e.target.value)}
+                size="small"
+                fullWidth
+              />
+            );
+          } else {
+            // Render plain text for the rank
+            return value;
+          }
         },
       },
     },
@@ -51,22 +71,40 @@ const UsersPanel: React.FC = () => {
       name: "email",
       label: "Email",
     },
+    
+    {
+      name: "id",
+      label: "ID",
+    },
     {
       name: "action",
       label: "Action",
       options: {
         customBodyRender: (value: any, tableMeta: any, updateValue: any) => {
           const rowIndex = tableMeta.rowIndex;
-          return (
-            <>
-              <Button variant="outlined" onClick={() => handleEdit(rowIndex)}>
-                Edit
+          const userId = tableMeta.currentTableData[rowIndex].data[3];
+          
+
+          if (rowIndex === editedUserId) {
+            // Render "Save" button when editing
+            return (
+              <Button variant="outlined" onClick={() => handleSave(userId)}>
+                Save
               </Button>
-              <Button variant="outlined" onClick={() => handleDelete(rowIndex)}>
-                Delete
-              </Button>
-            </>
-          );
+            );
+          } else {
+            // Render "Edit" and "Delete" buttons when not editing
+            return (
+              <>
+                <Button variant="outlined" onClick={() => setEditedUserId(rowIndex)}>
+                  Edit
+                </Button>
+                <Button variant="outlined" onClick={() => handleDelete(rowIndex)}>
+                  Delete
+                </Button>
+              </>
+            );
+          }
         },
       },
     },
@@ -90,7 +128,10 @@ const UsersPanel: React.FC = () => {
     dispatch(BanUser(data));
   };
 
-  const handleEdit = (rowIndex: number) => {};
+  const handleEdit = (value:any) => {
+    console.log(value);
+    
+  };
 
   return (
     <Grid container xs={12}>
