@@ -7,12 +7,19 @@ import { REACT_APP_BASE_URL } from "../../redux/users/actions";
 import { clearCart } from "../../redux/courses/actions";
 import { useNavigate } from "react-router-dom";
 
+const BACK = process.env.REACT_APP_BASE_URL;
+
 export const ProcessingPage = () => {
   const { email } = useAppSelector((state) => state.users);
   const { cart } = useAppSelector((state) => state.courses);
   const dispatch = useAppDispatch();
 
   const clearCartDB = async () => {
+    await axios.post(`${BACK}/pay/email`, {
+      cart: cart,
+      email: email,
+    });
+
     await axios.put(`${REACT_APP_BASE_URL}/updateCart`, {
       email: email,
       cart: cart,
