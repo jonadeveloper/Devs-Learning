@@ -15,6 +15,9 @@ function putCourse(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             let { name, img, level, description, descriptionComplete, duration, instructor, price, category, } = req.body;
+            if (!name) {
+                return res.status(404).send("The name has not been recognized or has not been entered, please try again.");
+            }
             let nameDB = name.split(" ").join("-").toLowerCase();
             let course = yield Course.findOne({
                 where: { name: nameDB },
@@ -69,7 +72,12 @@ function putCourse(req, res) {
             return res.status(200).send(`The course ${name} has been updated`);
         }
         catch (err) {
-            return res.status(404).send(err);
+            const errName = err.name;
+            const errCode = err.code;
+            const errMessage = err.message;
+            return res.status(404).send(errName ?
+                `Error ${errCode}: ${errName} - ${errMessage}` :
+                "Something went wrong, please try again.");
         }
     });
 }
@@ -78,6 +86,9 @@ function putRating(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             let { rating, nameCourse } = req.body;
+            if (!nameCourse) {
+                return res.status(404).send("The name has not been recognized or has not been entered, please try again.");
+            }
             let nameCourseDb = nameCourse.split(" ").join("-").toLowerCase();
             let course = yield Course.findOne({
                 where: {
@@ -97,7 +108,12 @@ function putRating(req, res) {
             return res.status(200).send(`The rating has been updated.`);
         }
         catch (err) {
-            return res.status(200).send(err);
+            const errName = err.name;
+            const errCode = err.code;
+            const errMessage = err.message;
+            return res.status(404).send(errName ?
+                `Error ${errCode}: ${errName} - ${errMessage}` :
+                "Something went wrong, please try again.");
         }
     });
 }

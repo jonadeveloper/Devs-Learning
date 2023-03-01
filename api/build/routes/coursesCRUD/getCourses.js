@@ -28,7 +28,9 @@ function getCourses(req, res) {
                         },
                     },
                 });
-                course.length === 0 ? res.status(404).send(`The course ${name} has not been found`) : res.status(200).send(course);
+                course.length === 0 ?
+                    res.status(404).send(`The course ${name} has not been found`) :
+                    res.status(200).send(course);
             }
             else if (id) {
                 if (myRegEx.test(id)) {
@@ -42,10 +44,12 @@ function getCourses(req, res) {
                             },
                         },
                     });
-                    course.length === 0 ? res.status(404).send("The course has not been found") : res.status(200).send(course);
+                    course.length === 0 ?
+                        res.status(404).send("The course has not been found") :
+                        res.status(200).send(course);
                 }
                 else {
-                    return res.status(404).send("Id doesn't match type UUID");
+                    return res.status(404).send("ID doesn't match type UUID");
                 }
             }
             else {
@@ -62,7 +66,12 @@ function getCourses(req, res) {
             }
         }
         catch (err) {
-            return res.status(404).send(err);
+            const errName = err.name;
+            const errCode = err.code;
+            const errMessage = err.message;
+            return res.status(404).send(errName ?
+                `Error ${errCode}: ${errName} - ${errMessage}` :
+                "Something went wrong, please try again.");
         }
     });
 }
@@ -78,7 +87,12 @@ function getRatings(_req, res) {
             return res.status(200).send(ratings);
         }
         catch (err) {
-            return res.status(200).send(err);
+            const errName = err.name;
+            const errCode = err.code;
+            const errMessage = err.message;
+            return res.status(404).send(errName ?
+                `Error ${errCode}: ${errName} - ${errMessage}` :
+                "Something went wrong, please try again.");
         }
     });
 }

@@ -13,6 +13,9 @@ export async function putCourse(req: any, res: any) {
       price,
       category,
     } = req.body;
+    if(!name){
+      return res.status(404).send("The name has not been recognized or has not been entered, please try again.")
+    }
     let nameDB = name.split(" ").join("-").toLowerCase();
     let course = await Course.findOne({
       where: { name: nameDB },
@@ -66,14 +69,22 @@ export async function putCourse(req: any, res: any) {
       });
     };
     return res.status(200).send(`The course ${name} has been updated`);
-  } catch (err) {
-    return res.status(404).send(err);
+  } catch (err: any) {
+    const errName = err.name;
+    const errCode = err.code;
+    const errMessage = err.message;
+    return res.status(404).send(errName ? 
+      `Error ${errCode}: ${errName} - ${errMessage}` : 
+      "Something went wrong, please try again.");
   }
 }
 
 export async function putRating(req: any, res: any) {
   try {
     let { rating, nameCourse } = req.body;
+    if(!nameCourse){
+      return res.status(404).send("The name has not been recognized or has not been entered, please try again.");
+    }
     let nameCourseDb = nameCourse.split(" ").join("-").toLowerCase();
     let course = await Course.findOne({
       where: {
@@ -81,10 +92,7 @@ export async function putRating(req: any, res: any) {
       }
     });
     rating.course = nameCourse;
-    
-    
     let oldRating: any = await course.rating.filter((rat: any) => rating.user !== rat.user)
-
     let newRating = [...oldRating, rating];
     await Course.update({
       rating: newRating
@@ -94,7 +102,12 @@ export async function putRating(req: any, res: any) {
       }
     });
     return res.status(200).send(`The rating has been updated.`);
-  } catch (err) {
-    return res.status(200).send(err);
+  } catch (err: any) {
+    const errName = err.name;
+    const errCode = err.code;
+    const errMessage = err.message;
+    return res.status(404).send(errName ? 
+      `Error ${errCode}: ${errName} - ${errMessage}` : 
+      "Something went wrong, please try again.");
   }
 }

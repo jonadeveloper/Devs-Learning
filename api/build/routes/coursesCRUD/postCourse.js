@@ -15,6 +15,9 @@ function postCourse(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { name, img, level, description, descriptionComplete, duration, instructor, price, category, } = req.body;
+            if (!name) {
+                return res.status(404).send("The name has not been recognized or has not been entered, please try again.");
+            }
             let nameDB = name.split(" ").join("-").toLowerCase();
             let courseExist = yield Course.findOne({
                 where: { name: nameDB },
@@ -46,8 +49,12 @@ function postCourse(req, res) {
             return res.status(200).send(`The Course ${name} has been created`);
         }
         catch (err) {
-            console.log(err);
-            return res.status(500).send(err);
+            const errName = err.name;
+            const errCode = err.code;
+            const errMessage = err.message;
+            return res.status(500).send(errName ?
+                `Error ${errCode}: ${errName} - ${errMessage}` :
+                "Something went wrong, please try again.");
         }
     });
 }

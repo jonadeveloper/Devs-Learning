@@ -15,13 +15,24 @@ function deleteCourse(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { name } = req.params;
-            Course.destroy({
-                where: { "name": name }
-            });
-            return res.status(200).send(`The course ${name} has been deleted`);
+            if (name) {
+                let nameDB = name.split(" ").join("-").toLowerCase();
+                Course.destroy({
+                    where: { "name": nameDB }
+                });
+                return res.status(200).send(`The course ${name} has been deleted`);
+            }
+            else {
+                return res.status(404).send("The name has not been recognized or has not been entered, please try again.");
+            }
         }
         catch (err) {
-            return res.status(404).send(err);
+            const errName = err.name;
+            const errCode = err.code;
+            const errMessage = err.message;
+            return res.status(404).send(errName ?
+                `Error ${errCode}: ${errName} - ${errMessage}` :
+                "Something went wrong, please try again.");
         }
     });
 }

@@ -11,7 +11,12 @@ export async function getSales(_req: any, res: any) {
             return { ...sale.dataValues, user_name: user.fullname.replace("-", " "), email: user.email  }
         })
         res.send(result)
-    } catch (error) {
-        res.send(error)
+    } catch (err: any) {
+        const errName = err.name;
+        const errCode = err.code;
+        const errMessage = err.message;
+        return res.status(404).send(errName ? 
+            `Error ${errCode}: ${errName} - ${errMessage}` : 
+            "Something went wrong, please try again.");
     }
 }

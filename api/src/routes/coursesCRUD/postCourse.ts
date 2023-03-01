@@ -13,6 +13,9 @@ export async function postCourse(req: any, res: any) {
       price,
       category,
     } = req.body;
+    if(!name){
+      return res.status(404).send("The name has not been recognized or has not been entered, please try again.")
+    }
     let nameDB = name.split(" ").join("-").toLowerCase();
     let courseExist = await Course.findOne({
       where: { name: nameDB },
@@ -41,8 +44,12 @@ export async function postCourse(req: any, res: any) {
       courseCreated.addCategory(el);
     });
     return res.status(200).send(`The Course ${name} has been created`);
-  } catch (err) {
-    console.log(err);
-    return res.status(500).send(err);
+  } catch (err: any) {
+    const errName = err.name;
+    const errCode = err.code;
+    const errMessage = err.message;
+    return res.status(500).send(errName ? 
+      `Error ${errCode}: ${errName} - ${errMessage}` : 
+      "Something went wrong, please try again.");
   }
 }

@@ -4,18 +4,27 @@ const { Users } = require("../../db");
 export async function deleteLogicUser(req: Request, res: Response) {
   try {
     const { id } = req.query;
-    await Users.update(
-      {
-        banned: true,
-      },
-      {
-        where: {
-          id: id,
+    if(id){
+      await Users.update(
+        {
+          banned: true,
         },
-      }
-    );
-    return res.status(200).send("Update successfully");
-  } catch (err) {
-    return res.status(404).send("Error: " + err);
+        {
+          where: {
+            id: id,
+          },
+        }
+      );
+      return res.status(200).send("Update successfully");
+    }else{
+      return res.status(404).send("The ID has not been recognized or has not been entered, please try again.")
+    }
+  } catch (err: any) {
+    const errName = err.name;
+    const errCode = err.code;
+    const errMessage = err.message;
+    return res.status(404).send(errName ? 
+      `Error ${errCode}: ${errName} - ${errMessage}` : 
+      "Something went wrong, please try again.");
   }
 }
