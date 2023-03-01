@@ -35,6 +35,7 @@ export async function signUp(req: Request, res: Response) {
         email: user.email,
         lastLogin: user.metadata.creationTime,
         banned: false,
+        rank: "student"
       });
     }
 
@@ -101,6 +102,7 @@ export async function fakeSignUp(req: Request, res: Response) {
         fullname: fullnameDB,
         email: email,
         banned: false,
+        rank: "student"
       });
 
       sendMail({

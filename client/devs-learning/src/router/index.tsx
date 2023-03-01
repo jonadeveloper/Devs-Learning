@@ -74,7 +74,7 @@ export const AppRouter = () => {
     }
   }, [status]);
 
-  const { courses } = useAppSelector((state) => state.users);
+  const { courses, rank } = useAppSelector((state) => state.users);
 
   useEffect(() => {
     dispatch(clearBoughtCart(cart, courses));
@@ -109,10 +109,8 @@ export const AppRouter = () => {
         <Route path={`/courseDetail/:id`} element={<CourseDetail />} />
         <Route path={`/categories`} element={<Categories />} />
         <Route path={`/categories/:name`} element={<CoursePerCategories />} />
-        <Route path={`/dash/Admin`} element={<DashboardAdmin />} />
         <Route path={"/user"} element={<UserDashboard />} />
         <Route path={"/payment/processing"} element={<ProcessingPage />} />
-        {/* <Route path={`/dashboard/edit/course/:id`} element={<EditForm />} /> */}
 
         <Route
           path={`/auth/*`}
@@ -126,7 +124,7 @@ export const AppRouter = () => {
           path={`/*`}
           element={
             <PrivateRoute isLoggedin={status}>
-              <LoggedRoutes rol={"user"} />
+              <LoggedRoutes rol={rank} />
             </PrivateRoute>
           }
         />

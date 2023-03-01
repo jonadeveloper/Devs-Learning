@@ -14,7 +14,7 @@ const { Course, Users } = require("../../db");
 function getUsersInfo(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { id } = req.query;
+            const { id, email } = req.query;
             if (id) {
                 let user = yield Users.findAll({
                     where: {
@@ -31,6 +31,24 @@ function getUsersInfo(req, res) {
                 user.length === 0
                     ? res.status(400).send(`The User has not been found`)
                     : res.status(200).send(user);
+            }
+            else if (email) {
+                let user = yield Users.findAll({
+                    where: {
+                        email: email,
+                    },
+                    include: {
+                        model: Course,
+                        attributes: ["name"],
+                        through: {
+                            attributes: [],
+                        },
+                    },
+                });
+                if (user.length === 0) {
+                    return res.status(400).send(`The User has not been found`);
+                }
+                return res.status(200).send(user);
             }
             let users = yield Users.findAll({
                 include: {

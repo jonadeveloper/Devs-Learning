@@ -268,11 +268,13 @@ function ResponsiveAppBar() {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
-                    <NavLink to={setting.route}>
+                  <NavLink to={setting.route} style={{ display: "flex", height: "100%", width: "100%" }}>
+
+                    <MenuItem key={setting.name} onClick={handleCloseUserMenu} style={{ display: "flex", height: "100%", width: "100%" }}>
                       <Typography textAlign="center">{setting.name}</Typography>
-                    </NavLink>
-                  </MenuItem>
+                    </MenuItem>
+                  </NavLink>
+
                 ))}
                 <MenuItem key={"Logout"} onClick={handleLogout}>
                   <Typography textAlign="center">Logout</Typography>

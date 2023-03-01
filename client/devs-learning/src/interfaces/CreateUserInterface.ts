@@ -11,7 +11,7 @@ export interface CreateUserInterface {
   email: string;
   profileImg?: string;
   courses?: { name: string }[];
-  rank?: Ranks;
+  rank: string;
   country?: string;
   status?: string;
   id?: string;

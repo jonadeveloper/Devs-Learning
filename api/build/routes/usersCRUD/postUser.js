@@ -34,6 +34,7 @@ function signUp(req, res) {
                     email: user.email,
                     lastLogin: user.metadata.creationTime,
                     banned: false,
+                    rank: "student"
                 });
             }
             yield (0, auth_1.updateProfile)(user, { displayName: fullname }).catch((err) => {
@@ -104,6 +105,7 @@ function fakeSignUp(req, res) {
                     fullname: fullnameDB,
                     email: email,
                     banned: false,
+                    rank: "student"
                 });
                 (0, sendMail_1.sendMail)({
                     from: "simon__navarrete@hotmail.com",
