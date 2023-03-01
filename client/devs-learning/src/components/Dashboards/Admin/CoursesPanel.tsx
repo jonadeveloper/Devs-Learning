@@ -9,19 +9,21 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import MUIDataTable, { MUIDataTableOptions, MUIDataTableColumn } from "mui-datatables";
-import { getCourses , editCourseAction } from "../../../redux/courses/actions";
+import { getCourses , editCourseAction , BanCourse } from "../../../redux/courses/actions";
 
 
 const CoursesPanel: React.FC = () => {
-  const [modalInsertar,setModalInsertar] = useState(false);
   const { courses } = useAppSelector((state) => state.courses);
   console.log(courses)
-  const abrirCerrarModalInsertar =()=>{
-    setModalInsertar(modalInsertar);
-  }
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getCourses())
+  },[dispatch]);
 
 
   interface RowData{
+    id: string,
     name: string,
     description: string,
     duration: string,
@@ -29,11 +31,15 @@ const CoursesPanel: React.FC = () => {
     price: string,
     instructor: string
   }
-  const dispatch = useAppDispatch();
+  
 
  const initialData : RowData[] = courses
 
 const columns: MUIDataTableColumn[] = [
+  {
+    name: "id",
+    label: "ID"
+  },
   {
     name: "name",
     label: "Name"
@@ -99,21 +105,16 @@ const columns: MUIDataTableColumn[] = [
   const [data, setData] = useState(initialData);
 
   const handleDelete = (rowIndex: number) => {
-    const newData = [...data];
-    newData.splice(rowIndex, 1);
-    setData(newData);
+    // Create a new array without the selected row
+    const newData = [...courses];
+    const data = newData.splice(rowIndex, 1);
+    console.log("🚀 ~ file: UsersPanel.tsx:92 ~ handleDelete ~ data:", data[0].id);
+    dispatch(BanCourse(data));
   };
 
   const handleEdit = (rowIndex: number) => {
 
   };
-  
-  
-
-  useEffect(() => {
-    dispatch(getCourses())
-  },[dispatch]);
-
 
   return (
     <Grid container xs={12}>

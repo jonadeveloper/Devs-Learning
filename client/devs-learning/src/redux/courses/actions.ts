@@ -313,3 +313,20 @@ export const clearBoughtCart = (
     return dispatch(reducer.filterBoughtCart(newCart));
   };
 };
+
+export const BanCourse = (
+  course: any
+): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return (dispatch) => {
+
+    axios
+      .put(`${REACT_APP_BASE_URL}/courses/logicDelete?id=${course[0].id}`)
+      .then((response) => {
+        console.log("🚀 ~ file: actions.ts:44 ~ return ~ course:", course)
+         dispatch(reducer.BanCourses(course));
+
+      })
+
+  };
+
+};
