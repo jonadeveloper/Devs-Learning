@@ -30,11 +30,11 @@ export const getCourses = (): ThunkAction<
   };
 };
 export const getCoursesByName = (
-  name: string
+  id: string
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return (dispatch) => {
     dispatch(reducer.setLoading());
-    axios.get(`${BACK}/courses?name=${name}`).then((response) => {
+    axios.get(`${BACK}/courses?id=${id}`).then((response) => {
       response.data.map((course: any) => {
         course.name = course.name.replaceAll("-", " ");
         course.name = course.name[0].toUpperCase() + course.name.substring(1);
@@ -291,7 +291,7 @@ export const AddRating = (
       .put(BACK + "/courses/putRating", rating)
       .then((response) => {
         console.log(response);
-        dispatch(reducer.addRating(rating));
+        dispatch(reducer.addRating({rating: rating.rating.rating, comment: rating.rating.comment, user: rating.rating.user, course: rating.nameCourse }));
       })
       .catch((err) => {
         Swal.fire("Something went wrong, please try again", "", err);

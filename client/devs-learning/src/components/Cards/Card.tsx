@@ -126,7 +126,7 @@ export const CardComponent = ({ card, index }: Props) => {
                 component="div"
                 sx={{ fontSize: 30, fontWeight: 700 }}
               >
-                {card.name} {index}
+                {card.name} {/*index*/}
               </Typography>
               {/* Course Price */}
               <Typography

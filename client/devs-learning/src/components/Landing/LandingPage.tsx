@@ -45,14 +45,14 @@ const LandingPage: React.FC = () => {
           </Box>
           <Box>
             <Typography gutterBottom variant="overline">
-              "Impulsa tu carrera en programación con nosotros."
+              "Boost your programming career with us."
             </Typography>
           </Box>
           <Box mt={3}>
             <NavLink to="/courses">
               <Fab size="medium" variant="extended" color="inherit">
                 <Typography variant="button" p={2}>
-                  Ver cursos
+                See courses
                 </Typography>
                 <KeyboardArrowRightRoundedIcon />
               </Fab>

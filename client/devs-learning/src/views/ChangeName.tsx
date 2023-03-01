@@ -68,7 +68,7 @@ export default function NameChange() {
         }}
         onClick={handleClickOpen}
       >
-        Update Profile
+        Update Fullname
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Change Name</DialogTitle>

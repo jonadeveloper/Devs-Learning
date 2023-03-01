@@ -11,11 +11,12 @@ export const LoggedRoutes = ({ rol }: Props) => {
   return (
     <Routes>
       <Route path={`/dashboard/create/course`} element={<CreateCourse />} />
-      <Route
+      <Route path={`/dashboard/edit/course/:id`} element={<EditForm />} />
+
+      {/* <Route
         path={`/profile`}
         element={rol === "admin" ? <DashboardAdmin /> : <UserDashboard />}
-      />
-      <Route path={`/dashboard/edit/course/:name`} element={<EditForm />} />
+      /> */}
       <Route path={`/profile`} element={<UserDashboard />} />
       <Route path={"/payment/success"} element={<SuccessPage />} />
 

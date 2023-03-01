@@ -121,11 +121,13 @@ const UsersPanel: React.FC = () => {
                 <Button variant="outlined" onClick={() => setEditedUserId(rowIndex)}>
                   Edit
                 </Button>
+
                 <Button variant="outlined" color="error" onClick={() => handleDelete(rowIndex)}>
                   BAN
                 </Button>
                 <Button variant="outlined" color="success" onClick={() => handleDesBan(rowIndex)}>
                   DESBAN
+
                 </Button>
               </>
             );

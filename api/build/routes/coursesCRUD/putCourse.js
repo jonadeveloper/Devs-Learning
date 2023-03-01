@@ -85,7 +85,8 @@ function putRating(req, res) {
                 }
             });
             rating.course = nameCourse;
-            let newRating = [...course.rating, rating];
+            let oldRating = yield course.rating.filter((rat) => rating.user !== rat.user);
+            let newRating = [...oldRating, rating];
             yield Course.update({
                 rating: newRating
             }, {
@@ -93,7 +94,7 @@ function putRating(req, res) {
                     name: nameCourseDb
                 }
             });
-            return res.status(200).send("The rating has been updated");
+            return res.status(200).send(`The rating has been updated.`);
         }
         catch (err) {
             return res.status(200).send(err);

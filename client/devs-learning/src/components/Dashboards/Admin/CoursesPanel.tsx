@@ -124,7 +124,7 @@ const columns: MUIDataTableColumn[] = [
       </Typography>
       </Box>
       <MUIDataTable
-      title={"list of platform courses"}
+      title={"List of platform courses"}
       data={data}
       columns={columns}
       options={options}      

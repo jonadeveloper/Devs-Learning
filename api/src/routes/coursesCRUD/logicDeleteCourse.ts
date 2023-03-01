@@ -14,7 +14,6 @@ export async function logicDeleteCourse(req: any, res: any) {
                 },
             }
         );
-
         return res.status(200).send(`The course ${id} has been updated`);
     } catch (err) {
         return res.status(404).send(err);
@@ -22,9 +21,19 @@ export async function logicDeleteCourse(req: any, res: any) {
 }
 
 export async function logicRestoreCourse(req: any, res: any) {
-
     try {
         let { id } = req.query;
+        let course = await Course.findOne({
+            where: { id: id },
+            include: {
+                model: Category,
+                attributes: ["name"],
+                through: {
+                    attributes: []
+                }
+            }
+        });
+        if (course === undefined) return res.status(404).send(`El curso ${name} no existe`)
         await Course.update(
             {
                 deleted: false,
@@ -35,8 +44,7 @@ export async function logicRestoreCourse(req: any, res: any) {
                 },
             }
         );
-
-        return res.status(200).send(`The course ${id} has been updated`);
+        return res.status(200).send(`The course ${name} has been updated`);
     } catch (err) {
         return res.status(404).send(err);
     }
