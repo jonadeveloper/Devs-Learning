@@ -126,7 +126,7 @@ const UsersPanel: React.FC = () => {
                   BAN
                 </Button>
                 <Button variant="outlined" color="success" onClick={() => handleDesBan(rowIndex)}>
-                  DESBAN
+                  UNBAN
 
                 </Button>
               </>
