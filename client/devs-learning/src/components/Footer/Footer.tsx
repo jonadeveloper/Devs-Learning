@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
       >
         <Box px={2}>
           <Typography variant="caption">
-            "Impulsa tu carrera en programación con nosotros."
+          "Boost your programming career with us."
           </Typography>
         </Box>
 
@@ -49,7 +49,7 @@ const Footer: React.FC = () => {
         </Box>
 
         <Stack display="flex" flexDirection="row" alignItems="center">
-          <Typography variant="caption">NOSOTROS</Typography>
+          <Typography variant="caption">CONTACT US</Typography>
 
           <IconButton color="inherit" href="https://www.linkedin.com">
             <LinkedInIcon />

@@ -69,7 +69,7 @@ export const CartComponent: React.FC<CartComponentProps> = ({
           ? cart.map((card, index) => (
               <CartCard key={index} card={card} index={index} />
             ))
-          : "Nada por aqui"}
+          : "Nothing here."}
         <Box
           color="secondary"
           sx={{ display: "flex", justifyContent: "space-between" }}

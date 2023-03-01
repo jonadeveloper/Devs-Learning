@@ -134,12 +134,12 @@ export default function BasicTable() {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Cursos</TableCell>
-            <TableCell align="left">Nivel</TableCell>
-            <TableCell align="center">Duracion</TableCell>
+            <TableCell>Courses</TableCell>
+            <TableCell align="left">Level</TableCell>
+            <TableCell align="center">Duration</TableCell>
             <TableCell align="center">Instructor</TableCell>
-            <TableCell align="right">Precio</TableCell>
-            <TableCell align="right">Fecha de Compra</TableCell>
+            <TableCell align="right">Price</TableCell>
+            <TableCell align="right">Purchase date</TableCell>
             <TableCell align="center">Rating and Comment</TableCell>
           </TableRow>
         </TableHead>

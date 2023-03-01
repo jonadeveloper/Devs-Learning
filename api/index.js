@@ -7,7 +7,7 @@ const dbAdmin = require("./admin.json");
 const { DB_PORT } = process.env;
 const PORT = DB_PORT || 5432;
 
-conn.sync({ force: false }).then(() => {
+conn.sync({ force: true }).then(() => {
   server.listen(PORT, () => {
     console.log("%s listening at", PORT);
     dbCategories.categories.map((category) => {
