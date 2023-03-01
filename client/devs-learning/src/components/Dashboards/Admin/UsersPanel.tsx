@@ -19,7 +19,7 @@ const UsersPanel: React.FC = () => {
   // console.log(users);
 
   const [editedUserId, setEditedUserId] = useState<number | null>(null);
-  const [editedRank, setEditedRank] = useState<string>("");
+  const [editedRank, setEditedRank] = useState<string>("student");
 
   const handleSave = (user: any) => {
     const data = {
@@ -53,12 +53,15 @@ const UsersPanel: React.FC = () => {
           if (rowIndex === editedUserId) {
             // Render text field for editing the rank
             return (
-              <TextField
-                value={editedRank}
-                onChange={(e) => setEditedRank(e.target.value)}
-                size="small"
-                fullWidth
-              />
+              <select
+  value={editedRank}
+  onChange={(e) => setEditedRank(e.target.value)}
+>
+  <option value="">Select a rank</option>
+  <option value="admin">Admin</option>
+  <option value="student">Student</option>
+  <option value="teacher">Teacher</option>
+</select>
             );
           } else {
             // Render plain text for the rank
