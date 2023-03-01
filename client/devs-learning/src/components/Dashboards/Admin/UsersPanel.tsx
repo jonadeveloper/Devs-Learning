@@ -36,6 +36,12 @@ const UsersPanel: React.FC = () => {
       setEditedUserId(null);
     }
   };
+  
+  const handleCancel = (user: any) => {
+    
+      setEditedUserId(null);
+    
+  };
 
   const columns: MUIDataTableColumn[] = [
     {
@@ -99,9 +105,14 @@ const UsersPanel: React.FC = () => {
           if (rowIndex === editedUserId) {
             // Render "Save" button when editing
             return (
+              <>
               <Button variant="outlined" onClick={() => handleSave(userId)}>
                 Save
               </Button>
+              <Button variant="outlined" color="warning" onClick={() => handleCancel(userId)}>
+                Cancel
+              </Button>
+              </>
             );
           } else {
             // Render "Edit" and "Delete" buttons when not editing
@@ -110,11 +121,13 @@ const UsersPanel: React.FC = () => {
                 <Button variant="outlined" onClick={() => setEditedUserId(rowIndex)}>
                   Edit
                 </Button>
-                <Button variant="outlined" onClick={() => handleDelete(rowIndex)}>
-                  Ban
+
+                <Button variant="outlined" color="error" onClick={() => handleDelete(rowIndex)}>
+                  BAN
                 </Button>
-                <Button variant="outlined" onClick={() => handleDesBan(rowIndex)}>
-                  Allow
+                <Button variant="outlined" color="success" onClick={() => handleDesBan(rowIndex)}>
+                  DESBAN
+
                 </Button>
               </>
             );
