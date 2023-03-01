@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 import { Link as ReactLink } from "react-router-dom";
 import axios from "axios";
-import './CourseDetail.css';
+import "./CourseDetail.css";
 
 //MUI
 import Box from "@mui/material/Box";
@@ -21,9 +21,10 @@ import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import Rating from "@mui/material/Rating";
 
-import SchoolIcon from '@mui/icons-material/School';
-import WifiIcon from '@mui/icons-material/Wifi';
-import ComputerIcon from '@mui/icons-material/Computer';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import SchoolIcon from "@mui/icons-material/School";
+import WifiIcon from "@mui/icons-material/Wifi";
+import ComputerIcon from "@mui/icons-material/Computer";
 
 import { useParams } from "react-router-dom";
 import {
@@ -151,7 +152,7 @@ const CourseDetail: React.FC = () => {
 
   return (
     <div>
-      <Grid container bgcolor="whitesmoke"  direction="row" mt={10} spacing="10">
+      <Grid container bgcolor="whitesmoke" direction="row" mt={10} spacing="10">
         <Grid item xs={12} ml={1}>
           <Breadcrumbs aria-label="breadcrumb">
             <Link underline="hover" color="inherit" href="/courses">
@@ -190,7 +191,7 @@ const CourseDetail: React.FC = () => {
             {TheCourse.name}{" "}
           </Typography>
           <Typography ml={1} variant="subtitle1">
-            Creado por {TheCourse.instructor}
+            Teached by {TheCourse.instructor}
           </Typography>
         </Grid>
         <Grid
@@ -203,7 +204,7 @@ const CourseDetail: React.FC = () => {
           justifyContent="center"
         >
           <Box display="flex" justifyContent="space-around" margin={1}>
-            <Typography variant="h5">Adquirir curso</Typography>
+            <Typography variant="h5">Get it for only</Typography>
           </Box>
           <Box display="flex" justifyContent="space-around" margin={1}>
             <Typography variant="h4" p={2}>
@@ -242,11 +243,11 @@ const CourseDetail: React.FC = () => {
           <List sx={ListStyle} component="nav" aria-label="mailbox folders">
             <Divider />
             <ListItem button>
-              <ListItemText secondary={`Duración: ${TheCourse.duration} hs.`} />
+              <ListItemText secondary={`Duration: ${TheCourse.duration} hs.`} />
             </ListItem>
             <Divider />
             <ListItem button divider>
-              <ListItemText secondary={`Nivel: ${TheCourse.level}`} />
+              <ListItemText secondary={`Level: ${TheCourse.level}`} />
             </ListItem>{" "}
             <Divider />
             <ListItem button divider>
@@ -254,56 +255,49 @@ const CourseDetail: React.FC = () => {
               <Box ml={1}>
                 <ListItemText
                   secondary={
-                    AverageRating !== 0
-                      ? AverageRating
-                      : "No hay calificaciones aún"
+                    AverageRating !== 0 ? AverageRating : "No rating yet"
                   }
                 />
               </Box>
             </ListItem>
-            <Divider />
-            <ListItem button divider>
-            <Rating name="read-only" value={AverageRating} readOnly />
-              <Box ml={1}>
+            <List>
+              <ListItemText>Requirements</ListItemText>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <WifiIcon />
+                  </Avatar>
+                </ListItemAvatar>
                 <ListItemText
-                  secondary={
-                    AverageRating !== 0
-                      ? AverageRating
-                      : "No hay calificaciones aún"
-                  }
+                  primary="Internet Conection"
+                  secondary="You should have access to a PC with internet conection to use the material of the course"
                 />
-              </Box>
-            </ListItem>
-    <List >
-            <ListItemText>Requisitos</ListItemText>
-      <ListItem>
-        <ListItemAvatar>
-          <Avatar>
-            <WifiIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="Conexion a internet" secondary="Acceso a un PC con internet para descargar el material y los programas" />
-      </ListItem>
-      <ListItem>
-        <ListItemAvatar>
-          <Avatar>
-            < ComputerIcon/>
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="Requisitos minimos" secondary="Windows 7 o superior, GNU/Linux (Ubuntu, Debian...) o Mac OS X" />
-      </ListItem>
-      <ListItem>
-        <ListItemAvatar>
-          <Avatar>
-            <SchoolIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="base de estudio" secondary="Álgebra muy básica para poder entender algunos algoritmos correctamente." />
-      </ListItem>
-    </List>
+              </ListItem>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <ComputerIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary="Tech Requirements"
+                  secondary="Windows 7 or superior, GNU/Linux (Ubuntu, Debian...) or Mac OS X"
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <SchoolIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary="Minimum knowledge"
+                  secondary="You should understand the basics concepts of Algebra in order to work with algorithms."
+                />
+              </ListItem>
+            </List>
             <Divider light />
           </List>
-          
         </Grid>
         <Grid item xs={12} md={9} lg={9} p={1} mb={4}>
           <Box boxShadow={2} ml={1} p={3}>
@@ -343,17 +337,19 @@ const CourseDetail: React.FC = () => {
           </Box>
         </Grid>
       </Grid>
-      <Box display="flex" justifyContent={"center"} alignItems={"center"}>
-          <Typography
-            variant="h6"
-            
-            noWrap
-            component="a"
-            href="/courses"
-          >
-            Volver
+      <Box
+        display="flex"
+        justifyContent={"center"}
+        alignItems={"center"}
+        bgcolor="whitesmoke"
+        py={1}
+      >
+        <Button startIcon={<ArrowBackIcon />} variant="outlined">
+          <Typography variant="h6" noWrap component="a" href="/courses">
+            Go Back
           </Typography>
-          </Box>
+        </Button>
+      </Box>
     </div>
   );
 };
