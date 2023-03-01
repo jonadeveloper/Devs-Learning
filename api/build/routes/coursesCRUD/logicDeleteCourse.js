@@ -15,17 +15,28 @@ function logicDeleteCourse(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             let { id } = req.query;
-            yield Course.update({
-                deleted: true,
-            }, {
-                where: {
-                    id: id,
-                },
-            });
-            return res.status(200).send(`The course ${id} has been updated`);
+            const myRegEx = /([a-zA-Z]+([0-9]+[a-zA-Z]+)+)/;
+            if (myRegEx.test(id)) {
+                yield Course.update({
+                    deleted: true,
+                }, {
+                    where: {
+                        id: id,
+                    },
+                });
+                return res.status(200).send(`The course ${id} has been updated`);
+            }
+            else {
+                return res.status(404).send("ID doesn't match type UUID");
+            }
         }
         catch (err) {
-            return res.status(404).send(err);
+            const errName = err.name;
+            const errCode = err.code;
+            const errMessage = err.message;
+            return res.status(404).send(errName ?
+                `Error ${errCode}: ${errName} - ${errMessage}` :
+                "Something went wrong, please try again.");
         }
     });
 }
@@ -34,29 +45,40 @@ function logicRestoreCourse(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             let { id } = req.query;
-            let course = yield Course.findOne({
-                where: { id: id },
-                include: {
-                    model: Category,
-                    attributes: ["name"],
-                    through: {
-                        attributes: []
+            const myRegEx = /([a-zA-Z]+([0-9]+[a-zA-Z]+)+)/;
+            if (myRegEx.test(id)) {
+                let course = yield Course.findOne({
+                    where: { id: id },
+                    include: {
+                        model: Category,
+                        attributes: ["name"],
+                        through: {
+                            attributes: []
+                        }
                     }
-                }
-            });
-            if (course === undefined)
-                return res.status(404).send(`El curso ${name} no existe`);
-            yield Course.update({
-                deleted: false,
-            }, {
-                where: {
-                    id: id,
-                },
-            });
-            return res.status(200).send(`The course ${name} has been updated`);
+                });
+                if (course === undefined)
+                    return res.status(404).send(`El curso ${name} no existe`);
+                yield Course.update({
+                    deleted: false,
+                }, {
+                    where: {
+                        id: id,
+                    },
+                });
+                return res.status(200).send(`The course ${name} has been updated`);
+            }
+            else {
+                return res.status(404).send("ID doesn't match type UUID");
+            }
         }
         catch (err) {
-            return res.status(404).send(err);
+            const errName = err.name;
+            const errCode = err.code;
+            const errMessage = err.message;
+            return res.status(404).send(errName ?
+                `Error ${errCode}: ${errName} - ${errMessage}` :
+                "Something went wrong, please try again.");
         }
     });
 }

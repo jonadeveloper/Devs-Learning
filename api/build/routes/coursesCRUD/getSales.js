@@ -23,8 +23,13 @@ function getSales(_req, res) {
             });
             res.send(result);
         }
-        catch (error) {
-            res.send(error);
+        catch (err) {
+            const errName = err.name;
+            const errCode = err.code;
+            const errMessage = err.message;
+            return res.status(404).send(errName ?
+                `Error ${errCode}: ${errName} - ${errMessage}` :
+                "Something went wrong, please try again.");
         }
     });
 }

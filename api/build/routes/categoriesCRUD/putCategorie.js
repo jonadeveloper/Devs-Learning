@@ -15,6 +15,9 @@ function putCategorie(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             let { name, img, description, course } = req.body;
+            if (!name) {
+                return res.status(404).send("The name has not been recognized or has not been entered, please try again.");
+            }
             let nameDB = name.split(" ").join("-").toLowerCase();
             let category = yield Category.findOne({
                 where: { name: nameDB },
@@ -62,7 +65,12 @@ function putCategorie(req, res) {
             return res.status(200).send(`The category ${name} has been updated`);
         }
         catch (err) {
-            return res.status(404).send(err);
+            const errName = err.name;
+            const errCode = err.code;
+            const errMessage = err.message;
+            return res.status(404).send(errName ?
+                `Error ${errCode}: ${errName} - ${errMessage}` :
+                "Something went wrong, please try again.");
         }
     });
 }

@@ -36,10 +36,17 @@ function getBanned(req, res) {
                 else
                     return res.status(200).send(false);
             }
-            return res.status(500).send(`The User has not been found`);
+            else {
+                return res.status(404).send("The email has not been recognized or has not been entered, please try again.");
+            }
         }
         catch (err) {
-            return res.status(404).send(err);
+            const errName = err.name;
+            const errCode = err.code;
+            const errMessage = err.message;
+            return res.status(404).send(errName ?
+                `Error ${errCode}: ${errName} - ${errMessage}` :
+                "Something went wrong, please try again.");
         }
     });
 }

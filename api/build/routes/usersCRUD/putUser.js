@@ -23,11 +23,19 @@ function updateUserProfile(req, res) {
                         id: id,
                     },
                 });
-                res.status(200).send("Update successfully");
+                return res.status(200).send("Update successfully");
+            }
+            else {
+                return res.status(404).send("ID not recognized or not entered, please try again.");
             }
         }
-        catch (error) {
-            res.status(400).send(`Cannot update profile ${error}`);
+        catch (err) {
+            const errName = err.name;
+            const errCode = err.code;
+            const errMessage = err.message;
+            return res.status(404).send(errName ?
+                `Error ${errCode}: ${errName} - ${errMessage}` :
+                "Something went wrong, cannot update user, please try again.");
         }
     });
 }
@@ -36,17 +44,27 @@ function updateUserRol(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { id, rank } = req.body;
-            yield Users.update({
-                rank: rank,
-            }, {
-                where: {
-                    id: id,
-                },
-            });
-            return res.status(200).send("The Rol has been updated");
+            if (id) {
+                yield Users.update({
+                    rank: rank,
+                }, {
+                    where: {
+                        id: id,
+                    },
+                });
+                return res.status(200).send("The Rol has been updated");
+            }
+            else {
+                return res.status(404).send("The ID has not been recognized or has not been entered, please try again.");
+            }
         }
         catch (err) {
-            return res.status(200).send(err);
+            const errName = err.name;
+            const errCode = err.code;
+            const errMessage = err.message;
+            return res.status(404).send(errName ?
+                `Error ${errCode}: ${errName} - ${errMessage}` :
+                "Something went wrong, please try again.");
         }
     });
 }
@@ -61,11 +79,19 @@ function updateUserEmail(req, res) {
                 }, {
                     where: { id: id },
                 });
-                res.status(200).send("Update email successfully");
+                return res.status(200).send("Update email successfully");
+            }
+            else {
+                return res.status(404).send("ID not recognized or not entered, please try again.");
             }
         }
-        catch (error) {
-            res.status(400).send(`Cannot update email ${error}`);
+        catch (err) {
+            const errName = err.name;
+            const errCode = err.code;
+            const errMessage = err.message;
+            return res.status(404).send(errName ?
+                `Error ${errCode}: ${errName} - ${errMessage}` :
+                "Something went wrong, cannot update email, please try again.");
         }
     });
 }
@@ -74,6 +100,9 @@ function updateCart(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { email, cart, buy } = req.body;
+            if (!email) {
+                return res.status(404).send("The email has not been recognized or has not been entered, please try again.");
+            }
             let user = yield Users.findOne({
                 where: {
                     email: email,
@@ -86,6 +115,8 @@ function updateCart(req, res) {
                     },
                 },
             });
+            if (user === undefined)
+                return res.status(404).send("The user has not been found");
             if (buy) {
                 let nameCourses = cart.map((el) => {
                     return el.name.split(" ").join("-").toLowerCase();
@@ -119,7 +150,12 @@ function updateCart(req, res) {
             }
         }
         catch (err) {
-            return res.status(404).send(err);
+            const errName = err.name;
+            const errCode = err.code;
+            const errMessage = err.message;
+            return res.status(404).send(errName ?
+                `Error ${errCode}: ${errName} - ${errMessage}` :
+                "Something went wrong, please try again.");
         }
     });
 }

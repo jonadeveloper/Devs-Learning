@@ -15,17 +15,27 @@ function desBanUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { id } = req.query;
-            yield Users.update({
-                banned: false,
-            }, {
-                where: {
-                    id: id,
-                },
-            });
-            return res.status(200).send("Update successfully");
+            if (id) {
+                yield Users.update({
+                    banned: false,
+                }, {
+                    where: {
+                        id: id,
+                    },
+                });
+                return res.status(200).send("Update successfully");
+            }
+            else {
+                return res.status(404).send("The ID has not been recognized or has not been entered, please try again.");
+            }
         }
         catch (err) {
-            return res.status(404).send("Error: " + err);
+            const errName = err.name;
+            const errCode = err.code;
+            const errMessage = err.message;
+            return res.status(404).send(errName ?
+                `Error ${errCode}: ${errName} - ${errMessage}` :
+                "Something went wrong, please try again.");
         }
     });
 }
