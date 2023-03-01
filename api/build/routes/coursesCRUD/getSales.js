@@ -11,14 +11,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getSales = void 0;
 const { UserCourses, Users } = require("../../db");
-function getSales(req, res) {
+function getSales(_req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        if (false)
-            console.log(req);
         try {
             let sales = yield UserCourses.findAll();
             let users = yield Users.findAll();
-            console.log(sales);
             let result = yield sales.map((sale) => {
                 let user = users.find((user) => user.id === sale.userId);
                 user.fullname = user.fullname[0].toUpperCase() + user.fullname.substring(1);

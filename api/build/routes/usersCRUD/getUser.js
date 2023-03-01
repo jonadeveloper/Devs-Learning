@@ -11,14 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUsersInfo = void 0;
 const { Course, Users } = require("../../db");
-/*import { getAuth } from "firebase/auth";
-import { initializeApp } from "firebase/app";
-
-const { REACT_APP_FIREBASE_CONFIG } = process.env;
-const firebaseConfig = JSON.parse(REACT_APP_FIREBASE_CONFIG!);
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const user = auth.currentUser;*/
 function getUsersInfo(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {

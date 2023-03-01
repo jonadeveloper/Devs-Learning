@@ -34,6 +34,18 @@ function logicRestoreCourse(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             let { id } = req.query;
+            let course = yield Course.findOne({
+                where: { id: id },
+                include: {
+                    model: Category,
+                    attributes: ["name"],
+                    through: {
+                        attributes: []
+                    }
+                }
+            });
+            if (course === undefined)
+                return res.status(404).send(`El curso ${name} no existe`);
             yield Course.update({
                 deleted: false,
             }, {
@@ -41,7 +53,7 @@ function logicRestoreCourse(req, res) {
                     id: id,
                 },
             });
-            return res.status(200).send(`The course ${id} has been updated`);
+            return res.status(200).send(`The course ${name} has been updated`);
         }
         catch (err) {
             return res.status(404).send(err);
