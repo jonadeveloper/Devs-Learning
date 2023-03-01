@@ -18,6 +18,7 @@ const LandingPage: React.FC = () => {
         justifyContent="center"
       >
         <Box
+        height={"55vh"}
           width="100%"
           display="flex"
           flexDirection="column"

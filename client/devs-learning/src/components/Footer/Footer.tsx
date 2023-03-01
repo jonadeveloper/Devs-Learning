@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
         color="white"
         py={4}
       >
-        <Box px={2}>
+        <Box px={2} display={"flex"} alignItems={"center"}>
           <Typography variant="caption">
           "Boost your programming career with us."
           </Typography>

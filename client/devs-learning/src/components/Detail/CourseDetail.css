@@ -1,0 +1,19 @@
+.btn-cursos{
+ background-color:rgb(66, 251, 29);
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ color: rgb(255, 255, 255);
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(240, 248, 255, 0);
+}
+.btn-cursos :hover{
+    background-color: rgb(0, 255, 102);
+    transition-duration: 0.4s;
+
+}
