@@ -32,6 +32,7 @@ const initialState: CoursesState = {
     descriptionComplete: "",
     img: "",
     rating: [],
+    deleted: false,
   },
   currentPage: 1,
   searched: "",
@@ -102,7 +103,12 @@ export const courses = createSlice({
       state.searched = "";
     },
     addRating: (state, { payload }) => {
-      state.currentCourse.rating = [state.currentCourse.rating.filter((rat: any) => rat.user !== payload.user), payload];
+      state.currentCourse.rating = [
+        state.currentCourse.rating.filter(
+          (rat: any) => rat.user !== payload.user
+        ),
+        payload,
+      ];
     },
 
     clearCart: (state) => {

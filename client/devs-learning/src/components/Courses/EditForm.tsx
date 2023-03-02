@@ -60,6 +60,7 @@ export const EditForm = () => {
     instructor: "",
     id: "",
     rating: [],
+    deleted: false,
   });
   const { categories, status, currentCourse } = useAppSelector(
     (state) => state.courses
@@ -83,6 +84,7 @@ export const EditForm = () => {
         instructor: currentCourse.instructor,
         id: currentCourse.id,
         rating: [],
+        deleted: false,
       });
       setCategoriesSelect(currentCourse.categories.map((item) => item.name));
     }
