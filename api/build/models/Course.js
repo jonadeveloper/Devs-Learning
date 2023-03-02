@@ -47,6 +47,7 @@ module.exports = (sequelize) => {
         },
         deleted: {
             type: sequelize_1.DataTypes.BOOLEAN,
+            defaultValue: false
         }
     });
 };

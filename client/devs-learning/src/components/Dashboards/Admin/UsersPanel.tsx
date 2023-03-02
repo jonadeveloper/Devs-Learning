@@ -136,7 +136,7 @@ const UsersPanel: React.FC = () => {
     // Create a new array without the selected row
     const newData = [...users];
     const data = newData.splice(rowIndex, 1);
-    console.log("🚀 ~ file: UsersPanel.tsx:92 ~ handleDelete ~ data:", data[0].id);
+    console.log(" ~ handleDelete ~ data:", data[0].id);
     dispatch(BanUser(data));
   };
   

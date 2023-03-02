@@ -112,14 +112,15 @@ export const courses = createSlice({
     filterBoughtCart: (state, { payload }) => {
       state.cart = payload;
     },
-    BanCourses: (state, { payload }) => {
+    DeletedCourses: (state, { payload }) => {
       state.courses = state.courses.map((course) => {
-        return  course.id === payload.id ? { ...course, banned: payload.banned } : course;
+        return  course.id === payload.id ? { ...course, deleted: payload.deleted } : course;
       });
     }
+
   }
+},
+);
 
-
-});
 
 export const reducer = courses.actions;

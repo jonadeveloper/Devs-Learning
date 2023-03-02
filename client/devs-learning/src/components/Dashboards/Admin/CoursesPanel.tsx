@@ -1,39 +1,36 @@
 import React from "react";
 import { useEffect , useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/hooksRedux";
-//import { makeStyles } from "@mui/material/";
-import { Modal , TextField , Button} from "@mui/material";
+import { TextField , Button} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import MUIDataTable, { MUIDataTableOptions, MUIDataTableColumn } from "mui-datatables";
-import { getCourses , editCourseAction , BanCourse } from "../../../redux/courses/actions";
+import { getCourses , DeletedCourse } from "../../../redux/courses/actions";
 
 
 const CoursesPanel: React.FC = () => {
   const { courses } = useAppSelector((state) => state.courses);
   console.log(courses)
   const dispatch = useAppDispatch();
-
   useEffect(() => {
     dispatch(getCourses())
-  },[dispatch]);
+  },[]);
 
 
-  interface RowData{
-    id: string,
-    name: string,
-    description: string,
-    duration: string,
-    level: string,
-    price: string,
-    instructor: string
-  }
+  // interface RowData{
+  //   id: string,
+  //   name: string,
+  //   description: string,
+  //   duration: string,
+  //   level: string,
+  //   price: string,
+  //   instructor: string
+  // }
   
 
- const initialData : RowData[] = courses
 
 const columns: MUIDataTableColumn[] = [
   {
@@ -65,6 +62,15 @@ const columns: MUIDataTableColumn[] = [
     label: "Instructor"
   },
   {
+    name: "delete",
+    label: "Delete",
+    options: {
+      customBodyRender: (value: boolean) => {
+        return value ? "Yes" : "No";
+      },
+    },
+  },
+  {
     name: "action",
     label: "Action",
     options: {
@@ -72,17 +78,14 @@ const columns: MUIDataTableColumn[] = [
         const rowIndex = tableMeta.rowIndex;
         return (
           <>
-            <Button variant="contained" 
-            color={"inherit"} 
-            size={"small"} 
-            onClick={() => handleEdit(rowIndex)}>
-              <EditIcon /> 
+            <Button variant="outlined" >
+                  Edit
             </Button>
-            <Button variant="contained" 
-            color={"error"} 
-            size={"small"} 
-            onClick={() => handleDelete(rowIndex)}>
-              <DeleteIcon /> 
+            <Button variant="outlined" onClick={()=>{handleDelete(rowIndex)}}>
+                  Delete
+            </Button>
+            <Button variant="outlined" >
+                  restore
             </Button>
           </>
         );
@@ -102,19 +105,14 @@ const columns: MUIDataTableColumn[] = [
     rowsPerPage: 5,
   };
 
-  const [data, setData] = useState(initialData);
-
   const handleDelete = (rowIndex: number) => {
     // Create a new array without the selected row
     const newData = [...courses];
     const data = newData.splice(rowIndex, 1);
-    console.log("🚀 ~ file: UsersPanel.tsx:92 ~ handleDelete ~ data:", data[0].id);
-    dispatch(BanCourse(data));
+    console.log("~ handleDelete ~ data:", data[0].id);
+    dispatch(DeletedCourse(data));
   };
 
-  const handleEdit = (rowIndex: number) => {
-
-  };
 
   return (
     <Grid container xs={12}>
@@ -126,7 +124,7 @@ const columns: MUIDataTableColumn[] = [
       </Box>
       <MUIDataTable
       title={"list of platform courses"}
-      data={data}
+      data={courses}
       columns={columns}
       options={options}      
        />
