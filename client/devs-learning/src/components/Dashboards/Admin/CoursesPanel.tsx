@@ -22,16 +22,6 @@ const CoursesPanel: React.FC = () => {
     dispatch(getCourses());
   }, []);
 
-  // interface RowData{
-  //   id: string,
-  //   name: string,
-  //   description: string,
-  //   duration: string,
-  //   level: string,
-  //   price: string,
-  //   instructor: string
-  // }
-
   const columns: MUIDataTableColumn[] = [
     {
       name: "id",
@@ -63,7 +53,7 @@ const CoursesPanel: React.FC = () => {
     },
     {
       name: "deleted",
-      label: "Delete",
+      label: "Deleted",
       options: {
         customBodyRender: (value: boolean) => {
           return value ? "Yes" : "No";
@@ -76,19 +66,33 @@ const CoursesPanel: React.FC = () => {
       options: {
         customBodyRender: (value: any, tableMeta: any, updateValue: any) => {
           const rowIndex = tableMeta.rowIndex;
+          const coursesId = tableMeta.currentTableData[rowIndex].data[0];
           return (
-            <>
-              <Button variant="outlined">Edit</Button>
+            <><NavLink to={`/dashboard/edit/course/${coursesId}`}>
+              <Button 
+              variant="outlined"
+              >
+                Edit
+              </Button>
+              </NavLink>
 
               <Button
                 variant="outlined"
+                color="error"
                 onClick={() => {
                   handleDelete(rowIndex);
                 }}
               >
                 Delete
               </Button>
-              <Button variant="outlined">restore</Button>
+              <Button variant="outlined" 
+              color="success"
+              onClick={()=> {
+                handleRestore(rowIndex)
+                }}
+              >
+                restore
+              </Button>
             </>
           );
         },
@@ -106,8 +110,6 @@ const CoursesPanel: React.FC = () => {
     rowsPerPage: 5,
   };
 
-  const navigate = useNavigate();
-
   const handleDelete = (rowIndex: number) => {
     // Create a new array without the selected row
     const newData = [...courses];
@@ -124,9 +126,21 @@ const CoursesPanel: React.FC = () => {
     }
   };
 
-  // const handleEdit = () => {
-  //   navigate("/dashboard/edit/course/")
-  // }
+  const handleRestore = (rowIndex: number) => {
+    // Create a new array without the selected row
+    const newData = [...courses];
+    const data = newData.splice(rowIndex, 1);
+    console.log(
+      data[0].id
+    );
+    const confirmed = window.confirm(
+      "Are you sure you want to restore the course?"
+    );
+    if (confirmed) {
+      dispatch(DeletedCourse(data, false));
+    }
+  };
+
 
   return (
     <Grid container xs={12}>
