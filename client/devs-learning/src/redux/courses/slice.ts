@@ -120,7 +120,7 @@ export const courses = createSlice({
     },
     DeletedCourses: (state, { payload }) => {
       const { id } = payload[0];
-      console.log("🚀 ~ file: slice.ts:19 ~ siono:", payload.siono)
+
       // console.log("🚀 ~ file: slice.ts:19 ~ id:", payload)
 
       if (payload.siono) {
@@ -128,20 +128,14 @@ export const courses = createSlice({
           // console.log("🚀 ~ file: slice.ts:31 ~ state.courses=state.courses.map ~ course:", course)
           return course.id === id ? { ...course, deleted: true } : course;
         });
-
       } else {
         state.courses = state.courses.map((course) => {
           // console.log("🚀 ~ file: slice.ts:31 ~ state.courses=state.courses.map ~ course:", course)
           return course.id === id ? { ...course, deleted: false } : course;
         });
-
       }
-
-
     },
-    
-}
+  },
 });
-
 
 export const reducer = courses.actions;

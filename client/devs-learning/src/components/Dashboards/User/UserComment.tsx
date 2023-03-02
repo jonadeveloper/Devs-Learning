@@ -64,8 +64,6 @@ const CourseComment: React.FC<CourseCommentProps> = ({ course, userId }) => {
     if (existingRating) {
       setComment(existingRating[0].comment);
       setValue(existingRating[0].rating);
-      console.log("El rating existente es");
-      console.log(existingRating);
     }
   };
 
@@ -76,9 +74,6 @@ const CourseComment: React.FC<CourseCommentProps> = ({ course, userId }) => {
     if (!showInput) {
       getCommentIfExists();
       dispatch(setCurrentCourse(course));
-      console.log("Curso Actual");
-      console.log(currentCourse);
-      console.log(RATING);
     }
 
     setShowInput(!showInput);
@@ -92,9 +87,6 @@ const CourseComment: React.FC<CourseCommentProps> = ({ course, userId }) => {
     event.preventDefault();
     // Aquí podrías enviar el comentario a tu backend o hacer lo que necesites
     dispatch(AddRating(RATING));
-
-    console.log("Nuevo rating");
-    console.log(currentCourse.rating);
     setShowInput(false);
     setOpen(true);
   };
@@ -121,8 +113,6 @@ const CourseComment: React.FC<CourseCommentProps> = ({ course, userId }) => {
               value={value}
               onChange={(event, newValue) => {
                 setValue(newValue);
-                console.log(RATING);
-                console.log(value + ", " + newValue);
               }}
             />
             <Box display="flex" mt={1}>

@@ -16,7 +16,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 
 const CoursesPanel: React.FC = () => {
   const { courses } = useAppSelector((state) => state.courses);
-  console.log(courses);
+
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getCourses());
@@ -68,12 +68,9 @@ const CoursesPanel: React.FC = () => {
           const rowIndex = tableMeta.rowIndex;
           const coursesId = tableMeta.currentTableData[rowIndex].data[0];
           return (
-            <><NavLink to={`/dashboard/edit/course/${coursesId}`}>
-              <Button 
-              variant="outlined"
-              >
-                Edit
-              </Button>
+            <>
+              <NavLink to={`/dashboard/edit/course/${coursesId}`}>
+                <Button variant="outlined">Edit</Button>
               </NavLink>
 
               <Button
@@ -85,10 +82,11 @@ const CoursesPanel: React.FC = () => {
               >
                 Delete
               </Button>
-              <Button variant="outlined" 
-              color="success"
-              onClick={()=> {
-                handleRestore(rowIndex)
+              <Button
+                variant="outlined"
+                color="success"
+                onClick={() => {
+                  handleRestore(rowIndex);
                 }}
               >
                 restore
@@ -114,10 +112,7 @@ const CoursesPanel: React.FC = () => {
     // Create a new array without the selected row
     const newData = [...courses];
     const data = newData.splice(rowIndex, 1);
-    console.log(
-      "🚀 ~ file: coursesPanel.tsx:92 ~ handleDelete ~ data:",
-      data[0].id
-    );
+
     const confirmed = window.confirm(
       "Are you sure you want to delete the course?"
     );
@@ -130,9 +125,7 @@ const CoursesPanel: React.FC = () => {
     // Create a new array without the selected row
     const newData = [...courses];
     const data = newData.splice(rowIndex, 1);
-    console.log(
-      data[0].id
-    );
+
     const confirmed = window.confirm(
       "Are you sure you want to restore the course?"
     );
@@ -140,7 +133,6 @@ const CoursesPanel: React.FC = () => {
       dispatch(DeletedCourse(data, false));
     }
   };
-
 
   return (
     <Grid container xs={12}>

@@ -112,9 +112,7 @@ export const signInWithGoogle = (
               );
             }
           })
-          .catch((error) => {
-            console.log(error);
-          });
+          .catch((error) => {});
       }
     } catch (error: any) {
       Swal.hideLoading();

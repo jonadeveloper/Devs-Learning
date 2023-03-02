@@ -86,8 +86,6 @@ export default function BasicTable() {
     return { date: sale.createdAt, courseId: sale.courseId, courseData: {} };
   });
 
-  console.log(DatesId);
-
   let CoursesByName: any = [];
 
   let SalesWithDate: any = [];
@@ -115,14 +113,10 @@ export default function BasicTable() {
   }
 
   const rows = SalesWithDate;
-  console.log(`cursos comprados por ${userFullname} `);
-  console.log(rows);
 
   React.useEffect(() => {
     dispatch(getSales());
     dispatch(getBoughtCoursesNames(userEmail));
-    console.log(`cursos comprados por ${userFullname}`);
-    console.log(rows);
   }, []);
 
   function formatearFecha(fecha: string) {
