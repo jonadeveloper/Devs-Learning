@@ -134,13 +134,41 @@ export default function BasicTable() {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Courses</TableCell>
-            <TableCell align="left">Level</TableCell>
-            <TableCell align="center">Duration</TableCell>
-            <TableCell align="center">Instructor</TableCell>
-            <TableCell align="right">Price</TableCell>
-            <TableCell align="right">Purchase date</TableCell>
-            <TableCell align="center">Rating and Comment</TableCell>
+            <TableCell>
+              <Typography fontWeight="bold" variant="body1">
+                Courses
+              </Typography>
+            </TableCell>
+            <TableCell align="left">
+              <Typography fontWeight="bold" variant="body1">
+                Level
+              </Typography>
+            </TableCell>
+            <TableCell align="center">
+              <Typography fontWeight="bold" variant="body1">
+                Duration
+              </Typography>
+            </TableCell>
+            <TableCell align="center">
+              <Typography fontWeight="bold" variant="body1">
+                Instructor
+              </Typography>
+            </TableCell>
+            <TableCell align="right">
+              <Typography fontWeight="bold" variant="body1">
+                Price
+              </Typography>
+            </TableCell>
+            <TableCell align="right">
+              <Typography fontWeight="bold" variant="body1">
+                Purchase date
+              </Typography>
+            </TableCell>
+            <TableCell align="center">
+              <Typography fontWeight="bold" variant="body1">
+                Rating and Comment
+              </Typography>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -150,10 +178,22 @@ export default function BasicTable() {
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.courseData.name}
+                <Typography
+                  color="primary"
+                  component="a"
+                  href={`/courseDetail/${row.courseData.id}`}
+                >
+                  {row.courseData.name}
+                </Typography>
               </TableCell>
-              <TableCell align="left">{row.courseData.level}</TableCell>
-              <TableCell align="center">{row.courseData.duration}</TableCell>
+              <TableCell align="left">
+                <Typography variant="overline">
+                  {row.courseData.level}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                {row.courseData.duration} hs.
+              </TableCell>
               <TableCell align="center">{row.courseData.instructor}</TableCell>
               <TableCell align="right">$ {row.courseData.price}</TableCell>
               <TableCell align="right">{formatearFecha(row.date)}</TableCell>
