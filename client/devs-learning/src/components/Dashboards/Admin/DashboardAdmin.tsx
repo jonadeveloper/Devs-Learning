@@ -33,6 +33,7 @@ import AccountSettings from "./AccountSettings";
 import LogOut from "./Logout";
 import { useAppDispatch } from "../../../hooks/hooksRedux";
 import { getSales } from "../../../redux/sales/actions";
+import UserPersonalInfo from "../User/UserPersonalInfo";
 
 const DashboardAdmin: React.FC = () => {
   const img: string =
@@ -54,7 +55,7 @@ const DashboardAdmin: React.FC = () => {
 
   const handlePageContent = (content: number) => {
     if (content === 0) {
-      return <InfoPersonal />;
+      return <UserPersonalInfo />;
     } else if (content === 1) {
       return <CoursesPanel />;
     } else if (content === 2) {
