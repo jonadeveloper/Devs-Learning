@@ -34,6 +34,9 @@ import LogOut from "./Logout";
 import { useAppDispatch } from "../../../hooks/hooksRedux";
 import { getSales } from "../../../redux/sales/actions";
 import UserPersonalInfo from "../User/UserPersonalInfo";
+import UserCourses from "../User/UserCourses";
+import SourceIcon from "@mui/icons-material/Source";
+import SellIcon from "@mui/icons-material/Sell";
 
 const DashboardAdmin: React.FC = () => {
   const img: string =
@@ -57,14 +60,16 @@ const DashboardAdmin: React.FC = () => {
     if (content === 0) {
       return <UserPersonalInfo />;
     } else if (content === 1) {
-      return <CoursesPanel />;
+      return <UserCourses />;
     } else if (content === 2) {
-      return <SalesPanel />;
+      return <CoursesPanel />;
     } else if (content === 3) {
-      return <UsersPanel />;
+      return <SalesPanel />;
     } else if (content === 4) {
-      return <AccountSettings />;
+      return <UsersPanel />;
     } else if (content === 5) {
+      return <AccountSettings />;
+    } else if (content === 6) {
       return <LogOut />;
     }
   };
@@ -149,14 +154,24 @@ const DashboardAdmin: React.FC = () => {
                   onClick={(event) => handleListItemClick(event, 1)}
                 >
                   <ListItemIcon>
-                    <LibraryBooksIcon />
+                    <SellIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Courses" />
+                  <ListItemText primary="My Courses" />
                 </ListItemButton>
                 <Divider />
                 <ListItemButton
                   selected={selectedIndex === 2}
                   onClick={(event) => handleListItemClick(event, 2)}
+                >
+                  <ListItemIcon>
+                    <LibraryBooksIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="All Courses" />
+                </ListItemButton>
+                <Divider />
+                <ListItemButton
+                  selected={selectedIndex === 3}
+                  onClick={(event) => handleListItemClick(event, 3)}
                 >
                   <ListItemIcon>
                     <TrendingUpIcon />
@@ -167,8 +182,8 @@ const DashboardAdmin: React.FC = () => {
               <Divider />
               <List component="nav" aria-label="secondary mailbox folder">
                 <ListItemButton
-                  selected={selectedIndex === 3}
-                  onClick={(event) => handleListItemClick(event, 3)}
+                  selected={selectedIndex === 4}
+                  onClick={(event) => handleListItemClick(event, 4)}
                 >
                   <ListItemIcon>
                     <GroupIcon />
@@ -179,8 +194,8 @@ const DashboardAdmin: React.FC = () => {
               <Divider />
               <List component="nav" aria-label="secondary mailbox folder">
                 <ListItemButton
-                  selected={selectedIndex === 4}
-                  onClick={(event) => handleListItemClick(event, 4)}
+                  selected={selectedIndex === 5}
+                  onClick={(event) => handleListItemClick(event, 5)}
                 >
                   <ListItemIcon>
                     <ManageAccountsIcon />
@@ -189,8 +204,8 @@ const DashboardAdmin: React.FC = () => {
                 </ListItemButton>
                 <Divider />
                 <ListItemButton
-                  selected={selectedIndex === 5}
-                  onClick={(event) => handleListItemClick(event, 5)}
+                  selected={selectedIndex === 6}
+                  onClick={(event) => handleListItemClick(event, 6)}
                 >
                   <ListItemIcon>
                     <LogoutIcon />

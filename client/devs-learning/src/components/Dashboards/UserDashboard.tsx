@@ -22,6 +22,7 @@ import { getAuth, updateProfile } from "firebase/auth";
 import { CameraAltOutlined } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import UserAccountSettings from "./User/UserAccountSettings";
+import SellIcon from "@mui/icons-material/Sell";
 
 const UserDashboard: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -150,7 +151,7 @@ const UserDashboard: React.FC = () => {
                   onClick={(event) => handleListItemClick(event, 1)}
                 >
                   <ListItemIcon>
-                    <LibraryBooksIcon />
+                    <SellIcon />
                   </ListItemIcon>
                   <ListItemText primary="My Courses" />
                 </ListItemButton>
