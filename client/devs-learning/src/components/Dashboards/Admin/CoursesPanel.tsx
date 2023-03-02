@@ -63,7 +63,7 @@ const columns: MUIDataTableColumn[] = [
     label: "Instructor"
   },
   {
-    name: "delete",
+    name: "deleted",
     label: "Delete",
     options: {
       customBodyRender: (value: boolean) => {
@@ -79,9 +79,10 @@ const columns: MUIDataTableColumn[] = [
         const rowIndex = tableMeta.rowIndex;
         return (
           <>
-            <Button variant="outlined" onClick={handleEdit} >
+            <Button variant="outlined">
                   Edit
             </Button>
+            
             <Button variant="outlined" onClick={()=>{handleDelete(rowIndex)}}>
                   Delete
             </Button>
@@ -119,9 +120,9 @@ const columns: MUIDataTableColumn[] = [
   }
   };
 
-  const handleEdit = () => {
-    navigate("/dashboard/edit/course/")
-  }
+  // const handleEdit = () => {
+  //   navigate("/dashboard/edit/course/")
+  // }
 
 
   return (
