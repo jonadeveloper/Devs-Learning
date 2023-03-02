@@ -152,7 +152,10 @@ const UsersPanel: React.FC = () => {
     const newData = [...users];
     const data = newData.splice(rowIndex, 1);
     console.log("🚀 ~ file: UsersPanel.tsx:92 ~ handleDelete ~ data:", data[0].id);
+    const confirmed = window.confirm("¿Estás seguro que quieres banear al usuario?");
+  if (confirmed) {
     dispatch(BanUser(data, true));
+  }
   };
 
   const handleDesBan = (rowIndex: number) => {
@@ -160,7 +163,10 @@ const UsersPanel: React.FC = () => {
     const newData = [...users];
     const data = newData.splice(rowIndex, 1);
     console.log("🚀 ~ file: UsersPanel.tsx:92 ~ handleDelete ~ data:", data[0].id);
-    dispatch(BanUser(data, false));
+    const confirmed = window.confirm("¿Estás seguro que quieres desbanear al usuario?");
+    if (confirmed) {
+      dispatch(BanUser(data, false));
+    }
   };
 
   const handleEdit = (value: any) => {
