@@ -9,6 +9,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import MUIDataTable, { MUIDataTableOptions, MUIDataTableColumn } from "mui-datatables";
 import { getCourses , DeletedCourse } from "../../../redux/courses/actions";
+import { NavLink, useNavigate } from "react-router-dom";
 
 
 const CoursesPanel: React.FC = () => {
@@ -78,7 +79,7 @@ const columns: MUIDataTableColumn[] = [
         const rowIndex = tableMeta.rowIndex;
         return (
           <>
-            <Button variant="outlined" >
+            <Button variant="outlined" onClick={handleEdit} >
                   Edit
             </Button>
             <Button variant="outlined" onClick={()=>{handleDelete(rowIndex)}}>
@@ -105,13 +106,22 @@ const columns: MUIDataTableColumn[] = [
     rowsPerPage: 5,
   };
 
+  const navigate = useNavigate();
+
   const handleDelete = (rowIndex: number) => {
     // Create a new array without the selected row
     const newData = [...courses];
     const data = newData.splice(rowIndex, 1);
-    console.log("~ handleDelete ~ data:", data[0].id);
-    dispatch(DeletedCourse(data));
+    console.log("🚀 ~ file: coursesPanel.tsx:92 ~ handleDelete ~ data:", data[0].id);
+    const confirmed = window.confirm("Are you sure you want to delete the course?");
+  if (confirmed) {
+    dispatch(DeletedCourse(data, true));
+  }
   };
+
+  const handleEdit = () => {
+    navigate("/dashboard/edit/course/")
+  }
 
 
   return (
