@@ -150,7 +150,13 @@ export default function BasicTable() {
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.courseData.name}
+                <Typography
+                  color="primary"
+                  component="a"
+                  href={`/courseDetail/${row.courseData.id}`}
+                >
+                  {row.courseData.name}
+                </Typography>
               </TableCell>
               <TableCell align="left">{row.courseData.level}</TableCell>
               <TableCell align="center">{row.courseData.duration}</TableCell>
