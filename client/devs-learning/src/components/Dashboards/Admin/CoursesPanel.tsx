@@ -1,90 +1,100 @@
 import React from "react";
-import { useEffect , useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/hooksRedux";
-//import { makeStyles } from "@mui/material/";
-import { Modal , TextField , Button} from "@mui/material";
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import { TextField, Button } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import MUIDataTable, { MUIDataTableOptions, MUIDataTableColumn } from "mui-datatables";
-import { getCourses , editCourseAction } from "../../../redux/courses/actions";
-
+import MUIDataTable, {
+  MUIDataTableOptions,
+  MUIDataTableColumn,
+} from "mui-datatables";
+import { getCourses, DeletedCourse } from "../../../redux/courses/actions";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const CoursesPanel: React.FC = () => {
-  const [modalInsertar,setModalInsertar] = useState(false);
   const { courses } = useAppSelector((state) => state.courses);
-  console.log(courses)
-  const abrirCerrarModalInsertar =()=>{
-    setModalInsertar(modalInsertar);
-  }
-
-
-  interface RowData{
-    name: string,
-    description: string,
-    duration: string,
-    level: string,
-    price: string,
-    instructor: string
-  }
+  console.log(courses);
   const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(getCourses());
+  }, []);
 
- const initialData : RowData[] = courses
+  // interface RowData{
+  //   id: string,
+  //   name: string,
+  //   description: string,
+  //   duration: string,
+  //   level: string,
+  //   price: string,
+  //   instructor: string
+  // }
 
-const columns: MUIDataTableColumn[] = [
-  {
-    name: "name",
-    label: "Name"
-  },
-  {
-    name: "description",
-    label: "Description"
-  },
-  {
-    name: "duration",
-    label: "Duration"
-  },
-  {
-    name: "level",
-    label: "Level"
-  },
-  {
-    name: "price",
-    label: "Price"
-  },
-  {
-    name: "instructor",
-    label: "Instructor"
-  },
-  {
-    name: "action",
-    label: "Action",
-    options: {
-      customBodyRender: (value: any, tableMeta: any, updateValue: any) => {
-        const rowIndex = tableMeta.rowIndex;
-        return (
-          <>
-            <Button variant="contained" 
-            color={"inherit"} 
-            size={"small"} 
-            onClick={() => handleEdit(rowIndex)}>
-              <EditIcon /> 
-            </Button>
-            <Button variant="contained" 
-            color={"error"} 
-            size={"small"} 
-            onClick={() => handleDelete(rowIndex)}>
-              <DeleteIcon /> 
-            </Button>
-          </>
-        );
+  const columns: MUIDataTableColumn[] = [
+    {
+      name: "id",
+      label: "ID",
+    },
+    {
+      name: "name",
+      label: "Name",
+    },
+    {
+      name: "description",
+      label: "Description",
+    },
+    {
+      name: "duration",
+      label: "Duration",
+    },
+    {
+      name: "level",
+      label: "Level",
+    },
+    {
+      name: "price",
+      label: "Price",
+    },
+    {
+      name: "instructor",
+      label: "Instructor",
+    },
+    {
+      name: "deleted",
+      label: "Delete",
+      options: {
+        customBodyRender: (value: boolean) => {
+          return value ? "Yes" : "No";
+        },
       },
     },
-  },
-];
+    {
+      name: "action",
+      label: "Action",
+      options: {
+        customBodyRender: (value: any, tableMeta: any, updateValue: any) => {
+          const rowIndex = tableMeta.rowIndex;
+          return (
+            <>
+              <Button variant="outlined">Edit</Button>
 
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  handleDelete(rowIndex);
+                }}
+              >
+                Delete
+              </Button>
+              <Button variant="outlined">restore</Button>
+            </>
+          );
+        },
+      },
+    },
+  ];
 
   const options: MUIDataTableOptions = {
     selectableRows: "none",
@@ -96,40 +106,44 @@ const columns: MUIDataTableColumn[] = [
     rowsPerPage: 5,
   };
 
-  const [data, setData] = useState(initialData);
+  const navigate = useNavigate();
 
   const handleDelete = (rowIndex: number) => {
-    const newData = [...data];
-    newData.splice(rowIndex, 1);
-    setData(newData);
+    // Create a new array without the selected row
+    const newData = [...courses];
+    const data = newData.splice(rowIndex, 1);
+    console.log(
+      "🚀 ~ file: coursesPanel.tsx:92 ~ handleDelete ~ data:",
+      data[0].id
+    );
+    const confirmed = window.confirm(
+      "Are you sure you want to delete the course?"
+    );
+    if (confirmed) {
+      dispatch(DeletedCourse(data, true));
+    }
   };
 
-  const handleEdit = (rowIndex: number) => {
-
-  };
-  
-  
-
-  useEffect(() => {
-    dispatch(getCourses())
-  },[dispatch]);
-
+  // const handleEdit = () => {
+  //   navigate("/dashboard/edit/course/")
+  // }
 
   return (
     <Grid container xs={12}>
       <Box width="100%">
-      <Typography textAlign={"center"} variant="h3">Courses</Typography>
-      <Typography textAlign={"center"} variant="h6" m={3}>
-        In this section we manage all the courses on the platform
-      </Typography>
+        <Typography textAlign={"center"} variant="h3">
+          Courses
+        </Typography>
+        <Typography textAlign={"center"} variant="h6" m={3}>
+          In this section we manage all the courses on the platform
+        </Typography>
       </Box>
       <MUIDataTable
-      title={"List of platform courses"}
-      data={data}
-      columns={columns}
-      options={options}      
-       />
-       
+        title={"list of platform courses"}
+        data={courses}
+        columns={columns}
+        options={options}
+      />
     </Grid>
   );
 };
