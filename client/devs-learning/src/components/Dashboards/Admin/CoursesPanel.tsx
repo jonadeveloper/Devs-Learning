@@ -22,16 +22,6 @@ const CoursesPanel: React.FC = () => {
     dispatch(getCourses());
   }, []);
 
-  // interface RowData{
-  //   id: string,
-  //   name: string,
-  //   description: string,
-  //   duration: string,
-  //   level: string,
-  //   price: string,
-  //   instructor: string
-  // }
-
   const columns: MUIDataTableColumn[] = [
     {
       name: "id",
@@ -76,19 +66,31 @@ const CoursesPanel: React.FC = () => {
       options: {
         customBodyRender: (value: any, tableMeta: any, updateValue: any) => {
           const rowIndex = tableMeta.rowIndex;
+          const coursesId = tableMeta.currentTableData[rowIndex].data[0];
           return (
-            <>
-              <Button variant="outlined">Edit</Button>
+            <><NavLink to={`/dashboard/edit/course/${coursesId}`}>
+              <Button 
+              variant="outlined"
+              >
+                Edit
+              </Button>
+              </NavLink>
 
               <Button
                 variant="outlined"
+                color="error"
                 onClick={() => {
                   handleDelete(rowIndex);
                 }}
               >
                 Delete
               </Button>
-              <Button variant="outlined" onClick={()=>{handleRestore(rowIndex)}}>
+              <Button variant="outlined" 
+              color="success"
+              onClick={()=> {
+                handleRestore(rowIndex)
+                }}
+              >
                 restore
               </Button>
             </>
@@ -107,8 +109,6 @@ const CoursesPanel: React.FC = () => {
     pagination: true,
     rowsPerPage: 5,
   };
-
-  const navigate = useNavigate();
 
   const handleDelete = (rowIndex: number) => {
     // Create a new array without the selected row
@@ -141,9 +141,6 @@ const CoursesPanel: React.FC = () => {
     }
   };
 
-  // const handleEdit = () => {
-  //   navigate("/dashboard/edit/course/")
-  // }
 
   return (
     <Grid container xs={12}>
