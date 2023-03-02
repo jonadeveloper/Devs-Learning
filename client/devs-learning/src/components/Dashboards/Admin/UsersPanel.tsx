@@ -5,8 +5,15 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { Button, TextField } from "@mui/material";
-import MUIDataTable, { MUIDataTableOptions, MUIDataTableColumn } from "mui-datatables";
-import { getUsersInfo, BanUser, EditUser } from "../../../redux/AllUsers/actions";
+import MUIDataTable, {
+  MUIDataTableOptions,
+  MUIDataTableColumn,
+} from "mui-datatables";
+import {
+  getUsersInfo,
+  BanUser,
+  EditUser,
+} from "../../../redux/AllUsers/actions";
 // import Select from "@material-ui/core/Select";
 // import { MenuItem } from "@material-ui/core";
 
@@ -28,7 +35,9 @@ const UsersPanel: React.FC = () => {
     };
     if (editedUserId !== null) {
       // Send request to update user's rank
-      console.log(`Saving rank "${editedRank}" for user with ID ${editedUserId}`);
+      console.log(
+        `Saving rank "${editedRank}" for user with ID ${editedUserId}`
+      );
       // TODO: Call server API to update the user's rank here
       console.log(data);
 
@@ -36,11 +45,9 @@ const UsersPanel: React.FC = () => {
       setEditedUserId(null);
     }
   };
-  
+
   const handleCancel = (user: any) => {
-    
-      setEditedUserId(null);
-    
+    setEditedUserId(null);
   };
 
   const columns: MUIDataTableColumn[] = [
@@ -60,14 +67,14 @@ const UsersPanel: React.FC = () => {
             // Render text field for editing the rank
             return (
               <select
-  value={editedRank}
-  onChange={(e) => setEditedRank(e.target.value)}
->
-  <option value="">Select a rank</option>
-  <option value="admin">Admin</option>
-  <option value="student">Student</option>
-  <option value="teacher">Teacher</option>
-</select>
+                value={editedRank}
+                onChange={(e) => setEditedRank(e.target.value)}
+              >
+                <option value="">Select a rank</option>
+                <option value="admin">Admin</option>
+                <option value="student">Student</option>
+                <option value="teacher">Teacher</option>
+              </select>
             );
           } else {
             // Render plain text for the rank
@@ -106,28 +113,42 @@ const UsersPanel: React.FC = () => {
             // Render "Save" button when editing
             return (
               <>
-              <Button variant="outlined" onClick={() => handleSave(userId)}>
-                Save
-              </Button>
-              <Button variant="outlined" color="warning" onClick={() => handleCancel(userId)}>
-                Cancel
-              </Button>
+                <Button variant="outlined" onClick={() => handleSave(userId)}>
+                  Save
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="warning"
+                  onClick={() => handleCancel(userId)}
+                >
+                  Cancel
+                </Button>
               </>
             );
           } else {
             // Render "Edit" and "Delete" buttons when not editing
             return (
               <>
-                <Button variant="outlined" onClick={() => setEditedUserId(rowIndex)}>
+                <Button
+                  variant="outlined"
+                  onClick={() => setEditedUserId(rowIndex)}
+                >
                   Edit
                 </Button>
 
-                <Button variant="outlined" color="error" onClick={() => handleDelete(rowIndex)}>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={() => handleDelete(rowIndex)}
+                >
                   BAN
                 </Button>
-                <Button variant="outlined" color="success" onClick={() => handleDesBan(rowIndex)}>
+                <Button
+                  variant="outlined"
+                  color="success"
+                  onClick={() => handleDesBan(rowIndex)}
+                >
                   UNBAN
-
                 </Button>
               </>
             );
@@ -151,19 +172,29 @@ const UsersPanel: React.FC = () => {
     // Create a new array without the selected row
     const newData = [...users];
     const data = newData.splice(rowIndex, 1);
-    console.log("🚀 ~ file: UsersPanel.tsx:92 ~ handleDelete ~ data:", data[0].id);
-    const confirmed = window.confirm("¿Are you sure you want to BAN this user?");
-  if (confirmed) {
-    dispatch(BanUser(data, true));
-  }
+    console.log(
+      "🚀 ~ file: UsersPanel.tsx:92 ~ handleDelete ~ data:",
+      data[0].id
+    );
+    const confirmed = window.confirm(
+      "¿Are you sure you want to BAN this user?"
+    );
+    if (confirmed) {
+      dispatch(BanUser(data, true));
+    }
   };
 
   const handleDesBan = (rowIndex: number) => {
     // Create a new array without the selected row
     const newData = [...users];
     const data = newData.splice(rowIndex, 1);
-    console.log("🚀 ~ file: UsersPanel.tsx:92 ~ handleDelete ~ data:", data[0].id);
-    const confirmed = window.confirm("¿Are you sure you want to UNBAN this user?");
+    console.log(
+      "🚀 ~ file: UsersPanel.tsx:92 ~ handleDelete ~ data:",
+      data[0].id
+    );
+    const confirmed = window.confirm(
+      "¿Are you sure you want to UNBAN this user?"
+    );
     if (confirmed) {
       dispatch(BanUser(data, false));
     }
@@ -183,7 +214,12 @@ const UsersPanel: React.FC = () => {
           In this section we manage all the users on the platform
         </Typography>
       </Box>
-      <MUIDataTable title="Student List" data={users} columns={columns} options={options} />
+      <MUIDataTable
+        title="Student List"
+        data={users}
+        columns={columns}
+        options={options}
+      />
     </Grid>
   );
 };
