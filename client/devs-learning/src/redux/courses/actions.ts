@@ -320,3 +320,33 @@ export const clearBoughtCart = (
     return dispatch(reducer.filterBoughtCart(newCart));
   };
 };
+
+export const DeletedCourse = (
+  course: any,
+  siono: boolean
+): ThunkAction<void, RootState, unknown, AnyAction> => {
+  course.siono = siono;
+  return (dispatch) => {
+    if (siono) {
+      console.log("🚀 ~ file: actions.ts:38 ~ siono:", siono)
+
+      axios
+        .put(`${REACT_APP_BASE_URL}/courses/logicDelete?id=${course[0].id}`)
+        .then((response) => {
+          console.log("🚀 ~ file: actions.ts:42 ~ return ~ course:", course)
+          dispatch(reducer.DeletedCourses(course));
+
+        })
+    } else {
+      console.log("🚀 ~ file: actions.ts:48 ~ siono:", siono)
+
+      axios
+        .put(`${REACT_APP_BASE_URL}/courses/logicRestore?id=${course[0].id}`)
+        .then((response) => {
+          console.log("🚀 ~ file: actions.ts:57 ~ return ~ course:", course)
+          dispatch(reducer.DeletedCourses(course));
+
+        })
+    }
+  }
+};
