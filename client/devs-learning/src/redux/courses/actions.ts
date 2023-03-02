@@ -317,11 +317,13 @@ export const clearBoughtCart = (
 export const DeletedCourse = (
   course: any
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
+  console.log("AAAAAAAAA"+course[0].id);
+  
   return (dispatch) => {
       axios
-        .put(`${REACT_APP_BASE_URL}/courses/logicDelete?id=${course[0].id}`)
+        .put(`${BACK}/courses/logicDelete?id=${course[0].id}`)
         .then((response) => {
-          console.log("🚀 ~ file: actions.ts:44 ~ return ~ course:", course)
+          console.log("🚀 ~ file: actions.ts:44 ~ return ~ AAAAAASSSSS:", response)
            dispatch(reducer.DeletedCourses(course));
   
         })

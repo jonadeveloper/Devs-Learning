@@ -12,7 +12,7 @@ interface CoursesState {
   searched: string;
 
   cart: CoursoBack[];
-
+  
   status: string;
 }
 
@@ -32,12 +32,13 @@ const initialState: CoursesState = {
     descriptionComplete: "",
     img: "",
     rating: [],
+    deleted: false
   },
   currentPage: 1,
   searched: "",
 
   cart: getItem("cart") || [],
-
+    
   status: "loading",
 };
 

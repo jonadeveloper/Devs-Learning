@@ -68,6 +68,7 @@ const CourseDetail: React.FC = () => {
       name: NewName.replaceAll("-", " "),
       price: MyCourseInfo.price,
       rating: MyCourseInfo.rating,
+      deleted: MyCourseInfo.deleted,
     };
     console.log(`Courseinfo`);
     console.log(InfoToKeep);

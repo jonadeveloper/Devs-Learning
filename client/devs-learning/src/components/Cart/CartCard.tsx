@@ -40,6 +40,7 @@ export interface CoursoBack {
   descriptionComplete: string;
   img: string;
   rating: any;
+  deleted: boolean
 }
 
 interface Props {

@@ -102,7 +102,7 @@ const columns: MUIDataTableColumn[] = [
     print: false,
     viewColumns: false,
     pagination: true,
-    rowsPerPage: 5,
+    rowsPerPage: 10,
   };
 
   const handleDelete = (rowIndex: number) => {
