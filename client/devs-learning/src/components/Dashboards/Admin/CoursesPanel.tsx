@@ -68,12 +68,9 @@ const CoursesPanel: React.FC = () => {
           const rowIndex = tableMeta.rowIndex;
           const coursesId = tableMeta.currentTableData[rowIndex].data[0];
           return (
-            <><NavLink to={`/dashboard/edit/course/${coursesId}`}>
-              <Button 
-              variant="outlined"
-              >
-                Edit
-              </Button>
+            <>
+              <NavLink to={`/dashboard/edit/course/${coursesId}`}>
+                <Button variant="outlined">Edit</Button>
               </NavLink>
 
               <Button
@@ -85,10 +82,11 @@ const CoursesPanel: React.FC = () => {
               >
                 Delete
               </Button>
-              <Button variant="outlined" 
-              color="success"
-              onClick={()=> {
-                handleRestore(rowIndex)
+              <Button
+                variant="outlined"
+                color="success"
+                onClick={() => {
+                  handleRestore(rowIndex);
                 }}
               >
                 restore
@@ -130,9 +128,7 @@ const CoursesPanel: React.FC = () => {
     // Create a new array without the selected row
     const newData = [...courses];
     const data = newData.splice(rowIndex, 1);
-    console.log(
-      data[0].id
-    );
+    console.log(data[0].id);
     const confirmed = window.confirm(
       "Are you sure you want to restore the course?"
     );
@@ -141,23 +137,33 @@ const CoursesPanel: React.FC = () => {
     }
   };
 
-
   return (
     <Grid container xs={12}>
-      <Box width="100%">
+      <Box
+        width="100%"
+        sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      >
         <Typography textAlign={"center"} variant="h3">
           Courses
         </Typography>
         <Typography textAlign={"center"} variant="h6" m={3}>
           In this section we manage all the courses on the platform
         </Typography>
+
+        <NavLink to={`/dashboard/create/course`}>
+          <Button variant="contained" sx={{ marginBottom: 2 }}>
+            Create Course
+          </Button>
+        </NavLink>
       </Box>
-      <MUIDataTable
-        title={"list of platform courses"}
-        data={courses}
-        columns={columns}
-        options={options}
-      />
+      <Box sx={{ maxWidth: "100%" }}>
+        <MUIDataTable
+          title={"list of platform courses"}
+          data={courses}
+          columns={columns}
+          options={options}
+        />
+      </Box>
     </Grid>
   );
 };
