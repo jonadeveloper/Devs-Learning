@@ -77,7 +77,7 @@ export default function Login({ setAuth }: any) {
       sx={{
         minHeight: "100vh",
         height: "100%",
-        minWidth: "100vw",
+        /* minWidth: "100vw", */
         width: "100%",
         display: "flex",
         flexDirection: "column",
@@ -90,21 +90,23 @@ export default function Login({ setAuth }: any) {
         container
         justifyContent="center"
         alignItems="center"
+        alignSelf="center"
         borderRadius="20px"
         sx={{
-          display: "grid",
+          display: { xs: "flex", md: "grid" },
           backgroundColor: "white",
           minHeight: "70vh",
           height: "100%",
-          width: "50%",
+          width: { xs: "80%", md: "50%" },
         }}
       >
         <Grid
-          display="grid"
           container
           justifyContent="center"
           alignItems="center"
           sx={{
+            display: { xs: "flex", md: "grid" },
+            flexDirection: "column",
             placeItems: "center",
           }}
         >
@@ -113,7 +115,9 @@ export default function Login({ setAuth }: any) {
             alt="Devs Logo"
             sx={{ width: 96, height: 96 }}
           />
-          <Typography variant="h5">Sign In to DevsLearning</Typography>
+          <Typography gutterBottom variant="h5">
+            Sign In to DevsLearning
+          </Typography>
           <Box
             sx={{ mt: "10px" }}
             component="form"
