@@ -18,13 +18,13 @@ const LandingPage: React.FC = () => {
         justifyContent="center"
       >
         <Box
-        height={"55vh"}
+          height={"55vh"}
           width="100%"
           display="flex"
           flexDirection="column"
           alignItems="center"
           justifyContent="center"
-          py={20}
+          sx={{ py: { sx: 0, md: 20 } }}
         >
           <Box display="flex">
             <Typography
@@ -53,7 +53,7 @@ const LandingPage: React.FC = () => {
             <NavLink to="/courses">
               <Fab size="medium" variant="extended" color="inherit">
                 <Typography variant="button" p={2}>
-                See courses
+                  See courses
                 </Typography>
                 <KeyboardArrowRightRoundedIcon />
               </Fab>
@@ -76,7 +76,7 @@ const LandingPage: React.FC = () => {
           flexDirection="column"
           alignItems="center"
           justifyContent="center"
-          py={2}
+          sx={{ py: { sx: 0, md: 2 } }}
         >
           <img
             src="https://cdn.dribbble.com/users/638428/screenshots/3641004/code2.gif"
