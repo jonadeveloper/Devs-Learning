@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Typography, Box, CircularProgress } from "@mui/material";
-import MUIDataTable, { MUIDataTableOptions, MUIDataTableColumn } from "mui-datatables";
+import MUIDataTable, {
+  MUIDataTableOptions,
+  MUIDataTableColumn,
+} from "mui-datatables";
 import { useAppSelector } from "../../../hooks/hooksRedux";
 import moment from "moment";
-
 
 interface RowData {
   fullname: string;
@@ -14,7 +16,7 @@ interface RowData {
 }
 
 const SalesPanel: React.FC = () => {
-  const { status, sales } = useAppSelector((state) => state.sales)
+  const { status, sales } = useAppSelector((state) => state.sales);
   const initialData: RowData[] = [
     {
       fullname: "Jonatan Villalva",
@@ -154,7 +156,7 @@ const SalesPanel: React.FC = () => {
     //     },
     //   },
     // },
-  ]
+  ];
 
   const options: MUIDataTableOptions = {
     selectableRows: "none",
@@ -173,12 +175,12 @@ const SalesPanel: React.FC = () => {
           height: "100%",
           width: "100%",
           alignItems: "center",
-          justifyContent: "center"
+          justifyContent: "center",
         }}
       >
         <CircularProgress color="success" size={100} />
       </Box>
-    )
+    );
   }
   return (
     <Box
@@ -186,7 +188,7 @@ const SalesPanel: React.FC = () => {
         display: "flex",
         height: "100%",
         width: "100%",
-        flexDirection: "column"
+        flexDirection: "column",
       }}
     >
       <Typography variant="h3">Sales</Typography>
@@ -197,16 +199,18 @@ const SalesPanel: React.FC = () => {
           height: "100%",
           width: "100%",
           alignItems: "center",
-          justifyContent: "center"
+          justifyContent: "center",
         }}
       >
-        <Box>
-          <MUIDataTable title="Student List" data={sales} columns={columns} options={options} />
-
+        <Box width="100%">
+          <MUIDataTable
+            title="Student List"
+            data={sales}
+            columns={columns}
+            options={options}
+          />
         </Box>
-
       </Box>
-
     </Box>
   );
 };

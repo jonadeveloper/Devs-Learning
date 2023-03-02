@@ -34,9 +34,11 @@ function logicDeleteCourse(req, res) {
             const errName = err.name;
             const errCode = err.code;
             const errMessage = err.message;
-            return res.status(404).send(errName ?
-                `Error ${errCode}: ${errName} - ${errMessage}` :
-                "Something went wrong, please try again.");
+            return res
+                .status(404)
+                .send(errName
+                ? `Error ${errCode}: ${errName} - ${errMessage}`
+                : "Something went wrong, please try again.");
         }
     });
 }
@@ -49,16 +51,16 @@ function logicRestoreCourse(req, res) {
             if (myRegEx.test(id)) {
                 let course = yield Course.findOne({
                     where: { id: id },
-                    include: {
-                        model: Category,
-                        attributes: ["name"],
-                        through: {
-                            attributes: []
-                        }
-                    }
+                    // include: {
+                    //   model: Category,
+                    //   attributes: ["name"],
+                    //   through: {
+                    //     attributes: [],
+                    //   },
+                    // },
                 });
                 if (course === undefined)
-                    return res.status(404).send(`El curso ${name} no existe`);
+                    return res.status(404).send(`El curso no existe`);
                 yield Course.update({
                     deleted: false,
                 }, {
@@ -66,7 +68,7 @@ function logicRestoreCourse(req, res) {
                         id: id,
                     },
                 });
-                return res.status(200).send(`The course ${name} has been updated`);
+                return res.status(200).send(`The course  has been updated`);
             }
             else {
                 return res.status(404).send("ID doesn't match type UUID");
@@ -76,9 +78,11 @@ function logicRestoreCourse(req, res) {
             const errName = err.name;
             const errCode = err.code;
             const errMessage = err.message;
-            return res.status(404).send(errName ?
-                `Error ${errCode}: ${errName} - ${errMessage}` :
-                "Something went wrong, please try again.");
+            return res
+                .status(404)
+                .send(errName
+                ? `Error ${errCode}: ${errName} - ${errMessage}`
+                : "Something went wrong, please try again.");
         }
     });
 }

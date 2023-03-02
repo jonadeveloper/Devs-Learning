@@ -213,13 +213,14 @@ const UsersPanel: React.FC = () => {
         <Typography textAlign={"center"} variant="h6" m={3}>
           In this section we manage all the users on the platform
         </Typography>
+
+        <MUIDataTable
+          title="Student List"
+          data={users}
+          columns={columns}
+          options={options}
+        />
       </Box>
-      <MUIDataTable
-        title="Student List"
-        data={users}
-        columns={columns}
-        options={options}
-      />
     </Grid>
   );
 };
