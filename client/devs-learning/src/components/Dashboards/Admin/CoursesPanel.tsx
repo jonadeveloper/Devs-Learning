@@ -63,7 +63,7 @@ const CoursesPanel: React.FC = () => {
     },
     {
       name: "deleted",
-      label: "Delete",
+      label: "Deleted",
       options: {
         customBodyRender: (value: boolean) => {
           return value ? "Yes" : "No";
@@ -88,7 +88,9 @@ const CoursesPanel: React.FC = () => {
               >
                 Delete
               </Button>
-              <Button variant="outlined">restore</Button>
+              <Button variant="outlined" onClick={()=>{handleRestore(rowIndex)}}>
+                restore
+              </Button>
             </>
           );
         },
@@ -121,6 +123,21 @@ const CoursesPanel: React.FC = () => {
     );
     if (confirmed) {
       dispatch(DeletedCourse(data, true));
+    }
+  };
+
+  const handleRestore = (rowIndex: number) => {
+    // Create a new array without the selected row
+    const newData = [...courses];
+    const data = newData.splice(rowIndex, 1);
+    console.log(
+      data[0].id
+    );
+    const confirmed = window.confirm(
+      "Are you sure you want to restore the course?"
+    );
+    if (confirmed) {
+      dispatch(DeletedCourse(data, false));
     }
   };
 
