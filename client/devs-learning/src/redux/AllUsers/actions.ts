@@ -14,7 +14,7 @@ export const getUsersInfo = (): ThunkAction<
   AnyAction
 > => {
   return (dispatch) => {
-    axios.get(`http://localhost:3001/usersInfo`).then((response) => {
+    axios.get(`${REACT_APP_BASE_URL}/usersInfo`).then((response) => {
       dispatch(reducer.setAllUsers(response.data));
     });
   };
