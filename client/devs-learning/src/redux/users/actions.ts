@@ -88,22 +88,39 @@ export const signInWithGoogle = (
     try {
       let userCredential = await signInWithPopup(auth, provider);
       Swal.showLoading();
+
       if (userCredential !== null) {
-        axios.post(`${REACT_APP_BASE_URL}/fake`, userCredential.user);
-        axios
-          .get(
-            `${REACT_APP_BASE_URL}/banned?email=${userCredential.user.email}`
-          )
+        await axios.post(`${REACT_APP_BASE_URL}/fake`, userCredential.user);
+        const banned = await axios.get(
+          `${REACT_APP_BASE_URL}/banned?email=${userCredential.user.email}`
+        );
+        if (!banned.data) {
+          const userDB = await axios.get(
+            `${REACT_APP_BASE_URL}/usersInfo?email=${userCredential.user.email}`
+          );
+          Swal.hideLoading();
+          setAuth = "logged";
+          dispatch(reducer.signIn(userDB.data[0]));
+          Swal.fire("Logged in", "", "success");
+        } else {
+          Swal.fire(
+            `Error: You are banned, for more information contact support`,
+            "",
+            "error"
+          );
+        }
+      }
+
+      /*if (userCredential !== null) {
+        await axios.post(`${REACT_APP_BASE_URL}/fake`, userCredential.user);
+        const banned = await axios.get( `${REACT_APP_BASE_URL}/banned?email=${userCredential.user.email}`)
           .then(async (response) => {
             if (!response.data) {
               const userDB = await axios.get(
                 `${REACT_APP_BASE_URL}/usersInfo?email=${userCredential.user.email}`
               );
 
-              Swal.hideLoading();
-              setAuth = "logged";
-              dispatch(reducer.signIn(userDB.data[0]));
-              Swal.fire("Logged in", "", "success");
+             
             } else {
               Swal.fire(
                 `Error: You are banned, for more information contact support`,
@@ -113,7 +130,7 @@ export const signInWithGoogle = (
             }
           })
           .catch((error) => {});
-      }
+      }*/
     } catch (error: any) {
       Swal.hideLoading();
       const errorCode = error.code;
