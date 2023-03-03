@@ -20,6 +20,7 @@ import LandingPage from "../components/Landing/LandingPage";
 import DashboardAdmin from "../components/Dashboards/Admin/DashboardAdmin";
 import UserDashboard from "../components/Dashboards/UserDashboard";
 import {
+  getAdmin,
   getBoughtCoursesNames,
   getUser,
   setFullName,
@@ -40,6 +41,8 @@ const { REACT_APP_FIREBASE_CONFIG } = process.env;
 export const AppRouter = () => {
   const dispatch = useAppDispatch();
   let { status } = useAppSelector((state) => state.users);
+  let { email } = useAppSelector((state) => state.users);
+
   const firebaseConfig = JSON.parse(REACT_APP_FIREBASE_CONFIG!);
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
@@ -99,6 +102,10 @@ export const AppRouter = () => {
   }, [cart]);
 
   ///////////////////////////////////
+
+  useEffect(() => {
+    dispatch(getAdmin(email));
+  }, [email]);
 
   return (
     <div>

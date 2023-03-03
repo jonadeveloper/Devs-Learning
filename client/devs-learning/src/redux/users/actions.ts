@@ -201,3 +201,18 @@ export const getBoughtCoursesNames = (
     return dispatch(reducer.setBoughtCourses(user[0].courses));
   };
 };
+
+export const getAdmin = (
+  email: string
+): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return async (dispatch) => {
+    let user = await axios
+      .get(`${REACT_APP_BASE_URL}/usersInfo?email=${email}`)
+
+      .then((response) => response.data);
+
+    console.log(user);
+
+    return dispatch(reducer.getAdmin(user[0].rank));
+  };
+};
