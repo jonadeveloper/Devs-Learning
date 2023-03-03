@@ -46,10 +46,10 @@ const settings = [
   //   name: "Edit Course (Temp)",
   //   route: "/dashboard/edit/course/aea8d308-e8e0-4c37-8c59-d738b3b143aa",
   // },
-  {
-    name: "Dashboard",
-    route: "/",
-  },
+  // {
+  //   name: "Dashboard",
+  //   route: "/",
+  // },
 ];
 function ResponsiveAppBar() {
   let theme = createTheme({
@@ -67,8 +67,12 @@ function ResponsiveAppBar() {
   });
   const dispatch = useAppDispatch();
   const [open, setOpen] = React.useState<boolean>(false);
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+    null
+  );
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null
+  );
   const { status } = useAppSelector((state) => state.users);
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -204,7 +208,10 @@ function ResponsiveAppBar() {
               ))}
             </Box>
             <Stack spacing={2} direction="row" margin={2}>
-              <IconButton color="secondary" onClick={() => handleStateViewDrawer()}>
+              <IconButton
+                color="secondary"
+                onClick={() => handleStateViewDrawer()}
+              >
                 <Badge color="secondary" badgeContent={cart.length}>
                   <ShoppingCartOutlinedIcon />
                 </Badge>
@@ -236,7 +243,11 @@ function ResponsiveAppBar() {
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar
                     alt="ProfileImage"
-                    src={profileImg !== null ? profileImg : "/static/images/avatar/2.jpg"}
+                    src={
+                      profileImg !== null
+                        ? profileImg
+                        : "/static/images/avatar/2.jpg"
+                    }
                   />
                 </IconButton>
               </Tooltip>
@@ -278,7 +289,10 @@ function ResponsiveAppBar() {
           </Toolbar>
         </Container>
       </AppBar>
-      <CartComponent open={open} handleStateViewDrawer={handleStateViewDrawer} />
+      <CartComponent
+        open={open}
+        handleStateViewDrawer={handleStateViewDrawer}
+      />
     </ThemeProvider>
   );
 }
