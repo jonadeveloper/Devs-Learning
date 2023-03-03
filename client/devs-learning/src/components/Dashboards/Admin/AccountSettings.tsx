@@ -74,13 +74,13 @@ const UserAccountSettings: React.FC = () => {
           Change your Password
         </Typography>
         <PasswordChange />
-        <Divider sx={{ margin: "10px", width: "100%" }}></Divider>
+        {/* <Divider sx={{ margin: "10px", width: "100%" }}></Divider>
         <Typography textAlign="center" variant="subtitle1">
           Do you want Become a Teacher? Complete the form below
         </Typography>
         <Button sx={{ width: "80%" }} variant="contained" color="warning">
           Become a Teacher
-        </Button>
+        </Button> */}
         <Divider sx={{ margin: "10px", width: "100%" }}></Divider>
         <Typography fontWeight="500" textAlign="center" variant="subtitle1">
           If you dont want continue here, you can delete your account. Remember
