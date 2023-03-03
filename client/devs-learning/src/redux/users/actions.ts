@@ -212,8 +212,6 @@ export const getAdmin = (
 
         .then((response) => response.data);
 
-      console.log(user);
-
       return dispatch(reducer.getAdmin(user[0].rank));
     }
   };

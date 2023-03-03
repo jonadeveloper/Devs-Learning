@@ -94,8 +94,6 @@ export const searchCourses = (
 
       dispatch(reducer.searched({ allcourses, search }));
     } catch (error) {
-      console.log("no se encontro el curso buscado, se muestran todos");
-
       dispatch(reducer.searched(error));
     }
   };
@@ -105,7 +103,6 @@ export const setCurrentCourse = (
   card: CoursoBack
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return (dispatch) => {
-    console.log(card);
     return dispatch(reducer.currentCourse(card));
   };
 };
@@ -118,7 +115,6 @@ export const createCourseAction = (
     axios
       .post(BACK + "/courses/", course)
       .then((response) => {
-        console.log(response);
         dispatch(reducer.createCourse());
         Swal.fire("Course created successfully!", "", "success");
       })
@@ -137,7 +133,6 @@ export const editCourseAction = (
     axios
       .put(BACK + "/courses", course)
       .then((response) => {
-        console.log(response);
         dispatch(reducer.createCourse());
         Swal.fire("Course edited successfully!", "", "success").then(() => {
           window.location.href = `/courseDetail/${id}`;
@@ -246,8 +241,6 @@ export const addToCart = (
   card: CoursoBack
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return (dispatch) => {
-    console.log(card);
-
     return dispatch(reducer.addToCart(card));
   };
 };
@@ -256,7 +249,6 @@ export const removeToCart = (
   card: CoursoBack
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return (dispatch) => {
-    console.log(card);
     return dispatch(reducer.removeToCart(card));
   };
 };
@@ -291,7 +283,6 @@ export const AddRating = (
     axios
       .put(BACK + "/courses/putRating", rating)
       .then((response) => {
-        console.log(response);
         dispatch(
           reducer.addRating({
             rating: rating.rating.rating,
@@ -329,21 +320,15 @@ export const DeletedCourse = (
   course.siono = siono;
   return (dispatch) => {
     if (siono) {
-      console.log("🚀 ~ file: actions.ts:38 ~ siono:", siono);
-
       axios
         .put(`${REACT_APP_BASE_URL}/courses/logicDelete?id=${course[0].id}`)
         .then((response) => {
-          console.log("🚀 ~ file: actions.ts:42 ~ return ~ course:", course);
           dispatch(reducer.DeletedCourses(course));
         });
     } else {
-      console.log("🚀 ~ file: actions.ts:48 ~ siono:", siono);
-
       axios
         .put(`${REACT_APP_BASE_URL}/courses/logicRestore?id=${course[0].id}`)
         .then((response) => {
-          console.log("🚀 ~ file: actions.ts:57 ~ return ~ course:", course);
           dispatch(reducer.DeletedCourses(course));
         });
     }
