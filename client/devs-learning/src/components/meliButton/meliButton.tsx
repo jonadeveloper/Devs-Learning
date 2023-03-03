@@ -61,7 +61,7 @@ export default function () {
   let { status } = useAppSelector((state) => state.users);
 
   const handleClick = (e: any) => {
-    window.location.replace("http://localhost:3000/auth/signin");
+    window.location.replace("/auth/signin");
   };
 
   return (
