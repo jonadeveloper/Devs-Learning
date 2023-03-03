@@ -67,12 +67,8 @@ function ResponsiveAppBar() {
   });
   const dispatch = useAppDispatch();
   const [open, setOpen] = React.useState<boolean>(false);
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const { status } = useAppSelector((state) => state.users);
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -85,7 +81,7 @@ function ResponsiveAppBar() {
     setAnchorElNav(null);
   };
   const handleLogout = () => {
-    handleCloseNavMenu();
+    setAnchorElUser(null);
     dispatch(signOutAction());
     setItem("loggedUserInfo", undefined);
   };
@@ -208,10 +204,7 @@ function ResponsiveAppBar() {
               ))}
             </Box>
             <Stack spacing={2} direction="row" margin={2}>
-              <IconButton
-                color="secondary"
-                onClick={() => handleStateViewDrawer()}
-              >
+              <IconButton color="secondary" onClick={() => handleStateViewDrawer()}>
                 <Badge color="secondary" badgeContent={cart.length}>
                   <ShoppingCartOutlinedIcon />
                 </Badge>
@@ -243,11 +236,7 @@ function ResponsiveAppBar() {
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar
                     alt="ProfileImage"
-                    src={
-                      profileImg !== null
-                        ? profileImg
-                        : "/static/images/avatar/2.jpg"
-                    }
+                    src={profileImg !== null ? profileImg : "/static/images/avatar/2.jpg"}
                   />
                 </IconButton>
               </Tooltip>
@@ -268,13 +257,18 @@ function ResponsiveAppBar() {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <NavLink to={setting.route} style={{ display: "flex", height: "100%", width: "100%" }}>
-
-                    <MenuItem key={setting.name} onClick={handleCloseUserMenu} style={{ display: "flex", height: "100%", width: "100%" }}>
+                  <NavLink
+                    to={setting.route}
+                    style={{ display: "flex", height: "100%", width: "100%" }}
+                  >
+                    <MenuItem
+                      key={setting.name}
+                      onClick={handleCloseUserMenu}
+                      style={{ display: "flex", height: "100%", width: "100%" }}
+                    >
                       <Typography textAlign="center">{setting.name}</Typography>
                     </MenuItem>
                   </NavLink>
-
                 ))}
                 <MenuItem key={"Logout"} onClick={handleLogout}>
                   <Typography textAlign="center">Logout</Typography>
@@ -284,10 +278,7 @@ function ResponsiveAppBar() {
           </Toolbar>
         </Container>
       </AppBar>
-      <CartComponent
-        open={open}
-        handleStateViewDrawer={handleStateViewDrawer}
-      />
+      <CartComponent open={open} handleStateViewDrawer={handleStateViewDrawer} />
     </ThemeProvider>
   );
 }
