@@ -10,34 +10,22 @@ interface Props {
 export const LoggedRoutes = ({ rol }: Props) => {
   return (
     <Routes>
-
-
       {/* <Route
         path={`/profile`}
         element={rol === "admin" ? <DashboardAdmin /> : <UserDashboard />}
       /> */}
-      {
-        rol === "admin" &&
-        <Route
-          path={`/profile`}
-          element={<DashboardAdmin />}
-        />
-      }
-      {
-        rol === "admin" &&
+      {rol === "admin" && (
+        <Route path={`/profile`} element={<DashboardAdmin />} />
+      )}
+      {rol === "admin" && (
         <Route path={`/dashboard/create/course`} element={<CreateCourse />} />
-      }
-      {
-        rol === "admin" &&
+      )}
+      {rol === "admin" && (
         <Route path={`/dashboard/edit/course/:id`} element={<EditForm />} />
-      }
-      {
-        rol === "user" &&
-        <Route
-          path={`/profile`}
-          element={<UserDashboard />}
-        />
-      }
+      )}
+      {rol === "student" && (
+        <Route path={`/profile`} element={<UserDashboard />} />
+      )}
       <Route path={"/payment/success"} element={<SuccessPage />} />
     </Routes>
   );

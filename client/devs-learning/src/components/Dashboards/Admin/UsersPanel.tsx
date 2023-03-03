@@ -23,7 +23,6 @@ const UsersPanel: React.FC = () => {
   useEffect(() => {
     dispatch(getUsersInfo());
   }, []);
-  // console.log(users);
 
   const [editedUserId, setEditedUserId] = useState<number | null>(null);
   const [editedRank, setEditedRank] = useState<string>("student");
@@ -35,11 +34,7 @@ const UsersPanel: React.FC = () => {
     };
     if (editedUserId !== null) {
       // Send request to update user's rank
-      console.log(
-        `Saving rank "${editedRank}" for user with ID ${editedUserId}`
-      );
       // TODO: Call server API to update the user's rank here
-      console.log(data);
 
       dispatch(EditUser(data));
       setEditedUserId(null);
@@ -172,10 +167,7 @@ const UsersPanel: React.FC = () => {
     // Create a new array without the selected row
     const newData = [...users];
     const data = newData.splice(rowIndex, 1);
-    console.log(
-      "🚀 ~ file: UsersPanel.tsx:92 ~ handleDelete ~ data:",
-      data[0].id
-    );
+
     const confirmed = window.confirm(
       "¿Are you sure you want to BAN this user?"
     );
@@ -188,10 +180,7 @@ const UsersPanel: React.FC = () => {
     // Create a new array without the selected row
     const newData = [...users];
     const data = newData.splice(rowIndex, 1);
-    console.log(
-      "🚀 ~ file: UsersPanel.tsx:92 ~ handleDelete ~ data:",
-      data[0].id
-    );
+
     const confirmed = window.confirm(
       "¿Are you sure you want to UNBAN this user?"
     );
@@ -200,9 +189,7 @@ const UsersPanel: React.FC = () => {
     }
   };
 
-  const handleEdit = (value: any) => {
-    console.log(value);
-  };
+  const handleEdit = (value: any) => {};
 
   return (
     <Grid container xs={12}>

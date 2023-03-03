@@ -34,11 +34,8 @@ import {
 } from "../../redux/courses/actions";
 import { setItem } from "../../utils/localStorage";
 import { CoursoBack } from "../Cards/Card";
-
-const BACK =
-  process.env.NODE_ENV === "production"
-    ? "http://181.127.189.247:3001"
-    : "http://localhost:3001";
+const { REACT_APP_PROD_URL, REACT_APP_BASE_URL } = process.env;
+const BACK = REACT_APP_BASE_URL || REACT_APP_PROD_URL;
 
 interface UserParams {
   id: string;
@@ -76,8 +73,6 @@ const CourseDetail: React.FC = () => {
       rating: MyCourseInfo.rating,
       deleted: MyCourseInfo.deleted,
     };
-    console.log(`Courseinfo`);
-    console.log(InfoToKeep);
 
     dispatch(setCurrentCourse(InfoToKeep));
     return InfoToKeep;
@@ -126,9 +121,7 @@ const CourseDetail: React.FC = () => {
     InfoKeeper();
   }, [coursesFiltered]);
 
-  const handleCategorieClick = () => {
-    console.log(`Redireccionando al filtro por categoria`);
-  };
+  const handleCategorieClick = () => {};
 
   const getRatingAVG = () => {
     function calcularPromedio(numeros: number[]): number {
@@ -140,9 +133,8 @@ const CourseDetail: React.FC = () => {
       return rat.rating;
     });
     if (ratings.length > 0) {
-      console.log(ratings);
       const average = calcularPromedio(ratings);
-      console.log(average);
+
       return average;
     } else {
       return 0;
