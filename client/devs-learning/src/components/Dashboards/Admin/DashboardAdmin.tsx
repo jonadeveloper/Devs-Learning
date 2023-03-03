@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -33,6 +33,16 @@ import AccountSettings from "./AccountSettings";
 import LogOut from "./Logout";
 import { useAppDispatch } from "../../../hooks/hooksRedux";
 import { getSales } from "../../../redux/sales/actions";
+import UserPersonalInfo from "../User/UserPersonalInfo";
+import UserCourses from "../User/UserCourses";
+import SourceIcon from "@mui/icons-material/Source";
+import SellIcon from "@mui/icons-material/Sell";
+import { profileImg, userFullname } from "../../../router/index";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getAuth, updateProfile } from "firebase/auth";
+import Swal from "sweetalert2";
+import { Input } from "@mui/material";
+import { CameraAltOutlined } from "@mui/icons-material";
 
 const DashboardAdmin: React.FC = () => {
   const img: string =
@@ -40,7 +50,11 @@ const DashboardAdmin: React.FC = () => {
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [content, setContent] = React.useState(0);
+  const [photoURL, setPhotoURL] = useState(profileImg);
   const dispatch = useAppDispatch();
+  const storage = getStorage();
+  const auth = getAuth();
+
   const handleListItemClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     index: number
@@ -52,18 +66,40 @@ const DashboardAdmin: React.FC = () => {
     dispatch(getSales());
   }, []);
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      const file = e.target.files![0];
+      Swal.showLoading();
+      const imageRef = ref(storage, `profilePhotos/${file.name}`);
+      const snapshot = await uploadBytes(imageRef, file);
+      const downloadURL = await getDownloadURL(imageRef);
+      setPhotoURL(downloadURL);
+      const user = auth.currentUser;
+      if (user) {
+        updateProfile(user, { photoURL: downloadURL }).then(() => {
+          Swal.hideLoading();
+          Swal.fire("Update photo successfully", "", "success");
+        });
+      }
+    } catch (error) {
+      Swal.fire(`${error}`, "Can't upload photo, try again", "error");
+    }
+  };
+
   const handlePageContent = (content: number) => {
     if (content === 0) {
-      return <InfoPersonal />;
+      return <UserPersonalInfo />;
     } else if (content === 1) {
-      return <CoursesPanel />;
+      return <UserCourses />;
     } else if (content === 2) {
-      return <SalesPanel />;
+      return <CoursesPanel />;
     } else if (content === 3) {
-      return <UsersPanel />;
+      return <SalesPanel />;
     } else if (content === 4) {
-      return <AccountSettings />;
+      return <UsersPanel />;
     } else if (content === 5) {
+      return <AccountSettings />;
+    } else if (content === 6) {
       return <LogOut />;
     }
   };
@@ -90,27 +126,44 @@ const DashboardAdmin: React.FC = () => {
             alignItems="center"
             mt={2}
           >
-            <Box
-              mb={1}
-              width="40%"
-              sx={{ boxShadow: "5", borderRadius: "50%" }}
+            <Badge
+              sx={{
+                textAlign: "center",
+                padding: "3%",
+              }}
+              overlap="circular"
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              badgeContent={
+                <Button variant="text" component="label">
+                  <Input
+                    type="file"
+                    hidden
+                    sx={{ display: "none" }}
+                    onChange={handleImageUpload}
+                  />
+                  <CameraAltOutlined />
+                </Button>
+              }
             >
-              <Badge
-                overlap="circular"
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                badgeContent={
-                  <IconButton size="large">
-                    <CameraAltIcon fontSize="inherit" />
-                  </IconButton>
-                }
+              {" "}
+              <Box
+                mb={1}
+                width="100%"
+                sx={{
+                  border: 2,
+                  borderColor: "whitesmoke",
+                  boxShadow: "5",
+                  borderRadius: "50%",
+                }}
               >
                 <Avatar
-                  alt="USER"
-                  sx={{ width: "100%", height: "100%" }}
-                  src={img}
-                />{" "}
-              </Badge>
-            </Box>
+                  alt="Full name"
+                  sx={{ width: "96px", height: "96px" }}
+                  src={photoURL}
+                />
+              </Box>
+            </Badge>
+
             <Box
               display="flex"
               justifyContent="center"
@@ -148,14 +201,24 @@ const DashboardAdmin: React.FC = () => {
                   onClick={(event) => handleListItemClick(event, 1)}
                 >
                   <ListItemIcon>
-                    <LibraryBooksIcon />
+                    <SellIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Courses" />
+                  <ListItemText primary="My Courses" />
                 </ListItemButton>
                 <Divider />
                 <ListItemButton
                   selected={selectedIndex === 2}
                   onClick={(event) => handleListItemClick(event, 2)}
+                >
+                  <ListItemIcon>
+                    <LibraryBooksIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="All Courses" />
+                </ListItemButton>
+                <Divider />
+                <ListItemButton
+                  selected={selectedIndex === 3}
+                  onClick={(event) => handleListItemClick(event, 3)}
                 >
                   <ListItemIcon>
                     <TrendingUpIcon />
@@ -166,8 +229,8 @@ const DashboardAdmin: React.FC = () => {
               <Divider />
               <List component="nav" aria-label="secondary mailbox folder">
                 <ListItemButton
-                  selected={selectedIndex === 3}
-                  onClick={(event) => handleListItemClick(event, 3)}
+                  selected={selectedIndex === 4}
+                  onClick={(event) => handleListItemClick(event, 4)}
                 >
                   <ListItemIcon>
                     <GroupIcon />
@@ -178,8 +241,8 @@ const DashboardAdmin: React.FC = () => {
               <Divider />
               <List component="nav" aria-label="secondary mailbox folder">
                 <ListItemButton
-                  selected={selectedIndex === 4}
-                  onClick={(event) => handleListItemClick(event, 4)}
+                  selected={selectedIndex === 5}
+                  onClick={(event) => handleListItemClick(event, 5)}
                 >
                   <ListItemIcon>
                     <ManageAccountsIcon />
@@ -188,8 +251,8 @@ const DashboardAdmin: React.FC = () => {
                 </ListItemButton>
                 <Divider />
                 <ListItemButton
-                  selected={selectedIndex === 5}
-                  onClick={(event) => handleListItemClick(event, 5)}
+                  selected={selectedIndex === 6}
+                  onClick={(event) => handleListItemClick(event, 6)}
                 >
                   <ListItemIcon>
                     <LogoutIcon />

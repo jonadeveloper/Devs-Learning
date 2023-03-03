@@ -120,7 +120,7 @@ export const EditForm = () => {
     };
     const handleSubmit = (event: React.FormEvent<HTMLInputElement>) => {
       event.preventDefault();
-      dispatch(editCourseAction({ ...course, category: categoriesSelect }));
+      dispatch(editCourseAction({ ...course, category: categoriesSelect }, id));
     };
 
     return (

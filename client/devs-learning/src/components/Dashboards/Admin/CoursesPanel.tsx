@@ -16,7 +16,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 
 const CoursesPanel: React.FC = () => {
   const { courses } = useAppSelector((state) => state.courses);
-
+  console.log(courses);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getCourses());
@@ -112,7 +112,10 @@ const CoursesPanel: React.FC = () => {
     // Create a new array without the selected row
     const newData = [...courses];
     const data = newData.splice(rowIndex, 1);
-
+    console.log(
+      "🚀 ~ file: coursesPanel.tsx:92 ~ handleDelete ~ data:",
+      data[0].id
+    );
     const confirmed = window.confirm(
       "Are you sure you want to delete the course?"
     );
@@ -125,7 +128,7 @@ const CoursesPanel: React.FC = () => {
     // Create a new array without the selected row
     const newData = [...courses];
     const data = newData.splice(rowIndex, 1);
-
+    console.log(data[0].id);
     const confirmed = window.confirm(
       "Are you sure you want to restore the course?"
     );
@@ -136,20 +139,31 @@ const CoursesPanel: React.FC = () => {
 
   return (
     <Grid container xs={12}>
-      <Box width="100%">
+      <Box
+        width="100%"
+        sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      >
         <Typography textAlign={"center"} variant="h3">
           Courses
         </Typography>
         <Typography textAlign={"center"} variant="h6" m={3}>
           In this section we manage all the courses on the platform
         </Typography>
+
+        <NavLink to={`/dashboard/create/course`}>
+          <Button variant="contained" sx={{ marginBottom: 2 }}>
+            Create Course
+          </Button>
+        </NavLink>
       </Box>
-      <MUIDataTable
-        title={"list of platform courses"}
-        data={courses}
-        columns={columns}
-        options={options}
-      />
+      <Box sx={{ maxWidth: "100%" }}>
+        <MUIDataTable
+          title={"list of platform courses"}
+          data={courses}
+          columns={columns}
+          options={options}
+        />
+      </Box>
     </Grid>
   );
 };

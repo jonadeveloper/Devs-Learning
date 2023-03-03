@@ -16,18 +16,18 @@ export const userSign = createSlice({
   name: "users",
   initialState,
   reducers: {
-    signUp: (state, { payload }) => { },
+    signUp: (state, { payload }) => {},
     signIn: (state, { payload }) => {
       state.status = "logged";
       state.fullname = payload.fullname;
-      state.rank = payload.rank
+      state.rank = payload.rank;
     },
     getUser: (state, { payload }) => {
       state.status = payload;
     },
-    changeEmail: (state) => { },
-    changePass: (state) => { },
-    recover: (state) => { },
+    changeEmail: (state) => {},
+    changePass: (state) => {},
+    recover: (state) => {},
     logOut: (state) => {
       state.fullname = "";
       state.password = "";
@@ -45,6 +45,10 @@ export const userSign = createSlice({
     },
     setBoughtCourses: (state, { payload }) => {
       state.courses = payload;
+    },
+
+    getAdmin: (state, { payload }) => {
+      state.rank = payload;
     },
   },
 });
