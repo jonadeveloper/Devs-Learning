@@ -22,7 +22,7 @@ let capsEntries = entries.map((entry) => [
     entry[1],
 ]);
 sequelize.models = Object.fromEntries(capsEntries);
-const { Course, Category, Users } = sequelize.models;
+const { Course, Category, Users, UserCourses } = sequelize.models;
 Course.belongsToMany(Category, { through: "CourseCategory" });
 Category.belongsToMany(Course, { through: "CourseCategory" });
 Users.belongsToMany(Course, { through: "UserCourses" });

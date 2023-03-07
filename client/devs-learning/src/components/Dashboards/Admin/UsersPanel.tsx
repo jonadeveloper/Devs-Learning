@@ -4,103 +4,46 @@ import { useAppDispatch, useAppSelector } from "../../../hooks/hooksRedux";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import { Button } from "@mui/material";
-import MUIDataTable, { MUIDataTableOptions, MUIDataTableColumn } from "mui-datatables";
-const UsersPanel: React.FC = () => {
-  interface RowData {
-    fullname: string;
-    rank: string;
-    email: string;
-    phoneNumber: string;
-    courses: string[];
-  }
+import { Button, TextField } from "@mui/material";
+import MUIDataTable, {
+  MUIDataTableOptions,
+  MUIDataTableColumn,
+} from "mui-datatables";
+import {
+  getUsersInfo,
+  BanUser,
+  EditUser,
+} from "../../../redux/AllUsers/actions";
+// import Select from "@material-ui/core/Select";
+// import { MenuItem } from "@material-ui/core";
 
-  const initialData: RowData[] = [
-    {
-      fullname: "Jonatan Villalva",
-      rank: "student",
-      email: "jvillalva.sistemas@gmail.com",
-      phoneNumber: "1112223334",
-      courses: ["javascript ", "html ", "react "],
-    },
-    {
-      fullname: "Francisco Rivero",
-      rank: "student",
-      email: "fran.rivero99@gmail.com",
-      phoneNumber: "1112223334",
-      courses: ["javascript ", "html ", "react "],
-    },
-    {
-      fullname: "Jonathan Mir Kim",
-      rank: "student",
-      email: "jonathan.kim75.sistemas@gmail.com",
-      phoneNumber: "1112223334",
-      courses: ["javascript ", "html ", "react "],
-    },
-    {
-      fullname: "Federico Almada ",
-      rank: "student",
-      email: "fede.55almada.sistemas@gmail.com",
-      phoneNumber: "1112223334",
-      courses: ["javascript ", "html ", "react "],
-    },
-    {
-      fullname: "Jonatan Villalva",
-      rank: "student",
-      email: "jvillalva.sistemas@gmail.com",
-      phoneNumber: "1112223334",
-      courses: ["javascript ", "html ", "react "],
-    },
-    {
-      fullname: "Francisco Rivero",
-      rank: "student",
-      email: "fran.rivero99@gmail.com",
-      phoneNumber: "1112223334",
-      courses: ["javascript ", "html ", "react "],
-    },
-    {
-      fullname: "Jonathan Mir Kim",
-      rank: "student",
-      email: "jonathan.kim75.sistemas@gmail.com",
-      phoneNumber: "1112223334",
-      courses: ["javascript ", "html ", "react "],
-    },
-    {
-      fullname: "Federico Almada ",
-      rank: "student",
-      email: "fede.55almada.sistemas@gmail.com",
-      phoneNumber: "1112223334",
-      courses: ["javascript ", "html ", "react "],
-    },
-    {
-      fullname: "Jonatan Villalva",
-      rank: "student",
-      email: "jvillalva.sistemas@gmail.com",
-      phoneNumber: "1112223334",
-      courses: ["javascript ", "html ", "react "],
-    },
-    {
-      fullname: "Francisco Rivero",
-      rank: "student",
-      email: "fran.rivero99@gmail.com",
-      phoneNumber: "1112223334",
-      courses: ["javascript ", "html ", "react "],
-    },
-    {
-      fullname: "Jonathan Mir Kim",
-      rank: "student",
-      email: "jonathan.kim75.sistemas@gmail.com",
-      phoneNumber: "1112223334",
-      courses: ["javascript ", "html ", "react "],
-    },
-    {
-      fullname: "Federico Almada ",
-      rank: "student",
-      email: "fede.55almada.sistemas@gmail.com",
-      phoneNumber: "1112223334",
-      courses: ["javascript ", "html ", "react "],
-    },
-  ];
+const UsersPanel: React.FC = () => {
+  const { users } = useAppSelector((state) => state.allUsers);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(getUsersInfo());
+  }, []);
+
+  const [editedUserId, setEditedUserId] = useState<number | null>(null);
+  const [editedRank, setEditedRank] = useState<string>("student");
+
+  const handleSave = (user: any) => {
+    const data = {
+      id: user,
+      rank: editedRank,
+    };
+    if (editedUserId !== null) {
+      // Send request to update user's rank
+      // TODO: Call server API to update the user's rank here
+
+      dispatch(EditUser(data));
+      setEditedUserId(null);
+    }
+  };
+
+  const handleCancel = (user: any) => {
+    setEditedUserId(null);
+  };
 
   const columns: MUIDataTableColumn[] = [
     {
@@ -110,21 +53,46 @@ const UsersPanel: React.FC = () => {
     {
       name: "rank",
       label: "Rank",
+      options: {
+        customBodyRender: (value: string, tableMeta: any) => {
+          const rowIndex = tableMeta.rowIndex;
+          const user = tableMeta.currentTableData[rowIndex];
+
+          if (rowIndex === editedUserId) {
+            // Render text field for editing the rank
+            return (
+              <select
+                value={editedRank}
+                onChange={(e) => setEditedRank(e.target.value)}
+              >
+                <option value="">Select a rank</option>
+                <option value="admin">Admin</option>
+                <option value="student">Student</option>
+                <option value="teacher">Teacher</option>
+              </select>
+            );
+          } else {
+            // Render plain text for the rank
+            return value;
+          }
+        },
+      },
     },
     {
       name: "email",
       label: "Email",
     },
+
     {
-      name: "phoneNumber",
-      label: "Phone Number",
+      name: "id",
+      label: "ID",
     },
     {
-      name: "courses",
-      label: "Courses",
+      name: "banned",
+      label: "BANNED",
       options: {
-        customBodyRender: (value: string[]) => {
-          return value.join(", ");
+        customBodyRender: (value: boolean) => {
+          return value ? "Yes" : "No";
         },
       },
     },
@@ -134,16 +102,52 @@ const UsersPanel: React.FC = () => {
       options: {
         customBodyRender: (value: any, tableMeta: any, updateValue: any) => {
           const rowIndex = tableMeta.rowIndex;
-          return (
-            <>
-              <Button variant="outlined" onClick={() => handleEdit(rowIndex)}>
-                Edit
-              </Button>
-              <Button variant="outlined" onClick={() => handleDelete(rowIndex)}>
-                Delete
-              </Button>
-            </>
-          );
+          const userId = tableMeta.currentTableData[rowIndex].data[3];
+
+          if (rowIndex === editedUserId) {
+            // Render "Save" button when editing
+            return (
+              <>
+                <Button variant="outlined" onClick={() => handleSave(userId)}>
+                  Save
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="warning"
+                  onClick={() => handleCancel(userId)}
+                >
+                  Cancel
+                </Button>
+              </>
+            );
+          } else {
+            // Render "Edit" and "Delete" buttons when not editing
+            return (
+              <>
+                <Button
+                  variant="outlined"
+                  onClick={() => setEditedUserId(rowIndex)}
+                >
+                  Edit
+                </Button>
+
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={() => handleDelete(rowIndex)}
+                >
+                  BAN
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="success"
+                  onClick={() => handleDesBan(rowIndex)}
+                >
+                  UNBAN
+                </Button>
+              </>
+            );
+          }
         },
       },
     },
@@ -156,26 +160,36 @@ const UsersPanel: React.FC = () => {
     print: false,
     viewColumns: false,
     pagination: true,
-    rowsPerPage: 5,
+    rowsPerPage: 10,
   };
-
-  const [data, setData] = useState(initialData);
-  // const [selectedRows, setSelectedRows] = useState<number[]>([]);
-
-  // const handleRowSelectionChange = (currentRowsSelected: number[]) => {
-  //   setSelectedRows(currentRowsSelected);
-  // };
 
   const handleDelete = (rowIndex: number) => {
     // Create a new array without the selected row
-    const newData = [...data];
-    newData.splice(rowIndex, 1);
-    setData(newData);
+    const newData = [...users];
+    const data = newData.splice(rowIndex, 1);
+
+    const confirmed = window.confirm(
+      "¿Are you sure you want to BAN this user?"
+    );
+    if (confirmed) {
+      dispatch(BanUser(data, true));
+    }
   };
 
-  const handleEdit = (rowIndex: number) => {
-    // TODO: Implement edit functionality
+  const handleDesBan = (rowIndex: number) => {
+    // Create a new array without the selected row
+    const newData = [...users];
+    const data = newData.splice(rowIndex, 1);
+
+    const confirmed = window.confirm(
+      "¿Are you sure you want to UNBAN this user?"
+    );
+    if (confirmed) {
+      dispatch(BanUser(data, false));
+    }
   };
+
+  const handleEdit = (value: any) => {};
 
   return (
     <Grid container xs={12}>
@@ -186,10 +200,111 @@ const UsersPanel: React.FC = () => {
         <Typography textAlign={"center"} variant="h6" m={3}>
           In this section we manage all the users on the platform
         </Typography>
+
+        <MUIDataTable
+          title="Student List"
+          data={users}
+          columns={columns}
+          options={options}
+        />
       </Box>
-      <MUIDataTable title="Student List" data={data} columns={columns} options={options} />
     </Grid>
   );
 };
 
 export default UsersPanel;
+
+// interface RowData {
+//   fullname: string;
+//   rank: string;
+//   email: string;
+//   phoneNumber: string;
+//   courses: string[];
+// }
+
+// const initialData: RowData[] = [
+//   {
+//     fullname: "Jonatan Villalva",
+//     rank: "student",
+//     email: "jvillalva.sistemas@gmail.com",
+//     phoneNumber: "1112223334",
+//     courses: ["javascript ", "html ", "react "],
+//   },
+//   {
+//     fullname: "Francisco Rivero",
+//     rank: "student",
+//     email: "fran.rivero99@gmail.com",
+//     phoneNumber: "1112223334",
+//     courses: ["javascript ", "html ", "react "],
+//   },
+//   {
+//     fullname: "Jonathan Mir Kim",
+//     rank: "student",
+//     email: "jonathan.kim75.sistemas@gmail.com",
+//     phoneNumber: "1112223334",
+//     courses: ["javascript ", "html ", "react "],
+//   },
+//   {
+//     fullname: "Federico Almada ",
+//     rank: "student",
+//     email: "fede.55almada.sistemas@gmail.com",
+//     phoneNumber: "1112223334",
+//     courses: ["javascript ", "html ", "react "],
+//   },
+//   {
+//     fullname: "Jonatan Villalva",
+//     rank: "student",
+//     email: "jvillalva.sistemas@gmail.com",
+//     phoneNumber: "1112223334",
+//     courses: ["javascript ", "html ", "react "],
+//   },
+//   {
+//     fullname: "Francisco Rivero",
+//     rank: "student",
+//     email: "fran.rivero99@gmail.com",
+//     phoneNumber: "1112223334",
+//     courses: ["javascript ", "html ", "react "],
+//   },
+//   {
+//     fullname: "Jonathan Mir Kim",
+//     rank: "student",
+//     email: "jonathan.kim75.sistemas@gmail.com",
+//     phoneNumber: "1112223334",
+//     courses: ["javascript ", "html ", "react "],
+//   },
+//   {
+//     fullname: "Federico Almada ",
+//     rank: "student",
+//     email: "fede.55almada.sistemas@gmail.com",
+//     phoneNumber: "1112223334",
+//     courses: ["javascript ", "html ", "react "],
+//   },
+//   {
+//     fullname: "Jonatan Villalva",
+//     rank: "student",
+//     email: "jvillalva.sistemas@gmail.com",
+//     phoneNumber: "1112223334",
+//     courses: ["javascript ", "html ", "react "],
+//   },
+//   {
+//     fullname: "Francisco Rivero",
+//     rank: "student",
+//     email: "fran.rivero99@gmail.com",
+//     phoneNumber: "1112223334",
+//     courses: ["javascript ", "html ", "react "],
+//   },
+//   {
+//     fullname: "Jonathan Mir Kim",
+//     rank: "student",
+//     email: "jonathan.kim75.sistemas@gmail.com",
+//     phoneNumber: "1112223334",
+//     courses: ["javascript ", "html ", "react "],
+//   },
+//   {
+//     fullname: "Federico Almada ",
+//     rank: "student",
+//     email: "fede.55almada.sistemas@gmail.com",
+//     phoneNumber: "1112223334",
+//     courses: ["javascript ", "html ", "react "],
+//   },
+// ];

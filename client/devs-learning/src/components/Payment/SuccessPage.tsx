@@ -3,17 +3,20 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 import axios from "axios";
+import {
+  getBoughtCoursesNames,
+  REACT_APP_BASE_URL,
+} from "../../redux/users/actions";
+import { clearCart } from "../../redux/courses/actions";
+import { getItem } from "../../utils/localStorage";
 
 export const SuccessPage = () => {
-  const { email } = useAppSelector((state) => state.users);
-  const { cart } = useAppSelector((state) => state.courses);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    axios.put("/updateCart", {
-      email: email,
-      cart: cart,
-      buy: true,
-    });
+    let userInfo = getItem("loggedUserInfo");
+
+    dispatch(getBoughtCoursesNames(userInfo.email));
   }, []);
 
   return (

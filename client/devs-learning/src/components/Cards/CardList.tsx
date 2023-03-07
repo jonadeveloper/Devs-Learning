@@ -16,6 +16,12 @@ export const CardList = ({ cards }: Props, props: Props2) => {
   const [page, setPage] = useState(1);
   const { coursesFiltered } = useAppSelector((state) => state.courses);
 
+  if (cards) {
+    cards = cards.filter((card) => {
+      return !card.deleted;
+    });
+  }
+
   const onPagination = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage(page);
   };
@@ -42,8 +48,10 @@ export const CardList = ({ cards }: Props, props: Props2) => {
       </Toolbar>
       <Grid container spacing={6}>
         {cards.map((card, index) => {
-          if ((page - 1) * 8 <= index && page * 8 > index) {
-            return <CardComponent key={index} card={card} index={index} />;
+          if (!card.deleted) {
+            if ((page - 1) * 8 <= index && page * 8 > index) {
+              return <CardComponent key={index} card={card} index={index} />;
+            }
           }
         })}
       </Grid>

@@ -44,7 +44,7 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
   };
 }
 export const EditForm = () => {
-  const { name } = useParams();
+  const { id } = useParams();
   const theme = useTheme();
   const dispatch = useAppDispatch();
   const [categoriesSelect, setCategoriesSelect] = useState<string[]>([]);
@@ -60,17 +60,18 @@ export const EditForm = () => {
     instructor: "",
     id: "",
     rating: [],
+    deleted: false,
   });
   const { categories, status, currentCourse } = useAppSelector(
     (state) => state.courses
   );
   useEffect(() => {
-    if (name) {
-      dispatch(getCoursesByName(name));
+    if (id) {
+      dispatch(getCoursesByName(id));
     }
   }, []);
   useEffect(() => {
-    if (currentCourse.name === name) {
+    if (currentCourse.id === id) {
       setCourse({
         name: currentCourse.name,
         price: currentCourse.price,
@@ -83,11 +84,12 @@ export const EditForm = () => {
         instructor: currentCourse.instructor,
         id: currentCourse.id,
         rating: [],
+        deleted: false,
       });
       setCategoriesSelect(currentCourse.categories.map((item) => item.name));
     }
   }, [currentCourse]);
-  if (course.name !== name) {
+  if (course.id !== id) {
     return (
       <Box
         height={"100vh"}
@@ -96,7 +98,7 @@ export const EditForm = () => {
         <span className="loader"></span>
       </Box>
     );
-  } else if (name) {
+  } else if (id) {
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
       const { name, value } = event.target;
       setCourse({ ...course, [name]: value });
@@ -118,7 +120,7 @@ export const EditForm = () => {
     };
     const handleSubmit = (event: React.FormEvent<HTMLInputElement>) => {
       event.preventDefault();
-      dispatch(editCourseAction({ ...course, category: categoriesSelect }));
+      dispatch(editCourseAction({ ...course, category: categoriesSelect }, id));
     };
 
     return (

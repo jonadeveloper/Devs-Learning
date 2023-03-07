@@ -4,7 +4,12 @@ import PasswordChange from "../../../views/ChangePassword";
 import { deleteUser, getAuth } from "firebase/auth";
 import Swal from "sweetalert2";
 import { useAppDispatch } from "../../../hooks/hooksRedux";
-import { signOutAction } from "../../../redux/users/actions";
+import {
+  REACT_APP_BASE_URL,
+  signOutAction,
+} from "../../../redux/users/actions";
+import axios from "axios";
+import { setItem } from "../../../utils/localStorage";
 
 const UserAccountSettings: React.FC = () => {
   const auth = getAuth();
@@ -25,10 +30,16 @@ const UserAccountSettings: React.FC = () => {
 
       if (user && confirmResult.isConfirmed) {
         Swal.showLoading();
-        await deleteUser(user);
-        Swal.hideLoading();
-        Swal.fire("User succesfully deleted", "We go miss you :(", "success");
-        dispatch(signOutAction());
+        const response = await axios.delete(
+          `${REACT_APP_BASE_URL}/deletecurrentuser?id=${user.uid}`
+        );
+        if (response) {
+          await deleteUser(user);
+          Swal.hideLoading();
+          Swal.fire("User succesfully deleted", "We go miss you :(", "success");
+          setItem("loggedUserInfo", undefined);
+          dispatch(signOutAction());
+        }
       }
     } catch (error) {
       Swal.fire(`${error}`, "User dont exist", "error");
@@ -74,13 +85,13 @@ const UserAccountSettings: React.FC = () => {
           Change your Password
         </Typography>
         <PasswordChange />
-        <Divider sx={{ margin: "10px", width: "100%" }}></Divider>
+        {/* <Divider sx={{ margin: "10px", width: "100%" }}></Divider>
         <Typography textAlign="center" variant="subtitle1">
           Do you want Become a Teacher? Complete the form below
         </Typography>
         <Button sx={{ width: "80%" }} variant="contained" color="warning">
           Become a Teacher
-        </Button>
+        </Button> */}
         <Divider sx={{ margin: "10px", width: "100%" }}></Divider>
         <Typography fontWeight="500" textAlign="center" variant="subtitle1">
           If you dont want continue here, you can delete your account. Remember

@@ -5,11 +5,8 @@ import { CoursoBack } from "../../components/Cards/Card";
 import { createCourse } from "../../interfaces/Course";
 import { RootState } from "../store";
 import { reducer } from "./slice";
-
-const BACK =
-  process.env.NODE_ENV === "production"
-    ? "http://181.127.189.247:3001"
-    : "http://localhost:3001";
+const { REACT_APP_PROD_URL, REACT_APP_BASE_URL } = process.env;
+const BACK = REACT_APP_BASE_URL || REACT_APP_PROD_URL;
 
 export const getCourses = (): ThunkAction<
   void,
@@ -33,11 +30,11 @@ export const getCourses = (): ThunkAction<
   };
 };
 export const getCoursesByName = (
-  name: string
+  id: string
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return (dispatch) => {
     dispatch(reducer.setLoading());
-    axios.get(`${BACK}/courses?name=${name}`).then((response) => {
+    axios.get(`${BACK}/courses?id=${id}`).then((response) => {
       response.data.map((course: any) => {
         course.name = course.name.replaceAll("-", " ");
         course.name = course.name[0].toUpperCase() + course.name.substring(1);
@@ -97,8 +94,6 @@ export const searchCourses = (
 
       dispatch(reducer.searched({ allcourses, search }));
     } catch (error) {
-      console.log("no se encontro el curso buscado, se muestran todos");
-
       dispatch(reducer.searched(error));
     }
   };
@@ -108,7 +103,6 @@ export const setCurrentCourse = (
   card: CoursoBack
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return (dispatch) => {
-    console.log(card);
     return dispatch(reducer.currentCourse(card));
   };
 };
@@ -121,7 +115,6 @@ export const createCourseAction = (
     axios
       .post(BACK + "/courses/", course)
       .then((response) => {
-        console.log(response);
         dispatch(reducer.createCourse());
         Swal.fire("Course created successfully!", "", "success");
       })
@@ -132,17 +125,17 @@ export const createCourseAction = (
   };
 };
 export const editCourseAction = (
-  course: createCourse
+  course: createCourse,
+  id: string
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return (dispatch) => {
     dispatch(reducer.setLoading());
     axios
       .put(BACK + "/courses", course)
       .then((response) => {
-        console.log(response);
         dispatch(reducer.createCourse());
         Swal.fire("Course edited successfully!", "", "success").then(() => {
-          window.location.href = `/courseDetail/${course.name}`;
+          window.location.href = `/courseDetail/${id}`;
         });
       })
       .catch((err) => {
@@ -248,8 +241,6 @@ export const addToCart = (
   card: CoursoBack
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return (dispatch) => {
-    console.log(card);
-
     return dispatch(reducer.addToCart(card));
   };
 };
@@ -258,7 +249,6 @@ export const removeToCart = (
   card: CoursoBack
 ): ThunkAction<void, RootState, unknown, AnyAction> => {
   return (dispatch) => {
-    console.log(card);
     return dispatch(reducer.removeToCart(card));
   };
 };
@@ -274,6 +264,17 @@ export const clearSearch = (): ThunkAction<
   };
 };
 
+export const clearCart = (): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  AnyAction
+> => {
+  return (dispatch) => {
+    return dispatch(reducer.clearCart());
+  };
+};
+
 //// RATING
 export const AddRating = (
   rating: any
@@ -282,11 +283,54 @@ export const AddRating = (
     axios
       .put(BACK + "/courses/putRating", rating)
       .then((response) => {
-        console.log(response);
-        dispatch(reducer.addRating(rating));
+        dispatch(
+          reducer.addRating({
+            rating: rating.rating.rating,
+            comment: rating.rating.comment,
+            user: rating.rating.user,
+            course: rating.nameCourse,
+          })
+        );
       })
       .catch((err) => {
         Swal.fire("Something went wrong, please try again", "", err);
       });
+  };
+};
+
+export const clearBoughtCart = (
+  localCart: any,
+  usercart: any
+): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return (dispatch) => {
+    let newCart = [...localCart];
+
+    newCart = newCart.filter((item: any) => {
+      return !usercart.some((course: any) => course.name === item.name);
+    });
+
+    return dispatch(reducer.filterBoughtCart(newCart));
+  };
+};
+
+export const DeletedCourse = (
+  course: any,
+  siono: boolean
+): ThunkAction<void, RootState, unknown, AnyAction> => {
+  course.siono = siono;
+  return (dispatch) => {
+    if (siono) {
+      axios
+        .put(`${REACT_APP_BASE_URL}/courses/logicDelete?id=${course[0].id}`)
+        .then((response) => {
+          dispatch(reducer.DeletedCourses(course));
+        });
+    } else {
+      axios
+        .put(`${REACT_APP_BASE_URL}/courses/logicRestore?id=${course[0].id}`)
+        .then((response) => {
+          dispatch(reducer.DeletedCourses(course));
+        });
+    }
   };
 };

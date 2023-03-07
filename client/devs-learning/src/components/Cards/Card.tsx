@@ -48,6 +48,7 @@ export interface CoursoBack {
   descriptionComplete: string;
   img: string;
   rating: any;
+  deleted: boolean;
 }
 interface Props {
   card: CoursoBack;
@@ -64,6 +65,8 @@ export const CardComponent = ({ card, index }: Props) => {
   };
 
   const { email } = useAppSelector((state) => state.users);
+  const { courses } = useAppSelector((state) => state.users);
+  const { status } = useAppSelector((state) => state.users);
   const { cart } = useAppSelector((state) => state.courses);
 
   const [disabledBtn, setDisabledBtn] = useState<boolean>(false);
@@ -73,7 +76,20 @@ export const CardComponent = ({ card, index }: Props) => {
   };
 
   useEffect(() => {
-    setDisabledBtn(cart.some((item) => item.id === card.id));
+    let disabled = false;
+
+    if (courses) {
+      if (
+        cart.some((item) => item.id === card.id) ||
+        courses.some((item) => item.name === card.name)
+      )
+        disabled = true;
+    } else {
+      if (cart.some((item) => item.id === card.id)) disabled = true;
+    }
+
+    setDisabledBtn(disabled);
+
     setItem("cart", cart);
 
     axios.put(`${BACK}/updateCart`, {
@@ -81,7 +97,7 @@ export const CardComponent = ({ card, index }: Props) => {
       cart: cart,
       buy: false,
     });
-  }, [cart, card.id]);
+  }, [cart, card.id, status]);
 
   return (
     <Grid key={index} item xl={3} lg={4} sx={{ display: "flex" }}>
@@ -111,7 +127,7 @@ export const CardComponent = ({ card, index }: Props) => {
                 component="div"
                 sx={{ fontSize: 30, fontWeight: 700 }}
               >
-                {card.name} {index}
+                {card.name} {/*index*/}
               </Typography>
               {/* Course Price */}
               <Typography

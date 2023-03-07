@@ -16,13 +16,13 @@ import UserPersonalInfo from "./User/UserPersonalInfo";
 import UserCourses from "./User/UserCourses";
 import { profileImg, userFullname } from "../../router/index";
 import LogOut from "./User/Logout";
-import CourseComment from "./User/UserComment";
 import { Badge, Button, Input } from "@mui/material";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getAuth, updateProfile } from "firebase/auth";
 import { CameraAltOutlined } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import UserAccountSettings from "./User/UserAccountSettings";
+import SellIcon from "@mui/icons-material/Sell";
 
 const UserDashboard: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -73,7 +73,7 @@ const UserDashboard: React.FC = () => {
   return (
     <Grid container bgcolor="#C5DCE4" spacing={2}>
       <Grid item xs={12} mt={10}></Grid>
-      <Grid item xs={12} md={6} lg={4} xl={3} display="flex">
+      <Grid item xs={12} md={5} lg={4} xl={3} display="flex">
         <Box
           width="100%"
           display="flex"
@@ -83,7 +83,7 @@ const UserDashboard: React.FC = () => {
           borderRadius={5}
           p={2}
           m={2}
-          mr={0.5}
+          mx={1}
         >
           <Box
             width="100%"
@@ -151,7 +151,7 @@ const UserDashboard: React.FC = () => {
                   onClick={(event) => handleListItemClick(event, 1)}
                 >
                   <ListItemIcon>
-                    <LibraryBooksIcon />
+                    <SellIcon />
                   </ListItemIcon>
                   <ListItemText primary="My Courses" />
                 </ListItemButton>
@@ -185,7 +185,7 @@ const UserDashboard: React.FC = () => {
       <Grid
         item
         xs={12}
-        md={6}
+        md={7}
         lg={8}
         xl={9}
         display="flex"
@@ -195,7 +195,7 @@ const UserDashboard: React.FC = () => {
           height="100%"
           p={2}
           m={2}
-          ml={0.5}
+          mx={1}
           bgcolor="whitesmoke"
           borderRadius={5}
           display="flex"

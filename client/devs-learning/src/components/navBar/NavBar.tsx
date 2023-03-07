@@ -38,14 +38,18 @@ const settings = [
     name: "Profile",
     route: "/profile",
   },
-  {
-    name: "Create Course (Temp)",
-    route: "/dashboard/create/course",
-  },
-  {
-    name: "Dashboard",
-    route: "/",
-  },
+  // {
+  //   name: "Create Course (Temp)",
+  //   route: "/dashboard/create/course",
+  // },
+  // {
+  //   name: "Edit Course (Temp)",
+  //   route: "/dashboard/edit/course/aea8d308-e8e0-4c37-8c59-d738b3b143aa",
+  // },
+  // {
+  //   name: "Dashboard",
+  //   route: "/",
+  // },
 ];
 function ResponsiveAppBar() {
   let theme = createTheme({
@@ -81,7 +85,7 @@ function ResponsiveAppBar() {
     setAnchorElNav(null);
   };
   const handleLogout = () => {
-    handleCloseNavMenu();
+    setAnchorElUser(null);
     dispatch(signOutAction());
     setItem("loggedUserInfo", undefined);
   };
@@ -109,7 +113,7 @@ function ResponsiveAppBar() {
   //MP button
 
   React.useEffect(() => {
-    createMPButton(cart);
+    if (status === "logged") createMPButton(cart);
   }, [open]);
 
   ///////////////////////////////////
@@ -264,11 +268,18 @@ function ResponsiveAppBar() {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
-                    <NavLink to={setting.route}>
+                  <NavLink
+                    to={setting.route}
+                    style={{ display: "flex", height: "100%", width: "100%" }}
+                  >
+                    <MenuItem
+                      key={setting.name}
+                      onClick={handleCloseUserMenu}
+                      style={{ display: "flex", height: "100%", width: "100%" }}
+                    >
                       <Typography textAlign="center">{setting.name}</Typography>
-                    </NavLink>
-                  </MenuItem>
+                    </MenuItem>
+                  </NavLink>
                 ))}
                 <MenuItem key={"Logout"} onClick={handleLogout}>
                   <Typography textAlign="center">Logout</Typography>

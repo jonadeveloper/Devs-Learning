@@ -1,5 +1,7 @@
+import { Button } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import { useAppSelector } from "../../hooks/hooksRedux";
 
 const BACK = process.env.REACT_APP_BASE_URL;
@@ -48,7 +50,7 @@ export const createMPButton = async (cart: any) => {
         },
         render: {
           container: ".cho-container",
-          label: "Pagar",
+          label: "Buy",
         },
       });
     }
@@ -56,5 +58,24 @@ export const createMPButton = async (cart: any) => {
 };
 
 export default function () {
-  return <div id="cho-container" className="cho-container"></div>;
+  let { status } = useAppSelector((state) => state.users);
+
+  const handleClick = (e: any) => {
+    window.location.replace("/auth/signin");
+  };
+
+  return (
+    <div id="cho-container" className="cho-container">
+      {/* <NavLink to="/auth/signin"> */}
+      <Button
+        onClick={handleClick}
+        variant="contained"
+        color="success"
+        sx={{ display: status === "logged" ? "none" : "block" }}
+      >
+        Login
+      </Button>
+      {/* </NavLink> */}
+    </div>
+  );
 }

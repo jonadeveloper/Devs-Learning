@@ -15,13 +15,23 @@ function deleteCategorie(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { name } = req.params;
-            Category.destroy({
-                where: { "name": name }
-            });
-            return res.status(200).send(`The category ${name} has been deleted`);
+            if (name) {
+                Category.destroy({
+                    where: { "name": name }
+                });
+                return res.status(200).send(`The category ${name} has been deleted`);
+            }
+            else {
+                return res.status(404).send("The name has not been recognized or has not been entered, please try again.");
+            }
         }
         catch (err) {
-            return res.status(404).send(err);
+            const errName = err.name;
+            const errCode = err.code;
+            const errMessage = err.message;
+            return res.status(404).send(errName ?
+                `Error ${errCode}: ${errName} - ${errMessage}` :
+                "Something went wrong, please try again.");
         }
     });
 }

@@ -15,36 +15,51 @@ export async function updateUserProfile(req: Request, res: Response) {
           },
         }
       );
-      res.status(200).send("Update successfully");
+      return res.status(200).send("Update successfully");
+    } else {
+      return res.status(404).send("ID not recognized or not entered, please try again.")
     }
-  } catch (error) {
-    res.status(400).send(`Cannot update profile ${error}`);
+  } catch (err: any) {
+    const errName = err.name;
+    const errCode = err.code;
+    const errMessage = err.message;
+    return res.status(404).send(errName ? 
+      `Error ${errCode}: ${errName} - ${errMessage}` : 
+      "Something went wrong, cannot update user, please try again.");
   }
 }
 
 export async function updateUserRol(req: any, res: any) {
   try {
     const { id, rank } = req.body;
-    await Users.update(
-      {
-        rank: rank,
-      },
-      {
-        where: {
-          id: id,
+    if(id){
+      await Users.update(
+        {
+          rank: rank,
         },
-      }
-    );
-    return res.status(200).send("The Rol has been updated");
-  } catch (err) {
-    return res.status(200).send(err);
+        {
+          where: {
+            id: id,
+          },
+        }
+      );
+      return res.status(200).send("The Rol has been updated");
+    } else {
+      return res.status(404).send("The ID has not been recognized or has not been entered, please try again.")
+    }
+  } catch (err: any) {
+    const errName = err.name;
+    const errCode = err.code;
+    const errMessage = err.message;
+    return res.status(404).send(errName ? 
+      `Error ${errCode}: ${errName} - ${errMessage}` : 
+      "Something went wrong, please try again.");
   }
 }
 
 export async function updateUserEmail(req: Request, res: Response) {
   try {
     const { id, email } = req.body;
-
     if (id) {
       await Users.update(
         {
@@ -54,16 +69,26 @@ export async function updateUserEmail(req: Request, res: Response) {
           where: { id: id },
         }
       );
-      res.status(200).send("Update email successfully");
+      return res.status(200).send("Update email successfully");
+    } else {
+      return res.status(404).send("ID not recognized or not entered, please try again.")
     }
-  } catch (error) {
-    res.status(400).send(`Cannot update email ${error}`);
+  } catch (err: any) {
+    const errName = err.name;
+    const errCode = err.code;
+    const errMessage = err.message;
+    return res.status(404).send(errName ? 
+      `Error ${errCode}: ${errName} - ${errMessage}` : 
+      "Something went wrong, cannot update email, please try again.");
   }
 }
 
 export async function updateCart(req: Request, res: Response) {
   try {
     const { email, cart, buy } = req.body;
+    if(!email){
+      return res.status(404).send("The email has not been recognized or has not been entered, please try again.")
+    }
     let user = await Users.findOne({
       where: {
         email: email,
@@ -76,6 +101,7 @@ export async function updateCart(req: Request, res: Response) {
         },
       },
     });
+    if (user===undefined) return res.status(404).send("The user has not been found");
     if (buy) {
       let nameCourses = cart.map((el: any) => {
         return el.name.split(" ").join("-").toLowerCase();
@@ -112,7 +138,12 @@ export async function updateCart(req: Request, res: Response) {
       );
       return res.status(200).send(`The cart of user ${email} has been updated`);
     }
-  } catch (err) {
-    return res.status(404).send(err);
+  } catch (err: any) {
+    const errName = err.name;
+    const errCode = err.code;
+    const errMessage = err.message;
+    return res.status(404).send(errName ? 
+      `Error ${errCode}: ${errName} - ${errMessage}` : 
+      "Something went wrong, please try again.");
   }
 }

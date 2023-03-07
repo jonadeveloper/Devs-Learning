@@ -15,7 +15,9 @@ export async function getCategories(req: any, res: any) {
           },
         },
       });
-      category.length===0 ? res.status(404).send(`The category ${name} has not been found`) : res.status(200).send(category);
+      category.length === 0 ? 
+      res.status(404).send(`The category ${name} has not been found`) : 
+      res.status(200).send(category);
     } else {
       let category = await Category.findAll({
         where: {},
@@ -29,7 +31,12 @@ export async function getCategories(req: any, res: any) {
       });
       return res.status(200).send(category);
     }
-  } catch (err) {
-    return res.status(404).send(err);
+  } catch (err: any) {
+    const errName = err.name;
+    const errCode = err.code;
+    const errMessage = err.message;
+    return res.status(404).send(errName ? 
+      `Error ${errCode}: ${errName} - ${errMessage}` : 
+      "Something went wrong, please try again.");
   }
 }

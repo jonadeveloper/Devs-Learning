@@ -96,16 +96,17 @@ export default function Register() {
         alignItems="center"
         borderRadius="20px"
         sx={{
-          display: "grid",
+          display: { xs: "flex", md: "grid" },
           gridTemplateColumns: "repeat(2, 1fr)",
           width: "70%",
           height: "70vh",
           maxHeight: "100%",
-          backgroundColor: "white",
+          backgroundColor: { xs: "none", md: "white" },
         }}
       >
         <Container
           sx={{
+            display: { xs: "none", md: "flex" },
             height: "100%",
             backgroundImage: `url(${devsLogo})`,
             backgroundPosition: "center",
@@ -113,131 +114,148 @@ export default function Register() {
           }}
         ></Container>
         <Grid
-          display="grid"
           container
           justifyContent="center"
           alignItems="center"
-          sx={{ height: "100%", width: "100%", backgroundColor: "white" }}
+          sx={{
+            display: { xs: "flex", md: "grid" },
+            height: "100%",
+            width: "100%",
+            backgroundColor: "white",
+            borderRadius: 4,
+          }}
         >
-          <Typography variant="h3">Create Account</Typography>
           <Box
-            component="form"
-            autoComplete="false"
-            onSubmit={handleSubmit}
             display="flex"
             flexDirection="column"
-            sx={{ height: "100%" }}
+            alignItems="center"
+            width="100%"
           >
-            <TextField
-              error={!validName}
-              helperText={!validName && "Fullname minimum length required is 6"}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <AccountCircle />
-                  </InputAdornment>
-                ),
-              }}
-              sx={{ m: "10px 0" }}
-              label="Fullname"
-              size="small"
-              required
-              type="text"
-              name="fullname"
-              onChange={handleChange}
-              onBlur={validateName}
-              value={input.fullname}
-              placeholder="Fullname..."
-            />
+            <Typography gutterBottom variant="h3">
+              Create Account
+            </Typography>
 
-            <TextField
-              error={!validPassword}
-              helperText={
-                !validPassword && "Password minimum length 8 characters"
-              }
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Lock />
-                  </InputAdornment>
-                ),
-              }}
-              sx={{ m: "10px 0" }}
-              label="Password"
-              size="small"
-              required
-              type="password"
-              name="password"
-              onChange={handleChange}
-              onBlur={validatePassword}
-              value={input.password}
-              placeholder="Password..."
-            />
-
-            <TextField
-              error={!passwordCheck}
-              helperText={!passwordCheck && "Passwords doesnt match"}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Lock />
-                  </InputAdornment>
-                ),
-              }}
-              sx={{ m: "10px 0" }}
-              label="Repeat Password"
-              size="small"
-              required
-              type="password"
-              name="rpassword"
-              onChange={handleChange}
-              onBlur={validatePassword}
-              value={input.rpassword}
-              placeholder="Repeat Password..."
-            />
-
-            <TextField
-              error={!validEmail}
-              helperText={!validEmail && "Please enter a valid email"}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Email />
-                  </InputAdornment>
-                ),
-              }}
-              sx={{ m: "10px 0" }}
-              label="Email Adress"
-              size="small"
-              type="email"
-              name="email"
-              required
-              onChange={handleChange}
-              onBlur={validateEmail}
-              value={input.email}
-              placeholder="Email..."
-            />
-            <Button
-              sx={{ mt: "5px" }}
-              variant="contained"
-              size="medium"
-              type="submit"
-              disabled={
-                !validPassword || !validName || !passwordCheck || !validEmail
-              }
+            <Box
+              component="form"
+              autoComplete="false"
+              onSubmit={handleSubmit}
+              display="flex"
+              flexDirection="column"
+              sx={{ height: "100%" }}
             >
-              Register
-            </Button>
-            <Button
-              sx={{ mt: "5px" }}
-              color="info"
-              variant="contained"
-              size="medium"
-              type="button"
-              onClick={handleclick}
-            >
-              Go Back
-            </Button>
+              <TextField
+                error={!validName}
+                helperText={
+                  !validName && "Fullname minimum length required is 6"
+                }
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <AccountCircle />
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{ m: "10px 0" }}
+                label="Fullname"
+                size="small"
+                required
+                type="text"
+                name="fullname"
+                onChange={handleChange}
+                onBlur={validateName}
+                value={input.fullname}
+                placeholder="Fullname..."
+              />
+
+              <TextField
+                error={!validPassword}
+                helperText={
+                  !validPassword && "Password minimum length 8 characters"
+                }
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Lock />
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{ m: "10px 0" }}
+                label="Password"
+                size="small"
+                required
+                type="password"
+                name="password"
+                onChange={handleChange}
+                onBlur={validatePassword}
+                value={input.password}
+                placeholder="Password..."
+              />
+
+              <TextField
+                error={!passwordCheck}
+                helperText={!passwordCheck && "Passwords doesnt match"}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Lock />
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{ m: "10px 0" }}
+                label="Repeat Password"
+                size="small"
+                required
+                type="password"
+                name="rpassword"
+                onChange={handleChange}
+                onBlur={validatePassword}
+                value={input.rpassword}
+                placeholder="Repeat Password..."
+              />
+
+              <TextField
+                error={!validEmail}
+                helperText={!validEmail && "Please enter a valid email"}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Email />
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{ m: "10px 0" }}
+                label="Email Adress"
+                size="small"
+                type="email"
+                name="email"
+                required
+                onChange={handleChange}
+                onBlur={validateEmail}
+                value={input.email}
+                placeholder="Email..."
+              />
+              <Button
+                sx={{ mt: "5px" }}
+                variant="contained"
+                size="medium"
+                type="submit"
+                disabled={
+                  !validPassword || !validName || !passwordCheck || !validEmail
+                }
+              >
+                Register
+              </Button>
+              <Button
+                sx={{ mt: "5px" }}
+                color="info"
+                variant="contained"
+                size="medium"
+                type="button"
+                onClick={handleclick}
+              >
+                Go Back
+              </Button>
+            </Box>
           </Box>
         </Grid>
       </Grid>

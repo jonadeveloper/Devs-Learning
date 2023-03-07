@@ -19,6 +19,8 @@ import BasicRating from "./UserRating";
 import { getBoughtCoursesNames } from "../../../redux/users/actions";
 import { getCoursesByName } from "../../../redux/courses/actions";
 import { useAppDispatch, useAppSelector } from "../../../hooks/hooksRedux";
+import { getSales } from "../../../redux/sales/actions";
+import { format } from "date-fns";
 
 import {
   userEmail,
@@ -27,9 +29,6 @@ import {
   userPhoneNumber,
 } from "../../../router/index";
 
-export interface CourseNames {
-  name: string;
-}
 export interface RatingContent {
   rating: string;
   comment: string;
@@ -76,50 +75,94 @@ const BoughtCourse1: BoughtCourse = {
 export default function BasicTable() {
   const dispatch = useAppDispatch();
   const CoursesNames = useAppSelector((state) => state.users.courses);
-  console.log("Courses Names");
-  console.log(CoursesNames);
+  const AllSales = useAppSelector((state) => state.sales.sales);
   const AllCourses = useAppSelector((state) => state.courses.courses);
-  //const current = useAppSelector((state) => state.courses.currentCourse);
-  console.log("Current");
-  //console.log(current);
+
+  const UserSales = AllSales.filter((sale) => {
+    return sale.email === userEmail.toString();
+  });
+
+  const DatesId = UserSales.map((sale) => {
+    return { date: sale.createdAt, courseId: sale.courseId, courseData: {} };
+  });
 
   let CoursesByName: any = [];
 
+  let SalesWithDate: any = [];
+
   if (CoursesNames && CoursesNames.length > 0) {
     CoursesByName = AllCourses.filter((course) => {
-      const newName = course.name.toLowerCase().split(" ");
-      const newNameWithLine = newName.join("-");
       for (let i = 0; i < CoursesNames.length; i++) {
         const element: any = CoursesNames[i];
-        if (element.name === newNameWithLine) return course;
+        if (element.name === course.name) return course;
       }
     });
   }
-  const rows = CoursesByName;
-  console.log(`cursos comprados por ${userFullname} `);
-  console.log(rows);
 
-  const [value, setValue] = React.useState<number | null>(2);
-  const [comment, setComment] = useState("");
+  if (DatesId && DatesId.length > 0) {
+    DatesId.forEach((date) => {
+      for (let i = 0; i < CoursesByName.length; i++) {
+        if (CoursesByName[i].id === date.courseId)
+          SalesWithDate.push({
+            date: DatesId[i].date,
+            courseId: DatesId[i].courseId,
+            courseData: CoursesByName[i],
+          });
+      }
+    });
+  }
+
+  const rows = SalesWithDate;
 
   React.useEffect(() => {
+    dispatch(getSales());
     dispatch(getBoughtCoursesNames(userEmail));
-    console.log(`cursos comprados por ${userFullname}`);
-    console.log(CoursesNames);
-    console.log(rows);
   }, []);
+
+  function formatearFecha(fecha: string) {
+    return format(new Date(fecha), "yyyy-MM-dd HH:mm:ss");
+  }
 
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Cursos</TableCell>
-            <TableCell align="left">Nivel</TableCell>
-            <TableCell align="center">Duracion</TableCell>
-            <TableCell align="center">Instructor</TableCell>
-            <TableCell align="right">Precio</TableCell>
-            <TableCell align="center">Rating and Comment</TableCell>
+            <TableCell>
+              <Typography fontWeight="bold" variant="body1">
+                Courses
+              </Typography>
+            </TableCell>
+            <TableCell align="left">
+              <Typography fontWeight="bold" variant="body1">
+                Level
+              </Typography>
+            </TableCell>
+            <TableCell align="center">
+              <Typography fontWeight="bold" variant="body1">
+                Duration
+              </Typography>
+            </TableCell>
+            <TableCell align="center">
+              <Typography fontWeight="bold" variant="body1">
+                Instructor
+              </Typography>
+            </TableCell>
+            <TableCell align="right">
+              <Typography fontWeight="bold" variant="body1">
+                Price
+              </Typography>
+            </TableCell>
+            <TableCell align="right">
+              <Typography fontWeight="bold" variant="body1">
+                Purchase date
+              </Typography>
+            </TableCell>
+            <TableCell align="center">
+              <Typography fontWeight="bold" variant="body1">
+                Rating and Comment
+              </Typography>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -129,15 +172,28 @@ export default function BasicTable() {
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.name}
+                <Typography
+                  color="primary"
+                  component="a"
+                  href={`/courseDetail/${row.courseData.id}`}
+                >
+                  {row.courseData.name}
+                </Typography>
               </TableCell>
-              <TableCell align="left">{row.level}</TableCell>
-              <TableCell align="center">{row.duration}</TableCell>
-              <TableCell align="center">{row.instructor}</TableCell>
-              <TableCell align="right">{row.price}</TableCell>
+              <TableCell align="left">
+                <Typography variant="overline">
+                  {row.courseData.level}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                {row.courseData.duration} hs.
+              </TableCell>
+              <TableCell align="center">{row.courseData.instructor}</TableCell>
+              <TableCell align="right">$ {row.courseData.price}</TableCell>
+              <TableCell align="right">{formatearFecha(row.date)}</TableCell>
               <TableCell align="center">
                 <Box display="flex" justifyContent="center" alignItems="center">
-                  <CourseComment courseId={row.name} userId={userEmail} />
+                  <CourseComment course={row.courseData} userId={userEmail} />
                 </Box>
               </TableCell>
             </TableRow>

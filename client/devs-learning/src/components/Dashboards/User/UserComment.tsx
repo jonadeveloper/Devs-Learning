@@ -8,20 +8,74 @@ import Rating from "@mui/material/Rating";
 import { Box } from "@mui/system";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/hooksRedux";
+import { CoursoBack } from "../../Cards/Card";
+import { setCurrentCourse } from "../../../redux/courses/actions";
+import { AddRating } from "../../../redux/courses/actions";
+
+import Stack from "@mui/material/Stack";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
 interface CourseCommentProps {
-  courseId: string;
+  course: CoursoBack;
   userId: any;
 }
 
-const CourseComment: React.FC<CourseCommentProps> = ({ courseId, userId }) => {
-  //getCommentIfExists.
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
+const CourseComment: React.FC<CourseCommentProps> = ({ course, userId }) => {
+  const dispatch = useAppDispatch();
+  const currentCourse = useAppSelector((state) => state.courses.currentCourse);
   const [comment, setComment] = useState("");
-  const [showInput, setShowInput] = useState(false);
   const [value, setValue] = React.useState<number | null>(0);
+  //for Alerts
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  let RATING = {
+    nameCourse: course.name,
+    rating: {
+      rating: value,
+      comment: comment,
+      user: userId,
+    },
+  };
+
+  //getCommentIfExists.
+  const getCommentIfExists = async () => {
+    const existingRating = course.rating.filter(
+      (rat: any) => rat.user === userId.toString()
+    );
+    if (existingRating) {
+      setComment(existingRating[0].comment);
+      setValue(existingRating[0].rating);
+    }
+  };
+
+  //Handlers.
+  const [showInput, setShowInput] = useState(false);
 
   const handleButtonClick = () => {
+    if (!showInput) {
+      getCommentIfExists();
+      dispatch(setCurrentCourse(course));
+    }
+
     setShowInput(!showInput);
   };
 
@@ -32,9 +86,16 @@ const CourseComment: React.FC<CourseCommentProps> = ({ courseId, userId }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // Aquí podrías enviar el comentario a tu backend o hacer lo que necesites
-    setComment("");
+    dispatch(AddRating(RATING));
     setShowInput(false);
+    setOpen(true);
   };
+
+  useEffect(() => {
+    if (currentCourse.name !== course.name) {
+      setShowInput(false);
+    }
+  });
 
   return (
     <div>
@@ -74,6 +135,21 @@ const CourseComment: React.FC<CourseCommentProps> = ({ courseId, userId }) => {
           </Box>
         </form>
       )}
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        open={open}
+        autoHideDuration={3000}
+        onClose={handleClose}
+      >
+        <Alert
+          onClose={handleClose}
+          severity="success"
+          sx={{ width: "100%" }}
+          color="info"
+        >
+          Your review has been updated!
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

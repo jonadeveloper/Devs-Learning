@@ -11,18 +11,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUsersInfo = void 0;
 const { Course, Users } = require("../../db");
-/*import { getAuth } from "firebase/auth";
-import { initializeApp } from "firebase/app";
-
-const { REACT_APP_FIREBASE_CONFIG } = process.env;
-const firebaseConfig = JSON.parse(REACT_APP_FIREBASE_CONFIG!);
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const user = auth.currentUser;*/
 function getUsersInfo(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { id } = req.query;
+            const { id, email } = req.query;
             if (id) {
                 let user = yield Users.findAll({
                     where: {
@@ -40,6 +32,24 @@ function getUsersInfo(req, res) {
                     ? res.status(400).send(`The User has not been found`)
                     : res.status(200).send(user);
             }
+            else if (email) {
+                let user = yield Users.findAll({
+                    where: {
+                        email: email,
+                    },
+                    include: {
+                        model: Course,
+                        attributes: ["name"],
+                        through: {
+                            attributes: [],
+                        },
+                    },
+                });
+                if (user.length === 0) {
+                    return res.status(400).send(`The User has not been found`);
+                }
+                return res.status(200).send(user);
+            }
             let users = yield Users.findAll({
                 include: {
                     model: Course,
@@ -52,7 +62,12 @@ function getUsersInfo(req, res) {
             return res.status(200).send(users);
         }
         catch (err) {
-            return res.status(404).send(err);
+            const errName = err.name;
+            const errCode = err.code;
+            const errMessage = err.message;
+            return res.status(404).send(errName ?
+                `Error ${errCode}: ${errName} - ${errMessage}` :
+                "Something went wrong, please try again.");
         }
     });
 }

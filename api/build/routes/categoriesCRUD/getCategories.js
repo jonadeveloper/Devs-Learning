@@ -27,7 +27,9 @@ function getCategories(req, res) {
                         },
                     },
                 });
-                category.length === 0 ? res.status(404).send(`The category ${name} has not been found`) : res.status(200).send(category);
+                category.length === 0 ?
+                    res.status(404).send(`The category ${name} has not been found`) :
+                    res.status(200).send(category);
             }
             else {
                 let category = yield Category.findAll({
@@ -44,7 +46,12 @@ function getCategories(req, res) {
             }
         }
         catch (err) {
-            return res.status(404).send(err);
+            const errName = err.name;
+            const errCode = err.code;
+            const errMessage = err.message;
+            return res.status(404).send(errName ?
+                `Error ${errCode}: ${errName} - ${errMessage}` :
+                "Something went wrong, please try again.");
         }
     });
 }

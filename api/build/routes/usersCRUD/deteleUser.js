@@ -15,26 +15,33 @@ function deleteCurrentUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { id } = req.query;
-            let user = yield Users.findOne({
-                where: {
-                    id: id,
-                },
-            });
-            if (user.length > 0) {
-                /*await deleteUser(user);*/
-                yield Users.destroy({
+            if (id) {
+                const user = yield Users.findOne({
                     where: {
                         id: id,
                     },
                 });
-                return res.status(200).send(`The user ${user.name} has been deleted`);
+                if (user) {
+                    Users.destroy({
+                        where: {
+                            id: id,
+                        },
+                    });
+                    return res.status(200).send(`The user has been deleted`);
+                }
+                return res.status(401).send(`The user doesnt exists`);
             }
             else {
-                return res.status(404).send("The user has not been found");
+                return res.status(404).send("The ID has not been recognized or has not been entered, please try again.");
             }
         }
         catch (err) {
-            return res.status(404).send("Error: " + err);
+            const errName = err.name;
+            const errCode = err.code;
+            const errMessage = err.message;
+            return res.status(404).send(errName ?
+                `Error ${errCode}: ${errName} - ${errMessage}` :
+                "Something went wrong, please try again.");
         }
     });
 }

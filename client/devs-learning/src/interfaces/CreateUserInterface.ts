@@ -1,4 +1,4 @@
-enum Ranks {
+export enum Ranks {
   admin,
   teacher,
   student,
@@ -10,8 +10,14 @@ export interface CreateUserInterface {
   rpassword: string;
   email: string;
   profileImg?: string;
-  courses?: Array<unknown>;
-  rank?: Ranks;
+  courses?: { name: string }[];
+  rank: string;
   country?: string;
   status?: string;
+  id?: string;
+  banned?: boolean;
+}
+
+export interface AllUsers {
+  users: CreateUserInterface[];
 }

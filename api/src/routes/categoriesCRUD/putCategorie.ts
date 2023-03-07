@@ -8,6 +8,9 @@ export async function putCategorie(req: any, res: any) {
       description,
       course
     } = req.body;
+    if(!name){
+      return res.status(404).send("The name has not been recognized or has not been entered, please try again.")
+    }
     let nameDB = name.split(" ").join("-").toLowerCase();
     let category = await Category.findOne({
       where: { name: nameDB },
@@ -54,7 +57,12 @@ export async function putCategorie(req: any, res: any) {
       });
     };
     return res.status(200).send(`The category ${name} has been updated`);
-  } catch (err) {
-    return res.status(404).send(err);
+  } catch (err: any) {
+    const errName = err.name;
+    const errCode = err.code;
+    const errMessage = err.message;
+    return res.status(404).send(errName ? 
+      `Error ${errCode}: ${errName} - ${errMessage}` : 
+      "Something went wrong, please try again.");
   }
 }

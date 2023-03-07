@@ -32,6 +32,7 @@ const initialState: CoursesState = {
     descriptionComplete: "",
     img: "",
     rating: [],
+    deleted: false,
   },
   currentPage: 1,
   searched: "",
@@ -102,7 +103,37 @@ export const courses = createSlice({
       state.searched = "";
     },
     addRating: (state, { payload }) => {
-      state.currentCourse.rating = [state.currentCourse.rating, payload];
+      state.currentCourse.rating = [
+        state.currentCourse.rating.filter(
+          (rat: any) => rat.user !== payload.user
+        ),
+        payload,
+      ];
+    },
+
+    clearCart: (state) => {
+      state.cart = [];
+    },
+
+    filterBoughtCart: (state, { payload }) => {
+      state.cart = payload;
+    },
+    DeletedCourses: (state, { payload }) => {
+      const { id } = payload[0];
+
+      // console.log("🚀 ~ file: slice.ts:19 ~ id:", payload)
+
+      if (payload.siono) {
+        state.courses = state.courses.map((course) => {
+          // console.log("🚀 ~ file: slice.ts:31 ~ state.courses=state.courses.map ~ course:", course)
+          return course.id === id ? { ...course, deleted: true } : course;
+        });
+      } else {
+        state.courses = state.courses.map((course) => {
+          // console.log("🚀 ~ file: slice.ts:31 ~ state.courses=state.courses.map ~ course:", course)
+          return course.id === id ? { ...course, deleted: false } : course;
+        });
+      }
     },
   },
 });

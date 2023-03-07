@@ -57,10 +57,9 @@ export default function PhoneChange() {
         recaptchaVerifier
       );
       setVerificationId(verificationId);
-      Swal.fire("Phone number succesfully updated", "", "success");
-      window.location.reload();
+      // Swal.fire("Phone number succesfully updated", "", "success");
     } catch (error) {
-      Swal.fire(`${error} Insert a valid phone number`, "", "error");
+      // Swal.fire(`${error} Insert a valid phone number`, "", "error");
     }
   };
 

@@ -41,7 +41,7 @@ function payMeli(req, res) {
                 // },
                 // When the user finishes the payment, depending of the status of the payment he'll be redirected, you gotta put your custom urls
                 back_urls: {
-                    success: `${FRONTEND_URL}/payment/success`,
+                    success: `${FRONTEND_URL}/payment/processing`,
                     failure: `${FRONTEND_URL}/courses`,
                     // pending: "https://pending.com",
                 },

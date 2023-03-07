@@ -21,5 +21,5 @@ router.put("/ban", logicDeleteUser_1.deleteLogicUser);
 router.put("/pardon", desBanUser_1.desBanUser);
 router.get("/banned", getBanned_1.getBanned);
 router.get("/usersInfo", getUser_1.getUsersInfo);
-router.delete("/deleteCurrentUser", deteleUser_1.deleteCurrentUser);
+router.delete("/deletecurrentuser", deteleUser_1.deleteCurrentUser);
 module.exports = router;

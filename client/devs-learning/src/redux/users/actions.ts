@@ -12,12 +12,6 @@ import Swal from "sweetalert2";
 import { CreateUserInterface } from "../../interfaces/CreateUserInterface";
 import { RootState } from "../store";
 import { reducer } from "./slice";
-import {
-  userEmail,
-  userFullname,
-  userLastLogin,
-  userPhoneNumber,
-} from "../../router/index";
 
 export const { REACT_APP_BASE_URL, REACT_APP_FIREBASE_CONFIG } = process.env;
 const provider = new GoogleAuthProvider();
@@ -38,7 +32,9 @@ export const registerUser = (
           asLink ? (window.location.href = url) : window.location.replace(url);
         dispatch(reducer.signUp(response.data));
         Swal.fire("Create user successfully! Please Login", "", "success");
-        redirect(`/auth/signin`);
+        setTimeout(function () {
+          redirect(`/auth/signin`);
+        }, 2000);
       }
     } catch (error) {
       Swal.fire(`Error: ${error}, try again`, "", "error");
@@ -63,9 +59,13 @@ export const loginUser = (
           `${REACT_APP_BASE_URL}/banned?email=${email}`
         );
         if (!banned.data) {
+          const userDB = await axios.get(
+            `${REACT_APP_BASE_URL}/usersInfo?email=${email}`
+          );
+
           Swal.hideLoading();
           setAuth = "logged";
-          dispatch(reducer.signIn(setAuth));
+          dispatch(reducer.signIn(userDB.data[0]));
           Swal.fire("Logged in", "", "success");
         } else {
           Swal.fire(
@@ -88,18 +88,39 @@ export const signInWithGoogle = (
     try {
       let userCredential = await signInWithPopup(auth, provider);
       Swal.showLoading();
+
       if (userCredential !== null) {
-        axios.post(`${REACT_APP_BASE_URL}/fake`, userCredential.user);
-        axios
-          .get(
-            `${REACT_APP_BASE_URL}/banned?email=${userCredential.user.email}`
-          )
-          .then((response) => {
+        await axios.post(`${REACT_APP_BASE_URL}/fake`, userCredential.user);
+        const banned = await axios.get(
+          `${REACT_APP_BASE_URL}/banned?email=${userCredential.user.email}`
+        );
+        if (!banned.data) {
+          const userDB = await axios.get(
+            `${REACT_APP_BASE_URL}/usersInfo?email=${userCredential.user.email}`
+          );
+          Swal.hideLoading();
+          setAuth = "logged";
+          dispatch(reducer.signIn(userDB.data[0]));
+          Swal.fire("Logged in", "", "success");
+        } else {
+          Swal.fire(
+            `Error: You are banned, for more information contact support`,
+            "",
+            "error"
+          );
+        }
+      }
+
+      /*if (userCredential !== null) {
+        await axios.post(`${REACT_APP_BASE_URL}/fake`, userCredential.user);
+        const banned = await axios.get( `${REACT_APP_BASE_URL}/banned?email=${userCredential.user.email}`)
+          .then(async (response) => {
             if (!response.data) {
-              Swal.hideLoading();
-              setAuth = "logged";
-              dispatch(reducer.signIn(setAuth));
-              Swal.fire("Logged in", "", "success");
+              const userDB = await axios.get(
+                `${REACT_APP_BASE_URL}/usersInfo?email=${userCredential.user.email}`
+              );
+
+             
             } else {
               Swal.fire(
                 `Error: You are banned, for more information contact support`,
@@ -107,8 +128,9 @@ export const signInWithGoogle = (
                 "error"
               );
             }
-          });
-      }
+          })
+          .catch((error) => {});
+      }*/
     } catch (error: any) {
       Swal.hideLoading();
       const errorCode = error.code;
@@ -158,9 +180,9 @@ export const signOutAction = (): ThunkAction<
 > => {
   return async (dispatch) => {
     try {
-      let result = await signOut(auth);
-      dispatch(reducer.logOut(result));
+      await signOut(auth);
       userInfoObj = undefined;
+      dispatch(reducer.logOut(userInfoObj));
       Swal.fire("Log out", "", "success");
     } catch (error) {
       Swal.fire(`${error}, try again`, "", "error");
@@ -188,7 +210,26 @@ export const getBoughtCoursesNames = (
     const user = users.filter((us: any) => {
       return us.email === userEmail.toString();
     });
+    user[0].courses.map((course: any) => {
+      course.name = course.name.replaceAll("-", " ");
+      course.name = course.name[0].toUpperCase() + course.name.substring(1);
+    });
 
     return dispatch(reducer.setBoughtCourses(user[0].courses));
+  };
+};
+
+export const getAdmin = (
+  email: string
+): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return async (dispatch) => {
+    if (email.length > 5) {
+      let user = await axios
+        .get(`${REACT_APP_BASE_URL}/usersInfo?email=${email}`)
+
+        .then((response) => response.data);
+
+      return dispatch(reducer.getAdmin(user[0].rank));
+    }
   };
 };

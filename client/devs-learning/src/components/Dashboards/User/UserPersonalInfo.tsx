@@ -17,8 +17,10 @@ import {
 import EmailChange from "../../../views/ChangeEmail";
 import NameChange from "../../../views/ChangeName";
 import PhoneChange from "../../../views/ChangePhoneNumber";
+import { useAppSelector } from "../../../hooks/hooksRedux";
 
 const UserPersonalInfo: React.FC = () => {
+  const { rank } = useAppSelector((state) => state.users);
   return (
     <Grid
       sx={{
@@ -62,7 +64,7 @@ const UserPersonalInfo: React.FC = () => {
         </ListItem>
         <Divider></Divider>
         <ListItem>
-          <ListItemText primary="Account Type" secondary="Student" />
+          <ListItemText primary="Account Type" secondary={rank[0].toUpperCase()+ rank.slice(1)} />
         </ListItem>
         <Divider></Divider>
         <ListItem>

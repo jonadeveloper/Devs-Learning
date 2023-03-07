@@ -23,16 +23,24 @@ function signUp(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { fullname, email, password } = req.body;
+            if (!email || !password) {
+                return res.status(404).send("The email or password is wrong");
+            }
+            if (!fullname) {
+                return res.status(404).send("The ID has not been recognized or has not been entered, please try again.");
+            }
             let userCredential = yield (0, auth_1.createUserWithEmailAndPassword)(auth, email, password);
             const user = userCredential.user;
+            const userExists = Users.findOne({ where: { email: email } });
             const fullnameDB = fullname.split(" ").join("-").toLowerCase();
-            if (user) {
+            if (user && userExists) {
                 Users.create({
                     id: user.uid,
                     fullname: fullnameDB,
                     email: user.email,
                     lastLogin: user.metadata.creationTime,
                     banned: false,
+                    rank: "student"
                 });
             }
             yield (0, auth_1.updateProfile)(user, { displayName: fullname }).catch((err) => {
@@ -45,12 +53,15 @@ function signUp(req, res) {
                 to: email,
                 html: `<h1>Bienvenido a Devslearning, <strong>${fullname}</strong>!</h1>`,
             });
-            res.status(201).send(user);
+            return res.status(201).send(user);
         }
-        catch (error) {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            res.status(404).send(`${errorCode}, ${errorMessage}`);
+        catch (err) {
+            const errName = err.name;
+            const errCode = err.code;
+            const errMessage = err.message;
+            return res.status(404).send(errName ?
+                `Error ${errCode}: ${errName} - ${errMessage}` :
+                "Something went wrong, please try again.");
         }
     });
 }
@@ -59,6 +70,9 @@ function signUpDB(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { id, fullname, email, rank } = req.body;
+            if (!id || !fullname) {
+                return res.status(404).send("The ID or name has not been recognized or has not been entered, please try again.");
+            }
             const fullnameDB = fullname.split(" ").join("-").toLowerCase();
             yield Users.create({
                 id: id,
@@ -69,7 +83,12 @@ function signUpDB(req, res) {
             return res.status(200).send("The user has been created");
         }
         catch (err) {
-            return res.status(404).send(err);
+            const errName = err.name;
+            const errCode = err.code;
+            const errMessage = err.message;
+            return res.status(404).send(errName ?
+                `Error ${errCode}: ${errName} - ${errMessage}` :
+                "Something went wrong, please try again.");
         }
     });
 }
@@ -78,13 +97,18 @@ function recoverPassword(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { email } = req.body;
-            yield (0, auth_1.sendPasswordResetEmail)(auth, email);
-            res.status(200).send("Check your email, remember check spam folder");
+            if (email) {
+                yield (0, auth_1.sendPasswordResetEmail)(auth, email);
+                return res.status(200).send("Check your email, remember check spam folder");
+            }
+            else {
+                return res.status(404).send("The email has not been recognized or has not been entered, please try again.");
+            }
         }
         catch (error) {
             const errorCode = error.code;
             const errorMessage = error.message;
-            res.status(404).send(`${errorCode}, ${errorMessage}`);
+            return res.status(404).send(`${errorCode}, ${errorMessage}`);
         }
     });
 }
@@ -93,29 +117,39 @@ function fakeSignUp(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { email, displayName, uid } = req.body;
+            if (!uid || !displayName) {
+                return res.status(404).send("The ID or name has not been recognized or has not been entered, please try again.");
+            }
             const userExists = yield Users.findOne({
-                where: { email: email },
+                where: { id: uid },
             });
             const fullnameDB = displayName.split(" ").join("-").toLowerCase();
-            if (userExists === null) {
+            if (!userExists) {
                 yield Users.create({
                     id: uid,
                     fullname: fullnameDB,
                     email: email,
                     banned: false,
+                    rank: "student"
                 });
+                (0, sendMail_1.sendMail)({
+                    from: "simon__navarrete@hotmail.com",
+                    subject: "Registro Exitoso! Bienvenido a DevsLearning",
+                    text: "Bienvenido!",
+                    to: email,
+                    html: `<h1>Bienvenido a Devslearning, <strong>${fullnameDB}</strong>!</h1>`,
+                });
+                return res.status(201).send("Succesfully created");
             }
-            (0, sendMail_1.sendMail)({
-                from: "simon__navarrete@hotmail.com",
-                subject: "Registro Exitoso! Bienvenido a DevsLearning",
-                text: "Bienvenido!",
-                to: email,
-                html: `<h1>Bienvenido a Devslearning, <strong>${fullnameDB}</strong>!</h1>`,
-            });
-            res.status(201).send("Succesfully created");
+            return res.status(201).send("Succesfully login");
         }
-        catch (error) {
-            res.status(400).send(error);
+        catch (err) {
+            const errName = err.name;
+            const errCode = err.code;
+            const errMessage = err.message;
+            return res.status(400).send(errName ?
+                `Error ${errCode}: ${errName} - ${errMessage}` :
+                "Something went wrong, please try again.");
         }
     });
 }

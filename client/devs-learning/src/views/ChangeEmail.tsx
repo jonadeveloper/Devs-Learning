@@ -66,7 +66,7 @@ export default function EmailChange() {
         }}
         onClick={handleClickOpen}
       >
-        Change Email
+        Update Email
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Change Email</DialogTitle>

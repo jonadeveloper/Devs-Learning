@@ -3,12 +3,13 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooksRedux";
 import { Link as ReactLink } from "react-router-dom";
 import axios from "axios";
+import "./CourseDetail.css";
 
 //MUI
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { Button } from "@mui/material";
+import { Avatar, Button, css, ListItemAvatar } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Chip from "@mui/material/Chip";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
@@ -18,6 +19,12 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
+import Rating from "@mui/material/Rating";
+
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import SchoolIcon from "@mui/icons-material/School";
+import WifiIcon from "@mui/icons-material/Wifi";
+import ComputerIcon from "@mui/icons-material/Computer";
 
 import { useParams } from "react-router-dom";
 import {
@@ -27,11 +34,8 @@ import {
 } from "../../redux/courses/actions";
 import { setItem } from "../../utils/localStorage";
 import { CoursoBack } from "../Cards/Card";
-
-const BACK =
-  process.env.NODE_ENV === "production"
-    ? "http://181.127.189.247:3001"
-    : "http://localhost:3001";
+const { REACT_APP_PROD_URL, REACT_APP_BASE_URL } = process.env;
+const BACK = REACT_APP_BASE_URL || REACT_APP_PROD_URL;
 
 interface UserParams {
   id: string;
@@ -66,10 +70,9 @@ const CourseDetail: React.FC = () => {
       level: MyCourseInfo.level,
       name: NewName.replaceAll("-", " "),
       price: MyCourseInfo.price,
-      rating: [],
+      rating: MyCourseInfo.rating,
+      deleted: MyCourseInfo.deleted,
     };
-    console.log(`Courseinfo`);
-    console.log(InfoToKeep);
 
     dispatch(setCurrentCourse(InfoToKeep));
     return InfoToKeep;
@@ -86,10 +89,25 @@ const CourseDetail: React.FC = () => {
   };
 
   const { email } = useAppSelector((state) => state.users);
-  const { cart } = useAppSelector((state) => state.courses);
+  const { courses } = useAppSelector((state) => state.users);
+  const { status } = useAppSelector((state) => state.users);
+  const { cart, currentCourse } = useAppSelector((state) => state.courses);
 
   React.useEffect(() => {
-    setDisabledBtn(cart.some((item) => item.id === id));
+    let disabled = false;
+
+    if (courses) {
+      if (
+        cart.some((item) => item.id === currentCourse.id) ||
+        courses.some((item) => item.name === currentCourse.name)
+      )
+        disabled = true;
+    } else {
+      if (cart.some((item) => item.id === currentCourse.id)) disabled = true;
+    }
+
+    setDisabledBtn(disabled);
+
     setItem("cart", cart);
 
     axios.put(`${BACK}/updateCart`, {
@@ -97,19 +115,37 @@ const CourseDetail: React.FC = () => {
       cart: cart,
       buy: false,
     });
-  }, [cart, id]);
+  }, [cart, id, status]);
 
   useEffect(() => {
     InfoKeeper();
   }, [coursesFiltered]);
 
-  const handleCategorieClick = () => {
-    console.log(`Redireccionando al filtro por categoria`);
+  const handleCategorieClick = () => {};
+
+  const getRatingAVG = () => {
+    function calcularPromedio(numeros: number[]): number {
+      const suma = numeros.reduce((a, b) => a + b, 0);
+      const promedio = suma / numeros.length;
+      return Number(promedio.toFixed(1));
+    }
+    const ratings = TheCourse.rating.map((rat: any) => {
+      return rat.rating;
+    });
+    if (ratings.length > 0) {
+      const average = calcularPromedio(ratings);
+
+      return average;
+    } else {
+      return 0;
+    }
   };
+
+  const AverageRating = getRatingAVG();
 
   return (
     <div>
-      <Grid container bgcolor="whitesmoke" spacing={5} direction="row" mt={5}>
+      <Grid container bgcolor="whitesmoke" direction="row" mt={10} spacing="10">
         <Grid item xs={12} ml={1}>
           <Breadcrumbs aria-label="breadcrumb">
             <Link underline="hover" color="inherit" href="/courses">
@@ -148,8 +184,7 @@ const CourseDetail: React.FC = () => {
             {TheCourse.name}{" "}
           </Typography>
           <Typography ml={1} variant="subtitle1">
-            {" "}
-            Creado por {TheCourse.instructor}
+            Teached by {TheCourse.instructor}
           </Typography>
         </Grid>
         <Grid
@@ -161,7 +196,10 @@ const CourseDetail: React.FC = () => {
           flexDirection="column"
           justifyContent="center"
         >
-          <Box display="flex" justifyContent="space-around">
+          <Box display="flex" justifyContent="space-around" margin={1}>
+            <Typography variant="h5">Get it for only</Typography>
+          </Box>
+          <Box display="flex" justifyContent="space-around" margin={1}>
             <Typography variant="h4" p={2}>
               {" "}
               $ {TheCourse.price} ARS{" "}
@@ -169,11 +207,6 @@ const CourseDetail: React.FC = () => {
           </Box>
 
           <Box display="flex" justifyContent="space-around">
-            <Button size="medium" variant="contained">
-              <Typography variant="button" p={0.5}>
-                Buy now
-              </Typography>
-            </Button>
             <Button
               size="medium"
               color="secondary"
@@ -196,31 +229,120 @@ const CourseDetail: React.FC = () => {
             alignItems="center"
             ml={1}
           >
-            <img src={TheCourse.img} alt="CourseIMG" width="100%" />
+            <img src={TheCourse.img} alt="CourseIMG" width="48%" />
           </Box>
         </Grid>
         <Grid item xs={12} md={3} lg={3} display="flex" flexDirection="column">
           <List sx={ListStyle} component="nav" aria-label="mailbox folders">
             <Divider />
             <ListItem button>
-              <ListItemText primary={`Duración: ${TheCourse.duration} hs.`} />
+              <ListItemText secondary={`Duration: ${TheCourse.duration} hs.`} />
             </ListItem>
             <Divider />
             <ListItem button divider>
-              <ListItemText primary={`Nivel: ${TheCourse.level}`} />
+              <ListItemText secondary={`Level: ${TheCourse.level}`} />
+            </ListItem>{" "}
+            <Divider />
+            <ListItem button divider>
+              <Rating name="read-only" value={AverageRating} readOnly />
+              <Box ml={1}>
+                <ListItemText
+                  secondary={
+                    AverageRating !== 0 ? AverageRating : "No rating yet"
+                  }
+                />
+              </Box>
             </ListItem>
+            <List>
+              <ListItemText>Requirements</ListItemText>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <WifiIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary="Internet Conection"
+                  secondary="You should have access to a PC with internet conection to use the material of the course"
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <ComputerIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary="Tech Requirements"
+                  secondary="Windows 7 or superior, GNU/Linux (Ubuntu, Debian...) or Mac OS X"
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <SchoolIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary="Minimum knowledge"
+                  secondary="You should understand the basics concepts of Algebra in order to work with algorithms."
+                />
+              </ListItem>
+            </List>
             <Divider light />
           </List>
         </Grid>
-        <Grid item xs={12} md={9} lg={9} p={1} mb={8}>
+        <Grid item xs={12} md={9} lg={9} p={1} mb={4}>
           <Box boxShadow={2} ml={1} p={3}>
             <Typography variant="body1">
               {" "}
               {TheCourse.descriptionComplete}{" "}
             </Typography>
           </Box>
+
+          <Box
+            display="flex"
+            p={1}
+            m={1}
+            mt={2}
+            borderTop={0.5}
+            borderColor="lightgray"
+          >
+            {" "}
+            <Box borderRight={1} borderColor="lightgray" px={2} mr={1}>
+              <Typography variant="overline">Comments...</Typography>
+            </Box>
+            {TheCourse.rating.map((rat: any) => {
+              return (
+                <Box
+                  key={rat.user}
+                  p={1}
+                  m={1}
+                  border={1}
+                  borderColor="lightgray"
+                  borderRadius={4}
+                  bgcolor="white"
+                >
+                  <ListItemText secondary={rat.comment} />
+                </Box>
+              );
+            })}
+          </Box>
         </Grid>
       </Grid>
+      <Box
+        display="flex"
+        justifyContent={"center"}
+        alignItems={"center"}
+        bgcolor="whitesmoke"
+        py={1}
+      >
+        <Button startIcon={<ArrowBackIcon />} variant="outlined">
+          <Typography variant="h6" noWrap component="a" href="/courses">
+            Go Back
+          </Typography>
+        </Button>
+      </Box>
     </div>
   );
 };

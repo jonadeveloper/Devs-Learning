@@ -24,55 +24,55 @@ import {
 } from "@mui/material";
 
 const InfoPersonal: React.FC = () => {
-    return (
-      <Grid
+  return (
+    <Grid
+      sx={{
+        width: "100%",
+        display: "grid",
+      }}
+    >
+      <Container
         sx={{
-          width: "100%",
-          display: "grid",
+          display: "flex",
+          justifyContent: "space-around",
+          alignItems: "center",
+          alignContent: "center",
         }}
       >
-        <Container
-          sx={{
-            display: "flex",
-            justifyContent: "space-around",
-            alignItems: "center",
-            alignContent: "center",
-          }}
-        >
-          <Typography textAlign="center" color="silver" variant="h5">
-            Profile
-          </Typography>
-          <Button variant="text" color="success">
-            Edit Profile
-          </Button>
-        </Container>
+        <Typography textAlign="center" color="silver" variant="h5">
+          Profile
+        </Typography>
+        <Button variant="text" color="success">
+          Edit Profile
+        </Button>
+      </Container>
+      <Divider></Divider>
+      <List>
+        <ListItem>
+          <ListItemText primary="Fullname" secondary={userFullname} />
+        </ListItem>
         <Divider></Divider>
-        <List>
-          <ListItem>
-            <ListItemText primary="Fullname" secondary={userFullname} />
-          </ListItem>
-          <Divider></Divider>
-          <ListItem>
-            <ListItemText primary="Email" secondary={userEmail} />
-          </ListItem>
-          <Divider></Divider>
-          <ListItem>
-            <ListItemText
-              primary="Phone number"
-              secondary={userPhoneNumber || "Nothing for here"}
-            />
-          </ListItem>
-          <Divider></Divider>
-          <ListItem>
-            <ListItemText primary="Account Type" secondary="Student" />
-          </ListItem>
-          <Divider></Divider>
-          <ListItem>
-            <ListItemText primary="Last Login" secondary={userLastLogin} />
-          </ListItem>
-        </List>
-      </Grid>
-      )
+        <ListItem>
+          <ListItemText primary="Email" secondary={userEmail} />
+        </ListItem>
+        <Divider></Divider>
+        <ListItem>
+          <ListItemText
+            primary="Phone number"
+            secondary={userPhoneNumber || "Nothing for here"}
+          />
+        </ListItem>
+        <Divider></Divider>
+        <ListItem>
+          <ListItemText primary="Account Type" secondary="Admin" />
+        </ListItem>
+        <Divider></Divider>
+        <ListItem>
+          <ListItemText primary="Last Login" secondary={userLastLogin} />
+        </ListItem>
+      </List>
+    </Grid>
+  );
 };
 
 export default InfoPersonal;
