@@ -1,22 +1,17 @@
 ![Copia de F](https://user-images.githubusercontent.com/59519580/215589040-a5eff0b0-35b0-4316-a85b-5a88eecb779c.png)
 <h1 align=center>Devs Learning(Plataforma de aprendizaje on-demand)</h1>
 
-<p>Trabajamos en una plataforma de aprendizaje on-demand la cual debe cumplir con los siguientes requerimientos:</p>
+![devs-learning](https://user-images.githubusercontent.com/59519580/229355608-b5a7c4c5-18a7-49fc-8d6d-9d12885ad963.jpeg)
 
-<h3>Landing page</h3>
+<h4 align=center>Para probar la aplicación y su funcionamiento podes ingresar al siguiente link: https://devs-learning-5hal.vercel.app/</h4>
 
-<ul>
-  <li>La landing debe contar con un formulario de registro</li>
-  <li>Una vez que el usuario se registre debe recibir un email de confirmación</li>
-  <li>En caso de estar registrado debe haber un link de login que facilite el acceso al usuario</li>
-  <li>Se debe implementar la autenticación de terceros para que el usuario tenga la opción de registrarse mediante ella ahorrando tiempo.</li>
-  <li>Se sugiere utilizar la autenticación de GOOGLE y/o GITHUB</li>
-</ul>
+<br><br>
+<h3 align="center">La plataforma fue desarrollada con las siguientes tecnologias<h3>
 
-<h3>Nav-Bar</h3>
-
-<ul>
-  <li>El navBar debera contener un logo representativo de la plataforma</li>
-  <li>tambien debera contener un searchbar que permita al usuario buscar cursos por nombre</li>
-  <li>Tambien debera contener un menu que cuente con categorias,carrito de compras,mis cursos y perfil</li>
-</ul>
+<p align="center">
+  <img src="https://www.vectorlogo.zone/logos/typescriptlang/typescriptlang-ar21.svg" alt="html5" height="80" width="150">
+  <img src="https://www.vectorlogo.zone/logos/reactjs/reactjs-ar21.svg" alt="react" height="80" width="150">
+  <img src="https://www.vectorlogo.zone/logos/nodejs/nodejs-ar21.svg" alt="node" height="80" width="150">
+  <img src="https://www.vectorlogo.zone/logos/sequelizejs/sequelizejs-ar21.svg" alt="sequelize" height="80" width="150">
+  <img src="https://www.vectorlogo.zone/logos/firebase/firebase-ar21.svg" alt="firebase" height="80" width="150">
+</p>
