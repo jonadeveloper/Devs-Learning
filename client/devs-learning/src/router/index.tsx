@@ -32,6 +32,7 @@ import { createMPButton } from "../components/meliButton/meliButton";
 import { SuccessPage } from "../components/Payment/SuccessPage";
 import { ProcessingPage } from "../components/Payment/ProcessingPage";
 import { EditForm } from "../components/Courses/EditForm";
+import SiteOnDevelopment from "../components/SiteOnDev/OnDevLanding";
 export var profileImg: string;
 export var userFullname: string;
 export var userEmail: string;
@@ -111,6 +112,7 @@ export const AppRouter = () => {
     <div>
       <NavBar />
       <Routes>
+        <Route path={`/siteOnMaintenance`} element={<SiteOnDevelopment />}/>
         <Route path={`/`} element={<LandingPage />} />
         <Route path={`/courses`} element={<Home />} />
         <Route path={`/courseDetail/:id`} element={<CourseDetail />} />

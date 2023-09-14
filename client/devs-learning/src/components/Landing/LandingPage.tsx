@@ -7,6 +7,7 @@ import Grid from "@mui/material/Grid";
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 
 const LandingPage: React.FC = () => {
+
   return (
     <Grid container direction="row" mt={3} bgcolor="#6DBAC6">
       <Grid
@@ -50,7 +51,8 @@ const LandingPage: React.FC = () => {
             </Typography>
           </Box>
           <Box mt={3}>
-            <NavLink to="/courses">
+            {/* <NavLink to="/courses"> */}
+            <NavLink to="/siteOnMaintenance">
               <Fab size="medium" variant="extended" color="inherit">
                 <Typography variant="button" p={2}>
                   See courses
